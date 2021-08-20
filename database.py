@@ -87,22 +87,20 @@ class PostgresController:
         await make_tables(pool)
         return cls(pool)
 
-    async def add_server(self, numip, port, record):
+    async def add_server(self, numip: str, port: int = 25565, record: int = 0):
         """
-        Вставляет в дата базу новый сервер
+        Добавляет в дата базу новый сервер
         :param numip: цифровое айпи IPv4 сервера
         :param port: порт сервера (необязательный аргумент)
-        :param domen: домен сервера (необязательный аргумент)
+        :param record: рекорд онлайна за все время (необязательный аргумент)
         """
         sql = """
-        INSERT INTO sunservers VALUES ($1, $2, $3, None)
-        ON CONFLICT (numip)
-        DO nothing;
+        INSERT INTO sunservers VALUES ($1, $2, $3);
         """
 
         await self.pool.execute(sql, numip, port, record)
 
-    async def add_ping(self, ip, port: int, players: int):
+    async def add_ping(self, ip: str, port: int, players: int):
         """
         Добавляет данные о пинге в дата базу
         :param ip: цифровое айпи IPv4 сервера
@@ -116,7 +114,7 @@ class PostgresController:
         """
         await self.pool.execute(sql, ip, port, tm, players)
 
-    async def get_server(self, numip, port=25565):
+    async def get_server(self, numip: str, port: int = 25565):
         """
         Возвращает всю информацию сервера
         """
@@ -126,7 +124,7 @@ class PostgresController:
         """
         return await self.pool.fetch(sql, numip, port)
 
-    async def get_ip_alias(self, alias):
+    async def get_ip_alias(self, alias: str):
         """
         Возвращает айпи и порт сервера через алиас
         """
@@ -136,7 +134,7 @@ class PostgresController:
         """
         return await self.pool.fetch(sql, alias)
 
-    async def get_ping(self, numip, port=25565):
+    async def get_ping(self, numip: str, port: int = 25565):
         """
         Возвращает пинги сервера через FETCH
         """
@@ -146,7 +144,7 @@ class PostgresController:
         """
         return await self.pool.fetch(sql, numip, port)
 
-    async def get_ping_yest(self, numip, port=25565):
+    async def get_ping_yest(self, numip: str, port: int = 25565):
         """
         Возвращает пинг сервера сутки назад через FETCH
         """

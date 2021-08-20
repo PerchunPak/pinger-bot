@@ -14,6 +14,7 @@ import json
 import requests
 import asyncpg
 import mcstatus
+from socket import timeout as socket_timeout
 
 import config
 from database import PostgresController
@@ -27,7 +28,7 @@ def find_color(ctx):
             color = discord.Color.greyple()
         else:
             color = ctx.guild.me.color
-    except AttributeError:  # * If it's a DM channel
+    except AttributeError:  # Если это ЛС
         color = discord.Color.greyple()
     return color
 
@@ -41,7 +42,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def пинг(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
-        print(f'{self.bot.get_user(id=ctx.author.id)} использовал команду "{ctx.message.content}"')
+        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = discord.Embed(
             title=f'Пингую {ip}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
@@ -53,8 +54,7 @@ class Commands(commands.Cog):
         try:
             status = server.status()
             online = True
-        except:
-            online = False
+        except socket_timeout: online = False
         if online:
             embed = discord.Embed(
                 title=f'Результаты пинга {server.host}',
@@ -82,7 +82,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def мотд(self, ctx, ip):
         """Показывает мотд и ссылку на редактирование сервера"""
-        print(f'{self.bot.get_user(id=ctx.author.id)} использовал команду "{ctx.message.content}"')
+        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = discord.Embed(
             title=f'Получаю данные сервера {ip}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
@@ -92,8 +92,7 @@ class Commands(commands.Cog):
         try:
             status = server.status()
             online = True
-        except:
-            online = False
+        except socket_timeout: online = False
         if online:
             motd = f"{status.raw['description']['text']}"
             motd1 = motd.replace(' ', '+')
@@ -120,7 +119,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def стата(self, ctx, server):  # TODO Добавить график и прочую красоту
         """Статистика сервера"""
-        print(f'{self.bot.get_user(id=ctx.author.id)} использовал команду "{ctx.message.content}"')
+        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = discord.Embed(
             title=f'Получаю данные сервера {server}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
@@ -136,7 +135,7 @@ class Commands(commands.Cog):
         try:
             status = mcserver.status()
             online = True
-        except: online = False
+        except socket_timeout: online = False
         database_server = await pg_controller.get_server(result['ip'], mcserver.port)
         if online and len(database_server) != 0:
             if len(database_server[0]['alias']) != 0:
@@ -147,10 +146,8 @@ class Commands(commands.Cog):
                 color=discord.Color.green())
 
             online_yest = await pg_controller.get_ping_yest(result['ip'], mcserver.port)
-            if len(online_yest) == 0:
-                online_yest = 'Нету информации'
-            else:
-                online_yest = str(online_yest[0]['players'])
+            if len(online_yest) == 0: online_yest = 'Нету информации'
+            else: online_yest = str(online_yest[0]['players'])
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{result['ip']}:{str(mcserver.port)}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online)+'/'+str(status.players.max))
@@ -173,21 +170,17 @@ class Commands(commands.Cog):
     @commands.is_owner()
     async def добавить(self, ctx, server):
         """Добавление сервера в бота"""
-        print(f'{self.bot.get_user(id=ctx.author.id)} использовал команду "{ctx.message.content}"')
+        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
         result = json.loads(response.text)
         mcserver = mcstatus.MinecraftServer.lookup(server)
         try:
             mcserver.status()
             online = True
-        except:
-            online = False
+        except socket_timeout: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
-            if 'hostname' in result:
-                await pg_controller.add_server(result['ip'], result['hostname'])
-            else:
-                await pg_controller.add_server(result['ip'])
+            await pg_controller.add_server(result['ip'], result['port'])
 
             embed = discord.Embed(
                 title=f'Добавил сервер {server}',
