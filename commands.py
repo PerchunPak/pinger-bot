@@ -180,7 +180,17 @@ class Commands(commands.Cog):
         except socket_timeout: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
-            await pg_controller.add_server(result['ip'], result['port'])
+            try: await pg_controller.add_server(result['ip'], result['port'])
+            except asyncpg.exceptions.UniqueViolationError: # сервер уже добавлен
+                embed = discord.Embed(
+                    title=f'Не удалось добавить сервер {server}',
+                    description="**Онлайн**",
+                    color=discord.Color.red())
+
+                embed.add_field(name="Не удалось добавить сервер",
+                                value='Сервер уже добавлен')
+                await ctx.send(f'{ctx.author.mention}', embed=embed)
+                return
 
             embed = discord.Embed(
                 title=f'Добавил сервер {server}',

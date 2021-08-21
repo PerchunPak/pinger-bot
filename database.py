@@ -37,7 +37,8 @@ async def make_tables(pool: Pool):
         ip CIDR NOT NULL,
         port SMALLINT NOT NULL DEFAULT 25565,
         time TIME NOT NULL,
-        players INTEGER NOT NULL
+        players INTEGER NOT NULL,
+        UNIQUE (ip, port)
     );
     """
 
@@ -46,7 +47,8 @@ async def make_tables(pool: Pool):
         numip CIDR NOT NULL,
         port SMALLINT NOT NULL DEFAULT 25565,
         record SMALLINT NOT NULL DEFAULT 0,
-        alias TEXT
+        alias TEXT,
+        UNIQUE (numip, port)
     );
     """
 
