@@ -12,7 +12,7 @@ from random import randint
 # import pymorphy2
 import json
 import requests
-import asyncpg
+from asyncpg.exceptions import UniqueViolationError
 import mcstatus
 from socket import timeout as socket_timeout
 
@@ -181,7 +181,7 @@ class Commands(commands.Cog):
         pg_controller = await PostgresController.get_instance()
         if online:
             try: await pg_controller.add_server(result['ip'], result['port'])
-            except asyncpg.exceptions.UniqueViolationError: # сервер уже добавлен
+            except UniqueViolationError: # сервер уже добавлен
                 embed = discord.Embed(
                     title=f'Не удалось добавить сервер {server}',
                     description="**Онлайн**",
