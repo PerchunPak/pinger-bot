@@ -37,8 +37,7 @@ async def make_tables(pool: Pool):
         ip CIDR NOT NULL,
         port SMALLINT NOT NULL DEFAULT 25565,
         time TIME NOT NULL,
-        players INTEGER NOT NULL,
-        UNIQUE (ip, port)
+        players INTEGER NOT NULL
     );
     """
 
@@ -136,9 +135,9 @@ class PostgresController:
         """
         return await self.pool.fetch(sql, alias)
 
-    async def get_ping(self, numip: str, port: int = 25565):
+    async def get_pings(self, numip: str, port: int = 25565):
         """
-        Возвращает пинги сервера через FETCH
+        Возвращает пинги сервера
         """
         sql = """
         SELECT * FROM sunpings

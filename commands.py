@@ -1,8 +1,5 @@
-import string
-
 from discord.ext import commands
 import discord
-
 import collections
 import datetime
 import time
@@ -15,9 +12,11 @@ import requests
 from asyncpg.exceptions import UniqueViolationError
 import mcstatus
 from socket import timeout as socket_timeout
-
-import config
 from database import PostgresController
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import asyncio
+import os
 
 
 def find_color(ctx):
@@ -68,7 +67,7 @@ class Commands(commands.Cog):
             embed.add_field(name="Мотд", value=f"{result['motd']['clean'][0]}\n{result['motd']['clean'][1]}")
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = discord.Embed(
                 title=f'Результаты пинга {ip}',
@@ -77,7 +76,7 @@ class Commands(commands.Cog):
 
             embed.add_field(name="Не удалось пингануть сервер",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command()
     async def мотд(self, ctx, ip):
@@ -105,7 +104,7 @@ class Commands(commands.Cog):
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motdURL)
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = discord.Embed(
                 title=f'Подробное мотд сервера {ip}',
@@ -114,7 +113,7 @@ class Commands(commands.Cog):
 
             embed.add_field(name="Не удалось получить данные с сервера",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command()
     async def стата(self, ctx, server):  # TODO Добавить график и прочую красоту
@@ -138,7 +137,7 @@ class Commands(commands.Cog):
         except socket_timeout: online = False
         database_server = await pg_controller.get_server(result['ip'], mcserver.port)
         if online and len(database_server) != 0:
-            if len(database_server[0]['alias']) != 0:
+            if database_server[0]['alias'] != None:
                 server = database_server[0]['alias']
             embed = discord.Embed(
                 title=f'Статистика сервера {server}',
@@ -155,7 +154,36 @@ class Commands(commands.Cog):
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            pings = await pg_controller.get_pings(result['ip'], mcserver.port)
+            fig, ax = plt.subplots()
+            arrOnline = []
+            arrTime = []
+            date = datetime.datetime.now().strftime("%Y-%m-%d ")
+            for ping in pings:
+                arrOnline.append(int(ping['players']))
+                strTime = date + str(ping['time'])
+                arrTime.append(datetime.datetime.strptime(strTime, '%Y-%m-%d %H:%M:%S'))
+            myFmt = mdates.DateFormatter('%H:%M')
+            ax.xaxis.set_major_formatter(myFmt)
+            ax.hist(arrTime, arrOnline)
+
+            plt.xlabel('Время')
+            plt.ylabel('Онлайн')
+            plt.title('Статистика')
+
+            fileName = result['ip']+'_'+str(mcserver.port)+'.png'
+            try: fig.savefig('./grafics/'+fileName)
+            except FileNotFoundError: 
+                os.mkdir('./grafics/')
+                fig.savefig('./grafics/'+fileName)
+            file = discord.File('./grafics/'+fileName, filename=fileName)
+            embed.set_image(url='attachment://'+fileName)
+
+            await ctx.send(ctx.author.mention, embed=embed, file=file)
+
+            await asyncio.sleep(60)
+            try: os.remove('./grafics/'+fileName)
+            except FileNotFoundError: pass
         else:
             embed = discord.Embed(
                 title=f'Статистика сервера {server}',
@@ -189,7 +217,7 @@ class Commands(commands.Cog):
 
                 embed.add_field(name="Не удалось добавить сервер",
                                 value='Сервер уже добавлен')
-                await ctx.send(f'{ctx.author.mention}', embed=embed)
+                await ctx.send(ctx.author.mention, embed=embed)
                 return
 
             embed = discord.Embed(
@@ -202,7 +230,7 @@ class Commands(commands.Cog):
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Теперь вы можете использовать "стата {server}" или "алиас (алиас) {server}"')
 
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = discord.Embed(
                 title=f'Не удалось добавить сервер {server}',
@@ -211,7 +239,7 @@ class Commands(commands.Cog):
 
             embed.add_field(name="Не удалось добавить сервер",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
-            await ctx.send(f'{ctx.author.mention}', embed=embed)
+            await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command()
     async def help(self, ctx):
