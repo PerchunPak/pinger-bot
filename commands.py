@@ -38,8 +38,8 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def пинг(self, ctx, ip):
+    @commands.command()             # TODO заменить mcsrvstat['ip'] на socket
+    async def пинг(self, ctx, ip):  # (сейчас используется для получения цифрового айпи)
         """Пинг сервера и показ его основной информации"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = discord.Embed(
@@ -135,26 +135,29 @@ class Commands(commands.Cog):
             status = mcserver.status()
             online = True
         except socket_timeout: online = False
-        database_server = await pg_controller.get_server(result['ip'], mcserver.port)
+        database_server = await pg_controller.get_server(result['ip'], result['port'])
         if online and len(database_server) != 0:
             if database_server[0]['alias'] != None:
                 server = database_server[0]['alias']
             embed = discord.Embed(
                 title=f'Статистика сервера {server}',
-                description=f"Цифровое айпи: {result['ip']}:{str(mcserver.port)}\n**Онлайн**",
+                description=f"Цифровое айпи: {result['ip']}:{str(result['port'])}\n**Онлайн**",
                 color=discord.Color.green())
 
-            online_yest = await pg_controller.get_ping_yest(result['ip'], mcserver.port)
+            online_yest = await pg_controller.get_ping_yest(result['ip'], result['port'])
             if len(online_yest) == 0: online_yest = 'Нету информации'
             else: online_yest = str(online_yest[0]['players'])
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{result['ip']}:{str(mcserver.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{result['ip']}:{str(result['port'])}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online)+'/'+str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
-            pings = await pg_controller.get_pings(result['ip'], mcserver.port)
+            pings = await pg_controller.get_pings(result['ip'], result['port'])
+            if len(pings) <= 20:
+                await ctx.send(ctx.author.mention+', слишком мало информации для графика.', embed=embed)
+                return
             fig, ax = plt.subplots()
             arrOnline = []
             arrTime = []
@@ -171,7 +174,7 @@ class Commands(commands.Cog):
             plt.ylabel('Онлайн')
             plt.title('Статистика')
 
-            fileName = result['ip']+'_'+str(mcserver.port)+'.png'
+            fileName = result['ip']+'_'+str(result['port'])+'.png'
             try: fig.savefig('./grafics/'+fileName)
             except FileNotFoundError: 
                 os.mkdir('./grafics/')
@@ -194,11 +197,17 @@ class Commands(commands.Cog):
                             value='Возможно вы указали неверный айпи/алиас, или сервер еще не добавлен')
             await ctx.send(embed=embed)
 
+
     @commands.command()
     @commands.is_owner()
     async def добавить(self, ctx, server):
         """Добавление сервера в бота"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
+        embed = discord.Embed(
+            title=f'Получаю данные сервера {server}...',
+            description=f"Подождите немного, я вас упомяну когда закончу",
+            color=discord.Color.orange())
+        await ctx.send(embed=embed)
         response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
         result = json.loads(response.text)
         mcserver = mcstatus.MinecraftServer.lookup(server)
@@ -240,6 +249,59 @@ class Commands(commands.Cog):
             embed.add_field(name="Не удалось добавить сервер",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
+
+
+    @commands.command()
+    async def алиас(self, ctx, alias, server):
+        """Добавление алиаса к серверу"""
+        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
+        embed = discord.Embed(
+            title=f'Получаю данные сервера {server}...',
+            description=f"Подождите немного, я вас упомяну когда закончу",
+            color=discord.Color.orange())
+        await ctx.send(embed=embed)
+        response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
+        result = json.loads(response.text)
+        pg_controller = await PostgresController.get_instance()
+        database_server = await pg_controller.get_server(result['ip'], result['port'])
+        if ctx.author.id != database_server[0]['owner']:
+            embed = discord.Embed(
+                title=f'Вы не владелец сервера {server}',
+                description=f'Только владелец может изменять алиас сервера {server}',
+                color=discord.Color.red())
+
+            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+            embed.add_field(name="Ошибка",
+                            value='Вы не владелец')
+            embed.set_footer(text=f'Для большей информации о сервере напишите "стата {server}"')
+
+            await ctx.send(ctx.author.mention, embed=embed)
+            return
+
+        await pg_controller.add_alias(alias, result['ip'], result['port'])
+
+        if len(database_server) != 0:
+            embed = discord.Embed(
+                title=f'Записал алиас {alias} к серверу {server}',
+                description=f'Теперь вы можете использовать вместо {server} алиас {alias}',
+                color=discord.Color.green())
+
+            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+            embed.add_field(name="Данные успешно обновленны",
+                            value='Напишите "помощь" для получения большей информации о серверах')
+            embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')
+
+            await ctx.send(ctx.author.mention, embed=embed)
+        else:
+            embed = discord.Embed(
+                title=f'Не удалось добавить алиас {alias} к серверу {server}',
+                description="**Упс**",
+                color=discord.Color.red())
+
+            embed.add_field(name="Не удалось добавить сервер",
+                            value='Возможно вы указали неверный айпи')
+            await ctx.send(ctx.author.mention, embed=embed)
+
 
     @commands.command()
     async def help(self, ctx):

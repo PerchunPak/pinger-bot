@@ -47,6 +47,7 @@ async def make_tables(pool: Pool):
         port SMALLINT NOT NULL DEFAULT 25565,
         record SMALLINT NOT NULL DEFAULT 0,
         alias TEXT,
+        owner BIGSERIAL NOT NULL,
         UNIQUE (numip, port)
     );
     """
@@ -56,7 +57,7 @@ async def make_tables(pool: Pool):
         await pool.execute(db_entry)
 
 
-class PostgresController:
+class PostgresController:  # TODO обновить коментарии
     """
     Мы будем использовать 'sunpinger' схему для дата базы
     Откуда она берется, никто не знает
@@ -114,6 +115,20 @@ class PostgresController:
         INSERT INTO sunpings VALUES ($1, $2, $3, $4)
         """
         await self.pool.execute(sql, ip, port, tm, players)
+
+    async def add_alias(self, alias: str, ip: str, port: int):
+        """
+        Добавляет данные о пинге в дата базу
+        :param alias: новый алиас сервера
+        :param ip: цифровое айпи IPv4 сервера
+        :param port: порт сервера
+        """
+        sql = """
+        UPDATE sunservers
+        SET alias = $1
+        WHERE numip = $2 AND port = $3;
+        """
+        await self.pool.execute(sql, alias, ip, port)
 
     async def get_server(self, numip: str, port: int = 25565):
         """
