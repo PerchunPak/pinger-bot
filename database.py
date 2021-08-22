@@ -89,18 +89,17 @@ class PostgresController:  # TODO обновить коментарии
         await make_tables(pool)
         return cls(pool)
 
-    async def add_server(self, numip: str, port: int = 25565, record: int = 0):
+    async def add_server(self, numip: str, port: int = 25565):
         """
         Добавляет в дата базу новый сервер
         :param numip: цифровое айпи IPv4 сервера
         :param port: порт сервера (необязательный аргумент)
-        :param record: рекорд онлайна за все время (необязательный аргумент)
         """
         sql = """
-        INSERT INTO sunservers VALUES ($1, $2, $3);
+        INSERT INTO sunservers VALUES ($1, $2);
         """
 
-        await self.pool.execute(sql, numip, port, record)
+        await self.pool.execute(sql, numip, port)
 
     async def add_ping(self, ip: str, port: int, players: int):
         """
@@ -130,6 +129,20 @@ class PostgresController:  # TODO обновить коментарии
         """
         await self.pool.execute(sql, alias, ip, port)
 
+    async def add_record(self, numip: str, port: int = 25565, online: int = 0):
+        """
+        Добавляет данные о пинге в дата базу
+        :param alias: новый алиас сервера
+        :param ip: цифровое айпи IPv4 сервера
+        :param port: порт сервера
+        """
+        sql = """
+        UPDATE sunservers
+        SET record = $1
+        WHERE numip = $2 AND port = $3;
+        """
+        await self.pool.execute(sql, online, numip, port)
+
     async def get_server(self, numip: str, port: int = 25565):
         """
         Возвращает всю информацию сервера
@@ -139,6 +152,15 @@ class PostgresController:  # TODO обновить коментарии
         WHERE numip=$1 AND port=$2;
         """
         return await self.pool.fetch(sql, numip, port)
+
+    async def get_servers(self):
+        """
+        Возвращает все сервера
+        """
+        sql = """
+        SELECT * FROM sunservers;
+        """
+        return await self.pool.fetch(sql)
 
     async def get_ip_alias(self, alias: str):
         """

@@ -9,6 +9,8 @@ import os
 
 import config
 from database import PostgresController
+import mcstatus
+from socket import timeout as socket_timeout
 
 bot_intents = discord.Intents.default()
 bot_intents.members = True
@@ -36,6 +38,7 @@ async def on_connect():
 @bot.event
 async def on_ready():
     pg_controller = await PostgresController.get_instance()
+    await ping_servers()
     print('Дата-база инициализирована\n'
 
           '\nЗашел как:\n'
@@ -55,6 +58,31 @@ async def on_ready():
 
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(
         name='пинг превыше всего', type=discord.ActivityType.playing))
+
+
+@tasks.loop(minutes=5, loop=bot.loop)
+async def ping_servers():
+    """Пингует сервера и записывает их пинги в датабазу"""
+
+    pg_controller = await PostgresController.get_instance()
+    servers = await pg_controller.get_servers()
+    for serv in servers:
+        ip = str(serv['numip'])[:-3]
+        port = serv['port']
+        mcserver = mcstatus.MinecraftServer.lookup(ip+':'+str(port))
+        try:
+            status = mcserver.status()
+            online = True
+        except socket_timeout: online = False
+
+        if not online:
+            await pg_controller.add_ping(ip, port, -1)
+            return
+        onlinePlayers = status.players.online
+        await pg_controller.add_ping(ip, port, onlinePlayers)
+
+        if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip,port, onlinePlayers)
+
 
 
 @bot.command(hidden=True)
