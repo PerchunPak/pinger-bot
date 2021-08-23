@@ -13,17 +13,12 @@ from config import POSTGRES
 
 def parse_record(record: Record) -> Optional[tuple]:
     """
-    Parse a asyncpg Record object to a tuple of values
-    :param record: theasyncpg Record object
-    :return: the tuple of values if it's not None, else None
-
-    P.S. я не знаю что это делает, но похоже
-         что то важное, лучше оставлю
+    Парсит asyncpg Record обьект в формат tuple
+    :param record: asyncpg Record обьект
+    :return: tuple значений, если это не None, иначе None
     """
-    try:
-        return tuple(record.values())
-    except AttributeError:
-        return None
+    try: return tuple(record.values())
+    except AttributeError: return None
 
 
 async def make_tables(pool: Pool):
@@ -59,8 +54,8 @@ async def make_tables(pool: Pool):
 
 class PostgresController:  # TODO обновить коментарии
     """
-    Мы будем использовать 'sunpinger' схему для дата базы
-    Откуда она берется, никто не знает
+    Класс для управления датабазой, 
+    только тут все взаимодействия с ней
     """
     __slots__ = 'pool'
 
@@ -70,15 +65,14 @@ class PostgresController:  # TODO обновить коментарии
     @classmethod
     async def get_instance(cls, connect_kwargs: str = POSTGRES, pool: Pool = None):
         """
-        (лучше английский чем гугл переводчик)
-        Get a new instance of `PostgresController`
-        This method will create the appropriate tables needed.
+        Создает обьект класса `PostgresController`
+        Этот метод создаст необходимые таблицы
         :param connect_kwargs:
-            Keyword arguments for the
-            :func:`asyncpg.connection.connect` function.
-        :param pool: an existing connection pool.
-        One of `pool` or `connect_kwargs` must not be None.
-        :return: a new instance of `PostgresController`
+            Аргументы для
+            :func:`asyncpg.connection.connect` функции
+        :param pool: существующий пул подключений
+        `pool` или `connect_kwargs` должны быть None
+        :return: новый обьект класса `PostgresController`
         """
         assert connect_kwargs or pool, (
             'Предоставьте либо пул подключений, либо данные о '
