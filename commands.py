@@ -1,64 +1,63 @@
-from discord.ext import commands
-import discord
-import collections
-import datetime
-import time
-import pprint
-import sys
+from discord.ext.commands import Cog, command, is_owner, BadArgument, guild_only, NoPrivateMessage
+from discord import Color, Embed, File, User, Status, Activity, ActivityType
+from collections import Counter
+from datetime import datetime
+from time import perf_counter
+from pprint import pformat
+from sys import version_info
 from random import randint
-# import pymorphy2
-import json
-import requests
+from json import loads
+from requests import get
 from asyncpg.exceptions import UniqueViolationError
-import mcstatus
+from mcstatus import MinecraftServer
 from socket import timeout as socket_timeout
 from database import PostgresController
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import asyncio
-import os
+from matplotlib.pyplot import subplots, xlabel, ylabel, title
+from matplotlib.dates import DateFormatter
+from asyncio import sleep
+from os import mkdir, remove
 
 
 def find_color(ctx):
     """Ищет цвет отрисовки бота. Если это цвет по умолчанию или мы находимся в ЛС, вернет "greyple", цвет Дискорда."""
 
     try:
-        if ctx.guild.me.color == discord.Color.default():
-            color = discord.Color.greyple()
+        if ctx.guild.me.color == Color.default():
+            color = Color.greyple()
         else:
             color = ctx.guild.me.color
     except AttributeError:  # Если это ЛС
-        color = discord.Color.greyple()
+        color = Color.greyple()
     return color
 
 
-class Commands(commands.Cog):
+class Commands(Cog):
     """Команды для бота пингера"""
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()             # TODO заменить mcsrvstat['ip'] на socket
+    @command()             # TODO заменить mcsrvstat['ip'] на socket
     async def пинг(self, ctx, ip):  # (сейчас используется для получения цифрового айпи)
         """Пинг сервера и показ его основной информации"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = discord.Embed(
+        embed = Embed(
             title=f'Пингую {ip}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
-            color=discord.Color.orange())
+            color=Color.orange())
         await ctx.send(embed=embed)
-        response = requests.get(f"https://api.mcsrvstat.us/2/{ip}")
-        result = json.loads(response.text)
-        server = mcstatus.MinecraftServer.lookup(ip)
+        response = get(f"https://api.mcsrvstat.us/2/{ip}")
+        result = loads(response.text)
+        server = MinecraftServer.lookup(ip)
         try:
             status = server.status()
             online = True
         except socket_timeout: online = False
         if online:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Результаты пинга {server.host}',
                 description=f"Цифровое айпи: {result['ip']}:{str(server.port)}\n**Онлайн**",
-                color=discord.Color.green())
+                color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
             embed.add_field(name="Версия сервера", value=result['version'])
@@ -69,25 +68,25 @@ class Commands(commands.Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Результаты пинга {ip}',
                 description=f"\n\n**Офлайн**",
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.add_field(name="Не удалось пингануть сервер",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
-    @commands.command()
+    @command()
     async def мотд(self, ctx, ip):
         """Показывает мотд и ссылку на редактирование сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = discord.Embed(
+        embed = Embed(
             title=f'Получаю данные сервера {ip}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
-            color=discord.Color.orange())
+            color=Color.orange())
         await ctx.send(embed=embed)
-        server = mcstatus.MinecraftServer.lookup(ip)
+        server = MinecraftServer.lookup(ip)
         try:
             status = server.status()
             online = True
@@ -96,41 +95,41 @@ class Commands(commands.Cog):
             motd = f"{status.raw['description']['text']}"
             motd1 = motd.replace(' ', '+')
             motdURL = motd1.replace('\n', '%0A')
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Подробное мотд сервера {ip}',
                 description=f"Эта команда дает возможность скопировать мотд и вставить на свой сервер",
-                color=discord.Color.green())
+                color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motdURL)
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Подробное мотд сервера {ip}',
                 description=f"Эта команда дает возможность скопировать мотд и вставить на свой сервер",
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.add_field(name="Не удалось получить данные с сервера",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
-    @commands.command()
+    @command()
     async def стата(self, ctx, server):  # TODO Добавить график и прочую красоту
         """Статистика сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = discord.Embed(
+        embed = Embed(
             title=f'Получаю данные сервера {server}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
-            color=discord.Color.orange())
+            color=Color.orange())
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
         ip_from_alias = await pg_controller.get_ip_alias(server)
         if len(ip_from_alias) != 0:
             server = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
-        response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
-        result = json.loads(response.text)
-        mcserver = mcstatus.MinecraftServer.lookup(server)
+        response = get(f"https://api.mcsrvstat.us/2/{server}")
+        result = loads(response.text)
+        mcserver = MinecraftServer.lookup(server)
         try:
             status = mcserver.status()
             online = True
@@ -139,10 +138,10 @@ class Commands(commands.Cog):
         if online and len(database_server) != 0:
             if database_server[0]['alias'] != None:
                 server = database_server[0]['alias']
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Статистика сервера {server}',
                 description=f"Цифровое айпи: {result['ip']}:{str(result['port'])}\n**Онлайн**",
-                color=discord.Color.green())
+                color=Color.green())
 
             online_yest = await pg_controller.get_ping_yest(result['ip'], result['port'])
             if len(online_yest) == 0: online_yest = 'Нету информации'
@@ -158,59 +157,59 @@ class Commands(commands.Cog):
             if len(pings) <= 20:
                 await ctx.send(ctx.author.mention+', слишком мало информации для графика.', embed=embed)
                 return
-            fig, ax = plt.subplots()
+            fig, ax = subplots()
             arrOnline = []
             arrTime = []
-            date = datetime.datetime.now().strftime("%Y-%m-%d ")
+            date = datetime.now().strftime("%Y-%m-%d ")
             for ping in pings:
                 arrOnline.append(int(ping['players']))
                 strTime = date + str(ping['time'])
-                arrTime.append(datetime.datetime.strptime(strTime, '%Y-%m-%d %H:%M:%S'))
-            myFmt = mdates.DateFormatter('%H:%M')
+                arrTime.append(datetime.strptime(strTime, '%Y-%m-%d %H:%M:%S'))
+            myFmt = DateFormatter('%H:%M')
             ax.xaxis.set_major_formatter(myFmt)
             ax.hist(arrTime, arrOnline)
 
-            plt.xlabel('Время')
-            plt.ylabel('Онлайн')
-            plt.title('Статистика')
+            xlabel('Время')
+            ylabel('Онлайн')
+            title('Статистика')
 
             fileName = result['ip']+'_'+str(result['port'])+'.png'
             try: fig.savefig('./grafics/'+fileName)
             except FileNotFoundError: 
-                os.mkdir('./grafics/')
+                mkdir('./grafics/')
                 fig.savefig('./grafics/'+fileName)
-            file = discord.File('./grafics/'+fileName, filename=fileName)
+            file = File('./grafics/'+fileName, filename=fileName)
             embed.set_image(url='attachment://'+fileName)
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            await asyncio.sleep(60)
-            try: os.remove('./grafics/'+fileName)
+            await sleep(60)
+            try: remove('./grafics/'+fileName)
             except FileNotFoundError: pass
         else:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Статистика сервера {server}',
                 description="**Офлайн**",
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.add_field(name="Не удалось получить статистику сервера",
                             value='Возможно вы указали неверный айпи/алиас, или сервер еще не добавлен')
             await ctx.send(embed=embed)
 
 
-    @commands.command()
-    @commands.is_owner()
+    @command()
+    @is_owner()
     async def добавить(self, ctx, server):
         """Добавление сервера в бота"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = discord.Embed(
+        embed = Embed(
             title=f'Получаю данные сервера {server}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
-            color=discord.Color.orange())
+            color=Color.orange())
         await ctx.send(embed=embed)
-        response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
-        result = json.loads(response.text)
-        mcserver = mcstatus.MinecraftServer.lookup(server)
+        response = get(f"https://api.mcsrvstat.us/2/{server}")
+        result = loads(response.text)
+        mcserver = MinecraftServer.lookup(server)
         try:
             mcserver.status()
             online = True
@@ -219,20 +218,20 @@ class Commands(commands.Cog):
         if online:
             try: await pg_controller.add_server(result['ip'], result['port'])
             except UniqueViolationError: # сервер уже добавлен
-                embed = discord.Embed(
+                embed = Embed(
                     title=f'Не удалось добавить сервер {server}',
                     description="**Онлайн**",
-                    color=discord.Color.red())
+                    color=Color.red())
 
                 embed.add_field(name="Не удалось добавить сервер",
                                 value='Сервер уже добавлен')
                 await ctx.send(ctx.author.mention, embed=embed)
                 return
 
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Добавил сервер {server}',
                 description=f"Цифровое айпи: {result['ip']}:{str(result['port'])}\n**Онлайн**",
-                color=discord.Color.green())
+                color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
             embed.add_field(name="Сервер успешно добавлен",
@@ -241,34 +240,34 @@ class Commands(commands.Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Не удалось добавить сервер {server}',
                 description="**Офлайн**",
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.add_field(name="Не удалось добавить сервер",
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
 
-    @commands.command()
+    @command()
     async def алиас(self, ctx, alias, server):
         """Добавление алиаса к серверу"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = discord.Embed(
+        embed = Embed(
             title=f'Получаю данные сервера {server}...',
             description=f"Подождите немного, я вас упомяну когда закончу",
-            color=discord.Color.orange())
+            color=Color.orange())
         await ctx.send(embed=embed)
-        response = requests.get(f"https://api.mcsrvstat.us/2/{server}")
-        result = json.loads(response.text)
+        response = get(f"https://api.mcsrvstat.us/2/{server}")
+        result = loads(response.text)
         pg_controller = await PostgresController.get_instance()
         database_server = await pg_controller.get_server(result['ip'], result['port'])
         if ctx.author.id != database_server[0]['owner']:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Вы не владелец сервера {server}',
                 description=f'Только владелец может изменять алиас сервера {server}',
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
             embed.add_field(name="Ошибка",
@@ -281,10 +280,10 @@ class Commands(commands.Cog):
         await pg_controller.add_alias(alias, result['ip'], result['port'])
 
         if len(database_server) != 0:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Записал алиас {alias} к серверу {server}',
                 description=f'Теперь вы можете использовать вместо {server} алиас {alias}',
-                color=discord.Color.green())
+                color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
             embed.add_field(name="Данные успешно обновленны",
@@ -293,23 +292,23 @@ class Commands(commands.Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = discord.Embed(
+            embed = Embed(
                 title=f'Не удалось добавить алиас {alias} к серверу {server}',
                 description="**Упс**",
-                color=discord.Color.red())
+                color=Color.red())
 
             embed.add_field(name="Не удалось добавить сервер",
                             value='Возможно вы указали неверный айпи')
             await ctx.send(ctx.author.mention, embed=embed)
 
 
-    @commands.command()
+    @command()
     async def help(self, ctx):
         """Это команда помощи!"""
 
         cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
 
-        embed = discord.Embed(
+        embed = Embed(
             title="Команда помощи",
             description="Я пингую сервер каждые 5 минут, и показываю его статистику! "
                         "Я довольно простой бот в использовании. Мой префикс это буквально ничего, "
@@ -321,11 +320,11 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["info"])
+    @command(aliases=["info"])
     async def about(self, ctx):
         """Немного базовой информации про меня"""
 
-        embed = discord.Embed(
+        embed = Embed(
             title=str(self.bot.user), description=self.bot.app_info.description +
                                                   f"\n\n**ID**: {self.bot.app_info.id}", color=find_color(ctx))
 
@@ -335,7 +334,7 @@ class Commands(commands.Cog):
         embed.add_field(name="Количество пользователей", value=len(self.bot.users))
         embed.add_field(
             name="Язык программирования",
-            value=f"Python {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]}")
+            value=f"Python {version_info[0]}.{version_info[1]}.{version_info[2]}")
         embed.add_field(
             name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
         embed.add_field(
@@ -348,8 +347,8 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def count(self, ctx, user: discord.User = None):
+    @command()
+    async def count(self, ctx, user: User = None):
         """Узнайте, сколько раз пользователь сказал "ладно"
         Формат: `count <@пинг пользователя>`
         Если вы не указываете пинг, я укажу **вашу** статистику
@@ -391,10 +390,10 @@ They've said the N-word __23,737 times__ since they were last investigated
 
     @count.error
     async def count_error(self, ctx, exc):
-        if isinstance(exc, commands.BadArgument):
+        if isinstance(exc, BadArgument):
             return await ctx.send(exc)
 
-    @commands.command()
+    @command()
     async def invite(self, ctx):
         """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
 
@@ -402,13 +401,13 @@ They've said the N-word __23,737 times__ since they were last investigated
                                                                                               f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
                                                                                               "&scope=bot&permissions=8")
 
-    @commands.command()
+    @command()
     async def stats(self, ctx):
         """Показывает мою статистику"""
 
         await ctx.channel.trigger_typing()
 
-        uptime = datetime.datetime.utcnow() - self.bot.started_at
+        uptime = datetime.utcnow() - self.bot.started_at
 
         # * This code was copied from my other bot, MAT
         y = int(uptime.total_seconds()) // 31557600  # * Number of seconds in 356.25 days
@@ -434,9 +433,9 @@ They've said the N-word __23,737 times__ since they were last investigated
 
         allUsers = f"{len(self.bot.lwords):,}"
         for _ in range(1): randomInt = randint(0, 100)
-        embed = discord.Embed(
+        embed = Embed(
             description=f"ID: {self.bot.user.id}",
-            timestamp=datetime.datetime.utcnow(),
+            timestamp=datetime.utcnow(),
             color=find_color(ctx))
         embed.add_field(name="Количество серверов", value=f"{len(self.bot.guilds):,} серверов")
         embed.add_field(name="Количество пользовотелей", value=f"{len(self.bot.users):,} уникальных пользователей")
@@ -462,8 +461,8 @@ They've said the N-word __23,737 times__ since they were last investigated
 
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["leaderboard", "high"])
-    @commands.guild_only()
+    @command(aliases=["leaderboard", "high"])
+    @guild_only()
     async def top(self, ctx, param: str = None):
         """Показывает таблицу лидеров по произношению слова "ладно" на этом сервере. Используйте `top global` чтобы посмотреть таблицу лидеров всех серверов
         Примечание: Если пользователь сказал "ладно" на другом сервере, на котором я тоже есть, они будут приняты во внимание.
@@ -476,13 +475,13 @@ They've said the N-word __23,737 times__ since they were last investigated
                 for u, n in self.bot.lwords.items():
                     if self.bot.get_user(u):
                         leaderboard.update({self.bot.get_user(u): n["total"]})
-                leaderboard = dict(collections.Counter(leaderboard).most_common(10))
+                leaderboard = dict(Counter(leaderboard).most_common(10))
             else:
                 for m in ctx.guild.members:
                     if m.id in self.bot.lwords and not m.bot:
                         if self.bot.lwords[m.id]["total"]:
                             leaderboard.update({m: self.bot.lwords[m.id]["total"]})
-                leaderboard = dict(collections.Counter(leaderboard).most_common(10))
+                leaderboard = dict(Counter(leaderboard).most_common(10))
             return leaderboard
 
         leaderboard = await self.bot.loop.run_in_executor(None, create_leaderboard)
@@ -499,8 +498,8 @@ They've said the N-word __23,737 times__ since they were last investigated
         description = description.replace("**1.**", ":first_place:").replace("**2.**", ":second_place:").replace(
             "**3.**", ":third_place:")
 
-        embed = discord.Embed(description=description, color=find_color(ctx),
-                              timestamp=datetime.datetime.utcnow())
+        embed = Embed(description=description, color=find_color(ctx),
+                              timestamp=datetime.utcnow())
         if param == "global":
             embed.set_author(
                 name=f"Топ за все время")
@@ -516,11 +515,11 @@ They've said the N-word __23,737 times__ since they were last investigated
 
     @top.error
     async def top_error(self, ctx, exc):
-        if isinstance(exc, commands.NoPrivateMessage):
+        if isinstance(exc, NoPrivateMessage):
             return await ctx.send(exc)
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def edit(self, ctx, user_id: int, total: int, last_time: int = None):
         """Отредактируйте запись пользователя в ДБ или добавьте новую"""
         totalBefore = self.bot.lwords[user_id]['total']
@@ -540,8 +539,8 @@ They've said the N-word __23,737 times__ since they were last investigated
             await ctx.send("Неизвестная ошибка")
         await ctx.send("Готово")
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def pop(self, ctx, user_id: int):
         """Удалите пользователя с ДБ"""
         self.bot.lwords[0]["total"] -= int(self.bot.lwords[user_id]['total'])
@@ -551,8 +550,8 @@ They've said the N-word __23,737 times__ since they were last investigated
         except KeyError as e:
             await ctx.send(f"Ошибка: ```{e}```")
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def execute(self, ctx, *, query):
         """Выполнить запрос в базе данных"""
 
@@ -564,8 +563,8 @@ They've said the N-word __23,737 times__ since they were last investigated
         except Exception as e:
             await ctx.send(f"Ошибка:```{e}```")
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def fetch(self, ctx, *, query):
         """Выполнить поиск в базе данных"""
 
@@ -574,43 +573,43 @@ They've said the N-word __23,737 times__ since they were last investigated
                 async with self.bot.pool.acquire() as conn:
                     result = await conn.fetch(query)
 
-            fmtd_result = pprint.pformat([dict(i) for i in result])
+            fmtd_result = pformat([dict(i) for i in result])
             await ctx.send(f"Поиск выполнен:```{fmtd_result}```")
         except Exception as e:
             await ctx.send(f"Ошибка:```{e}```")
 
-    @commands.command(aliases=["resetstatus"], hidden=True)
-    @commands.is_owner()
+    @command(aliases=["resetstatus"], hidden=True)
+    @is_owner()
     async def restartstatus(self, ctx):
-        await self.bot.change_presence(status=discord.Status.online, activity=discord.Activity(
-            name=f'кто сколько раз сказал "ладно"', type=discord.ActivityType.competing))
+        await self.bot.change_presence(status=Status.online, activity=Activity(
+            name=f'кто сколько раз сказал "ладно"', type=ActivityType.competing))
 
         await ctx.send("Статус был сброшен")
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def setstatus(self, ctx, status):
         """Изменить статус бота"""
 
         if status.startswith("on"):
-            await self.bot.change_presence(status=discord.Status.online)
+            await self.bot.change_presence(status=Status.online)
         elif status.startswith("id"):
-            await self.bot.change_presence(status=discord.Status.idle)
+            await self.bot.change_presence(status=Status.idle)
         elif status.startswith("d"):
-            await self.bot.change_presence(status=discord.Status.dnd)
+            await self.bot.change_presence(status=Status.dnd)
         elif status.startswith("off") or status.startswith("in"):
-            await self.bot.change_presence(status=discord.Status.invisible)
+            await self.bot.change_presence(status=Status.invisible)
         else:
             await ctx.send("Недействительный статус")
 
         await ctx.send("Поставить новый статус")
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
+    @command(hidden=True)
+    @is_owner()
     async def updatedb(self, ctx):
         temp = await ctx.send("Обновление вручную... Это может занять несколько минут... Подождите...")
         with ctx.channel.typing():
-            start = time.perf_counter()
+            start = perf_counter()
             async with self.bot.pool.acquire() as conn:
                 await conn.execute("""
                     INSERT INTO lwords
@@ -627,7 +626,7 @@ They've said the N-word __23,737 times__ since they were last investigated
                         WHERE id = {}
                     ;""".format(data["total"], data["id"]))
 
-        delta = time.perf_counter() - start
+        delta = perf_counter() - start
         mi = int(delta) // 60
         sec = int(delta) % 60
         ms = round(delta * 1000 % 1000)

@@ -1,31 +1,28 @@
-from discord.ext import commands, tasks
-import discord
-import asyncpg
-import psutil
-
-import datetime
-import re
-import os
-
-import config
+from discord.ext.commands import Bot, is_owner
+from discord.ext.tasks import loop
+from discord import Intents, Status, Activity, ActivityType
+from psutil import Process
+from datetime import datetime
+from os import getpid
+from config import TOKEN
 from database import PostgresController
-import mcstatus
+from mcstatus import MinecraftServer
 from socket import timeout as socket_timeout
 
-bot_intents = discord.Intents.default()
+bot_intents = Intents.default()
 bot_intents.members = True
 
-bot = commands.Bot(
+bot = Bot(
     command_prefix='',
     description="Пингер бот",
     case_insensitive=False,
     help_command=None,
-    status=discord.Status.invisible,
+    status=Status.invisible,
     intents=bot_intents,
     fetch_offline_members=True
 )
 
-bot.process = psutil.Process(os.getpid())
+bot.process = Process(getpid())
 bot.ready_for_commands = False
 bot.load_extension("commands")
 
@@ -45,7 +42,7 @@ async def on_ready():
           f'{bot.user}\n'
           f'{bot.user.id}\n'
           '-----------------\n'
-          f'{datetime.datetime.now().strftime("%m/%d/%Y %X")}\n'
+          f'{datetime.now().strftime("%m/%d/%Y %X")}\n'
           '-----------------\n'
           f'Шардов: {str(bot.shard_count)}\n'
           f'Серверов: {str(len(bot.guilds))}\n'
@@ -53,14 +50,14 @@ async def on_ready():
           '-----------------')
 
     bot.ready_for_commands = True
-    bot.started_at = datetime.datetime.utcnow()
+    bot.started_at = datetime.utcnow()
     bot.app_info = await bot.application_info()
 
-    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(
-        name='пинг превыше всего', type=discord.ActivityType.playing))
+    await bot.change_presence(status=Status.online, activity=Activity(
+        name='пинг превыше всего', type=ActivityType.playing))
 
 
-@tasks.loop(minutes=5, loop=bot.loop)
+@loop(minutes=5, loop=bot.loop)
 async def ping_servers():
     """Пингует сервера и записывает их пинги в датабазу"""
 
@@ -69,7 +66,7 @@ async def ping_servers():
     for serv in servers:
         ip = str(serv['numip'])[:-3]
         port = serv['port']
-        mcserver = mcstatus.MinecraftServer.lookup(ip+':'+str(port))
+        mcserver = MinecraftServer.lookup(ip+':'+str(port))
         try:
             status = mcserver.status()
             online = True
@@ -86,7 +83,7 @@ async def ping_servers():
 
 
 @bot.command(hidden=True)
-@commands.is_owner()
+@is_owner()
 async def reload(ctx):
     """Перезагружает некоторые файлы бота"""
 
@@ -95,11 +92,11 @@ async def reload(ctx):
 
 
 try:  # TODO наконец то пофиксить это
-    bot.loop.run_until_complete(bot.start(config.TOKEN))
+    bot.loop.run_until_complete(bot.start(TOKEN))
 except KeyboardInterrupt:
     print("\nЗакрытие")
     bot.loop.run_until_complete(
-        bot.change_presence(status=discord.Status.invisible))
+        bot.change_presence(status=Status.invisible))
     for e in bot.extensions.copy():
         bot.unload_extension(e)
     print("Выходим")

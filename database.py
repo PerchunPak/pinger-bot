@@ -2,13 +2,13 @@
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
-import time
-import datetime
+from time import localtime
+from datetime import time
 from typing import Optional
-from asyncpg import Record, InterfaceError, UniqueViolationError, create_pool
+from asyncpg import Record, create_pool
 from asyncpg.pool import Pool
 
-import config
+from config import POSTGRES
 
 
 def parse_record(record: Record) -> Optional[tuple]:
@@ -68,7 +68,7 @@ class PostgresController:  # TODO обновить коментарии
         self.pool = pool
 
     @classmethod
-    async def get_instance(cls, connect_kwargs: str = config.POSTGRES, pool: Pool = None):
+    async def get_instance(cls, connect_kwargs: str = POSTGRES, pool: Pool = None):
         """
         (лучше английский чем гугл переводчик)
         Get a new instance of `PostgresController`
@@ -108,8 +108,8 @@ class PostgresController:  # TODO обновить коментарии
         :param port: порт сервера
         :param players: количество игроков на сервере в момент пинга
         """
-        tmF = time.localtime()
-        tm = datetime.time(tmF[3], tmF[4])
+        tmF = localtime()
+        tm = time(tmF[3], tmF[4])
         sql = """
         INSERT INTO sunpings VALUES ($1, $2, $3, $4)
         """
@@ -186,8 +186,8 @@ class PostgresController:  # TODO обновить коментарии
         """
         Возвращает пинг сервера сутки назад через FETCH
         """
-        tmF = time.localtime()
-        tm = datetime.time(tmF[3], tmF[4])
+        tmF = localtime()
+        tm = time(tmF[3], tmF[4])
         sql = """
         SELECT players FROM sunpings
         WHERE ip=$1 AND port=$2 AND time=$3;
