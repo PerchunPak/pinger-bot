@@ -7,7 +7,7 @@ from os import getpid
 from config import TOKEN
 from database import PostgresController
 from mcstatus import MinecraftServer
-from socket import timeout as socket_timeout
+from socket import timeout
 
 bot_intents = Intents.default()
 bot_intents.members = True
@@ -70,7 +70,8 @@ async def ping_servers():
         try:
             status = mcserver.status()
             online = True
-        except socket_timeout: online = False
+        except timeout: online = False
+        except ConnectionRefusedError: online = False
 
         if not online:
             await pg_controller.add_ping(ip, port, -1)

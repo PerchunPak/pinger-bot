@@ -45,11 +45,16 @@ class Commands(Cog):
             description=f"Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
+        pg_controller = await PostgresController.get_instance()
+        ip_from_alias = await pg_controller.get_ip_alias(ip)
+        if len(ip_from_alias) != 0:
+            ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
         try:
             status = await server.async_status()
             online = True
         except timeout: online = False
+        except ConnectionRefusedError: online = False
         if online:
             try: numIp = gethostbyname(ip)
             except gaierror: numIp = server.host
@@ -86,11 +91,16 @@ class Commands(Cog):
             description=f"Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
+        pg_controller = await PostgresController.get_instance()
+        ip_from_alias = await pg_controller.get_ip_alias(ip)
+        if len(ip_from_alias) != 0:
+            ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
         try:
             status = await server.async_status()
             online = True
         except timeout: online = False
+        except ConnectionRefusedError: online = False
         if online:
             motd = f"{status.raw['description']['text']}"
             motd1 = motd.replace(' ', '+')
@@ -115,7 +125,7 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
 
     @command()
-    async def стата(self, ctx, server):  # TODO Добавить график и прочую красоту
+    async def стата(self, ctx, server):
         """Статистика сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -129,9 +139,10 @@ class Commands(Cog):
             server = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         mcserver = MinecraftServer.lookup(server)
         try:
-            status = await mcserver.async_status()
+            status = mcserver.status()
             online = True
         except timeout: online = False
+        except ConnectionRefusedError: online = False
         try: numIp = gethostbyname(server)
         except gaierror: numIp = mcserver.host
         database_server = await pg_controller.get_server(numIp, mcserver.port)
@@ -209,14 +220,15 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         mcserver = MinecraftServer.lookup(server)
         try:
-            await mcserver.async_status()
+            mcserver.status()
             online = True
         except timeout: online = False
+        except ConnectionRefusedError: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
             try: numIp = gethostbyname(server)
             except gaierror: numIp = mcserver.host
-            try: await pg_controller.add_server(numIp, mcserver.port)
+            try: await pg_controller.add_server(numIp, ctx.author.id, mcserver.port)
             except UniqueViolationError: # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {server}',
@@ -230,7 +242,7 @@ class Commands(Cog):
 
             embed = Embed(
                 title=f'Добавил сервер {server}',
-                description=f"Цифровое айпи: {numIp}:{str(mcserver.ping)}\n**Онлайн**",
+                description=f"Цифровое айпи: {numIp}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')

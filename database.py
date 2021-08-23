@@ -89,17 +89,18 @@ class PostgresController:  # TODO обновить коментарии
         await make_tables(pool)
         return cls(pool)
 
-    async def add_server(self, numip: str, port: int = 25565):
+    async def add_server(self, numip: str, ownerId: str, port: int = 25565):
         """
         Добавляет в дата базу новый сервер
         :param numip: цифровое айпи IPv4 сервера
+        :param ownerId: айди владельца сервера
         :param port: порт сервера (необязательный аргумент)
         """
         sql = """
-        INSERT INTO sunservers VALUES ($1, $2);
+        INSERT INTO sunservers (numip, port, owner) VALUES ($1, $2, $3);
         """
 
-        await self.pool.execute(sql, numip, port)
+        await self.pool.execute(sql, numip, port, ownerId)
 
     async def add_ping(self, ip: str, port: int, players: int):
         """
