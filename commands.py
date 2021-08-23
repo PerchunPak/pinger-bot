@@ -6,8 +6,6 @@ from time import perf_counter
 from pprint import pformat
 from sys import version_info
 from random import randint
-from json import loads
-from requests import get
 from asyncpg.exceptions import UniqueViolationError
 from mcstatus import MinecraftServer
 from socket import gethostbyname, timeout, gaierror
@@ -49,7 +47,7 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         server = MinecraftServer.lookup(ip)
         try:
-            status = server.status()
+            status = await server.async_status()
             online = True
         except timeout: online = False
         if online:
@@ -90,7 +88,7 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         server = MinecraftServer.lookup(ip)
         try:
-            status = server.status()
+            status = await server.async_status()
             online = True
         except timeout: online = False
         if online:
@@ -131,11 +129,11 @@ class Commands(Cog):
             server = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         mcserver = MinecraftServer.lookup(server)
         try:
-            status = mcserver.status()
+            status = await mcserver.async_status()
             online = True
         except timeout: online = False
         try: numIp = gethostbyname(server)
-        except gaierror: numIp = server.host
+        except gaierror: numIp = mcserver.host
         database_server = await pg_controller.get_server(numIp, mcserver.port)
         if online and len(database_server) != 0:
             if database_server[0]['alias'] != None:
@@ -211,13 +209,13 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         mcserver = MinecraftServer.lookup(server)
         try:
-            mcserver.status()
+            await mcserver.async_status()
             online = True
         except timeout: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
             try: numIp = gethostbyname(server)
-            except gaierror: numIp = server.host
+            except gaierror: numIp = mcserver.host
             try: await pg_controller.add_server(numIp, mcserver.port)
             except UniqueViolationError: # сервер уже добавлен
                 embed = Embed(
@@ -263,12 +261,8 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
         mcserver = MinecraftServer.lookup(server)
-        try:
-            mcserver.status()
-            online = True
-        except timeout: online = False
         try: numIp = gethostbyname(server)
-        except gaierror: numIp = server.host
+        except gaierror: numIp = mcserver.host
         database_server = await pg_controller.get_server(numIp, mcserver.port)
         if ctx.author.id != database_server[0]['owner']:
             embed = Embed(
