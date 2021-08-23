@@ -10,12 +10,13 @@ from json import loads
 from requests import get
 from asyncpg.exceptions import UniqueViolationError
 from mcstatus import MinecraftServer
-from socket import timeout as socket_timeout
+from socket import gethostbyname, timeout, gaierror
 from database import PostgresController
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from matplotlib.dates import DateFormatter
 from asyncio import sleep
 from os import mkdir, remove
+from re import sub as re_sub, IGNORECASE as re_IGNORECASE
 
 
 def find_color(ctx):
@@ -37,8 +38,8 @@ class Commands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command()             # TODO заменить mcsrvstat['ip'] на socket
-    async def пинг(self, ctx, ip):  # (сейчас используется для получения цифрового айпи)
+    @command()
+    async def пинг(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -46,24 +47,25 @@ class Commands(Cog):
             description=f"Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        response = get(f"https://api.mcsrvstat.us/2/{ip}")
-        result = loads(response.text)
         server = MinecraftServer.lookup(ip)
         try:
             status = server.status()
             online = True
-        except socket_timeout: online = False
+        except timeout: online = False
         if online:
+            try: numIp = gethostbyname(ip)
+            except gaierror: numIp = server.host
             embed = Embed(
-                title=f'Результаты пинга {server.host}',
-                description=f"Цифровое айпи: {result['ip']}:{str(server.port)}\n**Онлайн**",
+                title=f'Результаты пинга {ip}',
+                description=f"Цифровое айпи: {numIp}:{str(server.port)}\n**Онлайн**",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
-            embed.add_field(name="Версия сервера", value=result['version'])
+            embed.add_field(name="Время ответа", value=str(status.latency)+'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
-            embed.add_field(name="Мотд", value=f"{result['motd']['clean'][0]}\n{result['motd']['clean'][1]}")
+            motdClean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=re_IGNORECASE)
+            embed.add_field(name="Мотд", value=motdClean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
@@ -90,7 +92,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except socket_timeout: online = False
+        except timeout: online = False
         if online:
             motd = f"{status.raw['description']['text']}"
             motd1 = motd.replace(' ', '+')
@@ -127,33 +129,33 @@ class Commands(Cog):
         ip_from_alias = await pg_controller.get_ip_alias(server)
         if len(ip_from_alias) != 0:
             server = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
-        response = get(f"https://api.mcsrvstat.us/2/{server}")
-        result = loads(response.text)
         mcserver = MinecraftServer.lookup(server)
         try:
             status = mcserver.status()
             online = True
-        except socket_timeout: online = False
-        database_server = await pg_controller.get_server(result['ip'], result['port'])
+        except timeout: online = False
+        try: numIp = gethostbyname(server)
+        except gaierror: numIp = server.host
+        database_server = await pg_controller.get_server(numIp, mcserver.port)
         if online and len(database_server) != 0:
             if database_server[0]['alias'] != None:
                 server = database_server[0]['alias']
             embed = Embed(
                 title=f'Статистика сервера {server}',
-                description=f"Цифровое айпи: {result['ip']}:{str(result['port'])}\n**Онлайн**",
+                description=f"Цифровое айпи: {numIp}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
-            online_yest = await pg_controller.get_ping_yest(result['ip'], result['port'])
+            online_yest = await pg_controller.get_ping_yest(numIp, mcserver.port)
             if len(online_yest) == 0: online_yest = 'Нету информации'
             else: online_yest = str(online_yest[0]['players'])
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{result['ip']}:{str(result['port'])}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online)+'/'+str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
-            pings = await pg_controller.get_pings(result['ip'], result['port'])
+            pings = await pg_controller.get_pings(numIp, mcserver.port)
             if len(pings) <= 20:
                 await ctx.send(ctx.author.mention+', слишком мало информации для графика.', embed=embed)
                 return
@@ -173,7 +175,7 @@ class Commands(Cog):
             ylabel('Онлайн')
             title('Статистика')
 
-            fileName = result['ip']+'_'+str(result['port'])+'.png'
+            fileName = numIp+'_'+str(mcserver.port)+'.png'
             try: fig.savefig('./grafics/'+fileName)
             except FileNotFoundError: 
                 mkdir('./grafics/')
@@ -207,16 +209,16 @@ class Commands(Cog):
             description=f"Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        response = get(f"https://api.mcsrvstat.us/2/{server}")
-        result = loads(response.text)
         mcserver = MinecraftServer.lookup(server)
         try:
             mcserver.status()
             online = True
-        except socket_timeout: online = False
+        except timeout: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
-            try: await pg_controller.add_server(result['ip'], result['port'])
+            try: numIp = gethostbyname(server)
+            except gaierror: numIp = server.host
+            try: await pg_controller.add_server(numIp, mcserver.port)
             except UniqueViolationError: # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {server}',
@@ -230,7 +232,7 @@ class Commands(Cog):
 
             embed = Embed(
                 title=f'Добавил сервер {server}',
-                description=f"Цифровое айпи: {result['ip']}:{str(result['port'])}\n**Онлайн**",
+                description=f"Цифровое айпи: {numIp}:{str(mcserver.ping)}\n**Онлайн**",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
@@ -259,10 +261,15 @@ class Commands(Cog):
             description=f"Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        response = get(f"https://api.mcsrvstat.us/2/{server}")
-        result = loads(response.text)
         pg_controller = await PostgresController.get_instance()
-        database_server = await pg_controller.get_server(result['ip'], result['port'])
+        mcserver = MinecraftServer.lookup(server)
+        try:
+            mcserver.status()
+            online = True
+        except timeout: online = False
+        try: numIp = gethostbyname(server)
+        except gaierror: numIp = server.host
+        database_server = await pg_controller.get_server(numIp, mcserver.port)
         if ctx.author.id != database_server[0]['owner']:
             embed = Embed(
                 title=f'Вы не владелец сервера {server}',
@@ -277,7 +284,7 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
             return
 
-        await pg_controller.add_alias(alias, result['ip'], result['port'])
+        await pg_controller.add_alias(alias, numIp, mcserver.port)
 
         if len(database_server) != 0:
             embed = Embed(
