@@ -56,7 +56,7 @@ class Commands(Cog):
         except timeout: online = False
         except ConnectionRefusedError: online = False
         if online:
-            try: numIp = gethostbyname(ip)
+            try: numIp = gethostbyname(server.host)
             except gaierror: numIp = server.host
             embed = Embed(
                 title=f'Результаты пинга {ip}',
@@ -143,7 +143,7 @@ class Commands(Cog):
             online = True
         except timeout: online = False
         except ConnectionRefusedError: online = False
-        try: numIp = gethostbyname(server)
+        try: numIp = gethostbyname(mcserver.host)
         except gaierror: numIp = mcserver.host
         database_server = await pg_controller.get_server(numIp, mcserver.port)
         if online and len(database_server) != 0:
@@ -226,7 +226,7 @@ class Commands(Cog):
         except ConnectionRefusedError: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
-            try: numIp = gethostbyname(server)
+            try: numIp = gethostbyname(mcserver.host)
             except gaierror: numIp = mcserver.host
             try: await pg_controller.add_server(numIp, ctx.author.id, mcserver.port)
             except UniqueViolationError: # сервер уже добавлен
@@ -273,7 +273,7 @@ class Commands(Cog):
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
         mcserver = MinecraftServer.lookup(server)
-        try: numIp = gethostbyname(server)
+        try: numIp = gethostbyname(mcserver.host)
         except gaierror: numIp = mcserver.host
         database_server = await pg_controller.get_server(numIp, mcserver.port)
         if ctx.author.id != database_server[0]['owner']:
