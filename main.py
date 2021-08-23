@@ -35,7 +35,6 @@ async def on_connect():
 @bot.event
 async def on_ready():
     pg_controller = await PostgresController.get_instance()
-    await ping_servers()
     print('Дата-база инициализирована\n'
 
           '\nЗашел как:\n'
@@ -49,6 +48,7 @@ async def on_ready():
           f'Пользователей: {str(len(bot.users))}\n'
           '-----------------')
 
+    ping_servers.start()
     bot.ready_for_commands = True
     bot.started_at = datetime.utcnow()
     bot.app_info = await bot.application_info()
@@ -75,11 +75,11 @@ async def ping_servers():
 
         if not online:
             await pg_controller.add_ping(ip, port, -1)
-            return
-        onlinePlayers = status.players.online
-        await pg_controller.add_ping(ip, port, onlinePlayers)
+        else:
+            onlinePlayers = status.players.online
+            await pg_controller.add_ping(ip, port, onlinePlayers)
 
-        if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip,port, onlinePlayers)
+            if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip,port, onlinePlayers)
 
 
 
@@ -90,6 +90,13 @@ async def reload(ctx):
 
     bot.reload_extension("commands")
     await ctx.send("Файлы перезагружены")
+
+@bot.command(hidden=True)
+@is_owner()
+async def restartpings(ctx):
+    ping_servers.cancel()
+    ping_servers.start()
+    await ctx.send("Отменено и запущено `ping_servers`")
 
 
 try:  # TODO наконец то пофиксить это
@@ -103,5 +110,6 @@ except KeyboardInterrupt:
     print("Выходим")
     bot.loop.run_until_complete(bot.logout())
 finally:
+    ping_servers.cancel()
     bot.loop.run_until_complete(bot.pool.close())
     print("Закрыто")
