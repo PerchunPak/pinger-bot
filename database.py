@@ -2,8 +2,7 @@
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
-from time import localtime
-from datetime import time
+from datetime import datetime
 from typing import Optional
 from asyncpg import Record, create_pool
 from asyncpg.pool import Pool
@@ -31,7 +30,7 @@ async def make_tables(pool: Pool):
     CREATE TABLE IF NOT EXISTS sunpings (
         ip CIDR NOT NULL,
         port SMALLINT NOT NULL DEFAULT 25565,
-        time TIME NOT NULL,
+        time TIMESTAMP UNIQUE,
         players INTEGER NOT NULL
     );
     """
@@ -103,8 +102,8 @@ class PostgresController:  # TODO обновить коментарии
         :param port: порт сервера
         :param players: количество игроков на сервере в момент пинга
         """
-        tmF = localtime()
-        tm = time(tmF[3], tmF[4])
+        tmF = datetime.now()
+        tm = datetime(tmF.year, tmF.month, tmF.day-1, tmF.hour, tmF.minute, tmF.second)
         sql = """
         INSERT INTO sunpings VALUES ($1, $2, $3, $4)
         """
@@ -181,8 +180,8 @@ class PostgresController:  # TODO обновить коментарии
         """
         Возвращает пинг сервера сутки назад через FETCH
         """
-        tmF = localtime()
-        tm = time(tmF[3], tmF[4])
+        tmF = datetime.now()
+        tm = datetime(tmF.year, tmF.month, tmF.day-1, tmF.hour, tmF.minute, tmF.second)
         sql = """
         SELECT players FROM sunpings
         WHERE ip=$1 AND port=$2 AND time=$3;

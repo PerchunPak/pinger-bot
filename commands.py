@@ -171,22 +171,20 @@ class Commands(Cog):
             fig, ax = subplots()
             arrOnline = []
             arrTime = []
-            date = datetime.now().strftime("%Y-%m-%d ")
             for ping in pings:
                 arrOnline.append(int(ping['players']))
-                strTime = date + str(ping['time'])
-                arrTime.append(datetime.strptime(strTime, '%Y-%m-%d %H:%M:%S'))
+                arrTime.append(ping['time'])
             myFmt = DateFormatter('%H:%M')
             ax.xaxis.set_major_formatter(myFmt)
-            ax.hist(arrTime, arrOnline)
+            ax.plot(arrTime, arrOnline)
 
             xlabel('Время')
             ylabel('Онлайн')
             title('Статистика')
 
-            fileName = numIp+'_'+str(mcserver.port)+'.png'
+            fileName = numIp+'_'+str(mcserver.port)+'.png' # TODO доделать или убрать кеширование
             try: fig.savefig('./grafics/'+fileName)
-            except FileNotFoundError: 
+            except FileNotFoundError:
                 mkdir('./grafics/')
                 fig.savefig('./grafics/'+fileName)
             file = File('./grafics/'+fileName, filename=fileName)
