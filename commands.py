@@ -1,3 +1,4 @@
+import re
 from discord.ext.commands import Cog, command, is_owner, BadArgument, guild_only, NoPrivateMessage
 from discord import Color, Embed, File, User, Status, Activity, ActivityType
 from collections import Counter
@@ -12,8 +13,7 @@ from socket import gethostbyname, timeout, gaierror
 from database import PostgresController
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from matplotlib.dates import DateFormatter
-from asyncio import sleep
-from os import mkdir, remove
+from os import mkdir, rmdir, remove
 from re import sub as re_sub, IGNORECASE as re_IGNORECASE
 
 
@@ -182,19 +182,19 @@ class Commands(Cog):
             ylabel('Онлайн')
             title('Статистика')
 
-            fileName = numIp+'_'+str(mcserver.port)+'.png' # TODO доделать или убрать кеширование
-            try: fig.savefig('./grafics/'+fileName)
-            except FileNotFoundError:
-                mkdir('./grafics/')
-                fig.savefig('./grafics/'+fileName)
+            fileName = numIp+'_'+str(mcserver.port)+'.png'
+            try: mkdir('./grafics/')
+            except FileExistsError: pass
+            fig.savefig('./grafics/'+fileName)
             file = File('./grafics/'+fileName, filename=fileName)
             embed.set_image(url='attachment://'+fileName)
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            await sleep(60)
-            try: remove('./grafics/'+fileName)
-            except FileNotFoundError: pass
+            try: 
+                remove('./grafics/'+fileName)
+                rmdir('./grafics/')
+            except PermissionError: pass
         else:
             embed = Embed(
                 title=f'Статистика сервера {server}',
