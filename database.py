@@ -20,37 +20,6 @@ def parse_record(record: Record) -> Optional[tuple]:
     except AttributeError: return None
 
 
-async def make_tables(pool: Pool):
-    """
-    Создает таблицы в дата базе если их ещё нет.
-    :param pool: пул для подключения.
-    """
-
-    sunpings = """
-    CREATE TABLE IF NOT EXISTS sunpings (
-        ip CIDR NOT NULL,
-        port SMALLINT NOT NULL DEFAULT 25565,
-        time TIMESTAMP UNIQUE,
-        players INTEGER NOT NULL
-    );
-    """
-
-    sunservers = """
-    CREATE TABLE IF NOT EXISTS sunservers (
-        numip CIDR NOT NULL,
-        port SMALLINT NOT NULL DEFAULT 25565,
-        record SMALLINT NOT NULL DEFAULT 0,
-        alias TEXT,
-        owner BIGSERIAL NOT NULL,
-        UNIQUE (numip, port)
-    );
-    """
-
-    db_entries = (sunpings, sunservers)
-    for db_entry in db_entries:
-        await pool.execute(db_entry)
-
-
 class PostgresController:  # TODO обновить коментарии
     """
     Класс для управления датабазой, 
@@ -79,8 +48,36 @@ class PostgresController:  # TODO обновить коментарии
         )
         if not pool:
             pool = await create_pool(connect_kwargs)
-        await make_tables(pool)
         return cls(pool)
+
+    async def make_tables(self):
+        """
+        Создает таблицы в дата базе если их ещё нет.
+        """
+
+        sunpings = """
+        CREATE TABLE IF NOT EXISTS sunpings (
+            ip CIDR NOT NULL,
+            port SMALLINT NOT NULL DEFAULT 25565,
+            time TIMESTAMP UNIQUE,
+            players INTEGER NOT NULL
+        );
+        """
+
+        sunservers = """
+        CREATE TABLE IF NOT EXISTS sunservers (
+            numip CIDR NOT NULL,
+            port SMALLINT NOT NULL DEFAULT 25565,
+            record SMALLINT NOT NULL DEFAULT 0,
+            alias TEXT,
+            owner BIGSERIAL NOT NULL,
+            UNIQUE (numip, port)
+        );
+        """
+
+        db_entries = (sunpings, sunservers)
+        for db_entry in db_entries:
+            await self.pool.execute(db_entry)
 
     async def add_server(self, numip: str, ownerId: str, port: int = 25565):
         """

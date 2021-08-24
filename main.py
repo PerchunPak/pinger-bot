@@ -35,6 +35,7 @@ async def on_connect():
 @bot.event
 async def on_ready():
     pg_controller = await PostgresController.get_instance()
+    await pg_controller.make_tables()
     print('Дата-база инициализирована\n'
 
           '\nЗашел как:\n'
