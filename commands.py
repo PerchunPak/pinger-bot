@@ -1,4 +1,3 @@
-import re
 from discord.ext.commands import Cog, command, is_owner, BadArgument, guild_only, NoPrivateMessage
 from discord import Color, Embed, File, User, Status, Activity, ActivityType
 from collections import Counter
@@ -14,7 +13,7 @@ from database import PostgresController
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from matplotlib.dates import DateFormatter
 from os import mkdir, rmdir, remove
-from re import sub as re_sub, IGNORECASE as re_IGNORECASE
+from re import sub as re_sub, IGNORECASE
 
 
 def find_color(ctx):
@@ -67,7 +66,7 @@ class Commands(Cog):
             embed.add_field(name="Время ответа", value=str(status.latency)+'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
-            motdClean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=re_IGNORECASE)
+            motdClean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=IGNORECASE)
             embed.add_field(name="Мотд", value=motdClean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
