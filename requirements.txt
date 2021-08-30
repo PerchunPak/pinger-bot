@@ -1,0 +1,4 @@
+discord.py
+matplotlib==3.4.3
+psutil==5.8.0
+mcstatus==6.5.0
