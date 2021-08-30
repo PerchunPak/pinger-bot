@@ -1,9 +1,7 @@
 from discord.ext.commands import Bot, is_owner
 from discord.ext.tasks import loop
 from discord import Intents, Status, Activity, ActivityType, Client
-from psutil import Process
 from datetime import datetime
-from os import getpid
 from config import TOKEN
 from database import PostgresController
 from mcstatus import MinecraftServer
@@ -22,7 +20,6 @@ bot = Bot(
     fetch_offline_members=True
 )
 
-bot.process = Process(getpid())
 bot.ready_for_commands = False
 bot.load_extension("commands")
 
