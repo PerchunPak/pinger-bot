@@ -1,6 +1,6 @@
 from discord.ext.commands import Bot, is_owner
 from discord.ext.tasks import loop
-from discord import Intents, Status, Activity, ActivityType
+from discord import Intents, Status, Activity, ActivityType, Client
 from psutil import Process
 from datetime import datetime
 from os import getpid
@@ -100,7 +100,7 @@ async def restartpings(ctx):
     await ctx.send("Отменено и запущено `ping_servers`")
 
 
-try:  # TODO наконец то пофиксить это
+try:
     bot.loop.run_until_complete(bot.start(TOKEN))
 except KeyboardInterrupt:
     print("\nЗакрытие")
@@ -109,8 +109,7 @@ except KeyboardInterrupt:
     for e in bot.extensions.copy():
         bot.unload_extension(e)
     print("Выходим")
-    bot.loop.run_until_complete(bot.logout())
+    bot.loop.run_until_complete(Client.close(bot))
 finally:
     ping_servers.cancel()
-    bot.loop.run_until_complete(bot.pool.close())
     print("Закрыто")
