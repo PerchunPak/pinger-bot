@@ -36,14 +36,14 @@ async def on_ready():
     print('Дата-база инициализирована\n'
 
           '\nЗашел как:\n'
-          f'{bot.user}\n'
-          f'{bot.user.id}\n'
+         f'{bot.user}\n'
+         f'{bot.user.id}\n'
           '-----------------\n'
-          f'{datetime.now().strftime("%m/%d/%Y %X")}\n'
+         f'{datetime.now().strftime("%m/%d/%Y %X")}\n'
           '-----------------\n'
-          f'Шардов: {str(bot.shard_count)}\n'
-          f'Серверов: {str(len(bot.guilds))}\n'
-          f'Пользователей: {str(len(bot.users))}\n'
+         f'Шардов: {str(bot.shard_count)}\n'
+         f'Серверов: {str(len(bot.guilds))}\n'
+         f'Пользователей: {str(len(bot.users))}\n'
           '-----------------')
 
     ping_servers.start()
@@ -53,6 +53,18 @@ async def on_ready():
 
     await bot.change_presence(status=Status.online, activity=Activity(
         name='пинг превыше всего', type=ActivityType.playing))
+
+
+@bot.event
+async def on_message(message):
+    if not bot.ready_for_commands or message.author.bot:
+        return
+
+    ctx = await bot.get_context(message)
+    if ctx.valid: await bot.invoke(ctx)
+    else:
+        if bot.user in message.mentions: await message.channel.send(
+            "Используйте команду `помощь` для списка моих команд")
 
 
 @loop(minutes=5, loop=bot.loop)
@@ -80,7 +92,6 @@ async def ping_servers():
             if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip,port, onlinePlayers)
 
 
-
 @bot.command(hidden=True)
 @is_owner()
 async def reload(ctx):
@@ -88,6 +99,7 @@ async def reload(ctx):
 
     bot.reload_extension("commands")
     await ctx.send("Файлы перезагружены")
+
 
 @bot.command(hidden=True)
 @is_owner()
