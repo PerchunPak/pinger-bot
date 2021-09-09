@@ -2,7 +2,7 @@
 
 name: Run Tests
 
-on: [ push, pull_request ]
+on: [ push, pull_request, release ]
 
 jobs:
   test:
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10-dev]
 
     steps:
     - uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 # pytest
+        pip install flake8 pylint # pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
@@ -30,5 +30,10 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    # Линтим также через PyLint потому что он лучше обнаруживает предупреждения,
+    # но крашит тест при любой ошибке, поэтому --exit-zero необходим.
+    # Также он не работает нормально с discord.py из за различий в импорте (inport discord)
+    - name: Lint with PyLint
+      run: pylint `ls -R|grep .py$|xargs` --exit-zero
     #- name: Test with pytest
     #  run: pytest
