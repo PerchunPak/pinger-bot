@@ -41,7 +41,7 @@ class Commands(Cog):
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
             title=f'Пингую {ip}...',
-            description=f"Подождите немного, я вас упомяну когда закончу",
+            description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
@@ -55,26 +55,26 @@ class Commands(Cog):
         except timeout: online = False
         except ConnectionRefusedError: online = False
         if online:
-            try: numIp = gethostbyname(server.host)
-            except gaierror: numIp = server.host
+            try: num_ip = gethostbyname(server.host)
+            except gaierror: num_ip = server.host
             embed = Embed(
                 title=f'Результаты пинга {ip}',
-                description=f"Цифровое айпи: {numIp}:{str(server.port)}\n**Онлайн**",
+                description=f"Цифровое айпи: {num_ip}:{str(server.port)}\n**Онлайн**",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
             embed.add_field(name="Время ответа", value=str(status.latency)+'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
-            motdClean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=IGNORECASE)
-            embed.add_field(name="Мотд", value=motdClean)
+            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=IGNORECASE)
+            embed.add_field(name="Мотд", value=motd_clean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = Embed(
                 title=f'Результаты пинга {ip}',
-                description=f"\n\n**Офлайн**",
+                description="\n\n**Офлайн**",
                 color=Color.red())
 
             embed.add_field(name="Не удалось пингануть сервер",
@@ -87,7 +87,7 @@ class Commands(Cog):
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
             title=f'Получаю данные сервера {ip}...',
-            description=f"Подождите немного, я вас упомяну когда закончу",
+            description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
@@ -101,22 +101,21 @@ class Commands(Cog):
         except timeout: online = False
         except ConnectionRefusedError: online = False
         if online:
-            motd = f"{status.raw['description']['text']}"
-            motd1 = motd.replace(' ', '+')
-            motdURL = motd1.replace('\n', '%0A')
+            motd = str(status.raw['description']['text']).replace(' ', '+')
+            motd_url = motd.replace('\n', '%0A')
             embed = Embed(
                 title=f'Подробное мотд сервера {ip}',
-                description=f"Эта команда дает возможность скопировать мотд и вставить на свой сервер",
+                description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
             embed.add_field(name="Мотд", value=f"{status.description}")
-            embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motdURL)
+            embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = Embed(
                 title=f'Подробное мотд сервера {ip}',
-                description=f"Эта команда дает возможность скопировать мотд и вставить на свой сервер",
+                description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.red())
 
             embed.add_field(name="Не удалось получить данные с сервера",
@@ -129,7 +128,7 @@ class Commands(Cog):
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
             title=f'Получаю данные сервера {server}...',
-            description=f"Подождите немного, я вас упомяну когда закончу",
+            description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
@@ -142,18 +141,18 @@ class Commands(Cog):
             online = True
         except timeout: online = False
         except ConnectionRefusedError: online = False
-        try: numIp = gethostbyname(mcserver.host)
-        except gaierror: numIp = mcserver.host
-        database_server = await pg_controller.get_server(numIp, mcserver.port)
+        try: num_ip = gethostbyname(mcserver.host)
+        except gaierror: num_ip = mcserver.host
+        database_server = await pg_controller.get_server(num_ip, mcserver.port)
         if online and len(database_server) != 0:
-            if database_server[0]['alias'] != None:
+            if database_server[0]['alias'] is not None:
                 server = database_server[0]['alias']
             embed = Embed(
                 title=f'Статистика сервера {server}',
-                description=f"Цифровое айпи: {numIp}:{str(mcserver.port)}\n**Онлайн**",
+                description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
-            online_yest = await pg_controller.get_ping_yest(numIp, mcserver.port)
+            online_yest = await pg_controller.get_ping_yest(num_ip, mcserver.port)
             if len(online_yest) == 0: online_yest = 'Нету информации'
             else: online_yest = str(online_yest[0]['players'])
 
@@ -163,35 +162,35 @@ class Commands(Cog):
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
-            pings = await pg_controller.get_pings(numIp, mcserver.port)
+            pings = await pg_controller.get_pings(num_ip, mcserver.port)
             if len(pings) <= 20:
                 await ctx.send(ctx.author.mention+', слишком мало информации для графика.', embed=embed)
                 return
             fig, ax = subplots()
-            arrOnline = []
-            arrTime = []
+            arr_online = []
+            arr_time = []
             for ping in pings:
-                arrOnline.append(int(ping['players']))
-                arrTime.append(ping['time'])
-            myFmt = DateFormatter('%H:%M')
-            ax.xaxis.set_major_formatter(myFmt)
-            ax.plot(arrTime, arrOnline)
+                arr_online.append(int(ping['players']))
+                arr_time.append(ping['time'])
+            my_fmt = DateFormatter('%H:%M')
+            ax.xaxis.set_major_formatter(my_fmt)
+            ax.plot(arr_time, arr_online)
 
             xlabel('Время')
             ylabel('Онлайн')
             title('Статистика')
 
-            fileName = numIp+'_'+str(mcserver.port)+'.png'
+            file_name = num_ip+'_'+str(mcserver.port)+'.png'
             try: mkdir('./grafics/')
             except FileExistsError: pass
-            fig.savefig('./grafics/'+fileName)
-            file = File('./grafics/'+fileName, filename=fileName)
-            embed.set_image(url='attachment://'+fileName)
+            fig.savefig('./grafics/'+file_name)
+            file = File('./grafics/'+file_name, filename=file_name)
+            embed.set_image(url='attachment://'+file_name)
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            try: 
-                remove('./grafics/'+fileName)
+            try:
+                remove('./grafics/'+file_name)
                 rmdir('./grafics/')
             except PermissionError: pass
         else:
@@ -212,7 +211,7 @@ class Commands(Cog):
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
             title=f'Получаю данные сервера {server}...',
-            description=f"Подождите немного, я вас упомяну когда закончу",
+            description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
         mcserver = MinecraftServer.lookup(server)
@@ -223,9 +222,9 @@ class Commands(Cog):
         except ConnectionRefusedError: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
-            try: numIp = gethostbyname(mcserver.host)
-            except gaierror: numIp = mcserver.host
-            try: await pg_controller.add_server(numIp, ctx.author.id, mcserver.port)
+            try: num_ip = gethostbyname(mcserver.host)
+            except gaierror: num_ip = mcserver.host
+            try: await pg_controller.add_server(num_ip, ctx.author.id, mcserver.port)
             except UniqueViolationError: # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {server}',
@@ -239,7 +238,7 @@ class Commands(Cog):
 
             embed = Embed(
                 title=f'Добавил сервер {server}',
-                description=f"Цифровое айпи: {numIp}:{str(mcserver.port)}\n**Онлайн**",
+                description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
@@ -265,14 +264,14 @@ class Commands(Cog):
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
             title=f'Получаю данные сервера {server}...',
-            description=f"Подождите немного, я вас упомяну когда закончу",
+            description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
         pg_controller = await PostgresController.get_instance()
         mcserver = MinecraftServer.lookup(server)
-        try: numIp = gethostbyname(mcserver.host)
-        except gaierror: numIp = mcserver.host
-        database_server = await pg_controller.get_server(numIp, mcserver.port)
+        try: num_ip = gethostbyname(mcserver.host)
+        except gaierror: num_ip = mcserver.host
+        database_server = await pg_controller.get_server(num_ip, mcserver.port)
         if ctx.author.id != database_server[0]['owner']:
             embed = Embed(
                 title=f'Вы не владелец сервера {server}',
@@ -287,7 +286,7 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
             return
 
-        await pg_controller.add_alias(alias, numIp, mcserver.port)
+        await pg_controller.add_alias(alias, num_ip, mcserver.port)
 
         if len(database_server) != 0:
             embed = Embed(
@@ -312,8 +311,10 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
 
 
+# дальше идет код не относящийся к пингер боту
+# TODO убрать/переделать
     @command()
-    async def help(self, ctx):
+    async def help(self, ctx):  # noqa: E301
         """Это команда помощи!"""
 
         cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
@@ -323,7 +324,7 @@ class Commands(Cog):
             description="Я пингую сервер каждые 5 минут, и показываю его статистику! "
                         "Я довольно простой бот в использовании. Мой префикс это буквально ничего, "
                         "вам не нужно ставить префикс перед командами."
-                        f"\n\nВот короткий список моих команд:", color=find_color(ctx))
+                        "\n\nВот короткий список моих команд:", color=find_color(ctx))
         embed.set_footer(text="Примечание: Нет, я не пингую сервера перед тем как вы меня добавите")
         for c in cmds:
             embed.add_field(name=c.name, value=c.help, inline=False)

@@ -89,7 +89,7 @@ async def ping_servers():
             onlinePlayers = status.players.online
             await pg_controller.add_ping(ip, port, onlinePlayers)
 
-            if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip,port, onlinePlayers)
+            if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip, port, onlinePlayers)
 
 
 @bot.command(hidden=True)
