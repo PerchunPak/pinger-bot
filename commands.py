@@ -1,11 +1,6 @@
-from discord.ext.commands import Cog, command, is_owner, BadArgument, guild_only, NoPrivateMessage
-from discord import Color, Embed, File, User, Status, Activity, ActivityType
-from collections import Counter
-from datetime import datetime
-from time import perf_counter
-from pprint import pformat
+from discord.ext.commands import Cog, command, is_owner
+from discord import Color, Embed, File, Status, Activity, ActivityType
 from sys import version_info
-from random import randint
 from asyncpg.exceptions import UniqueViolationError
 from mcstatus import MinecraftServer
 from socket import gethostbyname, timeout, gaierror
