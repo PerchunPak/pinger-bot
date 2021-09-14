@@ -365,7 +365,9 @@ class Commands(Cog):
     async def invite(self, ctx):
         """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
 
-        await ctx.send("Это моя пригласительная ссылка чтобы Вы могли считать " + '"ладно"' + " тоже:\n"                                                                                         f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"                                                                                            "&scope=bot&permissions=8")
+        await ctx.send("Это моя пригласительная ссылка чтобы Вы могли считать " + '"ладно"' + " тоже:\n"
+                                                                                              f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
+                                                                                              "&scope=bot&permissions=8")
 
     @command(aliases=["resetstatus"], hidden=True)
     @is_owner()
