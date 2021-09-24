@@ -33,8 +33,8 @@ class Commands(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command()
-    async def пинг(self, ctx, ip):
+    @command(name='пинг')
+    async def ping(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -79,8 +79,8 @@ class Commands(Cog):
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
-    @command()
-    async def мотд(self, ctx, ip):
+    @command(name='мотд')
+    async def motd(self, ctx, ip):
         """Показывает мотд и ссылку на редактирование сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -120,8 +120,8 @@ class Commands(Cog):
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
-    @command()
-    async def стата(self, ctx, server):
+    @command(name='стата')
+    async def statistic(self, ctx, server):
         """Статистика сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -202,9 +202,9 @@ class Commands(Cog):
             await ctx.send(embed=embed)
 
 
-    @command()
+    @command(name='добавить')
     @is_owner()
-    async def добавить(self, ctx, server):
+    async def add_server(self, ctx, server):
         """Добавление сервера в бота"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -256,8 +256,8 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
 
 
-    @command()
-    async def алиас(self, ctx, alias, server):
+    @command(name='алиас')
+    async def alias(self, ctx, alias, server):
         """Добавление алиаса к серверу"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
