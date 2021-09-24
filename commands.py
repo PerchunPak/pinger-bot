@@ -48,10 +48,9 @@ class Commands(Cog):
             ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
         try:
-            status = await server.async_status()
+            status = server.status()
             online = True
         except timeout: online = False
-        except ConnectionRefusedError: online = False
         if online:
             try: num_ip = gethostbyname(server.host)
             except gaierror: num_ip = server.host
@@ -94,10 +93,9 @@ class Commands(Cog):
             ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
         try:
-            status = await server.async_status()
+            status = server.status()
             online = True
         except timeout: online = False
-        except ConnectionRefusedError: online = False
         if online:
             motd = str(status.raw['description']['text']).replace(' ', '+')
             motd_url = motd.replace('\n', '%0A')
@@ -138,7 +136,6 @@ class Commands(Cog):
             status = mcserver.status()
             online = True
         except timeout: online = False
-        except ConnectionRefusedError: online = False
         try: num_ip = gethostbyname(mcserver.host)
         except gaierror: num_ip = mcserver.host
         database_server = await pg_controller.get_server(num_ip, mcserver.port)
@@ -217,7 +214,6 @@ class Commands(Cog):
             mcserver.status()
             online = True
         except timeout: online = False
-        except ConnectionRefusedError: online = False
         pg_controller = await PostgresController.get_instance()
         if online:
             try: num_ip = gethostbyname(mcserver.host)
