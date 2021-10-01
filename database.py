@@ -2,7 +2,7 @@
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 from asyncpg import Record, create_pool
 from asyncpg.pool import Pool
