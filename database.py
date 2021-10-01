@@ -177,10 +177,9 @@ class PostgresController:  # TODO обновить коментарии
         """
         Возвращает пинг сервера сутки назад через FETCH
         """
-        tmF = datetime.now()
-        tm = datetime(tmF.year, tmF.month, tmF.day-1, tmF.hour, tmF.minute, tmF.second)
+        yesterday = datetime.now() - timedelta(days=1)
         sql = """
         SELECT players FROM sunpings
         WHERE ip=$1 AND port=$2 AND time=$3;
         """
-        return await self.pool.fetch(sql, numip, port, tm)
+        return await self.pool.fetch(sql, numip, port, yesterday)
