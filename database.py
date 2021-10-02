@@ -2,7 +2,7 @@
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 from asyncpg import Record, create_pool
 from asyncpg.pool import Pool
@@ -22,7 +22,7 @@ def parse_record(record: Record) -> Optional[tuple]:
 
 class PostgresController:  # TODO обновить коментарии
     """
-    Класс для управления датабазой, 
+    Класс для управления датабазой,
     только тут все взаимодействия с ней
     """
     __slots__ = 'pool'
@@ -59,7 +59,7 @@ class PostgresController:  # TODO обновить коментарии
         CREATE TABLE IF NOT EXISTS sunpings (
             ip CIDR NOT NULL,
             port SMALLINT NOT NULL DEFAULT 25565,
-            time TIMESTAMP UNIQUE,
+            time TIMESTAMP,
             players INTEGER NOT NULL
         );
         """
@@ -69,7 +69,7 @@ class PostgresController:  # TODO обновить коментарии
             numip CIDR NOT NULL,
             port SMALLINT NOT NULL DEFAULT 25565,
             record SMALLINT NOT NULL DEFAULT 0,
-            alias TEXT,
+            alias TEXT UNIQUE,
             owner BIGSERIAL NOT NULL,
             UNIQUE (numip, port)
         );
@@ -79,18 +79,18 @@ class PostgresController:  # TODO обновить коментарии
         for db_entry in db_entries:
             await self.pool.execute(db_entry)
 
-    async def add_server(self, numip: str, ownerId: str, port: int = 25565):
+    async def add_server(self, numip: str, owner_id: int, port: int = 25565):
         """
         Добавляет в дата базу новый сервер
         :param numip: цифровое айпи IPv4 сервера
-        :param ownerId: айди владельца сервера
+        :param owner_id: айди владельца сервера
         :param port: порт сервера (необязательный аргумент)
         """
         sql = """
         INSERT INTO sunservers (numip, port, owner) VALUES ($1, $2, $3);
         """
 
-        await self.pool.execute(sql, numip, port, ownerId)
+        await self.pool.execute(sql, numip, port, owner_id)
 
     async def add_ping(self, ip: str, port: int, players: int):
         """
@@ -99,12 +99,10 @@ class PostgresController:  # TODO обновить коментарии
         :param port: порт сервера
         :param players: количество игроков на сервере в момент пинга
         """
-        tmF = datetime.now()
-        tm = datetime(tmF.year, tmF.month, tmF.day-1, tmF.hour, tmF.minute, tmF.second)
         sql = """
         INSERT INTO sunpings VALUES ($1, $2, $3, $4)
         """
-        await self.pool.execute(sql, ip, port, tm, players)
+        await self.pool.execute(sql, ip, port, datetime.now(), players)
 
     async def add_alias(self, alias: str, ip: str, port: int):
         """
@@ -122,10 +120,10 @@ class PostgresController:  # TODO обновить коментарии
 
     async def add_record(self, numip: str, port: int = 25565, online: int = 0):
         """
-        Добавляет данные о пинге в дата базу
-        :param alias: новый алиас сервера
-        :param ip: цифровое айпи IPv4 сервера
+        Добавляет данные о рекорде в дата базу
+        :param numip: цифровое айпи IPv4 сервера
         :param port: порт сервера
+        :param online: рекорд онлайна
         """
         sql = """
         UPDATE sunservers
@@ -173,13 +171,12 @@ class PostgresController:  # TODO обновить коментарии
         """
         return await self.pool.fetch(sql, numip, port)
 
-    async def get_ping_yest(self, numip: str, port: int = 25565):
+    async def drop_tables(self):
         """
-        Возвращает пинг сервера сутки назад через FETCH
+        Сбрасывает все данные в датабазе
         """
-        yesterday = datetime.now() - timedelta(days=1)
-        sql = """
-        SELECT players FROM sunpings
-        WHERE ip=$1 AND port=$2 AND time=$3;
-        """
-        return await self.pool.fetch(sql, numip, port, yesterday)
+        return (
+            await self.pool.execute("DROP TABLE IF EXISTS sunpings;"),
+            await self.pool.execute("DROP TABLE IF EXISTS sunservers;"),
+            await self.make_tables()
+        )

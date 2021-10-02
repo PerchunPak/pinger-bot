@@ -29,7 +29,7 @@ class ErrorHandlers(Cog):
         else:
             return await ctx.send(
                 f'```Команда: {ctx.command.qualified_name}\n{exception}```'
-                 'Неизвестная ошибка произошла и я не смог выполнить эту команду.')
+                'Неизвестная ошибка произошла и я не смог выполнить эту команду.')
 
 
 def setup(bot):

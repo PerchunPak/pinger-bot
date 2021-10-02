@@ -4,11 +4,11 @@ from sys import version_info
 from asyncpg.exceptions import UniqueViolationError
 from mcstatus import MinecraftServer
 from socket import gethostbyname, timeout, gaierror
-from database import PostgresController
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from matplotlib.dates import DateFormatter
 from os import mkdir, rmdir, remove
 from re import sub as re_sub, IGNORECASE
+from datetime import datetime, timedelta
 
 
 def find_color(ctx):
@@ -42,8 +42,7 @@ class Commands(Cog):
             description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        pg_controller = await PostgresController.get_instance()
-        ip_from_alias = await pg_controller.get_ip_alias(ip)
+        ip_from_alias = await self.bot.db.get_ip_alias(ip)
         if len(ip_from_alias) != 0:
             ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
@@ -60,7 +59,7 @@ class Commands(Cog):
                 color=Color.green())
 
             embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
-            embed.add_field(name="Время ответа", value=str(status.latency)+'мс')
+            embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
             motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=IGNORECASE)
@@ -87,8 +86,7 @@ class Commands(Cog):
             description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        pg_controller = await PostgresController.get_instance()
-        ip_from_alias = await pg_controller.get_ip_alias(ip)
+        ip_from_alias = await self.bot.db.get_ip_alias(ip)
         if len(ip_from_alias) != 0:
             ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         server = MinecraftServer.lookup(ip)
@@ -119,7 +117,7 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
 
     @command(name='стата')
-    async def statistic(self, ctx, server):
+    async def statistic(self, ctx, server):  # noqa: C901
         """Статистика сервера"""
         print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         embed = Embed(
@@ -127,8 +125,7 @@ class Commands(Cog):
             description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        pg_controller = await PostgresController.get_instance()
-        ip_from_alias = await pg_controller.get_ip_alias(server)
+        ip_from_alias = await self.bot.db.get_ip_alias(server)
         if len(ip_from_alias) != 0:
             server = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         mcserver = MinecraftServer.lookup(server)
@@ -138,7 +135,7 @@ class Commands(Cog):
         except timeout: online = False
         try: num_ip = gethostbyname(mcserver.host)
         except gaierror: num_ip = mcserver.host
-        database_server = await pg_controller.get_server(num_ip, mcserver.port)
+        database_server = await self.bot.db.get_server(num_ip, mcserver.port)
         if online and len(database_server) != 0:
             if database_server[0]['alias'] is not None:
                 server = database_server[0]['alias']
@@ -147,19 +144,23 @@ class Commands(Cog):
                 description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
-            online_yest = await pg_controller.get_ping_yest(num_ip, mcserver.port)
-            if len(online_yest) == 0: online_yest = 'Нету информации'
-            else: online_yest = str(online_yest[0]['players'])
+            yesterday_date = datetime.now() - timedelta(days=1)
+            pings = await self.bot.db.get_pings(num_ip, mcserver.port)
+            online_yest = None
+            for ping in pings:  # ищет пинги в радиусе одного часа сутки назад
+                if ping['time'].hour == yesterday_date.hour and ping['time'].day == yesterday_date.day:
+                    online_yest = ping['players']
+            if online_yest is None: online_yest = 'Нету информации'
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server}")
-            embed.add_field(name="Текущий онлайн", value=str(status.players.online)+'/'+str(status.players.max))
+            embed.add_field(name="Текущий онлайн", value=str(status.players.online) + '/' + str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
-            pings = await pg_controller.get_pings(num_ip, mcserver.port)
+            pings = await self.bot.db.get_pings(num_ip, mcserver.port)
             if len(pings) <= 20:
-                await ctx.send(ctx.author.mention+', слишком мало информации для графика.', embed=embed)
+                await ctx.send(ctx.author.mention + ', слишком мало информации для графика.', embed=embed)
                 return
             fig, ax = subplots()
             arr_online = []
@@ -175,17 +176,17 @@ class Commands(Cog):
             ylabel('Онлайн')
             title('Статистика')
 
-            file_name = num_ip+'_'+str(mcserver.port)+'.png'
+            file_name = num_ip + '_' + str(mcserver.port) + '.png'
             try: mkdir('./grafics/')
             except FileExistsError: pass
-            fig.savefig('./grafics/'+file_name)
-            file = File('./grafics/'+file_name, filename=file_name)
-            embed.set_image(url='attachment://'+file_name)
+            fig.savefig('./grafics/' + file_name)
+            file = File('./grafics/' + file_name, filename=file_name)
+            embed.set_image(url='attachment://' + file_name)
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
             try:
-                remove('./grafics/'+file_name)
+                remove('./grafics/' + file_name)
                 rmdir('./grafics/')
             except PermissionError: pass
         else:
@@ -197,7 +198,6 @@ class Commands(Cog):
             embed.add_field(name="Не удалось получить статистику сервера",
                             value='Возможно вы указали неверный айпи/алиас, или сервер еще не добавлен')
             await ctx.send(embed=embed)
-
 
     @command(name='добавить')
     @is_owner()
@@ -214,12 +214,11 @@ class Commands(Cog):
             mcserver.status()
             online = True
         except timeout: online = False
-        pg_controller = await PostgresController.get_instance()
         if online:
             try: num_ip = gethostbyname(mcserver.host)
             except gaierror: num_ip = mcserver.host
-            try: await pg_controller.add_server(num_ip, ctx.author.id, mcserver.port)
-            except UniqueViolationError: # сервер уже добавлен
+            try: await self.bot.db.add_server(num_ip, ctx.author.id, mcserver.port)
+            except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {server}',
                     description="**Онлайн**",
@@ -227,8 +226,7 @@ class Commands(Cog):
 
                 embed.add_field(name="Не удалось добавить сервер",
                                 value='Сервер уже добавлен')
-                await ctx.send(ctx.author.mention, embed=embed)
-                return
+                return await ctx.send(ctx.author.mention, embed=embed)
 
             embed = Embed(
                 title=f'Добавил сервер {server}',
@@ -251,7 +249,6 @@ class Commands(Cog):
                             value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
             await ctx.send(ctx.author.mention, embed=embed)
 
-
     @command(name='алиас')
     async def alias(self, ctx, alias, server):
         """Добавление алиаса к серверу"""
@@ -261,28 +258,25 @@ class Commands(Cog):
             description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
         await ctx.send(embed=embed)
-        pg_controller = await PostgresController.get_instance()
         mcserver = MinecraftServer.lookup(server)
         try: num_ip = gethostbyname(mcserver.host)
         except gaierror: num_ip = mcserver.host
-        database_server = await pg_controller.get_server(num_ip, mcserver.port)
-        if ctx.author.id != database_server[0]['owner']:
-            embed = Embed(
-                title=f'Вы не владелец сервера {server}',
-                description=f'Только владелец может изменять алиас сервера {server}',
-                color=Color.red())
-
-            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
-            embed.add_field(name="Ошибка",
-                            value='Вы не владелец')
-            embed.set_footer(text=f'Для большей информации о сервере напишите "стата {server}"')
-
-            await ctx.send(ctx.author.mention, embed=embed)
-            return
-
-        await pg_controller.add_alias(alias, num_ip, mcserver.port)
-
+        database_server = await self.bot.db.get_server(num_ip, mcserver.port)
         if len(database_server) != 0:
+            if ctx.author.id != database_server[0]['owner']:
+                embed = Embed(
+                    title=f'Вы не владелец сервера {server}',
+                    description=f'Только владелец может изменять алиас сервера {server}',
+                    color=Color.red())
+
+                embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+                embed.add_field(name="Ошибка",
+                                value='Вы не владелец')
+                embed.set_footer(text=f'Для большей информации о сервере напишите "стата {server}"')
+
+                return await ctx.send(ctx.author.mention, embed=embed)
+
+            await self.bot.db.add_alias(alias, num_ip, mcserver.port)
             embed = Embed(
                 title=f'Записал алиас {alias} к серверу {server}',
                 description=f'Теперь вы можете использовать вместо {server} алиас {alias}',
@@ -300,15 +294,14 @@ class Commands(Cog):
                 description="**Упс**",
                 color=Color.red())
 
-            embed.add_field(name="Не удалось добавить сервер",
+            embed.add_field(name="Не удалось добавить алиас",
                             value='Возможно вы указали неверный айпи')
             await ctx.send(ctx.author.mention, embed=embed)
 
-
-# дальше идет код не относящийся к пингер боту
-# TODO убрать/переделать
+    # дальше идет код не относящийся к пингер боту
+    # TODO убрать/переделать
     @command()
-    async def help(self, ctx):  # noqa: E301
+    async def help(self, ctx):
         """Это команда помощи!"""
 
         cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
@@ -330,8 +323,8 @@ class Commands(Cog):
         """Немного базовой информации про меня"""
 
         embed = Embed(
-            title=str(self.bot.user), description=self.bot.app_info.description +
-                                                  f"\n\n**ID**: {self.bot.app_info.id}", color=find_color(ctx))
+            title=str(self.bot.user),
+            description=self.bot.app_info.description + f"\n\n**ID**: {self.bot.app_info.id}", color=find_color(ctx))
 
         embed.set_thumbnail(url=self.bot.app_info.icon_url)
         embed.add_field(name="Владелец", value=self.bot.app_info.owner)
@@ -357,14 +350,14 @@ class Commands(Cog):
         """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
 
         await ctx.send("Это моя пригласительная ссылка чтобы Вы могли считать " + '"ладно"' + " тоже:\n"
-                                                                                              f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
-                                                                                              "&scope=bot&permissions=8")
+                       f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
+                       "&scope=bot&permissions=8")
 
     @command(aliases=["resetstatus"], hidden=True)
     @is_owner()
     async def restartstatus(self, ctx):
         await self.bot.change_presence(status=Status.online, activity=Activity(
-            name=f'кто сколько раз сказал "ладно"', type=ActivityType.competing))
+            name='кто сколько раз сказал "ладно"', type=ActivityType.competing))
 
         await ctx.send("Статус был сброшен")
 
@@ -385,6 +378,7 @@ class Commands(Cog):
             await ctx.send("Недействительный статус")
 
         await ctx.send("Поставить новый статус")
+
 
 def setup(bot):
     bot.add_cog(Commands(bot))

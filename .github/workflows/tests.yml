@@ -1,17 +1,57 @@
-# Простейший тест бота линтом, позже также добавлю тесты pytest
+# Автоматические тесты через GitHub Actions
 
 name: Run Tests
 
 on: [ push, pull_request, release ]
 
 jobs:
-  test:
+  lint:
 
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install flake8
+      run: |
+        python -m pip install --upgrade pip
+        pip install -Ur tests_requirements.txt
+    - name: Lint with flake8
+      run: |
+        # крашит билд если есть ошибки синтаксиса или не обьявленные переменные
+        flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
+        # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
+        flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
+  test:
+    needs: lint
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9, 3.10-dev]
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: pingerbot
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: pingerbotdb
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v2
@@ -22,13 +62,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pylint # pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # крашит билд если есть ошибки синтаксиса или не обьявленные переменные
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=C0411,E701,W291,E226,E303,E261,E131,E128 --statistics
-    #- name: Test with pytest
-    #  run: pytest
+        pip install -Ur requirements.txt -r tests_requirements.txt
+    - name: Test with pytest
+      run: pytest
+      env:
+        PGHOST: localhost
+        PGPORT: 5432
+        PGUSER: pingerbot
+        PGPASSWORD: password
+        PGDATABASE: pingerbotdb

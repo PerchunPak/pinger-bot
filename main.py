@@ -22,6 +22,7 @@ bot = Bot(
 
 bot.ready_for_commands = False
 bot.load_extension("commands")
+bot.load_extension("error_handlers")
 
 
 @bot.event
@@ -33,17 +34,18 @@ async def on_connect():
 async def on_ready():
     pg_controller = await PostgresController.get_instance()
     await pg_controller.make_tables()
+    bot.db = pg_controller
     print('Дата-база инициализирована\n'
 
           '\nЗашел как:\n'
-         f'{bot.user}\n'
-         f'{bot.user.id}\n'
+          f'{bot.user}\n'
+          f'{bot.user.id}\n'
           '-----------------\n'
-         f'{datetime.now().strftime("%m/%d/%Y %X")}\n'
+          f'{datetime.now().strftime("%m/%d/%Y %X")}\n'
           '-----------------\n'
-         f'Шардов: {str(bot.shard_count)}\n'
-         f'Серверов: {str(len(bot.guilds))}\n'
-         f'Пользователей: {str(len(bot.users))}\n'
+          f'Шардов: {str(bot.shard_count)}\n'
+          f'Серверов: {str(len(bot.guilds))}\n'
+          f'Пользователей: {str(len(bot.users))}\n'
           '-----------------')
 
     ping_servers.start()
@@ -71,12 +73,11 @@ async def on_message(message):
 async def ping_servers():
     """Пингует сервера и записывает их пинги в датабазу"""
 
-    pg_controller = await PostgresController.get_instance()
-    servers = await pg_controller.get_servers()
+    servers = await bot.db.get_servers()
     for serv in servers:
         ip = str(serv['numip'])[:-3]
         port = serv['port']
-        mcserver = MinecraftServer.lookup(ip+':'+str(port))
+        mcserver = MinecraftServer.lookup(ip + ':' + str(port))
         try:
             status = mcserver.status()
             online = True
@@ -84,12 +85,12 @@ async def ping_servers():
         except ConnectionRefusedError: online = False
 
         if not online:
-            await pg_controller.add_ping(ip, port, -1)
+            await bot.db.add_ping(ip, port, -1)
         else:
             onlinePlayers = status.players.online
-            await pg_controller.add_ping(ip, port, onlinePlayers)
+            await bot.db.add_ping(ip, port, onlinePlayers)
 
-            if onlinePlayers >= serv['record']+1: await pg_controller.add_record(ip, port, onlinePlayers)
+            if onlinePlayers >= serv['record'] + 1: await bot.db.add_record(ip, port, onlinePlayers)
 
 
 @bot.command(hidden=True)
@@ -98,6 +99,7 @@ async def reload(ctx):
     """Перезагружает некоторые файлы бота"""
 
     bot.reload_extension("commands")
+    bot.reload_extension("error_handlers")
     await ctx.send("Файлы перезагружены")
 
 

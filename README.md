@@ -14,9 +14,9 @@
 
 Используйте `git clone https://github.com/PerchunPak/PingerBot.git` и `cd PingerBot`
 
-3. **Устанавливите зависимости**
+3. **Установите зависимости**
 
-Используйте `pip install -U -r requirements.txt`
+Используйте `pip install -Ur requirements.txt`
 
 4. **Создайте базу данных в формате PostGreSQL**
 
@@ -31,6 +31,16 @@
 1. **Повторите все шаги выше.**
 
 2. **Используйте `docker-compose up`**
+
+## Запуск тестов
+
+1. **Установите зависимости `pip install -Ur requirements.txt -r tests_requirements.txt`**
+
+2. **Запустите проверку линта**
+
+**`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
+
+3. **Запустите сами тесты командой `pytest`**
 
 ---
 
