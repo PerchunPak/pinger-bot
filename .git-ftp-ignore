@@ -1,0 +1,10 @@
+.github/
+.git-ftp-ignore
+Dockerfile
+README.md
+config.py
+*.yml
+.gitignore
+*docker*
+tests/
+grafics/
