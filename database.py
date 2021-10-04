@@ -64,6 +64,8 @@ class PostgresController:  # TODO обновить коментарии
         );
         """
 
+        # айпи может менятся в зависимости от домена
+        # TODO перенести хранение айпи в домен
         sunservers = """
         CREATE TABLE IF NOT EXISTS sunservers (
             numip CIDR NOT NULL,
