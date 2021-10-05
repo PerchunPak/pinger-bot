@@ -185,7 +185,7 @@ class Commands(Cog):
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            try:
+            try:  # TODO вернуть небольшое кеширование
                 remove('./grafics/' + file_name)
                 rmdir('./grafics/')
             except PermissionError: pass
