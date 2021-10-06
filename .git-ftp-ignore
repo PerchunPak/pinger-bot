@@ -7,4 +7,6 @@ config.py
 .gitignore
 *docker*
 tests/
+tests/*
 grafics/
+tests_requirements.txt
