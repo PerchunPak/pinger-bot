@@ -37,13 +37,15 @@
 
 ## Запуск тестов
 
-1. **Установите зависимости `pip install -Ur requirements.txt -r tests_requirements.txt`**
+1. **Повторите все шаги выше.**
 
-2. **Запустите проверку линта**
+2. **Установите зависимости `pip install -Ur tests_requirements.txt`**
+
+3. **Запустите проверку линта**
 
 **`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
 
-3. **Запустите сами тесты командой `pytest`**
+4. **Запустите сами тесты командой `pytest`**
 
 ---
 
