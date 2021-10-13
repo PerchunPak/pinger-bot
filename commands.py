@@ -50,7 +50,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online = False
         if online:
             try: num_ip = gethostbyname(server.host)
             except gaierror: num_ip = server.host
@@ -63,7 +63,7 @@ class Commands(Cog):
             embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
-            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]{1}', '', status.description, flags=IGNORECASE)
+            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]', '', status.description, flags=IGNORECASE)
             embed.add_field(name="Мотд", value=motd_clean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
@@ -94,7 +94,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online = False
         if online:
             motd = str(status.raw['description']['text']).replace(' ', '+')
             motd_url = motd.replace('\n', '%0A')
@@ -133,7 +133,7 @@ class Commands(Cog):
         try:
             status = mcserver.status()
             online = True
-        except (timeout, ConnectionRefusedError): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online = False
         try: num_ip = gethostbyname(mcserver.host)
         except gaierror: num_ip = mcserver.host
         database_server = await self.bot.db.get_server(num_ip, mcserver.port)
@@ -213,7 +213,7 @@ class Commands(Cog):
         try:
             mcserver.status()
             online = True
-        except (timeout, ConnectionRefusedError): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online = False
         if online:
             try: num_ip = gethostbyname(mcserver.host)
             except gaierror: num_ip = mcserver.host

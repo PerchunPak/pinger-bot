@@ -5,7 +5,7 @@ from datetime import datetime
 from config import TOKEN
 from database import PostgresController
 from mcstatus import MinecraftServer
-from socket import timeout
+from socket import timeout, gaierror
 from shutil import rmtree
 
 bot_intents = Intents.default()
@@ -80,7 +80,7 @@ async def ping_servers():
         try:
             status = mcserver.status()
             online = True
-        except (timeout, ConnectionRefusedError): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online = False
 
         if online:
             online_players = status.players.online
