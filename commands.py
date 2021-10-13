@@ -6,9 +6,10 @@ from mcstatus import MinecraftServer
 from socket import gethostbyname, timeout, gaierror
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from matplotlib.dates import DateFormatter
-from os import mkdir, rmdir, remove
+from os import mkdir, remove
 from re import sub as re_sub, IGNORECASE
 from datetime import datetime, timedelta
+from asyncio import sleep
 
 
 def find_color(ctx):
@@ -177,18 +178,17 @@ class Commands(Cog):
             title('Статистика')
 
             file_name = num_ip + '_' + str(mcserver.port) + '.png'
-            try: mkdir('./grafics/')
+            try: mkdir('./plots/')
             except FileExistsError: pass
-            fig.savefig('./grafics/' + file_name)
-            file = File('./grafics/' + file_name, filename=file_name)
+            fig.savefig('./plots/' + file_name)
+            file = File('./plots/' + file_name, filename=file_name)
             embed.set_image(url='attachment://' + file_name)
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            try:  # TODO вернуть небольшое кеширование
-                remove('./grafics/' + file_name)
-                rmdir('./grafics/')
-            except PermissionError: pass
+            await sleep(1)
+            try: remove('./plots/' + file_name)
+            except (PermissionError, FileNotFoundError): pass
         else:
             embed = Embed(
                 title=f'Статистика сервера {server}',

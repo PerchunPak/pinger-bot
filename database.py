@@ -20,7 +20,7 @@ def parse_record(record: Record) -> Optional[tuple]:
     except AttributeError: return None
 
 
-class PostgresController:  # TODO обновить коментарии
+class PostgresController:
     """
     Класс для управления датабазой,
     только тут все взаимодействия с ней
@@ -65,7 +65,7 @@ class PostgresController:  # TODO обновить коментарии
         """
 
         # айпи может менятся в зависимости от домена
-        # TODO перенести хранение айпи в домен
+        # TODO перенести хранение айпи в str
         sunservers = """
         CREATE TABLE IF NOT EXISTS sunservers (
             numip CIDR NOT NULL,

@@ -6,6 +6,7 @@ from config import TOKEN
 from database import PostgresController
 from mcstatus import MinecraftServer
 from socket import timeout
+from shutil import rmtree
 
 bot_intents = Intents.default()
 bot_intents.members = True
@@ -64,9 +65,7 @@ async def on_message(message):
 
     ctx = await bot.get_context(message)
     if ctx.valid: await bot.invoke(ctx)
-    else:
-        if bot.user in message.mentions: await message.channel.send(
-            "Используйте команду `помощь` для списка моих команд")
+    else: await message.channel.send("Используйте команду `помощь` для списка моих команд")
 
 
 @loop(minutes=5, loop=bot.loop)
@@ -81,16 +80,14 @@ async def ping_servers():
         try:
             status = mcserver.status()
             online = True
-        except timeout: online = False
-        except ConnectionRefusedError: online = False
+        except (timeout, ConnectionRefusedError): online = False
 
-        if not online:
-            await bot.db.add_ping(ip, port, -1)
-        else:
-            onlinePlayers = status.players.online
-            await bot.db.add_ping(ip, port, onlinePlayers)
+        if online:
+            online_players = status.players.online
+            await bot.db.add_ping(ip, port, online_players)
 
-            if onlinePlayers >= serv['record'] + 1: await bot.db.add_record(ip, port, onlinePlayers)
+            if online_players >= serv['record'] + 1: await bot.db.add_record(ip, port, online_players)
+    # TODO Добавить удаление пингов старше суток
 
 
 @bot.command(hidden=True)
@@ -115,10 +112,10 @@ try:
     bot.loop.run_until_complete(bot.start(TOKEN))
 except KeyboardInterrupt:
     print("\nЗакрытие")
-    bot.loop.run_until_complete(
-        bot.change_presence(status=Status.invisible))
-    for e in bot.extensions.copy():
-        bot.unload_extension(e)
+    bot.loop.run_until_complete(bot.change_presence(status=Status.invisible))
+    for e in bot.extensions.copy(): bot.unload_extension(e)
+    try: rmtree('./plots/')
+    except FileNotFoundError: pass
     print("Выходим")
     bot.loop.run_until_complete(Client.close(bot))
 finally:
