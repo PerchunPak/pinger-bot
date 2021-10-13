@@ -10,6 +10,9 @@
 
 Рекомендовано [Python 3.9](https://www.python.org/downloads/release/python-397), именно на нем тестируется бот.
 
+*P.S. К сожалению [Python 3.10](https://www.python.org/downloads/release/python-3100) на данный момент не поддерживается в связи с [невозможностью установить](https://github.com/numpy/numpy/issues/20039) [`numpy`](https://pypi.org/project/numpy) у модуля [`matplotlib`](https://pypi.org/project/matplotlib).*
+*Однако не у всех возникает такая ошибка, вы можете попробовать, но рекомендовано использовать [Python 3.9](https://www.python.org/downloads/release/python-397).*
+
 2. **Клонируйте репозиторий**
 
 Используйте `git clone https://github.com/PerchunPak/PingerBot.git` и `cd PingerBot`
