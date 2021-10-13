@@ -2,7 +2,7 @@
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 from asyncpg import Record, create_pool
 from asyncpg.pool import Pool
@@ -172,6 +172,17 @@ class PostgresController:
         WHERE ip=$1 AND port=$2;
         """
         return await self.pool.fetch(sql, numip, port)
+
+    async def remove_too_old_pings(self):
+        """
+        Удаляет пинги старше суток
+        """
+        yesterday = datetime.now() - timedelta(days=1)
+        sql = """
+        DELETE FROM sunpings
+        WHERE time < $1
+        """
+        return await self.pool.execute(sql, yesterday)
 
     async def drop_tables(self):
         """

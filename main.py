@@ -87,7 +87,7 @@ async def ping_servers():
             await bot.db.add_ping(ip, port, online_players)
 
             if online_players >= serv['record'] + 1: await bot.db.add_record(ip, port, online_players)
-    # TODO Добавить удаление пингов старше суток
+    await bot.db.remove_too_old_pings()
 
 
 @bot.command(hidden=True)
