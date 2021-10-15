@@ -12,9 +12,8 @@ bot_intents = Intents.default()
 bot_intents.members = True
 
 bot = Bot(
-    command_prefix='',
+    command_prefix=('!', ''),
     description="Пингер бот",
-    case_insensitive=False,
     help_command=None,
     status=Status.invisible,
     intents=bot_intents,
@@ -63,6 +62,7 @@ async def on_message(message):
     if not bot.ready_for_commands or message.author.bot:
         return
 
+    message.content = message.content.lower()
     ctx = await bot.get_context(message)
     if ctx.valid: await bot.invoke(ctx)
     else: await message.channel.send("Используйте команду `помощь` для списка моих команд")
