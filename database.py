@@ -169,7 +169,8 @@ class PostgresController:
         """
         sql = """
         SELECT * FROM sunpings
-        WHERE ip=$1 AND port=$2;
+        WHERE ip=$1 AND port=$2
+        ORDER BY time;
         """
         return await self.pool.fetch(sql, numip, port)
 
