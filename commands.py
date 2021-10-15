@@ -132,11 +132,13 @@ class Commands(Cog):
         mcserver = MinecraftServer.lookup(server)
         try:
             status = mcserver.status()
-            online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
+            online, valid = True, True
+        except (timeout, ConnectionRefusedError): online, valid = False, True
+        except gaierror: online, valid = False, False
         try: num_ip = gethostbyname(mcserver.host)
         except gaierror: num_ip = mcserver.host
-        database_server = await self.bot.db.get_server(num_ip, mcserver.port)
+        if valid: database_server = await self.bot.db.get_server(num_ip, mcserver.port)
+        else: database_server = []
         if online and len(database_server) != 0:
             if database_server[0]['alias'] is not None:
                 server = database_server[0]['alias']
