@@ -10,8 +10,8 @@
 
 Рекомендовано [Python 3.9](https://www.python.org/downloads/release/python-397), именно на нем тестируется бот.
 
-*P.S. К сожалению [Python 3.10](https://www.python.org/downloads/release/python-3100) на данный момент не поддерживается в связи с [невозможностью установить](https://github.com/numpy/numpy/issues/20039) [`numpy`](https://pypi.org/project/numpy) у модуля [`matplotlib`](https://pypi.org/project/matplotlib).*
-*Однако не у всех возникает такая ошибка, вы можете попробовать, но рекомендовано использовать [Python 3.9](https://www.python.org/downloads/release/python-397).*
+*P.S. Если вы используете [Python 3.10](https://www.python.org/downloads/release/python-3100), вам необходим компилятор **C/C++**, а точнее [Microsoft Visual Studio 14.0+](https://visualstudio.microsoft.com/downloads).*
+*Это решиться как только выйдут скомпилированые файлы [`numpy`](https://pypi.org/project/numpy), а тоесть примерно через пару месяцев после релиза [Python 3.10](https://www.python.org/downloads/release/python-3100) **(4.10.21)**.*
 
 2. **Клонируйте репозиторий**
 
