@@ -28,7 +28,7 @@ class ErrorHandlers(Cog):
 
         else:
             return await ctx.send(
-                f'```Команда: {ctx.command.qualified_name}\n{exception}```'
+                f'```\nКоманда: {ctx.command.qualified_name}\n{exception}\n```\n'
                 'Неизвестная ошибка произошла и я не смог выполнить эту команду.')
 
 
