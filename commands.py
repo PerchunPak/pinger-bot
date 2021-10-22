@@ -301,7 +301,7 @@ class Commands(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
 
     # дальше идет код не сильно относящийся к пингер боту
-    @command(aliases=["помощь", "хэлп", "хєлп", "хелп"])
+    @command(command="помощь", aliases=["help", "хэлп", "хєлп", "хелп"])
     async def help(self, ctx):
         """Это команда помощи"""
         cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
@@ -317,7 +317,7 @@ class Commands(Cog):
             embed.add_field(name=c.name, value=c.help, inline=False)
         await ctx.send(embed=embed)
 
-    @command(aliases=["об", "инфо"])
+    @command(command="инфо", aliases=["об", "about"])
     async def about(self, ctx):
         """Немного базовой информации про меня"""
         embed = Embed(
@@ -337,7 +337,7 @@ class Commands(Cog):
 
         await ctx.send(embed=embed)
 
-    @command(aliases=["пригласить", "приглос", "приг"])
+    @command(command="пригласить", aliases=["invite", "приглос", "приг"])
     async def invite(self, ctx):
         """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
         await ctx.send('Это моя пригласительная ссылка чтобы Вы могли считать "ладно" тоже:\n'
