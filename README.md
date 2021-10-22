@@ -45,7 +45,11 @@
 
 **`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
 
-4. **Запустите сами тесты командой `pytest`**
+4. **Запустите сами тесты командой `pytest --cov=.`**
+
+Или `pytest --cov=..` если вы в папке tests
+
+Если вы хотите получить отчет [`Coverage.py`](https://pypi.org/project/coverage), введите `pytest --cov=. --cov-report=html`
 
 ---
 
