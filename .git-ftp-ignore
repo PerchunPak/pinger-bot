@@ -8,5 +8,6 @@ config.py
 *docker*
 tests/
 tests/*
-grafics/
+plots/
 tests_requirements.txt
+*.ini
