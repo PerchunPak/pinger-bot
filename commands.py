@@ -300,12 +300,10 @@ class Commands(Cog):
                             value='Возможно вы указали неверный айпи')
             await ctx.send(ctx.author.mention, embed=embed)
 
-    # дальше идет код не относящийся к пингер боту
-    # TODO убрать/переделать
-    @command()
+    # дальше идет код не сильно относящийся к пингер боту
+    @command(aliases=["помощь", "хэлп", "хєлп", "хелп"])
     async def help(self, ctx):
-        """Это команда помощи!"""
-
+        """Это команда помощи"""
         cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
 
         embed = Embed(
@@ -317,69 +315,34 @@ class Commands(Cog):
         embed.set_footer(text="Примечание: Нет, я не пингую сервера перед тем как вы меня добавите")
         for c in cmds:
             embed.add_field(name=c.name, value=c.help, inline=False)
-
         await ctx.send(embed=embed)
 
-    @command(aliases=["info"])
+    @command(aliases=["об", "инфо"])
     async def about(self, ctx):
         """Немного базовой информации про меня"""
-
         embed = Embed(
             title=str(self.bot.user),
             description=self.bot.app_info.description + f"\n\n**ID**: {self.bot.app_info.id}", color=find_color(ctx))
 
         embed.set_thumbnail(url=self.bot.app_info.icon_url)
         embed.add_field(name="Владелец", value=self.bot.app_info.owner)
-        embed.add_field(name="Количество серверов", value=len(self.bot.guilds))
-        embed.add_field(name="Количество пользователей", value=len(self.bot.users))
-        embed.add_field(
-            name="Язык программирования",
-            value=f"Python {version_info[0]}.{version_info[1]}.{version_info[2]}")
-        embed.add_field(
-            name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
-        embed.add_field(
-            name="Лицензия",
-            value="[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)")
-        embed.add_field(
-            name="Открытый код", value="https://github.com/PerchunPak/sunshinedsbot", inline=False)
-        embed.set_footer(
-            text="Примечание: Оригинальный автор не Perchun_Pak#9236, а NinjaSnail1080#8581")
+        embed.add_field(name="Количество серверов", value=str(len(self.bot.guilds)))
+        embed.add_field(name="Количество пользователей", value=str(len(self.bot.users)))
+        embed.add_field(name="Язык программирования", value=f"Python {'.'.join(map(str, version_info[:-2]))}")
+        embed.add_field(name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
+        embed.add_field(name="Лицензия", value="[Apache License 2.0]"
+                                               "(https://github.com/PerchunPak/PingerBot/blob/main/LICENSE)")
+        embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/sunshinedsbot", inline=False)
+        embed.set_footer(text="Примечание: Оригинальный автор не Perchun_Pak#9236, а NinjaSnail1080#8581")
 
         await ctx.send(embed=embed)
 
-    @command()
+    @command(aliases=["пригласить", "приглос", "приг"])
     async def invite(self, ctx):
         """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
-
-        await ctx.send("Это моя пригласительная ссылка чтобы Вы могли считать " + '"ладно"' + " тоже:\n"
+        await ctx.send('Это моя пригласительная ссылка чтобы Вы могли считать "ладно" тоже:\n'
                        f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
                        "&scope=bot&permissions=8")
-
-    @command(aliases=["resetstatus"], hidden=True)
-    @is_owner()
-    async def restartstatus(self, ctx):
-        await self.bot.change_presence(status=Status.online, activity=Activity(
-            name='кто сколько раз сказал "ладно"', type=ActivityType.competing))
-
-        await ctx.send("Статус был сброшен")
-
-    @command(hidden=True)
-    @is_owner()
-    async def setstatus(self, ctx, status):
-        """Изменить статус бота"""
-
-        if status.startswith("on"):
-            await self.bot.change_presence(status=Status.online)
-        elif status.startswith("id"):
-            await self.bot.change_presence(status=Status.idle)
-        elif status.startswith("d"):
-            await self.bot.change_presence(status=Status.dnd)
-        elif status.startswith("off") or status.startswith("in"):
-            await self.bot.change_presence(status=Status.invisible)
-        else:
-            await ctx.send("Недействительный статус")
-
-        await ctx.send("Поставить новый статус")
 
 
 def setup(bot):
