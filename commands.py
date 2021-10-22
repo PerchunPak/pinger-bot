@@ -36,14 +36,13 @@ class Commands(Cog):
             online = True
         except (timeout, ConnectionRefusedError, gaierror): online = False
         if online:
-            try: num_ip = gethostbyname(server.host)
-            except gaierror: num_ip = server.host
+            num_ip = gethostbyname(server.host)
             embed = Embed(
                 title=f'Результаты пинга {ip}',
                 description=f"Цифровое айпи: {num_ip}:{str(server.port)}\n**Онлайн**",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server.host}:{str(server.port)}")
             embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
@@ -87,7 +86,7 @@ class Commands(Cog):
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{ip}')
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server.host}:{str(server.port)}")
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)
@@ -116,14 +115,14 @@ class Commands(Cog):
         mcserver = MinecraftServer.lookup(server)
         try:
             status = mcserver.status()
-            online, valid = True, True
-        except (timeout, ConnectionRefusedError): online, valid = False, True
-        except gaierror: online, valid = False, False
-        try: num_ip = gethostbyname(mcserver.host)
-        except gaierror: num_ip = mcserver.host
-        if valid: database_server = await self.bot.db.get_server(num_ip, mcserver.port)
+            valid = True
+        except (timeout, ConnectionRefusedError): valid = True
+        except gaierror: valid = False
+        if valid:
+            num_ip = gethostbyname(mcserver.host)
+            database_server = await self.bot.db.get_server(num_ip, mcserver.port)
         else: database_server = []
-        if online and len(database_server) != 0:
+        if valid and len(database_server) != 0:
             if database_server[0]['alias'] is not None:
                 server = database_server[0]['alias']
             embed = Embed(
@@ -139,16 +138,15 @@ class Commands(Cog):
                     online_yest = ping['players']
             if online_yest is None: online_yest = 'Нету информации'
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online) + '/' + str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
             embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {server}"')
 
             pings = await self.bot.db.get_pings(num_ip, mcserver.port)
-            if len(pings) <= 20:
-                await ctx.send(ctx.author.mention + ', слишком мало информации для графика.', embed=embed)
-                return
+            if len(pings) <= 20: return await ctx.send(ctx.author.mention + ', слишком мало информации для графика.',
+                                                       embed=embed)
             fig, ax = subplots()
             arr_online = []
             arr_time = []
@@ -161,7 +159,7 @@ class Commands(Cog):
 
             xlabel('Время')
             ylabel('Онлайн')
-            title('Статистика')
+            title('Статистика сервера ' + server)
 
             file_name = num_ip + '_' + str(mcserver.port) + '.png'
             try: mkdir('./plots/')
@@ -172,7 +170,7 @@ class Commands(Cog):
 
             await ctx.send(ctx.author.mention, embed=embed, file=file)
 
-            await sleep(1)
+            await sleep(10)
             try: remove('./plots/' + file_name)
             except (PermissionError, FileNotFoundError): pass
         else:
@@ -201,8 +199,7 @@ class Commands(Cog):
             online = True
         except (timeout, ConnectionRefusedError, gaierror): online = False
         if online:
-            try: num_ip = gethostbyname(mcserver.host)
-            except gaierror: num_ip = mcserver.host
+            num_ip = gethostbyname(mcserver.host)
             try: await self.bot.db.add_server(num_ip, ctx.author.id, mcserver.port)
             except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(
@@ -219,7 +216,7 @@ class Commands(Cog):
                 description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
             embed.add_field(name="Сервер успешно добавлен",
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Теперь вы можете использовать "стата {server}" или "алиас (алиас) {server}"')
@@ -245,8 +242,7 @@ class Commands(Cog):
             color=Color.orange())
         await ctx.send(embed=embed)
         mcserver = MinecraftServer.lookup(server)
-        try: num_ip = gethostbyname(mcserver.host)
-        except gaierror: num_ip = mcserver.host
+        num_ip = gethostbyname(mcserver.host)
         database_server = await self.bot.db.get_server(num_ip, mcserver.port)
         if len(database_server) != 0:
             if ctx.author.id != database_server[0]['owner']:
@@ -255,7 +251,7 @@ class Commands(Cog):
                     description=f'Только владелец может изменять алиас сервера {server}',
                     color=Color.red())
 
-                embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
                 embed.add_field(name="Ошибка",
                                 value='Вы не владелец')
                 embed.set_footer(text=f'Для большей информации о сервере напишите "стата {server}"')
@@ -268,7 +264,7 @@ class Commands(Cog):
                 description=f'Теперь вы можете использовать вместо {server} алиас {alias}',
                 color=Color.green())
 
-            embed.set_thumbnail(url=f'https://api.mcsrvstat.us/icon/{server}')
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
             embed.add_field(name="Данные успешно обновленны",
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')
@@ -288,7 +284,7 @@ class Commands(Cog):
     @command(name="помощь", aliases=["help", "хэлп", "хєлп", "хелп"])
     async def help(self, ctx):
         """Это команда помощи"""
-        cmds = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
+        commands = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
 
         embed = Embed(
             title="Команда помощи",
@@ -297,8 +293,8 @@ class Commands(Cog):
                         "вам не нужно ставить префикс перед командами."
                         "\n\nВот короткий список моих команд:", color=Color.greyple())
         embed.set_footer(text="Примечание: Нет, я не пингую сервера перед тем как вы меня добавите")
-        for c in cmds:
-            embed.add_field(name=c.name, value=c.help, inline=False)
+        for cmd in commands:
+            embed.add_field(name=cmd.name, value=cmd.help, inline=False)
         await ctx.send(embed=embed)
 
     @command(name="инфо", aliases=["об", "about"])
@@ -306,7 +302,7 @@ class Commands(Cog):
         """Немного базовой информации про меня"""
         embed = Embed(
             title=str(self.bot.user),
-            description=self.bot.app_info.description + f"\n\n**ID**: {self.bot.app_info.id}", color=Color.greyple()(ctx))
+            description=self.bot.app_info.description + f"\n\n**ID**: {self.bot.app_info.id}", color=Color.greyple())
 
         embed.set_thumbnail(url=self.bot.app_info.icon_url)
         embed.add_field(name="Владелец", value=self.bot.app_info.owner)

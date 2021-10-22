@@ -30,6 +30,7 @@ async def bot(event_loop):
     configure(b)
 
     b.db = await PostgresController.get_instance()
+    b.app_info = await b.application_info()
     return b
 
 

@@ -2,6 +2,7 @@
 Тесты для команды "стата"
 """
 from socket import timeout
+from datetime import datetime, timedelta
 from time import sleep
 from discord.ext.test import message, get_embed
 from mcstatus import MinecraftServer
@@ -65,6 +66,15 @@ class TestStatistic:
         """Фикстура для тестов поддерживает ли команда алиасы"""
         await database.add_server('127.0.0.5', 0, 25565)
         await database.add_alias('тест_алиас', '127.0.0.5', 25565)
+        yesterday = datetime.now() - timedelta(hours=23, minutes=30)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12)
+
+        # Генерирует 25 пингов
+        i = 0
+        while i <= 25:
+            time = datetime.now() - timedelta(minutes=i * 10)
+            await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, time, i)
+            i += 1
 
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -78,6 +88,18 @@ class TestStatistic:
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("стата тест_алиас")
+        embed = get_embed()
+        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)                                 # "ожидайте, в процессе"
+            embed = get_embed()
+
+        return embed
+
+    @fixture(scope='class')
+    async def stat_not_valid(self, event_loop, bot, database, monkeypatch_session):
+        """Вызывает команду с не валидным айпи"""
+        monkeypatch_session.undo()
+        await message("стата www")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
             sleep(0.01)                                 # "ожидайте, в процессе"
@@ -139,9 +161,21 @@ class TestStatistic:
         assert '25565' in stat_alias.description
 
     @mark.skip(reason="фича еще не добавлена")
-    def test_alias_in(self, bot, ping_alias, database):
+    def test_alias_in(self, bot, stat_alias, database):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
-        assert 'тест_алиас' in ping_alias.title
+        assert 'тест_алиас' in stat_alias.title
+
+    def test_plot(self, bot, stat_alias, database):
+        """Проверяет создает ли бот график онлайна"""
+        assert 'attachment://127.0.0.5_25565.png' == stat_alias.image.url
+
+    def test_check_yesterday_online(self, bot, stat_alias, database):
+        """Проверят правильно ли бот распознает вчерашние пинги"""
+        assert stat_alias.fields[1].value == '12'
+
+    def test_ip_not_valid(self, bot, database, stat_not_valid):
+        """Проверят цвет в ответе бота, если айпи не валидный"""
+        assert str(stat_not_valid.color) == str(Color.red())
 
     def test_offline_color(self, bot, database, stat_offline):
         """Проверяет цвет Embed-а когда сервер оффлайн"""
