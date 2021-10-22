@@ -332,7 +332,7 @@ class Commands(Cog):
         embed.add_field(name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
         embed.add_field(name="Лицензия", value="[Apache License 2.0]"
                                                "(https://github.com/PerchunPak/PingerBot/blob/main/LICENSE)")
-        embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/sunshinedsbot", inline=False)
+        embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/PingerBot", inline=False)
         embed.set_footer(text="Примечание: Оригинальный автор не Perchun_Pak#9236, а NinjaSnail1080#8581")
 
         await ctx.send(embed=embed)
