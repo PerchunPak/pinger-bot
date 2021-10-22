@@ -3,21 +3,9 @@
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
 from datetime import datetime, timedelta
-from typing import Optional
-from asyncpg import Record, create_pool
+from asyncpg import create_pool
 from asyncpg.pool import Pool
-
 from config import POSTGRES
-
-
-def parse_record(record: Record) -> Optional[tuple]:
-    """
-    Парсит asyncpg Record обьект в формат tuple
-    :param record: asyncpg Record обьект
-    :return: tuple значений, если это не None, иначе None
-    """
-    try: return tuple(record.values())
-    except AttributeError: return None
 
 
 class PostgresController:

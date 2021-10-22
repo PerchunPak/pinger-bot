@@ -4,6 +4,8 @@
 
 from database import PostgresController
 from pytest import fixture, mark
+from datetime import datetime, timedelta
+from ipaddress import IPv4Network
 
 
 @fixture(scope='session')
@@ -135,8 +137,9 @@ class TestGetFunctions:
         answer = await database.get_pings('127.0.0.24', 25565)
         assert len(answer) == 3
 
-    class TestAnotherFunctions:
-        """Класс для тестов других функций"""
+
+class TestAnotherFunctions:
+    """Класс для тестов других функций"""
 
     @mark.asyncio
     async def test_make_tables(self, database):
@@ -146,10 +149,39 @@ class TestGetFunctions:
         await database.pool.execute("SELECT * FROM sunservers;")
 
     @mark.asyncio
+    async def test_remove_too_old_pings(self, database):
+        """Проверяет функцию remove_too_old_pings"""
+        await database.make_tables()
+        time_1h = datetime.now() - timedelta(hours=1)
+        time_12h = datetime.now() - timedelta(hours=12)
+        time_23h = datetime.now() - timedelta(hours=23)
+        time_1d = datetime.now() - timedelta(days=1, minutes=10)
+        time_3d = datetime.now() - timedelta(days=3)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.25", 25565, time_1h, 1)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.25", 25565, time_12h, 2)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.25", 25565, time_23h, 3)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.25", 25565, time_1d, 4)
+        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.25", 25565, time_3d, 5)
+        await database.remove_too_old_pings()
+        sql = """
+            SELECT * FROM sunpings
+            WHERE ip=$1 AND port=$2
+            ORDER BY time;
+        """
+        pings = await database.pool.fetch(sql, "127.0.0.25", 25565)
+        pings_right = [(IPv4Network('127.0.0.25/32'), 25565, time_23h, 3),
+                       (IPv4Network('127.0.0.25/32'), 25565, time_12h, 2),
+                       (IPv4Network('127.0.0.25/32'), 25565, time_1h, 1)]
+        i = 0
+        for ping in pings:
+            assert tuple(ping) == pings_right[i]
+            i += 1
+
+    @mark.asyncio
     async def test_drop_table_sunpings(self, database):
         """Проверяет функцию drop_tables на таблице sunpings"""
         await database.make_tables()
-        await database.add_ping('127.0.0.25', 25565, 333)
+        await database.add_ping('127.0.0.26', 25565, 333)
         await database.drop_tables()
         sunpings = await database.pool.fetch("SELECT * FROM sunpings;")
         assert len(sunpings) == 0
@@ -158,7 +190,7 @@ class TestGetFunctions:
     async def test_drop_table_sunservers(self, database):
         """Проверяет функцию drop_tables на таблице sunservers"""
         await database.make_tables()
-        await database.add_server('127.0.0.26', 0, 25565)
+        await database.add_server('127.0.0.27', 0, 25565)
         await database.drop_tables()
         sunservers = await database.pool.fetch("SELECT * FROM sunservers;")
         assert len(sunservers) == 0
