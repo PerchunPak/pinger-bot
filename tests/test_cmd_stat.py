@@ -66,16 +66,17 @@ class TestStatistic:
         """Фикстура для тестов поддерживает ли команда алиасы"""
         await database.add_server('127.0.0.5', 0, 25565)
         await database.add_alias('тест_алиас', '127.0.0.5', 25565)
-        yesterday = datetime.now() - timedelta(hours=23, minutes=30)
+        yesterday = datetime.now() - timedelta(hours=24)
         await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12)
 
         # Генерирует 25 пингов
-        # TODO Оптимизировать
         i = 0
+        args = []
         while i <= 25:
             time = datetime.now() - timedelta(minutes=i * 10)
-            await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, time, i)
+            args.append(("127.0.0.5", 25565, time, i))
             i += 1
+        await database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)
 
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -170,7 +171,6 @@ class TestStatistic:
         """Проверяет создает ли бот график онлайна"""
         assert 'attachment://127.0.0.5_25565.png' == stat_alias.image.url
 
-    @mark.skip(reason="нестабилен, проходит в зависимости от половины часа (лол)")
     def test_check_yesterday_online(self, bot, stat_alias, database):
         """Проверят правильно ли бот распознает вчерашние пинги"""
         assert stat_alias.fields[1].value == '12'

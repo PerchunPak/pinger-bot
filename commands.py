@@ -130,11 +130,13 @@ class Commands(Cog):
                 description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
                 color=Color.green())
 
-            yesterday_date = datetime.now() - timedelta(days=1)
+            yesterday_25h = datetime.now() - timedelta(hours=25)
+            yesterday_23h = datetime.now() - timedelta(hours=23)
             pings = await self.bot.db.get_pings(num_ip, mcserver.port)
             online_yest = None
-            for ping in pings:  # ищет пинги в радиусе одного часа сутки назад
-                if ping['time'].hour == yesterday_date.hour and ping['time'].day == yesterday_date.day:
+            for ping in pings:  # ищет пинги в радиусе двух часов сутки назад
+                if (yesterday_23h > ping['time'] > yesterday_25h) and \
+                        (yesterday_23h.day >= ping['time'].day >= yesterday_25h.day):
                     online_yest = ping['players']
             if online_yest is None: online_yest = 'Нету информации'
 
