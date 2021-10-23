@@ -9,6 +9,7 @@ from pytest import fixture
 from database import PostgresController
 from asyncio import get_event_loop
 from discord.ext.test import configure
+from shutil import rmtree
 
 
 @fixture(scope='session')
@@ -68,3 +69,5 @@ def pytest_sessionfinish():
             remove(path)
         except Exception as e:
             print(f"Error while deleting file {path}: {e}")
+    try: rmtree('./plots/')
+    except FileNotFoundError: pass

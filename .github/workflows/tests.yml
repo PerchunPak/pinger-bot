@@ -69,13 +69,19 @@ jobs:
         pip install -U pip
         pip install -Ur requirements.txt -r tests_requirements.txt
     - name: Test with pytest
-      run: pytest --cov=.
+      run: pytest
       env:
         PGHOST: localhost
         PGPORT: 5432
         PGUSER: pingerbot
         PGPASSWORD: password
         PGDATABASE: pingerbotdb
+    - name: Upload HTML report by Coverage (only on Python 3.9)
+      if: ${{ matrix.python-version == 3.9 }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: HTML report by Coverage
+        path: ./htmlcov
   deploy:
     needs: test
     if: |
