@@ -82,6 +82,31 @@ jobs:
       with:
         name: HTML report by Coverage
         path: ./htmlcov
+  docker:
+    needs: test
+    if: |
+        needs.test.result == 'success' && 
+        github.event_name != 'pull_request' && 
+        github.actor == 'PerchunPak'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: perchunpak
+          password: ${{ secrets.docker_token }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/arm/v7,linux/arm64/v8,linux/arm/v6,linux/amd64,linux/ppc64le,linux/s390x
+          push: true
+          tags: perchunpak/pingerbot:latest
   deploy:
     needs: test
     if: |
