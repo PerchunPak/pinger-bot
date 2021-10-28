@@ -6,7 +6,9 @@ services:
     image: postgres
     restart: always
     environment:
+      POSTGRES_USER: pingerbot
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: pingerbotdb
 
   bot:
     image: pingerbot:latest

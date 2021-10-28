@@ -1,4 +1,5 @@
-FROM python:3
+FROM python:3.9
+FROM gorialis/discord.py
 
 WORKDIR /usr/src/app
 
@@ -7,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./main.py" ]
+CMD [ "python", "main.py" ]
