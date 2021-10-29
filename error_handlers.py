@@ -20,7 +20,7 @@ class ErrorHandlers(Cog):
         if isinstance(exception, NotOwner):
             return await ctx.send(f"Только мой Владелец, {self.bot.app_info.owner}, может использовать эту команду")
 
-        elif isinstance(exception, NoPrivateMessage): return await ctx.send('Эта команда доступна только в ЛС')
+        elif isinstance(exception, NoPrivateMessage): return await ctx.send('Эта команда не доступна в ЛС')
         elif isinstance(exception, BadArgument):
             return await ctx.send('Пожалуйста проверьте правильность написания команды')
         elif isinstance(exception, MissingRequiredArgument):
