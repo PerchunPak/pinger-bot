@@ -1,5 +1,5 @@
 """
-Файл для теста датабазы
+Файл для теста дата базы
 """
 
 from database import PostgresController
@@ -10,7 +10,7 @@ from ipaddress import IPv4Network
 
 @fixture(scope='session')
 async def database(event_loop):
-    """Инициализирует датабазу"""
+    """Инициализирует дата базу"""
     db = await PostgresController.get_instance()
     await db.pool.execute("DROP TABLE IF EXISTS sunpings;")
     await db.pool.execute("DROP TABLE IF EXISTS sunservers;")

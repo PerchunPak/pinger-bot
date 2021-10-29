@@ -10,7 +10,7 @@ from config import POSTGRES
 
 class PostgresController:
     """
-    Класс для управления датабазой,
+    Класс для управления дата базой,
     только тут все взаимодействия с ней
     """
     __slots__ = 'pool'
@@ -21,12 +21,12 @@ class PostgresController:
     @classmethod
     async def get_instance(cls, connect_kwargs: str = POSTGRES):
         """
-        Создает обьект класса `PostgresController`
+        Создает объект класса `PostgresController`
         Этот метод создаст необходимые таблицы
         :param connect_kwargs:
             Аргументы для
             :func:`asyncpg.connection.connect` функции
-        :return: новый обьект класса `PostgresController`
+        :return: новый объект класса `PostgresController`
         """
         pool = await create_pool(connect_kwargs)
         return cls(pool)
@@ -45,7 +45,7 @@ class PostgresController:
         );
         """
 
-        # айпи может менятся в зависимости от домена
+        # айпи может меняться в зависимости от домена
         # TODO перенести хранение айпи в str
         sunservers = """
         CREATE TABLE IF NOT EXISTS sunservers (
@@ -168,7 +168,7 @@ class PostgresController:
 
     async def drop_tables(self):
         """
-        Сбрасывает все данные в датабазе
+        Сбрасывает все данные в дата базе
         """
         return (
             await self.pool.execute("DROP TABLE IF EXISTS sunpings;"),

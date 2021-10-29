@@ -24,6 +24,7 @@ class TestAlias:
     @fixture(scope='class')
     async def alias_added(self, event_loop, bot, database, monkeypatch_session):
         """Фикстура для тестов если алиас добавлен"""
+        test_user = None
         for user in bot.users:
             if user.bot: continue
             test_user = user
@@ -49,7 +50,7 @@ class TestAlias:
 
     @mark.asyncio
     async def test_is_added_to_db(self, event_loop, bot, database, alias_added):
-        """Проверяет добавился ли алиас в датабазу"""
+        """Проверяет добавился ли алиас в дата базу"""
         ip_from_alias = await database.get_ip_alias('тест2')
         ip_from_alias = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         assert ip_from_alias == '127.0.0.8:25565'

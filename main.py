@@ -70,7 +70,7 @@ async def on_message(message):
 
 @loop(minutes=5, loop=bot.loop)
 async def ping_servers():
-    """Пингует сервера и записывает их пинги в датабазу"""
+    """Пингует сервера и записывает их пинги в дата базу"""
 
     servers = await bot.db.get_servers()
     for serv in servers:
@@ -80,7 +80,7 @@ async def ping_servers():
         try:
             status = mcserver.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
 
         if online:
             online_players = status.players.online
@@ -102,7 +102,7 @@ async def reload(ctx):
 
 @bot.command(hidden=True)
 @is_owner()
-async def restartpings(ctx):
+async def restart_pings(ctx):
     ping_servers.cancel()
     ping_servers.start()
     await ctx.send("Отменено и запущено `ping_servers`")

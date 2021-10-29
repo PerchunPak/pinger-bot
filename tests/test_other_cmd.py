@@ -10,7 +10,7 @@ class TestOtherCommands:
     """Класс для тестов и фикстур"""
 
     @fixture(scope='class')
-    async def help(self, event_loop, bot):
+    async def help_cmd(self, event_loop, bot):
         """Фикстура для проверки команды "помощь"."""
         await message("помощь")
         return get_embed().to_dict()
@@ -27,11 +27,11 @@ class TestOtherCommands:
         await message("пригласить")
         return get_message()
 
-    def test_help_commands(self, bot, help):
+    def test_help_commands(self, bot, help_cmd):
         """Проверяет правильно ли бот распознает команды."""
         i = 0
         commands = sorted([c for c in bot.commands if not c.hidden], key=lambda c: c.name)
-        for field in help['fields']:
+        for field in help_cmd['fields']:
             assert {'inline': False, 'name': commands[i].name, 'value': commands[i].help} == field
             i += 1
 
@@ -51,7 +51,7 @@ class TestOtherCommands:
         """
         Проверят int ли количество серверов.
         Если не int, оно выдаст ошибку при переводе в int.
-        А если просто написать int(something()), будет не понятно из за чего тест провалиается.
+        А если просто написать int(something()), будет не понятно из за чего тест проваливается.
         """
         assert isinstance(int(about.fields[1].value), int)
 
@@ -59,7 +59,7 @@ class TestOtherCommands:
         """
         Проверят int ли количество пользователей.
         Если не int, оно выдаст ошибку при переводе в int.
-        А если просто написать int(something()), будет не понятно из за чего тест провалиается.
+        А если просто написать int(something()), будет не понятно из за чего тест проваливается.
         """
         assert isinstance(int(about.fields[2].value), int)
 

@@ -34,7 +34,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
         if online:
             num_ip = gethostbyname(server.host)
             embed = Embed(
@@ -77,7 +77,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
+        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
         if online:
             motd = str(status.raw['description']['text']).replace(' ', '+')
             motd_url = motd.replace('\n', '%0A')
@@ -116,12 +116,12 @@ class Commands(Cog):
         try:
             status = mcserver.status()
             valid = True
-        except (timeout, ConnectionRefusedError): valid = True
-        except gaierror: valid = False
+        except (timeout, ConnectionRefusedError): valid, status = True, None
+        except gaierror: valid, status = False, None
         if valid:
             num_ip = gethostbyname(mcserver.host)
             database_server = await self.bot.db.get_server(num_ip, mcserver.port)
-        else: database_server = []
+        else: database_server, num_ip = [], None
         if valid and len(database_server) != 0:
             if database_server[0]['alias'] is not None:
                 server = database_server[0]['alias']
@@ -267,7 +267,7 @@ class Commands(Cog):
                 color=Color.green())
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
-            embed.add_field(name="Данные успешно обновленны",
+            embed.add_field(name="Данные успешно обновлены",
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')
 
