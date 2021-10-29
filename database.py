@@ -19,23 +19,16 @@ class PostgresController:
         self.pool = pool
 
     @classmethod
-    async def get_instance(cls, connect_kwargs: str = POSTGRES, pool: Pool = None):
+    async def get_instance(cls, connect_kwargs: str = POSTGRES):
         """
         Создает обьект класса `PostgresController`
         Этот метод создаст необходимые таблицы
         :param connect_kwargs:
             Аргументы для
             :func:`asyncpg.connection.connect` функции
-        :param pool: существующий пул подключений
-        `pool` или `connect_kwargs` должны быть None
         :return: новый обьект класса `PostgresController`
         """
-        assert connect_kwargs or pool, (
-            'Предоставьте либо пул подключений, либо данные о '
-            'подключении для создания нового пула подключений.'
-        )
-        if not pool:
-            pool = await create_pool(connect_kwargs)
+        pool = await create_pool(connect_kwargs)
         return cls(pool)
 
     async def make_tables(self):
