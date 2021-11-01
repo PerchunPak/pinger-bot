@@ -10,9 +10,6 @@
 
 Рекомендовано [Python 3.9](https://www.python.org/downloads/release/python-397), именно на нем тестируется бот.
 
-*P.S. Если вы используете [Python 3.10](https://www.python.org/downloads/release/python-3100), вам необходим компилятор **C/C++**, а точнее [Microsoft Visual Studio 14.0+](https://visualstudio.microsoft.com/downloads).*
-*Это решиться как только выйдут скомпилированые файлы [`numpy`](https://pypi.org/project/numpy), а, то есть примерно через пару месяцев после релиза [Python 3.10](https://www.python.org/downloads/release/python-3100) **(4.10.21)**.*
-
 2. **Клонируйте репозиторий**
 
 Используйте `git clone https://github.com/PerchunPak/PingerBot.git` и `cd PingerBot`
