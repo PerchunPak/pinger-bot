@@ -80,20 +80,3 @@ jobs:
       with:
         name: HTML report by Coverage
         path: ./htmlcov
-  deploy:
-    needs: test
-    if: |
-        needs.test.result == 'success' && 
-        github.event_name != 'pull_request' && 
-        github.actor == 'PerchunPak'
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: FTP Deploy
-      continue-on-error: true
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
-      with:
-        ftp-server: ${{ secrets.ftp_server }}
-        ftp-username: ${{ secrets.ftp_username }}
-        ftp-password: ${{ secrets.ftp_password }}
-        git-ftp-args: --insecure
