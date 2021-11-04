@@ -1,6 +1,6 @@
 # Автоматические тесты через GitHub Actions
 
-name: Run Tests
+name: Run Tests in main
 
 on:
   push:
