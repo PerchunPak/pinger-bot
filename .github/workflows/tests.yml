@@ -5,7 +5,9 @@ name: Run Tests
 on:
   push:
     branches:
-    - rewrite
+    - main
+  pull_request:
+  release:
 
 jobs:
   lint:
