@@ -28,7 +28,7 @@ class PingerBot:
     def load_extensions(self):
         for file in listdir("./src/commands"):
             if file.endswith(".py") and not file.startswith("_"):
-                self.bot.load_extension("src.commands." + file)
+                self.bot.load_extension("src.commands." + file[:-3])
         self.bot.load_extension("src.events")
 
     async def run_db(self):
