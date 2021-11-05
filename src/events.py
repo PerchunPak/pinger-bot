@@ -12,11 +12,11 @@ from src.bot import PingerBot
 class Events(Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+
     @Cog.listener()
     async def on_connect(self):
         print("\nУстановлено соединение с дискордом")
-    
+
     @Cog.listener()
     async def on_ready(self):
         self.bot.PingerBot = PingerBot(self.bot)
@@ -31,12 +31,12 @@ class Events(Cog):
               f'Серверов: {str(len(self.bot.guilds))}\n'
               f'Пользователей: {str(len(self.bot.users))}\n'
               '-----------------')
-    
+
         self.ping_servers.start()
         self.bot.app_info = await self.bot.application_info()
 
         await self.bot.PingerBot.set_status(Status.online, 'пинг превыше всего', ActivityType.playing)
-    
+
     @Cog.listener()
     async def on_message(self, message):
         if message.author.self.bot: return

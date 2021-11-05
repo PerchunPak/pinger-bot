@@ -1,6 +1,5 @@
 from shutil import rmtree
 from discord import Status, Client, Activity, ActivityType
-from discord.ext.commands import is_owner, command
 from config import TOKEN
 from src.database import PostgresController
 from os import listdir
