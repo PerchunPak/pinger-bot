@@ -8,7 +8,7 @@ from asyncpg.exceptions import UniqueViolationError
 from discord import Color, Embed, File
 from discord.ext.commands import Cog, command, is_owner
 from matplotlib.dates import DateFormatter
-from matplotlib.pyplot import subplots, xlabel, ylabel,>
+from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from mcstatus import MinecraftServer
 
 
