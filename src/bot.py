@@ -1,10 +1,8 @@
 from shutil import rmtree
-from socket import timeout, gaierror
-from discord import Status, Client
+from discord import Status, Client, Activity, ActivityType
 from discord.ext.commands import is_owner, command
-from discord.ext.tasks import loop
-from mcstatus import MinecraftServer
 from config import TOKEN
+from src.database import PostgresController
 
 
 class PingerBot:
@@ -29,37 +27,14 @@ class PingerBot:
 
     def load_extensions(self):
         self.bot.load_extension("src.commands")
-        self.bot.load_extension("src.error_handlers")
+        self.bot.load_extension("src.events")
 
-    def loops(self):
-        bot = self.bot
+    async def run_db(self):
+        pg_controller = await PostgresController.get_instance()
+        await pg_controller.make_tables()
+        self.bot.db = pg_controller
+        print('Дата-база инициализирована\n')
 
-        @loop(minutes=5, loop=self.bot.loop)
-        async def ping_servers():
-            """Пингует сервера и записывает их пинги в дата базу"""
-
-            servers = await bot.db.get_servers()
-            for serv in servers:
-                ip = str(serv['numip'])[:-3]
-                port = serv['port']
-                mcserver = MinecraftServer.lookup(ip + ':' + str(port))
-                try:
-                    status = mcserver.status()
-                    online = True
-                except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
-
-                if online:
-                    online_players = status.players.online
-                    await bot.db.add_ping(ip, port, online_players)
-
-                    if online_players >= serv['record'] + 1: await bot.db.add_record(ip, port, online_players)
-            await bot.db.remove_too_old_pings()
-
-        self.ping_servers = ping_servers
-
-    @command(hidden=True)
-    @is_owner()
-    async def restart_pings(self, ctx):
-        self.ping_servers.cancel()
-        self.ping_servers.start()
-        await ctx.send("Отменено и запущено `ping_servers`")
+    async def set_status(self, status: Status, activity_name: str, activity_type: ActivityType):
+        await self.bot.change_presence(
+            status=status, activity=Activity(name=activity_name, type=activity_type))
