@@ -3,6 +3,7 @@ from discord import Status, Client, Activity, ActivityType
 from discord.ext.commands import is_owner, command
 from config import TOKEN
 from src.database import PostgresController
+from os import listdir
 
 
 class PingerBot:
@@ -26,7 +27,9 @@ class PingerBot:
             print("Закрыто")
 
     def load_extensions(self):
-        self.bot.load_extension("src.commands")
+        for file in listdir("./src/commands"):
+            if file.endswith(".py") and not file.startswith("_"):
+                self.bot.load_extension("src.commands." + file)
         self.bot.load_extension("src.events")
 
     async def run_db(self):
