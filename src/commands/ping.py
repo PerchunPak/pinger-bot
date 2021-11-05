@@ -1,57 +1,39 @@
 from re import sub as re_sub, IGNORECASE
-from socket import gethostbyname, timeout, gaierror
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
-from mcstatus import MinecraftServer
+from src.commands._commands import MetodsForCommands
 
 
 class Ping(Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.MetodsForCommands = MetodsForCommands(bot)
 
     @command(name='пинг')
     async def ping(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
-        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = Embed(
-            title=f'Пингую {ip}...',
-            description="Подождите немного, я вас упомяну когда закончу",
-            color=Color.orange())
-        await ctx.send(embed=embed)
-        ip_from_alias = await self.bot.db.get_ip_alias(ip)
-        if len(ip_from_alias) != 0:
-            ip = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
-        server = MinecraftServer.lookup(ip)
-        try:
-            status = server.status()
-            online = True
-        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
-        if online:
-            num_ip = gethostbyname(server.host)
+        await self.MetodsForCommands.wait_please(ctx, ip)
+        ping_info = await self.MetodsForCommands.ping_server(ip)
+        if ping_info:
+            alias = ping_info["info"]["alias"]
             embed = Embed(
-                title=f'Результаты пинга {ip}',
-                description=f"Цифровое айпи: {num_ip}:{str(server.port)}\n**Онлайн**",
+                title=f'Результаты пинга {alias if alias is not None else ip}',
+                description=f'Цифровое айпи: {ping_info["info"]["num_ip"]}\n**Онлайн**',
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{server.host}:{str(server.port)}")
-            embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
-            embed.add_field(name="Используемое ПО", value=status.version.name)
-            embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
-            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]', '', status.description, flags=IGNORECASE)
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
+            embed.add_field(name="Время ответа", value=str(ping_info["status"].latency) + 'мс')
+            embed.add_field(name="Используемое ПО", value=ping_info["status"].version.name)
+            embed.add_field(name="Онлайн",
+                            value=f'{ping_info["status"].players.online}/{ping_info["status"].players.max}')
+            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]', '', ping_info["status"].description, flags=IGNORECASE)
             embed.add_field(name="Мотд", value=motd_clean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = Embed(
-                title=f'Результаты пинга {ip}',
-                description="\n\n**Офлайн**",
-                color=Color.red())
-
-            embed.add_field(name="Не удалось пингануть сервер",
-                            value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
-            await ctx.send(ctx.author.mention, embed=embed)
+            await self.MetodsForCommands.fail_message(ctx, ip, False)
 
 
 def setup(bot):
