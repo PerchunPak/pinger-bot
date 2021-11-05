@@ -28,8 +28,8 @@ class PingerBot:
             print("Закрыто")
 
     def load_extensions(self):
-        self.bot.load_extension("commands")
-        self.bot.load_extension("error_handlers")
+        self.bot.load_extension("src.commands")
+        self.bot.load_extension("src.error_handlers")
 
     def loops(self):
         bot = self.bot
