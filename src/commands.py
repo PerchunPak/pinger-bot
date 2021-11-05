@@ -326,6 +326,14 @@ class Commands(Cog):
                        f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
                        "&scope=bot&permissions=8")
 
+    @command(hidden=True)
+    @is_owner()
+    async def reload(self, ctx):
+        """Перезагружает некоторые файлы бота"""
+        self.bot.reload_extension("commands")
+        self.bot.reload_extension("error_handlers")
+        await ctx.send("Файлы перезагружены")
+
 
 def setup(bot):
     bot.add_cog(Commands(bot))
