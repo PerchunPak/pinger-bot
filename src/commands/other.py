@@ -1,6 +1,6 @@
 from sys import version_info
 from discord import Color, Embed
-from discord.ext.commands import Cog, command, is_owner
+from discord.ext.commands import Cog, command
 
 
 class OtherCommands(Cog):
