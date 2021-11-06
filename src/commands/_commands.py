@@ -1,6 +1,7 @@
 from socket import gethostbyname, timeout, gaierror
 from discord import Color, Embed
 from mcstatus import MinecraftServer
+from src.objects import ServerInfo
 
 
 class MetodsForCommands:
@@ -17,24 +18,23 @@ class MetodsForCommands:
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
             num_ip = str(ip_from_alias[0]['numip'])[:-3] + ':' + str(ip_from_alias[0]['port'])
-            return {"valid": valid, "alias": alias, "num_ip": num_ip, "input_ip": input_ip}
+            return ServerInfo(valid, alias, num_ip)
         else: alias = None
 
         try: num_ip, valid = gethostbyname(input_ip), True
         except gaierror: valid, num_ip = False, None
 
-        return {"valid": valid, "alias": alias, "num_ip": num_ip, "input_ip": input_ip}
+        return ServerInfo(valid, alias, num_ip)
 
     async def ping_server(self, ip):
         info = await self.parse_ip(ip)
-        if not info["valid"]: return False
+        if not info.valid: return False, False, info
 
-        server = MinecraftServer.lookup(ip)
-        try: status = server.status()
-        except (timeout, ConnectionRefusedError, gaierror): status = None
-        if status is None: return False
+        dns_info = MinecraftServer.lookup(ip)
+        try: status = dns_info.status()
+        except (timeout, ConnectionRefusedError, gaierror): status = False
 
-        return {"status": status, "dns_info": server, "info": info}
+        return status, dns_info, info
 
     @staticmethod
     async def wait_please(ctx, ip):
@@ -42,7 +42,7 @@ class MetodsForCommands:
             title=f'Пингую {ip}...',
             description="Подождите немного, я вас упомяну когда закончу",
             color=Color.orange())
-        return await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @staticmethod
     async def fail_message(ctx, ip, online):

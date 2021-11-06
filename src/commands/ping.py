@@ -14,26 +14,24 @@ class Ping(Cog):
     async def ping(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
         await self.MetodsForCommands.wait_please(ctx, ip)
-        ping_info = await self.MetodsForCommands.ping_server(ip)
-        if ping_info:
-            alias = ping_info["info"]["alias"]
+        status, dns_info, info = await self.MetodsForCommands.ping_server(ip)
+        if status:
             embed = Embed(
-                title=f'Результаты пинга {alias if alias is not None else ip}',
-                description=f'Цифровое айпи: {ping_info["info"]["num_ip"]}\n**Онлайн**',
+                title=f'Результаты пинга {info.alias if info.alias is not None else ip}',
+                description=f'Цифровое айпи: {info.num_ip}:{dns_info.port}\n**Онлайн**',
                 color=Color.green())
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
-            embed.add_field(name="Время ответа", value=str(ping_info["status"].latency) + 'мс')
-            embed.add_field(name="Используемое ПО", value=ping_info["status"].version.name)
-            embed.add_field(name="Онлайн",
-                            value=f'{ping_info["status"].players.online}/{ping_info["status"].players.max}')
-            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]', '', ping_info["status"].description, flags=IGNORECASE)
+            embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
+            embed.add_field(name="Используемое ПО", value=status.version.name)
+            embed.add_field(name="Онлайн", value=f'{status.players.online}/{status.players.max}')
+            motd_clean = re_sub(r'[\xA7|&][0-9A-FK-OR]', '', status.description, flags=IGNORECASE)
             embed.add_field(name="Мотд", value=motd_clean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            await self.MetodsForCommands.fail_message(ctx, ip, online=False)
+            await self.MetodsForCommands.fail_message(ctx, ip, online=status)
 
 
 def setup(bot):
