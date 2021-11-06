@@ -25,6 +25,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -Ur tests_requirements.txt
+    - name: Lint with PyLint
+      run: |
+        # нужно дорабатывать и дорабатывать еще
+        pylint ${{ env.GITHUB_ACTION_PATH }} --ignore-paths=.*venv.*,^\..* --exit-zero --include-naming-hint=y --good-names=ip --max-line-length=127 --disable=E0237,C0114,C0115,C0116,C0321
     - name: Lint with flake8
       run: |
         # крашит билд если есть ошибки синтаксиса или не обьявленные переменные
