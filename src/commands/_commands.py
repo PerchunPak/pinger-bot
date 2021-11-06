@@ -17,7 +17,7 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            num_ip = str(ip_from_alias[0]['numip'])[:-3] + ':' + str(ip_from_alias[0]['port'])
+            num_ip = str(ip_from_alias[0]['numip'])[:-3]
             return ServerInfo(valid, alias, num_ip)
         else: alias = None
 
