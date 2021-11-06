@@ -3,8 +3,8 @@
 """
 from datetime import datetime, timedelta
 from ipaddress import IPv4Network
-from src.database import PostgresController
 from pytest import fixture, mark
+from src.database import PostgresController
 
 
 @fixture(scope='session')
