@@ -51,6 +51,6 @@ class MetodsForCommands:
             description="\n\n**%s**" % "Онлайн" if online else "Офлайн",
             color=Color.red())
 
-        embed.add_field(name="Не удалось пингануть сервер",
+        embed.add_field(name="Не удалось выполнить команду",
                         value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
         await ctx.send(ctx.author.mention, embed=embed)

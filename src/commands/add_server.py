@@ -1,36 +1,27 @@
-from socket import gethostbyname, timeout, gaierror
 from asyncpg.exceptions import UniqueViolationError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
-from mcstatus import MinecraftServer
+from src.commands._commands import MetodsForCommands
 
 
 class AddServer(Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.MetodsForCommands = MetodsForCommands(bot)
 
     @command(name='добавить')
     @is_owner()
-    async def add_server(self, ctx, server):
+    async def add_server(self, ctx, ip):
         """Добавление сервера в бота"""
-        print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-        embed = Embed(
-            title=f'Получаю данные сервера {server}...',
-            description="Подождите немного, я вас упомяну когда закончу",
-            color=Color.orange())
-        await ctx.send(embed=embed)
-        mcserver = MinecraftServer.lookup(server)
-        try:
-            mcserver.status()
-            online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
-        if online:
-            num_ip = gethostbyname(mcserver.host)
-            try: await self.bot.db.add_server(num_ip, ctx.author.id, mcserver.port)
+        await self.MetodsForCommands.wait_please(ctx, ip)
+        status, dns_info, info = await self.MetodsForCommands.ping_server(ip)
+        if status:
+            name = info.alias if info.alias is not None else ip
+            try: await self.bot.db.add_server(info.num_ip, ctx.author.id, dns_info.port)
             except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(
-                    title=f'Не удалось добавить сервер {server}',
+                    title=f'Не удалось добавить сервер {name}',
                     description="**Онлайн**",
                     color=Color.red())
 
@@ -39,25 +30,18 @@ class AddServer(Cog):
                 return await ctx.send(ctx.author.mention, embed=embed)
 
             embed = Embed(
-                title=f'Добавил сервер {server}',
-                description=f"Цифровое айпи: {num_ip}:{str(mcserver.port)}\n**Онлайн**",
+                title=f'Добавил сервер {name}',
+                description=f"Цифровое айпи: {info.num_ip}:{str(dns_info.port)}\n**Онлайн**",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{mcserver.host}:{str(mcserver.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{dns_info.host}:{str(dns_info.port)}")
             embed.add_field(name="Сервер успешно добавлен",
                             value='Напишите "помощь" для получения большей информации о серверах')
-            embed.set_footer(text=f'Теперь вы можете использовать "стата {server}" или "алиас (алиас) {server}"')
+            embed.set_footer(text=f'Теперь вы можете использовать "стата {name}" или "алиас (алиас) {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            embed = Embed(
-                title=f'Не удалось добавить сервер {server}',
-                description="**Офлайн**",
-                color=Color.red())
-
-            embed.add_field(name="Не удалось добавить сервер",
-                            value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
-            await ctx.send(ctx.author.mention, embed=embed)
+            await self.MetodsForCommands.fail_message(ctx, ip, online=status)
 
 
 def setup(bot):
