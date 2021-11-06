@@ -103,7 +103,6 @@ class TestPing:
         assert '127.0.0.1' in ping_alias.description
         assert '25565' in ping_alias.description
 
-    @mark.skip(reason="фича еще не добавлена")  # TODO добавить эту фичу
     def test_alias_in(self, bot, ping_alias, database):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in ping_alias.title

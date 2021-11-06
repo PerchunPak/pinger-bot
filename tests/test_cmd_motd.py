@@ -80,7 +80,6 @@ class TestMotd:
         """Проверяет цвет Embed-а при использовании алиаса"""
         assert str(motd_alias.color) == str(Color.green())
 
-    @mark.skip(reason="фича еще не добавлена")
     def test_alias_in(self, bot, motd_alias, database):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in motd_alias.title

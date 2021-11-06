@@ -162,7 +162,6 @@ class TestStatistic:
         assert '127.0.0.5' in stat_alias.description
         assert '25565' in stat_alias.description
 
-    @mark.skip(reason="фича еще не добавлена")
     def test_alias_in(self, bot, stat_alias, database):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in stat_alias.title
