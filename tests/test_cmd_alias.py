@@ -2,15 +2,16 @@
 Тесты для команды "алиас"
 """
 from time import sleep
+from discord import Color
 from discord.ext.test import message, get_embed
 from pytest import fixture, mark
-from discord import Color
 
 
 class TestAlias:
     """Класс для тестов и фикстур"""
+    @staticmethod
     @fixture(scope='class')
-    async def alias_added_not_owner(self, event_loop, bot, database, monkeypatch_session):
+    async def alias_added_not_owner(event_loop, bot, database, monkeypatch_session):
         """Фикстура для тестов если сервер добавлен, но юзер не владелец"""
         await database.add_server('127.0.0.7', 0, 25565)
         await message("алиас тест1 127.0.0.7")
@@ -21,8 +22,9 @@ class TestAlias:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def alias_added(self, event_loop, bot, database, monkeypatch_session):
+    async def alias_added(event_loop, bot, database, monkeypatch_session):
         """Фикстура для тестов если алиас добавлен"""
         test_user = None
         for user in bot.users:
@@ -37,8 +39,9 @@ class TestAlias:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def alias_not_added(self, event_loop, bot, database, monkeypatch_session):
+    async def alias_not_added(event_loop, bot, database, monkeypatch_session):
         """Фикстура для тестов если сервер не добавлен"""
         await message("алиас тест3 127.0.0.9")
         embed = get_embed()
@@ -48,29 +51,35 @@ class TestAlias:
 
         return embed
 
+    @staticmethod
     @mark.asyncio
-    async def test_is_added_to_db(self, event_loop, bot, database, alias_added):
+    async def test_is_added_to_db(event_loop, bot, database, alias_added):
         """Проверяет добавился ли алиас в дата базу"""
         ip_from_alias = await database.get_ip_alias('тест2')
         ip_from_alias = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         assert ip_from_alias == '127.0.0.8:25565'
 
-    def test_color(self, bot, database, alias_added):
+    @staticmethod
+    def test_color(bot, database, alias_added):
         """Проверят цвет в ответе бота"""
         assert str(alias_added.color) == str(Color.green())
 
-    def test_not_owner(self, bot, database, alias_added_not_owner):
+    @staticmethod
+    def test_not_owner(bot, database, alias_added_not_owner):
         """Проверяет правильно ли бот понимает кто владелец"""
         assert alias_added_not_owner.fields[0].value == 'Вы не владелец'
 
-    def test_not_owner_color(self, bot, database, alias_added_not_owner):
+    @staticmethod
+    def test_not_owner_color(bot, database, alias_added_not_owner):
         """Проверяет цвет Embed-а если алиас добавлен, и юзер не владелец"""
         assert str(alias_added_not_owner.color) == str(Color.red())
 
-    def test_not_added(self, bot, database, alias_not_added):
+    @staticmethod
+    def test_not_added(bot, database, alias_not_added):
         """Проверяет правильно ли бот распознает если сервере еще не добавлен"""
         assert alias_not_added.fields[0].name == 'Не удалось добавить алиас'
 
-    def test_not_added_color(self, bot, database, alias_not_added):
+    @staticmethod
+    def test_not_added_color(bot, database, alias_not_added):
         """Проверяет цвет Embed-а когда сервер не добавлен"""
         assert str(alias_not_added.color) == str(Color.red())

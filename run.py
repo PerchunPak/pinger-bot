@@ -9,7 +9,7 @@ from src.bot import PingerBot
 def main():
     """Главная функция для запуска бота"""
     bot_intents = Intents.default()
-    bot_intents.members = True
+    bot_intents.members = True  # pylint: disable=E0237
 
     bot = Bot(
         command_prefix=('!', ''),

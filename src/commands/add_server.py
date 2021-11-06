@@ -8,14 +8,14 @@ class AddServer(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.MetodsForCommands = MetodsForCommands(bot)
+        self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='добавить')
     @is_owner()
     async def add_server(self, ctx, ip):
         """Добавление сервера в бота"""
-        await self.MetodsForCommands.wait_please(ctx, ip)
-        status, dns_info, info = await self.MetodsForCommands.ping_server(ip)
+        await self.metods_for_commands.wait_please(ctx, ip)
+        status, dns_info, info = await self.metods_for_commands.ping_server(ip)
         if status:
             name = info.alias if info.alias is not None else ip
             try: await self.bot.db.add_server(info.num_ip, ctx.author.id, dns_info.port)
@@ -41,7 +41,7 @@ class AddServer(Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            await self.MetodsForCommands.fail_message(ctx, ip, online=status)
+            await self.metods_for_commands.fail_message(ctx, ip, online=status)
 
 
 def setup(bot):

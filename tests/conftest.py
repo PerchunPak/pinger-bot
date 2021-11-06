@@ -2,15 +2,15 @@
 https://docs.pytest.org/en/6.2.x/fixture.html#scope-sharing-fixtures-across-classes-modules-packages-or-session
 """
 from glob import glob
-from os import remove
+from os import remove, listdir
+from shutil import rmtree
+from asyncio import get_event_loop
 from discord import Intents
 from discord.ext.commands import Bot
+from discord.ext.test import configure
 from pytest import fixture
 from src.database import PostgresController
-from asyncio import get_event_loop
-from discord.ext.test import configure
-from shutil import rmtree
-from os import listdir
+from _pytest.monkeypatch import MonkeyPatch
 
 
 @fixture(scope='session')
@@ -18,9 +18,9 @@ async def bot(event_loop):
     """Инициализация бота (и базы данных тоже)"""
     print('')  # фиксит логи, лучше не трогать
     bot_intents = Intents.default()
-    bot_intents.members = True
+    bot_intents.members = True  # pylint: disable=E0237
 
-    b = Bot(
+    bot_var = Bot(
         command_prefix='',
         description="Пингер бот",
         case_insensitive=False,
@@ -29,13 +29,13 @@ async def bot(event_loop):
     )
     for file in listdir("./src/commands"):
         if file.endswith(".py") and not file.startswith("_"):
-            b.load_extension("src.commands." + file[:-3])
+            bot_var.load_extension("src.commands." + file[:-3])
 
-    configure(b)
+    configure(bot_var)
 
-    b.db = await PostgresController.get_instance()
-    b.app_info = await b.application_info()
-    return b
+    bot_var.db = await PostgresController.get_instance()
+    bot_var.app_info = await bot_var.application_info()
+    return bot_var
 
 
 @fixture(scope="session")
@@ -49,7 +49,6 @@ def event_loop():
 @fixture(scope="session")
 def monkeypatch_session(request):
     """фиксит https://github.com/pytest-dev/pytest/issues/363"""
-    from _pytest.monkeypatch import MonkeyPatch
     mpatch = MonkeyPatch()
     yield mpatch
     mpatch.undo()
@@ -70,7 +69,7 @@ def pytest_sessionfinish():
     for path in files:
         try:
             remove(path)
-        except Exception as e:
-            print(f"Error while deleting file {path}: {e}")
+        except Exception as exception:  # pylint: disable=W0703
+            print(f"Error while deleting file {path}: {exception}")
     try: rmtree('./plots/')
     except FileNotFoundError: pass

@@ -1,8 +1,8 @@
 from shutil import rmtree
+from os import listdir
 from discord import Status, Client, Activity, ActivityType
 from config import TOKEN
 from src.database import PostgresController
-from os import listdir
 
 
 class PingerBot:
@@ -17,7 +17,7 @@ class PingerBot:
         except KeyboardInterrupt:
             print("\nЗакрытие")
             self.bot.loop.run_until_complete(self.bot.change_presence(status=Status.invisible))
-            for e in self.bot.extensions.copy(): self.bot.unload_extension(e)
+            for extension in self.bot.extensions.copy(): self.bot.unload_extension(extension)
             try: rmtree('./plots/')
             except FileNotFoundError: pass
             print("Выходим")

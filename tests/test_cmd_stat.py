@@ -4,18 +4,19 @@
 from socket import timeout
 from datetime import datetime, timedelta
 from time import sleep
+from discord import Color
 from discord.ext.test import message, get_embed
 from mcstatus import MinecraftServer
-from pytest import fixture, mark
-from discord import Color
 from mcstatus.pinger import PingResponse
+from pytest import fixture, mark
 
 
 class TestStatistic:
     """Класс для тестов и фикстур"""
 
+    @staticmethod
     @fixture(scope='class')
-    async def stat_online_not_added(self, event_loop, bot, database, monkeypatch_session):
+    async def stat_online_not_added(event_loop, bot, database, monkeypatch_session):
         """Фикстура для проверки правильно ли бот сработает если сервер онлайн, но не добавлен"""
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -36,8 +37,9 @@ class TestStatistic:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def stat_online(self, event_loop, bot, database, monkeypatch_session):
+    async def stat_online(event_loop, bot, database, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер"""
         await database.add_server('127.0.0.4', 0, 25565)
         await database.add_record('127.0.0.4', 25565, 33)
@@ -61,8 +63,9 @@ class TestStatistic:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def stat_alias(self, event_loop, bot, database, monkeypatch_session):
+    async def stat_alias(event_loop, bot, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы"""
         await database.add_server('127.0.0.5', 0, 25565)
         await database.add_alias('тест_алиас', '127.0.0.5', 25565)
@@ -97,8 +100,9 @@ class TestStatistic:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def stat_not_valid(self, event_loop, bot, database, monkeypatch_session):
+    async def stat_not_valid(event_loop, bot, database, monkeypatch_session):
         """Вызывает команду с не валидным айпи"""
         monkeypatch_session.undo()
         await message("стата www")
@@ -109,8 +113,9 @@ class TestStatistic:
 
         return embed
 
+    @staticmethod
     @fixture(scope='class')
-    async def stat_offline(self, event_loop, bot, database, monkeypatch_session):
+    async def stat_offline(event_loop, bot, database, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера"""
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout"""
@@ -125,59 +130,72 @@ class TestStatistic:
 
         return embed
 
+    @staticmethod
     @mark.asyncio
-    async def test_server_not_added_color(self, event_loop, bot, database, stat_online_not_added):
+    async def test_server_not_added_color(event_loop, bot, database, stat_online_not_added):
         """Проверят цвет в ответе бота, если сервер не добавлен"""
         await database.make_tables()
         assert str(stat_online_not_added.color) == str(Color.red())
 
-    def test_online(self, bot, database, stat_online):
+    @staticmethod
+    def test_online(bot, database, stat_online):
         """Проверяет правильно ли бот распознает текущий онлайн"""
         online = stat_online.fields[0].value.split('/')
         assert online[0] == '5'
 
-    def test_online_max(self, bot, database, stat_online):
+    @staticmethod
+    def test_online_max(bot, database, stat_online):
         """Проверяет правильно ли бот распознает максимальный онлайн"""
         online = stat_online.fields[0].value.split('/')
         assert online[1] == '20'
 
-    def test_record(self, bot, database, stat_online):
+    @staticmethod
+    def test_record(bot, database, stat_online):
         """Проверяет правильно ли бот распознает рекорд онлайна"""
         assert stat_online.fields[2].value == '33'
 
-    def test_online_yest_null(self, bot, database, stat_online):
+    @staticmethod
+    def test_online_yest_null(bot, database, stat_online):
         """Проверяет правильно ли бот распознает вчерашний онлайн, если записей об этом нету"""
         assert stat_online.fields[1].value == 'Нету информации'
 
-    def test_color(self, bot, database, stat_online):
+    @staticmethod
+    def test_color(bot, database, stat_online):
         """Проверят цвет в ответе бота"""
         assert str(stat_online.color) == str(Color.green())
 
-    def test_alias_color(self, bot, stat_alias, database):
+    @staticmethod
+    def test_alias_color(bot, stat_alias, database):
         """Проверят цвет в ответе бота, если использовать алиас"""
         assert str(stat_alias.color) == str(Color.green())
 
-    def test_alias_numip(self, bot, stat_alias, database):
+    @staticmethod
+    def test_alias_numip(bot, stat_alias, database):
         """Проверят правильно ли бот распознает цифровое айпи, если использовать алиас"""
         assert '127.0.0.5' in stat_alias.description
         assert '25565' in stat_alias.description
 
-    def test_alias_in(self, bot, stat_alias, database):
+    @staticmethod
+    def test_alias_in(bot, stat_alias, database):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in stat_alias.title
 
-    def test_plot(self, bot, stat_alias, database):
+    @staticmethod
+    def test_plot(bot, stat_alias, database):
         """Проверяет создает ли бот график онлайна"""
-        assert 'attachment://127.0.0.5_25565.png' == stat_alias.image.url
+        assert stat_alias.image.url == 'attachment://127.0.0.5_25565.png'
 
-    def test_check_yesterday_online(self, bot, stat_alias, database):
+    @staticmethod
+    def test_check_yesterday_online(bot, stat_alias, database):
         """Проверят правильно ли бот распознает вчерашние пинги"""
         assert stat_alias.fields[1].value == '12'
 
-    def test_ip_not_valid(self, bot, database, stat_not_valid):
+    @staticmethod
+    def test_ip_not_valid(bot, database, stat_not_valid):
         """Проверят цвет в ответе бота, если айпи не валидный"""
         assert str(stat_not_valid.color) == str(Color.red())
 
-    def test_offline_color(self, bot, database, stat_offline):
+    @staticmethod
+    def test_offline_color(bot, database, stat_offline):
         """Проверяет цвет Embed-а когда сервер оффлайн"""
         assert str(stat_offline.color) == str(Color.red())

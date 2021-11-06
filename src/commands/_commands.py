@@ -48,7 +48,7 @@ class MetodsForCommands:
     async def fail_message(ctx, ip, online):
         embed = Embed(
             title=f'Результаты пинга {ip}',
-            description="\n\n**%s**" % "Онлайн" if online else "Офлайн",
+            description=f"\n\n**{'Онлайн' if online else 'Офлайн'}**",
             color=Color.red())
 
         embed.add_field(name="Не удалось выполнить команду",

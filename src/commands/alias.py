@@ -7,13 +7,13 @@ class Alias(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.MetodsForCommands = MetodsForCommands(bot)
+        self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='алиас')
     async def alias(self, ctx, alias, ip):
         """Добавление алиаса к серверу"""
-        await self.MetodsForCommands.wait_please(ctx, ip)
-        status, dns_info, info = await self.MetodsForCommands.ping_server(ip)
+        await self.metods_for_commands.wait_please(ctx, ip)
+        status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if info.valid: database_server = await self.bot.db.get_server(info.num_ip, dns_info.port)
         else: database_server = []
         if len(database_server) != 0:

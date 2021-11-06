@@ -14,8 +14,9 @@ class Events(Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @staticmethod
     @Cog.listener()
-    async def on_connect(self):
+    async def on_connect():
         print("\nУстановлено соединение с дискордом")
 
     @Cog.listener()
@@ -33,7 +34,7 @@ class Events(Cog):
               f'Пользователей: {str(len(self.bot.users))}\n'
               '-----------------')
 
-        self.ping_servers.start()
+        self.ping_servers.start()  # pylint: disable=E1101
         self.bot.app_info = await self.bot.application_info()
 
         await self.bot.PingerBot.set_status(Status.online, 'пинг превыше всего', ActivityType.playing)
@@ -54,7 +55,7 @@ class Events(Cog):
             return await ctx.send(f"Только мой Владелец, {self.bot.app_info.owner}, может использовать эту команду")
 
         elif isinstance(exception, MissingRequiredArgument):
-            return await ctx.send('Не хватает необходимого аргумента `%s`' % exception.param.name)
+            return await ctx.send(f'Не хватает необходимого аргумента `{exception.param.name}`')
         elif isinstance(exception, (Forbidden, NotFound, CommandNotFound)): return
 
         elif "Missing Permissions" in str(exception):
@@ -67,9 +68,8 @@ class Events(Cog):
                            'Я уже сообщил своему создателю')
             traceback = ''.join(format_exception(type(exception), exception, exception.__traceback__))
             return await self.bot.app_info.owner.send(
-                'Юзер `%s` нашел ошибку в команде %s.\n'
-                'Traceback: \n```\n%s\n```'
-                % (str(ctx.author), ctx.message.content, traceback))
+                f'Юзер `{str(ctx.author)}` нашел ошибку в команде `{ctx.message.content}`.\n'
+                f'Traceback: \n```\n{traceback}\n```')
 
     @loop(minutes=5)
     async def ping_servers(self):

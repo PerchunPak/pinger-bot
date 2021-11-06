@@ -13,7 +13,7 @@ class PostgresController:
     Класс для управления дата базой,
     только тут все взаимодействия с ней
     """
-    __slots__ = 'pool'
+    __slots__ = ('pool',)
 
     def __init__(self, pool: Pool):
         self.pool = pool

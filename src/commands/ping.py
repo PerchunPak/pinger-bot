@@ -8,13 +8,13 @@ class Ping(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.MetodsForCommands = MetodsForCommands(bot)
+        self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='пинг')
     async def ping(self, ctx, ip):
         """Пинг сервера и показ его основной информации"""
-        await self.MetodsForCommands.wait_please(ctx, ip)
-        status, dns_info, info = await self.MetodsForCommands.ping_server(ip)
+        await self.metods_for_commands.wait_please(ctx, ip)
+        status, dns_info, info = await self.metods_for_commands.ping_server(ip)
         if status:
             embed = Embed(
                 title=f'Результаты пинга {info.alias if info.alias is not None else ip}',
@@ -31,7 +31,7 @@ class Ping(Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            await self.MetodsForCommands.fail_message(ctx, ip, online=status)
+            await self.metods_for_commands.fail_message(ctx, ip, online=status)
 
 
 def setup(bot):
