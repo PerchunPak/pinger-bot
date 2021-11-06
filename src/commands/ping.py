@@ -33,7 +33,7 @@ class Ping(Cog):
 
             await ctx.send(ctx.author.mention, embed=embed)
         else:
-            await self.MetodsForCommands.fail_message(ctx, ip, False)
+            await self.MetodsForCommands.fail_message(ctx, ip, online=False)
 
 
 def setup(bot):
