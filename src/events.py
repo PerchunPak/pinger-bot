@@ -44,9 +44,7 @@ class Events(Cog):
 
         message.content = message.content.lower()
         ctx = await self.bot.get_context(message)
-        if ctx.valid:
-            print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
-            await self.bot.invoke(ctx)
+        if ctx.valid: print(f'{ctx.author.name} использовал команду "{ctx.message.content}"')
         else: await message.channel.send("Используйте команду `помощь` для списка моих команд")
 
     @Cog.listener()
