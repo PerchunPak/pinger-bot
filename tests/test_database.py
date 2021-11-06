@@ -2,7 +2,7 @@
 Файл для теста дата базы
 """
 
-from database import PostgresController
+from src.database import PostgresController
 from pytest import fixture, mark
 from datetime import datetime, timedelta
 from ipaddress import IPv4Network

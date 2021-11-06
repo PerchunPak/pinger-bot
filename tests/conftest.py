@@ -6,10 +6,11 @@ from os import remove
 from discord import Intents
 from discord.ext.commands import Bot
 from pytest import fixture
-from database import PostgresController
+from src.database import PostgresController
 from asyncio import get_event_loop
 from discord.ext.test import configure
 from shutil import rmtree
+from os import listdir
 
 
 @fixture(scope='session')
@@ -26,7 +27,9 @@ async def bot(event_loop):
         help_command=None,
         intents=bot_intents
     )
-    b.load_extension("commands")
+    for file in listdir("./src/commands"):
+        if file.endswith(".py") and not file.startswith("_"):
+            b.load_extension("src.commands." + file[:-3])
 
     configure(b)
 
