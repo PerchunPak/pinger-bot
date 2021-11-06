@@ -35,9 +35,9 @@ jobs:
       run: |
         # ужасный линтер, тупой и умный одновременно
         # тестируем все файлы корневой директории
-        pylint ${{ env.GITHUB_ACTION_PATH }} --rcfile=${{ env.GITHUB_ACTION_PATH }}/.pylint --exit-zero
+        pylint ${{ github.WORKSPACE }} --rcfile=${{ github.WORKSPACE }}/.pylint --exit-zero
         # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621 и W0613
-        pylint ${{ env.GITHUB_ACTION_PATH }}/tests --rcfile=${{ env.GITHUB_ACTION_PATH }}/tests/.pylint --exit-zero
+        pylint ${{ github.WORKSPACE }}/tests --rcfile=${{ github.WORKSPACE }}/tests/.pylint --exit-zero
   test:
     needs: lint
     runs-on: ubuntu-latest
