@@ -265,6 +265,9 @@ cython_debug/
 .history
 .ionide
 
+# Support for Project snippet scope
+!.vscode/*.code-snippets
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
