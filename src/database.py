@@ -89,7 +89,7 @@ class PostgresController:
 
     async def add_alias(self, alias: str, ip: str, port: int):
         """
-        Добавляет данные о пинге в дата базу
+        Добавляет алиас в дата базу
         :param alias: новый алиас сервера
         :param ip: цифровое айпи IPv4 сервера
         :param port: порт сервера
