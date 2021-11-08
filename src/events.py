@@ -67,9 +67,22 @@ class Events(Cog):
                            'Неизвестная ошибка произошла и я не смог выполнить эту команду.\n'
                            'Я уже сообщил своему создателю')
             traceback = ''.join(format_exception(type(exception), exception, exception.__traceback__))
-            return await self.bot.app_info.owner.send(
-                f'Юзер `{str(ctx.author)}` нашел ошибку в команде `{ctx.message.content}`.\n'
-                f'Traceback: \n```\n{traceback}\n```')
+
+            if not len(traceback) > 2000:
+                return await self.bot.app_info.owner.send(
+                    'Юзер `%s` нашел ошибку в команде %s.\n'
+                    'Traceback: \n```\n%s\n```'
+                    % (str(ctx.author), ctx.command.qualified_name, traceback))
+            else:
+                traceback = [traceback[i:i + 2000] for i in range(0, len(traceback), 2000)]
+
+                await self.bot.app_info.owner.send(
+                    'Юзер `%s` нашел ошибку в команде %s.\n'
+                    'Traceback: \n```\n%s\n```'
+                    % (str(ctx.author), ctx.command.qualified_name, traceback[0]))
+
+                for element in traceback[1:]:
+                    await self.bot.app_info.owner.send(f'\n```\n{element}\n```')
 
     @loop(minutes=5)
     async def ping_servers(self):
