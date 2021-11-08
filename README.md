@@ -1,5 +1,7 @@
 [![Run Tests](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml) [![Run Tests in rewrite](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml/badge.svg?branch=rewrite)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml)
 
+# Ветка rewrite
+
 Эта ветка сделана для того чтобы **переписать** бота на *подобие нормального кода* как в [`database.py`](https://github.com/PerchunPak/PingerBot/blob/abe01c3f0f58ceab2a80cad54e860d22642b77fe/database.py).
 
 **По причине:** Стало сложно **тестировать** и **настраивать/создавать** новые фичи, как например *алиасы*.
