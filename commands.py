@@ -34,7 +34,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
+        except (timeout, ConnectionRefusedError, gaierror, OSError): online, status = False, None
         if online:
             num_ip = gethostbyname(server.host)
             embed = Embed(
@@ -77,7 +77,7 @@ class Commands(Cog):
         try:
             status = server.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online, status = False, None
+        except (timeout, ConnectionRefusedError, gaierror, OSError): online, status = False, None
         if online:
             motd = str(status.raw['description']['text']).replace(' ', '+')
             motd_url = motd.replace('\n', '%0A')
@@ -199,7 +199,7 @@ class Commands(Cog):
         try:
             mcserver.status()
             online = True
-        except (timeout, ConnectionRefusedError, gaierror): online = False
+        except (timeout, ConnectionRefusedError, gaierror, OSError): online = False
         if online:
             num_ip = gethostbyname(mcserver.host)
             try: await self.bot.db.add_server(num_ip, ctx.author.id, mcserver.port)
