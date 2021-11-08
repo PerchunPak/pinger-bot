@@ -32,7 +32,7 @@ class MetodsForCommands:
 
         dns_info = MinecraftServer.lookup(ip)
         try: status = dns_info.status()
-        except (timeout, ConnectionRefusedError, gaierror): status = False
+        except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
 
         return status, dns_info, info
 
