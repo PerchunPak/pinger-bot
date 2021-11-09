@@ -29,7 +29,7 @@ class Motd(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = Embed(
-                title=f'Подробное мотд сервера {ip}',
+                title=f'Подробное мотд сервера {info.alias if info.alias is not None else ip}',
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.red())
 

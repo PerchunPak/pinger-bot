@@ -37,7 +37,8 @@ class Statistic(Cog):
             embed.add_field(name="Текущий онлайн", value=str(status.players.online) + '/' + str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
-            embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {ip}"')
+            embed.set_footer(text=f'Для большей информации о сервере напишите '
+                                  f'"пинг {info.alias if info.alias is not None else ip}"')
 
             if len(pings) <= 20:
                 return await ctx.send(ctx.author.mention + ', слишком мало информации для графика.', embed=embed)

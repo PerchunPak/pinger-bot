@@ -17,15 +17,16 @@ class Alias(Cog):
         if info.valid: database_server = await self.bot.db.get_server(info.num_ip, dns_info.port)
         else: database_server = []
         if len(database_server) != 0:
+            name = info.alias if info.alias is not None else ip
             if ctx.author.id != database_server[0]['owner']:
                 embed = Embed(
-                    title=f'Вы не владелец сервера {ip}',
-                    description=f'Только владелец может изменить/добавить алиас сервера {ip}',
+                    title=f'Вы не владелец сервера {name}',
+                    description=f'Только владелец может изменить/добавить алиас сервера {name}',
                     color=Color.red())
 
                 embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
                 embed.add_field(name="Ошибка", value='Вы не владелец')
-                embed.set_footer(text=f'Для большей информации о сервере напишите "стата {ip}"')
+                embed.set_footer(text=f'Для большей информации о сервере напишите "стата {name}"')
 
                 return await ctx.send(ctx.author.mention, embed=embed)
 
