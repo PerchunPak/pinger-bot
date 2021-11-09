@@ -92,7 +92,7 @@ class TestMotd:
     @staticmethod
     def test_thumbnail_link(bot, motd_alias, database):
         """Проверяет ссылку в маленькой картинке справо сверху"""
-        assert 'https://api.mcsrvstat.us/icon/127.0.0.2:25565' == motd_alias.thumbnail.url
+        assert motd_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.9:25565'
 
     @staticmethod
     def test_motd(bot, motd_online, database):

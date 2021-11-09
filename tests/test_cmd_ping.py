@@ -97,7 +97,7 @@ class TestPing:
     @staticmethod
     def test_thumbnail_link(bot, ping_alias, database):
         """Проверяет ссылку в маленькой картинке справо сверху"""
-        assert 'https://api.mcsrvstat.us/icon/127.0.0.1:25565' == ping_alias.thumbnail.url
+        assert ping_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.9:25565'
 
     @staticmethod
     def test_ping_is_int(bot, ping_online, database):

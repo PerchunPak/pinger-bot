@@ -68,18 +68,16 @@ class Events(Cog):
                            'Я уже сообщил своему создателю')
             traceback = ''.join(format_exception(type(exception), exception, exception.__traceback__))
 
-            if not len(traceback) > 2000:
+            if len(traceback) <= 1500:
                 return await self.bot.app_info.owner.send(
-                    'Юзер `%s` нашел ошибку в команде %s.\n'
-                    'Traceback: \n```\n%s\n```'
-                    % (str(ctx.author), ctx.command.qualified_name, traceback))
+                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.command.context}".\n'
+                    f'Traceback: \n```\n{traceback}\n```')
             else:
-                traceback = [traceback[i:i + 2000] for i in range(0, len(traceback), 2000)]
+                traceback = [traceback[i:i + 1500] for i in range(0, len(traceback), 1500)]
 
                 await self.bot.app_info.owner.send(
-                    'Юзер `%s` нашел ошибку в команде %s.\n'
-                    'Traceback: \n```\n%s\n```'
-                    % (str(ctx.author), ctx.command.qualified_name, traceback[0]))
+                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.command.context}".\n'
+                    f'Traceback: \n```\n{traceback[0]}\n```')
 
                 for element in traceback[1:]:
                     await self.bot.app_info.owner.send(f'\n```\n{element}\n```')

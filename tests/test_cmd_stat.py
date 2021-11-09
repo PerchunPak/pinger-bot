@@ -8,8 +8,7 @@ from discord import Color
 from discord.ext.test import message, get_embed, get_message
 from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
-from pytest import fixture, mark
-from src.objects import ServerInfo
+from pytest import fixture
 from src.commands.statistic import Statistic
 
 
@@ -175,7 +174,7 @@ class TestStatistic:
     @staticmethod
     def test_thumbnail_link(bot, stat_alias, database):
         """Проверяет ссылку в маленькой картинке справо сверху"""
-        assert 'https://api.mcsrvstat.us/icon/127.0.0.5:25565' == stat_alias.thumbnail.url
+        assert stat_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.5:25565'
 
     @staticmethod
     def test_online(bot, database, stat_online):
@@ -207,7 +206,7 @@ class TestStatistic:
     @staticmethod
     def test_check_yesterday_online(bot, get_yest_ping):
         """Проверят правильно ли бот распознает вчерашние пинги"""
-        assert get_yest_ping is 12
+        assert get_yest_ping == 12
 
     @staticmethod
     def test_yest_null(bot, database, get_yest_ping_null):

@@ -72,7 +72,7 @@ class TestAlias:
     @staticmethod
     def test_thumbnail_link(bot, alias_added, database):
         """Проверяет ссылку в маленькой картинке справо сверху"""
-        assert 'https://api.mcsrvstat.us/icon/127.0.0.9:25565' == alias_added.thumbnail.url
+        assert alias_added.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.9:25565'
 
     @staticmethod
     def test_not_added(bot, database, alias_not_added):
