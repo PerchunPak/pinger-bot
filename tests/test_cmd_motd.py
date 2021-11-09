@@ -80,9 +80,9 @@ class TestMotd:
         return embed
 
     @staticmethod
-    def test_alias_color(bot, motd_alias, database):
-        """Проверяет цвет Embed-а при использовании алиаса"""
-        assert str(motd_alias.color) == str(Color.green())
+    def test_color(bot, motd_online, database):
+        """Проверят цвет в ответе бота"""
+        assert str(motd_online.color) == str(Color.green())
 
     @staticmethod
     def test_alias_in(bot, motd_alias, database):
@@ -90,9 +90,9 @@ class TestMotd:
         assert 'тест_алиас' in motd_alias.title
 
     @staticmethod
-    def test_color(bot, motd_online, database):
-        """Проверят цвет в ответе бота"""
-        assert str(motd_online.color) == str(Color.green())
+    def test_thumbnail_link(bot, motd_alias, database):
+        """Проверяет ссылку в маленькой картинке справо сверху"""
+        assert 'https://api.mcsrvstat.us/icon/127.0.0.2:25565' == motd_alias.thumbnail.url
 
     @staticmethod
     def test_motd(bot, motd_online, database):

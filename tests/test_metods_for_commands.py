@@ -45,18 +45,18 @@ class TestMetodsForCommands:
     @mark.asyncio
     async def test_parse_ip_alias(bot, database, metods_for_commands):
         """Тест на проверку алиаса в методе MetodsForCommands.parse_ip"""
-        await database.pool.execute("INSERT INTO sunservers (numip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.28")
+        await database.pool.execute("INSERT INTO sunservers (numip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
         await database.pool.execute("UPDATE sunservers SET alias = $2 "
-                                    "WHERE numip = $1 AND port = 25565;", "127.0.0.28", "тест28")
+                                    "WHERE numip = $1 AND port = 25565;", "127.0.0.29", "тест28")
         answer = await metods_for_commands.parse_ip("тест28")
-        assert answer == ServerInfo(True, "тест28", "127.0.0.28")
+        assert answer == ServerInfo(True, "тест28", "127.0.0.29")
 
     @staticmethod
     @mark.asyncio
     async def test_parse_ip_valid(bot, metods_for_commands):
         """Тест на проверку действий при валидном айпи"""
-        answer = await metods_for_commands.parse_ip("127.0.0.29")
-        assert answer == ServerInfo(True, None, "127.0.0.29")
+        answer = await metods_for_commands.parse_ip("127.0.0.30")
+        assert answer == ServerInfo(True, None, "127.0.0.30")
 
     @staticmethod
     @mark.asyncio
@@ -92,13 +92,13 @@ class TestMetodsForCommands:
             )
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        expected_dns_info = MinecraftServer.lookup("127.0.0.30")
-        status, dns_info, info = await metods_for_commands.ping_server("127.0.0.30")
+        expected_dns_info = MinecraftServer.lookup("127.0.0.31")
+        status, dns_info, info = await metods_for_commands.ping_server("127.0.0.31")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
         assert self.compare_ping_response_objects(status, fake_server_answer()) and \
                dns_info.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, "127.0.0.30").__dict__
+               info.__dict__ == ServerInfo(True, None, "127.0.0.31").__dict__
 
     @staticmethod
     @mark.asyncio
@@ -116,13 +116,13 @@ class TestMetodsForCommands:
             raise timeout
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        expected_dns_info = MinecraftServer.lookup("127.0.0.31")
-        status, dns_info, info = await metods_for_commands.ping_server("127.0.0.31")
+        expected_dns_info = MinecraftServer.lookup("127.0.0.32")
+        status, dns_info, info = await metods_for_commands.ping_server("127.0.0.32")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
         assert status is False and \
                dns_info.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, "127.0.0.31").__dict__
+               info.__dict__ == ServerInfo(True, None, "127.0.0.32").__dict__
 
     @staticmethod
     def test_wait_please_color(bot, wait_please):

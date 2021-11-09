@@ -85,6 +85,27 @@ class TestPing:
         assert str(ping_online.color) == str(Color.green())
 
     @staticmethod
+    def test_alias_in(bot, ping_alias, database):
+        """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
+        assert 'тест_алиас' in ping_alias.title
+
+    @staticmethod
+    def test_alias_numip(bot, ping_alias, database):
+        """Проверяет правильно ли бот распознает цифровое айпи"""
+        assert '127.0.0.1:25565' in ping_alias.description
+
+    @staticmethod
+    def test_thumbnail_link(bot, ping_alias, database):
+        """Проверяет ссылку в маленькой картинке справо сверху"""
+        assert 'https://api.mcsrvstat.us/icon/127.0.0.1:25565' == ping_alias.thumbnail.url
+
+    @staticmethod
+    def test_ping_is_int(bot, ping_online, database):
+        """Проверяет является ли значение в "Время ответа" int объектом"""
+        # Если при переводе в int возникнет ошибка, тест провалится
+        assert isinstance(int(ping_online.fields[0].value[:-2]), int)
+
+    @staticmethod
     def test_check_version(bot, ping_online, database):
         """Проверяет правильно ли бот распознает версию"""
         assert ping_online.fields[1].value == "1.17.1"
@@ -100,22 +121,6 @@ class TestPing:
         """Проверяет правильно ли бот распознает максимальный онлайн"""
         online = ping_online.fields[2].value.split('/')
         assert online[1] == "20"
-
-    @staticmethod
-    def test_alias_color(bot, ping_alias, database):
-        """Проверяет цвет Embed-а при использовании алиаса"""
-        assert str(ping_alias.color) == str(Color.green())
-
-    @staticmethod
-    def test_alias_numip(bot, ping_alias, database):
-        """Проверяет правильно ли бот распознает цифровое айпи"""
-        assert '127.0.0.1' in ping_alias.description
-        assert '25565' in ping_alias.description
-
-    @staticmethod
-    def test_alias_in(bot, ping_alias, database):
-        """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
-        assert 'тест_алиас' in ping_alias.title
 
     @staticmethod
     def test_offline_color(bot, ping_offline, database):
