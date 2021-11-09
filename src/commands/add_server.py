@@ -34,7 +34,7 @@ class AddServer(Cog):
                 description=f"Цифровое айпи: {info.num_ip}:{str(dns_info.port)}\n**Онлайн**",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{dns_info.host}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
             embed.add_field(name="Сервер успешно добавлен",
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Теперь вы можете использовать "стата {name}" или "алиас (алиас) {ip}"')

@@ -15,14 +15,15 @@ class Motd(Cog):
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
-            motd = str(status.raw["description"]["text"]).replace(" ", "+")
-            motd_url = motd.replace("\n", "%0A")
             embed = Embed(
-                title=f'Подробное мотд сервера {ip}',
+                title=f'Подробное мотд сервера {info.alias if info.alias is not None else ip}',
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
+            motd = str(status.raw["description"]["text"]).replace(" ", "+")
+            motd_url = motd.replace("\n", "%0A")
+
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)

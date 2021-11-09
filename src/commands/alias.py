@@ -23,7 +23,7 @@ class Alias(Cog):
                     description=f'Только владелец может изменить/добавить алиас сервера {ip}',
                     color=Color.red())
 
-                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
+                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
                 embed.add_field(name="Ошибка", value='Вы не владелец')
                 embed.set_footer(text=f'Для большей информации о сервере напишите "стата {ip}"')
 
@@ -35,7 +35,7 @@ class Alias(Cog):
                 description=f'Теперь вы можете использовать вместо {ip} алиас {alias}',
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
             embed.add_field(name="Данные успешно обновлены",
                             value='Напишите "помощь" для списка моих команд')
             embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')

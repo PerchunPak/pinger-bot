@@ -33,7 +33,7 @@ class Statistic(Cog):
             pings = await self.bot.db.get_pings(info.num_ip, dns_info.port)
             online_yest = await self.get_yest_ping(pings)
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{ip}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online) + '/' + str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
