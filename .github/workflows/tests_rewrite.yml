@@ -31,13 +31,16 @@ jobs:
         flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
         # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
         flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
-    - name: Lint with PyLint
+- name: Lint with PyLint
       run: |
         # ужасный линтер, тупой и умный одновременно
-        # тестируем все файлы корневой директории
-        pylint ${{ github.WORKSPACE }} --rcfile=${{ github.WORKSPACE }}/.pylint --exit-zero
+        #
+        # указываем все файлы корневой директории
+        pylint *.py --rcfile=.pylint --exit-zero
+        # смотрим на файлы в папке src и src/commands
+        pylint src --rcfile=.pylint --exit-zero
         # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621 и W0613
-        pylint ${{ github.WORKSPACE }}/tests --rcfile=${{ github.WORKSPACE }}/tests/.pylint --exit-zero
+        pylint tests --rcfile=tests/.pylint --exit-zero
   test:
     needs: lint
     runs-on: ubuntu-latest
