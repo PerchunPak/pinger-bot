@@ -7,4 +7,6 @@ POSTGRES = "postgres://pingerbot:password@localhost:5432/pingerbotdb"
 """
 Данные от Postgres (СУБД). Это необходимо, чтобы бот мог хранить данные в базе данных SQL.
 Данные выглядят так: "postgres://[user]:[password]@[host]:[port]/[database name]" (Некоторые данные не обязательные)
+
+ВАЖНО: Если вы планируете использовать дата базу запущеную через докер, укажите вместо localhost значение db
 """

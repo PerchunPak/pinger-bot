@@ -1,11 +1,13 @@
 FROM python:3.9
-FROM gorialis/discord.py
+FROM gorialis/discord.py:minimal
 
-WORKDIR /usr/src/app
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "main.py" ]
+CMD [ "python", "run.py" ]

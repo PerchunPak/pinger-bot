@@ -9,7 +9,11 @@ services:
       POSTGRES_USER: pingerbot
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pingerbotdb
+    networks:
+      - default
 
   bot:
     image: pingerbot:latest
     restart: always
+    networks:
+      - default
