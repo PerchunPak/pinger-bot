@@ -20,20 +20,20 @@ class Statistic(Cog):
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)
 
-        if info.valid: database_server = await self.bot.db.get_server(info.num_ip, dns_info.port)
+        if info.valid: database_server = await self.bot.db.get_server(info.ip, dns_info.port)
         else: database_server = []
 
         if info.valid and len(database_server) != 0:
             embed = Embed(
                 title=f'Статистика сервера {info.alias if info.alias is not None else ip}',
-                description=f"Цифровое айпи: {info.num_ip}:{str(dns_info.port)}\n"
+                description=f"Цифровое айпи: {info.ip}:{str(dns_info.port)}\n"
                             f"**{'Онлайн' if status else 'Офлайн'}**",
                 color=Color.green())
 
-            pings = await self.bot.db.get_pings(info.num_ip, dns_info.port)
+            pings = await self.bot.db.get_pings(info.ip, dns_info.port)
             online_yest = await self.get_yest_ping(pings)
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
             embed.add_field(name="Текущий онлайн", value=str(status.players.online) + '/' + str(status.players.max))
             embed.add_field(name="Онлайн сутки назад в это же время", value=online_yest)
             embed.add_field(name="Рекорд онлайна за всё время", value=str(database_server[0]['record']))
@@ -79,7 +79,7 @@ class Statistic(Cog):
 
     @staticmethod
     async def send_and_cache_plot(fig, info, dns_info, embed, ctx):
-        file_name = info.num_ip + '_' + str(dns_info.port) + '.png'
+        file_name = info.ip + '_' + str(dns_info.port) + '.png'
         try: mkdir('./plots/')
         except FileExistsError: pass
         fig.savefig('./plots/' + file_name)

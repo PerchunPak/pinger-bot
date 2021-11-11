@@ -27,7 +27,7 @@ class TestAddFunctions:
         """Проверяет функцию add_server"""
         await database.make_tables()
         await database.add_server('127.0.0.11', 0, 25565)
-        server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.11' AND port=25565")
+        server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.11' AND port=25565")
         assert len(server) > 0
 
     @staticmethod
@@ -36,7 +36,7 @@ class TestAddFunctions:
         """Проверяет функцию add_server, правильно ли записывает owner_id"""
         await database.make_tables()
         await database.add_server('127.0.0.12', 123123, 25565)
-        server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.12' AND port=25565")
+        server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.12' AND port=25565")
         assert server[0]['owner'] == 123123
 
     @staticmethod
@@ -55,7 +55,7 @@ class TestAddFunctions:
         await database.make_tables()
         await database.add_server('127.0.0.14', 0, 25565)
         await database.add_alias('тест', '127.0.0.14', 25565)
-        server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.14' AND port=25565")
+        server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.14' AND port=25565")
         assert server[0]['alias'] == 'тест'
 
     @staticmethod
@@ -65,7 +65,7 @@ class TestAddFunctions:
         await database.make_tables()
         await database.add_server('127.0.0.15', 0, 25565)
         await database.add_record('127.0.0.15', 25565, 33)
-        server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.15' AND port=25565")
+        server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.15' AND port=25565")
         assert server[0]['record'] == 33
 
 
@@ -79,7 +79,7 @@ class TestGetFunctions:
         await database.make_tables()
         await database.add_server('127.0.0.16', 0, 25565)
         answer = await database.get_server('127.0.0.16', 25565)
-        right_answer = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.16' AND port=25565")
+        right_answer = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.16' AND port=25565")
         assert answer == right_answer
 
     @staticmethod
@@ -117,7 +117,7 @@ class TestGetFunctions:
         await database.add_server('127.0.0.23', 0, 25565)
         await database.add_alias('тест123', '127.0.0.23', 25565)
         answer = await database.get_ip_alias('тест123')
-        right_answer = await database.pool.fetch("SELECT numip, port FROM sunservers WHERE alias='тест123';")
+        right_answer = await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")
         assert answer == right_answer
 
     @staticmethod

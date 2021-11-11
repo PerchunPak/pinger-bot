@@ -18,10 +18,10 @@ class Ping(Cog):
         if status:
             embed = Embed(
                 title=f'Результаты пинга {info.alias if info.alias is not None else ip}',
-                description=f'Цифровое айпи: {info.num_ip}:{str(dns_info.port)}\n**Онлайн**',
+                description=f'Цифровое айпи: {info.ip}:{str(dns_info.port)}\n**Онлайн**',
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
             embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f'{status.players.online}/{status.players.max}')

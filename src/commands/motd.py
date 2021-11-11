@@ -23,7 +23,7 @@ class Motd(Cog):
             motd = str(status.raw["description"]["text"]).replace(" ", "+")
             motd_url = motd.replace("\n", "%0A")
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.num_ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)

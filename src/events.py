@@ -88,7 +88,7 @@ class Events(Cog):
 
         servers = await self.bot.db.get_servers()
         for serv in servers:
-            ip = str(serv['numip'])[:-3]
+            ip = str(serv['ip'])[:-3]
             port = serv['port']
             mcserver = MinecraftServer.lookup(ip + ':' + str(port))
             try:

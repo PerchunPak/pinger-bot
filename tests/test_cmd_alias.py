@@ -56,7 +56,7 @@ class TestAlias:
     async def test_is_added_to_db(event_loop, bot, database, alias_added):
         """Проверяет добавился ли алиас в дата базу"""
         ip_from_alias = await database.get_ip_alias('тест2')
-        ip_from_alias = str(ip_from_alias[0]['numip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
+        ip_from_alias = str(ip_from_alias[0]['ip'])[0:-3] + ':' + str(ip_from_alias[0]['port'])
         assert ip_from_alias == '127.0.0.9:25565'
 
     @staticmethod

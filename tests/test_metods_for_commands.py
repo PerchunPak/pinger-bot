@@ -45,9 +45,9 @@ class TestMetodsForCommands:
     @mark.asyncio
     async def test_parse_ip_alias(bot, database, metods_for_commands):
         """Тест на проверку алиаса в методе MetodsForCommands.parse_ip"""
-        await database.pool.execute("INSERT INTO sunservers (numip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
+        await database.pool.execute("INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
         await database.pool.execute("UPDATE sunservers SET alias = $2 "
-                                    "WHERE numip = $1 AND port = 25565;", "127.0.0.29", "тест28")
+                                    "WHERE ip = $1 AND port = 25565;", "127.0.0.29", "тест28")
         answer = await metods_for_commands.parse_ip("тест28")
         assert answer == ServerInfo(True, "тест28", "127.0.0.29")
 

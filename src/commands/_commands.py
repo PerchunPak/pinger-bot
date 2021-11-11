@@ -17,14 +17,14 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            num_ip = str(ip_from_alias[0]['numip'])[:-3]
-            return ServerInfo(valid, alias, num_ip)
+            ip = str(ip_from_alias[0]['ip'])[:-3]
+            return ServerInfo(valid, alias, ip)
         else: alias = None
 
-        try: num_ip, valid = gethostbyname(input_ip), True
-        except gaierror: valid, num_ip = False, None
+        try: ip, valid = gethostbyname(input_ip), True
+        except gaierror: valid, ip = False, None
 
-        return ServerInfo(valid, alias, num_ip)
+        return ServerInfo(valid, alias, ip)
 
     async def ping_server(self, ip):
         info = await self.parse_ip(ip)
