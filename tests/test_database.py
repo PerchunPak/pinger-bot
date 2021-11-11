@@ -2,7 +2,6 @@
 Файл для теста дата базы
 """
 from datetime import datetime, timedelta
-from ipaddress import IPv4Network
 from pytest import fixture, mark
 from src.database import PostgresController
 
@@ -181,9 +180,9 @@ class TestAnotherFunctions:
             ORDER BY time;
         """
         pings = await database.pool.fetch(sql, "127.0.0.26", 25565)
-        pings_right = [(IPv4Network('127.0.0.26/32'), 25565, time_23h, 3),
-                       (IPv4Network('127.0.0.26/32'), 25565, time_12h, 2),
-                       (IPv4Network('127.0.0.26/32'), 25565, time_1h, 1)]
+        pings_right = [('127.0.0.26', 25565, time_23h, 3),
+                       ('127.0.0.26', 25565, time_12h, 2),
+                       ('127.0.0.26', 25565, time_1h, 1)]
         i = 0
         for ping in pings:
             assert tuple(ping) == pings_right[i]

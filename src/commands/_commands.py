@@ -17,11 +17,13 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            ip = str(ip_from_alias[0]['ip'])[:-3]
+            ip = str(ip_from_alias[0]['ip'])
             return ServerInfo(valid, alias, ip)
         else: alias = None
 
-        try: ip, valid = gethostbyname(input_ip), True
+        try:
+            gethostbyname(input_ip)
+            ip, valid = input_ip, True
         except gaierror: valid, ip = False, None
 
         return ServerInfo(valid, alias, ip)

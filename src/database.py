@@ -38,18 +38,16 @@ class PostgresController:
 
         sunpings = """
         CREATE TABLE IF NOT EXISTS sunpings (
-            ip CIDR NOT NULL,
+            ip TEXT NOT NULL,
             port SMALLINT NOT NULL DEFAULT 25565,
             time TIMESTAMP,
             players INTEGER NOT NULL
         );
         """
 
-        # айпи может меняться в зависимости от домена
-        # TODO перенести хранение айпи в str
         sunservers = """
         CREATE TABLE IF NOT EXISTS sunservers (
-            ip CIDR NOT NULL,
+            ip TEXT NOT NULL,
             port SMALLINT NOT NULL DEFAULT 25565,
             record SMALLINT NOT NULL DEFAULT 0,
             alias TEXT UNIQUE,
@@ -65,7 +63,7 @@ class PostgresController:
     async def add_server(self, ip: str, owner_id: int, port: int = 25565):
         """
         Добавляет в дата базу новый сервер
-        :param ip: цифровое айпи IPv4 сервера
+        :param ip: айпи сервера
         :param owner_id: айди владельца сервера
         :param port: порт сервера (необязательный аргумент)
         """
@@ -78,7 +76,7 @@ class PostgresController:
     async def add_ping(self, ip: str, port: int, players: int):
         """
         Добавляет данные о пинге в дата базу
-        :param ip: цифровое айпи IPv4 сервера
+        :param ip: айпи сервера
         :param port: порт сервера
         :param players: количество игроков на сервере в момент пинга
         """
@@ -91,7 +89,7 @@ class PostgresController:
         """
         Добавляет алиас в дата базу
         :param alias: новый алиас сервера
-        :param ip: цифровое айпи IPv4 сервера
+        :param ip: айпи сервера
         :param port: порт сервера
         """
         sql = """
@@ -104,7 +102,7 @@ class PostgresController:
     async def add_record(self, ip: str, port: int = 25565, online: int = 0):
         """
         Добавляет данные о рекорде в дата базу
-        :param ip: цифровое айпи IPv4 сервера
+        :param ip: айпи сервера
         :param port: порт сервера
         :param online: рекорд онлайна
         """
