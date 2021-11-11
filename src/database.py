@@ -1,4 +1,4 @@
-"""
+	"""
 Вся работа с дата базой здесь.
 Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
@@ -49,12 +49,12 @@ class PostgresController:
         # TODO перенести хранение айпи в str
         sunservers = """
         CREATE TABLE IF NOT EXISTS sunservers (
-            numip CIDR NOT NULL,
+            ip CIDR NOT NULL,
             port SMALLINT NOT NULL DEFAULT 25565,
             record SMALLINT NOT NULL DEFAULT 0,
             alias TEXT UNIQUE,
             owner BIGSERIAL NOT NULL,
-            UNIQUE (numip, port)
+            UNIQUE (ip, port)
         );
         """
 
@@ -62,18 +62,18 @@ class PostgresController:
         for db_entry in db_entries:
             await self.pool.execute(db_entry)
 
-    async def add_server(self, numip: str, owner_id: int, port: int = 25565):
+    async def add_server(self, ip: str, owner_id: int, port: int = 25565):
         """
         Добавляет в дата базу новый сервер
-        :param numip: цифровое айпи IPv4 сервера
+        :param ip: цифровое айпи IPv4 сервера
         :param owner_id: айди владельца сервера
         :param port: порт сервера (необязательный аргумент)
         """
         sql = """
-        INSERT INTO sunservers (numip, port, owner) VALUES ($1, $2, $3);
+        INSERT INTO sunservers (ip, port, owner) VALUES ($1, $2, $3);
         """
 
-        await self.pool.execute(sql, numip, port, owner_id)
+        await self.pool.execute(sql, ip, port, owner_id)
 
     async def add_ping(self, ip: str, port: int, players: int):
         """
@@ -97,33 +97,33 @@ class PostgresController:
         sql = """
         UPDATE sunservers
         SET alias = $1
-        WHERE numip = $2 AND port = $3;
+        WHERE ip = $2 AND port = $3;
         """
         await self.pool.execute(sql, alias, ip, port)
 
-    async def add_record(self, numip: str, port: int = 25565, online: int = 0):
+    async def add_record(self, ip: str, port: int = 25565, online: int = 0):
         """
         Добавляет данные о рекорде в дата базу
-        :param numip: цифровое айпи IPv4 сервера
+        :param ip: цифровое айпи IPv4 сервера
         :param port: порт сервера
         :param online: рекорд онлайна
         """
         sql = """
         UPDATE sunservers
         SET record = $1
-        WHERE numip = $2 AND port = $3;
+        WHERE ip = $2 AND port = $3;
         """
-        await self.pool.execute(sql, online, numip, port)
+        await self.pool.execute(sql, online, ip, port)
 
-    async def get_server(self, numip: str, port: int = 25565):
+    async def get_server(self, ip: str, port: int = 25565):
         """
         Возвращает всю информацию сервера
         """
         sql = """
         SELECT * FROM sunservers
-        WHERE numip=$1 AND port=$2;
+        WHERE ip=$1 AND port=$2;
         """
-        return await self.pool.fetch(sql, numip, port)
+        return await self.pool.fetch(sql, ip, port)
 
     async def get_servers(self):
         """
@@ -139,12 +139,12 @@ class PostgresController:
         Возвращает айпи и порт сервера через алиас
         """
         sql = """
-        SELECT numip, port FROM sunservers
+        SELECT ip, port FROM sunservers
         WHERE alias=$1;
         """
         return await self.pool.fetch(sql, alias)
 
-    async def get_pings(self, numip: str, port: int = 25565):
+    async def get_pings(self, ip: str, port: int = 25565):
         """
         Возвращает пинги сервера
         """
@@ -153,7 +153,7 @@ class PostgresController:
         WHERE ip=$1 AND port=$2
         ORDER BY time;
         """
-        return await self.pool.fetch(sql, numip, port)
+        return await self.pool.fetch(sql, ip, port)
 
     async def remove_too_old_pings(self):
         """
