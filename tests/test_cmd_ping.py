@@ -15,7 +15,7 @@ class TestPing:
 
     @staticmethod
     @fixture(scope='class')
-    async def ping_online(event_loop, bot, database, monkeypatch_session):
+    async def ping_online(event_loop, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер"""
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -38,7 +38,7 @@ class TestPing:
 
     @staticmethod
     @fixture(scope='class')
-    async def ping_alias(event_loop, bot, database, monkeypatch_session):
+    async def ping_alias(event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы"""
         await database.add_server('127.0.0.1', 0, 25565)
         await database.add_alias('тест_алиас', '127.0.0.1', 25565)
@@ -64,7 +64,7 @@ class TestPing:
 
     @staticmethod
     @fixture(scope='class')
-    async def ping_offline(event_loop, bot, database, monkeypatch_session):
+    async def ping_offline(event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера"""
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout"""
@@ -80,49 +80,49 @@ class TestPing:
         return embed
 
     @staticmethod
-    def test_color(bot, ping_online, database):
+    def test_color(ping_online):
         """Проверят цвет в ответе бота"""
         assert str(ping_online.color) == str(Color.green())
 
     @staticmethod
-    def test_alias_in(bot, ping_alias, database):
+    def test_alias_in(ping_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in ping_alias.title
 
     @staticmethod
-    def test_alias_numip(bot, ping_alias, database):
+    def test_alias_numip(ping_alias):
         """Проверяет правильно ли бот распознает цифровое айпи"""
         assert '127.0.0.1:25565' in ping_alias.description
 
     @staticmethod
-    def test_thumbnail_link(bot, ping_alias, database):
+    def test_thumbnail_link(ping_alias):
         """Проверяет ссылку в маленькой картинке справо сверху"""
         assert ping_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.1:25565'
 
     @staticmethod
-    def test_ping_is_int(bot, ping_online, database):
+    def test_ping_is_int(ping_online):
         """Проверяет является ли значение в "Время ответа" int объектом"""
         # Если при переводе в int возникнет ошибка, тест провалится
         assert isinstance(int(ping_online.fields[0].value[:-2]), int)
 
     @staticmethod
-    def test_check_version(bot, ping_online, database):
+    def test_check_version(ping_online):
         """Проверяет правильно ли бот распознает версию"""
         assert ping_online.fields[1].value == "1.17.1"
 
     @staticmethod
-    def test_online_now(bot, ping_online, database):
+    def test_online_now(ping_online):
         """Проверяет правильно ли бот распознает текущий онлайн"""
         online = ping_online.fields[2].value.split('/')
         assert online[0] == "5"
 
     @staticmethod
-    def test_online_max(bot, ping_online, database):
+    def test_online_max(ping_online):
         """Проверяет правильно ли бот распознает максимальный онлайн"""
         online = ping_online.fields[2].value.split('/')
         assert online[1] == "20"
 
     @staticmethod
-    def test_offline_color(bot, ping_offline, database):
+    def test_offline_color(ping_offline):
         """Проверяет цвет Embed-а когда сервер оффлайн"""
         assert str(ping_offline.color) == str(Color.red())

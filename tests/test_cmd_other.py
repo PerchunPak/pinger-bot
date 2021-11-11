@@ -11,21 +11,21 @@ class TestOtherCommands:
 
     @staticmethod
     @fixture(scope='class')
-    async def help_cmd(event_loop, bot):
+    async def help_cmd(event_loop):
         """Фикстура для проверки команды "помощь"."""
         await message("помощь")
         return get_embed().to_dict()
 
     @staticmethod
     @fixture(scope='class')
-    async def about(event_loop, bot):
+    async def about(event_loop):
         """Фикстура для проверки команды "инфо"."""
         await message("инфо")
         return get_embed()
 
     @staticmethod
     @fixture(scope='class')
-    async def invite(event_loop, bot):
+    async def invite(event_loop):
         """Фикстура для проверки команды "пригласить"."""
         await message("пригласить")
         return get_message()
@@ -55,7 +55,7 @@ class TestOtherCommands:
         assert str(bot.app_info.owner) == about.fields[0].value
 
     @staticmethod
-    def test_about_count_servers_int(bot, about):
+    def test_about_count_servers_int(about):
         """
         Проверят int ли количество серверов.
         Если не int, оно выдаст ошибку при переводе в int.
@@ -64,7 +64,7 @@ class TestOtherCommands:
         assert isinstance(int(about.fields[1].value), int)
 
     @staticmethod
-    def test_about_count_users_int(bot, about):
+    def test_about_count_users_int(about):
         """
         Проверят int ли количество пользователей.
         Если не int, оно выдаст ошибку при переводе в int.
@@ -73,7 +73,7 @@ class TestOtherCommands:
         assert isinstance(int(about.fields[2].value), int)
 
     @staticmethod
-    def test_about_python_version(bot, about):
+    def test_about_python_version(about):
         """Проверят правильно ли бот распознает версию Python."""
         assert '.'.join(map(str, version_info[:3])) in about.fields[3].value
 

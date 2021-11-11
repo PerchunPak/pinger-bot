@@ -15,7 +15,7 @@ class TestMotd:
 
     @staticmethod
     @fixture(scope='class')
-    async def motd_online(event_loop, bot, database, monkeypatch_session):
+    async def motd_online(event_loop, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер"""
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -38,7 +38,7 @@ class TestMotd:
 
     @staticmethod
     @fixture(scope='class')
-    async def motd_alias(event_loop, bot, database, monkeypatch_session):
+    async def motd_alias(event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы"""
         await database.add_server('127.0.0.2', 0, 25565)
         await database.add_alias('тест_алиас', '127.0.0.2', 25565)
@@ -64,7 +64,7 @@ class TestMotd:
 
     @staticmethod
     @fixture(scope='class')
-    async def motd_offline(event_loop, bot, database, monkeypatch_session):
+    async def motd_offline(event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера"""
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout"""
@@ -80,33 +80,33 @@ class TestMotd:
         return embed
 
     @staticmethod
-    def test_color(bot, motd_online, database):
+    def test_color(motd_online):
         """Проверят цвет в ответе бота"""
         assert str(motd_online.color) == str(Color.green())
 
     @staticmethod
-    def test_alias_in(bot, motd_alias, database):
+    def test_alias_in(motd_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи"""
         assert 'тест_алиас' in motd_alias.title
 
     @staticmethod
-    def test_thumbnail_link(bot, motd_alias, database):
+    def test_thumbnail_link(motd_alias):
         """Проверяет ссылку в маленькой картинке справо сверху"""
         assert motd_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.2:25565'
 
     @staticmethod
-    def test_motd(bot, motd_online, database):
+    def test_motd(motd_online):
         """Проверяет правильно ли бот распознает мотд"""
         assert motd_online.fields[0].value == "A Minecraft Server"
 
     @staticmethod
-    def test_url_motd(bot, motd_online, database):
+    def test_url_motd(motd_online):
         """Проверяет правильно ли генерирует ссылку на редактирование мотд"""
         normal_motd = motd_online.fields[1].value.replace('https://mctools.org/motd-creator?text=', '')
         normal_motd = normal_motd.replace('%0A', '\n').replace('+', ' ')
         assert normal_motd == "A Minecraft Server"
 
     @staticmethod
-    def test_offline_color(bot, motd_offline, database):
+    def test_offline_color(motd_offline):
         """Проверяет цвет Embed-а когда сервер оффлайн"""
         assert str(motd_offline.color) == str(Color.red())

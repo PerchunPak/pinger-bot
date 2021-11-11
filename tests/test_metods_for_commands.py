@@ -22,28 +22,28 @@ class TestMetodsForCommands:
 
     @staticmethod
     @fixture(scope="class")
-    async def wait_please(bot, metods_for_commands):
+    async def wait_please():
         """Фикстура получающая ответ от тестовой команды wait_please"""
         await message("wait_please example.com")
         return get_embed()
 
     @staticmethod
     @fixture(scope="class")
-    async def fail_message_online(bot, metods_for_commands):
+    async def fail_message_online():
         """Фикстура получающая ответ от тестовой команды fail_message"""
         await message("fail_message example.com 1")
         return get_embed()
 
     @staticmethod
     @fixture(scope="class")
-    async def fail_message_offline(bot, metods_for_commands):
+    async def fail_message_offline():
         """Фикстура получающая ответ от тестовой команды fail_message, но теперь если online=False"""
         await message("fail_message example.com 0")
         return get_embed()
 
     @staticmethod
     @mark.asyncio
-    async def test_parse_ip_alias(bot, database, metods_for_commands):
+    async def test_parse_ip_alias(database, metods_for_commands):
         """Тест на проверку алиаса в методе MetodsForCommands.parse_ip"""
         await database.pool.execute("INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
         await database.pool.execute("UPDATE sunservers SET alias = $2 "
@@ -53,14 +53,14 @@ class TestMetodsForCommands:
 
     @staticmethod
     @mark.asyncio
-    async def test_parse_ip_valid(bot, metods_for_commands):
+    async def test_parse_ip_valid(metods_for_commands):
         """Тест на проверку действий при валидном айпи"""
         answer = await metods_for_commands.parse_ip("127.0.0.30")
         assert answer == ServerInfo(True, None, "127.0.0.30")
 
     @staticmethod
     @mark.asyncio
-    async def test_parse_ip_not_valid(bot, metods_for_commands):
+    async def test_parse_ip_not_valid(metods_for_commands):
         """Тест на проверку действий при не валидном айпи"""
         answer = await metods_for_commands.parse_ip("www")
         assert answer == ServerInfo(False, None, None)
@@ -79,7 +79,7 @@ class TestMetodsForCommands:
         return False not in ret
 
     @mark.asyncio
-    async def test_ping_server_valid(self, bot, metods_for_commands, monkeypatch_session):
+    async def test_ping_server_valid(self, metods_for_commands, monkeypatch_session):
         """Тест на проверку действий при валидном айпи в методе MetodsForCommands.ping_server"""
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -102,14 +102,14 @@ class TestMetodsForCommands:
 
     @staticmethod
     @mark.asyncio
-    async def test_ping_server_not_valid(bot, metods_for_commands):
+    async def test_ping_server_not_valid(metods_for_commands):
         """Тест на проверку действий при не валидном айпи"""
         answer = await metods_for_commands.ping_server("www")
         assert answer == (False, False, ServerInfo(False, None, None))
 
     @staticmethod
     @mark.asyncio
-    async def test_ping_server_not_answer(bot, metods_for_commands, monkeypatch_session):
+    async def test_ping_server_not_answer(metods_for_commands, monkeypatch_session):
         """Тест на проверку действий если сервер не ответил"""
         def fake_server_answer(class_self=None):
             """Эмулирует ответ сервера"""
@@ -125,41 +125,41 @@ class TestMetodsForCommands:
                info.__dict__ == ServerInfo(True, None, "127.0.0.32").__dict__
 
     @staticmethod
-    def test_wait_please_color(bot, wait_please):
+    def test_wait_please_color(wait_please):
         """Тест на проверку цвета в сообщении wait_please"""
         assert str(wait_please.color) == str(Color.orange())
 
     @staticmethod
-    def test_wait_please_ip_in_title(bot, wait_please):
+    def test_wait_please_ip_in_title(wait_please):
         """Тест на проверку есть ли айпи в title"""
         assert "example.com" in wait_please.title
 
     @staticmethod
-    def test_fail_message_online_color(bot, fail_message_online):
+    def test_fail_message_online_color(fail_message_online):
         """Тест на проверку цвета в сообщении fail_message (online)"""
         assert str(fail_message_online.color) == str(Color.red())
 
     @staticmethod
-    def test_fail_message_online_ip_in_title(bot, fail_message_online):
+    def test_fail_message_online_ip_in_title(fail_message_online):
         """Тест на проверку есть ли айпи в title"""
         assert "example.com" in fail_message_online.title
 
     @staticmethod
-    def test_fail_message_online_status(bot, fail_message_online):
+    def test_fail_message_online_status(fail_message_online):
         """Тест на проверку правильного статуса в описании Embed'а"""
         assert "Онлайн" in fail_message_online.description
 
     @staticmethod
-    def test_fail_message_offline_color(bot, fail_message_offline):
+    def test_fail_message_offline_color(fail_message_offline):
         """Тест на проверку цвета в сообщении fail_message (offline)"""
         assert str(fail_message_offline.color) == str(Color.red())
 
     @staticmethod
-    def test_fail_message_offline_ip_in_title(bot, fail_message_offline):
+    def test_fail_message_offline_ip_in_title(fail_message_offline):
         """Тест на проверку есть ли айпи в title"""
         assert "example.com" in fail_message_offline.title
 
     @staticmethod
-    def test_fail_message_offline_status(bot, fail_message_offline):
+    def test_fail_message_offline_status(fail_message_offline):
         """Тест на проверку правильного статуса в описании Embed'а"""
         assert "Офлайн" in fail_message_offline.description
