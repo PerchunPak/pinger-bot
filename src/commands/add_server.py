@@ -1,3 +1,4 @@
+"""Файл для команды "добавить" и ничего больше."""
 from asyncpg.exceptions import UniqueViolationError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
@@ -5,20 +6,34 @@ from src.commands._commands import MetodsForCommands
 
 
 class AddServer(Cog):
+    """Класс для команды "добавить".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='добавить')
     @is_owner()
-    async def add_server(self, ctx, ip):
-        """Добавление сервера в бота"""
+    async def add_server(self, ctx, ip: str):
+        """Добавление сервера в бота.
+
+        Args:
+            ctx: Объект сообщения.
+            ip: Айпи сервера.
+        """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)
         if status:
             name = info.alias if info.alias is not None else ip
-            try: await self.bot.db.add_server(info.ip, ctx.author.id, dns_info.port)
+            try: await self.bot.db.add_server(info.ip, dns_info.port, ctx.author.id)
             except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {name}',
@@ -45,4 +60,5 @@ class AddServer(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(AddServer(bot))

@@ -1,13 +1,11 @@
-"""
-Запускает бота
-"""
+"""Запускает бота."""
 from discord import Intents, Status
 from discord.ext.commands import Bot
 from src.bot import PingerBot
 
 
 def main():
-    """Главная функция для запуска бота"""
+    """Главная функция для запуска бота."""
     bot_intents = Intents.default()
     bot_intents.members = True  # pylint: disable=E0237
 

@@ -1,20 +1,38 @@
+"""Модуль для команды "алиас"."""
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 from src.commands._commands import MetodsForCommands
 
 
 class Alias(Cog):
+    """Класс для команды "алиас".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='алиас')
-    async def alias(self, ctx, alias, ip):
-        """Добавление алиаса к серверу"""
+    async def alias(self, ctx, alias: str, ip: str):
+        """Добавление алиаса к серверу.
+
+        Args:
+            ctx: Объект сообщения.
+            alias: Новый алиас сервера.
+            ip: Айпи сервера.
+        """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
-        if info.valid: database_server = await self.bot.db.get_server(info.ip, dns_info.port)
+        if info.valid:
+            database_server = await self.bot.db.get_server(info.ip, dns_info.port)
+            print()
         else: database_server = []
         if len(database_server) != 0:
             name = info.alias if info.alias is not None else ip
@@ -55,4 +73,5 @@ class Alias(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(Alias(bot))

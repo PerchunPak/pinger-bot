@@ -1,16 +1,29 @@
+"""Модуль для других команд."""
 from sys import version_info
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 
 
 class OtherCommands(Cog):
+    """Класс для команды "мотд".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
 
     @command(name="помощь", aliases=["help", "хэлп", "хєлп", "хелп"])
     async def help(self, ctx):
-        """Это команда помощи"""
+        """Это команда помощи.
+
+        Args:
+            ctx: Объект сообщения.
+        """
         commands = sorted([c for c in self.bot.commands if not c.hidden], key=lambda c: c.name)
 
         embed = Embed(
@@ -21,12 +34,17 @@ class OtherCommands(Cog):
                         "\n\nВот короткий список моих команд:", color=Color.greyple())
         embed.set_footer(text="Примечание: Нет, я не пингую сервера перед тем как вы меня добавите")
         for cmd in commands:
-            embed.add_field(name=cmd.name, value=cmd.help, inline=False)
+            cmd.help = cmd.help.split("\n")
+            embed.add_field(name=cmd.name, value=cmd.help[0], inline=False)
         await ctx.send(embed=embed)
 
     @command(name="инфо", aliases=["об", "about"])
     async def about(self, ctx):
-        """Немного базовой информации про меня"""
+        """Немного базовой информации про меня.
+
+        Args:
+            ctx: Объект сообщения.
+        """
         embed = Embed(
             title=str(self.bot.user),
             description=self.bot.app_info.description + f"\n\n**ID**: {self.bot.app_info.id}", color=Color.greyple())
@@ -46,11 +64,16 @@ class OtherCommands(Cog):
 
     @command(name="пригласить", aliases=["invite", "приглос", "приг"])
     async def invite(self, ctx):
-        """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер"""
+        """Скидывает ссылку чтобы Вы могли пригласить бота на свой сервер.
+
+        Args:
+            ctx: Объект сообщения.
+        """
         await ctx.send('Это моя пригласительная ссылка чтобы Вы могли считать "ладно" тоже:\n'
                        f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
                        "&scope=bot&permissions=8")
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(OtherCommands(bot))

@@ -1,3 +1,4 @@
+"""Модуль для команды "пинг"."""
 from re import sub as re_sub, IGNORECASE
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
@@ -5,14 +6,28 @@ from src.commands._commands import MetodsForCommands
 
 
 class Ping(Cog):
+    """Класс для команды "пинг".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='пинг')
-    async def ping(self, ctx, ip):
-        """Пинг сервера и показ его основной информации"""
+    async def ping(self, ctx, ip: str):
+        """Пинг сервера и показ его основной информации.
+
+        Args:
+            ctx: Объект сообщения.
+            ip: Айпи сервера.
+        """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)
         if status:
@@ -35,4 +50,5 @@ class Ping(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(Ping(bot))

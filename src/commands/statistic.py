@@ -1,3 +1,4 @@
+"""Файл для команды "стата"."""
 from asyncio import sleep
 from datetime import datetime, timedelta
 from os import mkdir, remove
@@ -5,18 +6,33 @@ from discord import Color, Embed, File
 from discord.ext.commands import Cog, command
 from matplotlib.dates import DateFormatter
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
+from src.objects import ServerInfo
 from src.commands._commands import MetodsForCommands
 
 
 class Statistic(Cog):
+    """Класс для команды "стата".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='стата')
-    async def statistic(self, ctx, ip):
-        """Статистика сервера"""
+    async def statistic(self, ctx, ip: str):
+        """Статистика сервера.
+
+        Args:
+            ctx: Объект сообщения.
+            ip: Айпи сервера.
+        """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)
 
@@ -49,7 +65,15 @@ class Statistic(Cog):
             await self.metods_for_commands.fail_message(ctx, ip, online=status)
 
     @staticmethod
-    async def get_yest_ping(pings):
+    async def get_yest_ping(pings: list) -> str:
+        """Достает вчерашний пинг.
+
+        Args:
+            pings: Список пингов сервера.
+
+        Returns:
+            Вчерашний онлайн
+        """
         yesterday_25h = datetime.now() - timedelta(hours=25)
         yesterday_23h = datetime.now() - timedelta(hours=23)
         online_yest = 'Нету информации'
@@ -60,7 +84,17 @@ class Statistic(Cog):
         return online_yest
 
     @staticmethod
-    def create_plot(pings, info, ip):
+    def create_plot(pings: list, info: ServerInfo, ip: str):
+        """Создает график онлайна.
+
+        Args:
+            pings: Список пингов сервера.
+            info: Объект `ServerInfo` с информацией о сервере.
+            ip: Айпи сервера.
+
+        Returns:
+            Объект графика онлайна.
+        """
         fig, ax = subplots()
         arr_online = []
         arr_time = []
@@ -78,7 +112,16 @@ class Statistic(Cog):
         return fig
 
     @staticmethod
-    async def send_and_cache_plot(fig, info, dns_info, embed, ctx):
+    async def send_and_cache_plot(fig, info: ServerInfo, dns_info, embed, ctx):
+        """Отсылает и кеширует на недолгое время график.
+
+        Args:
+            fig: Объект графика онлайна.
+            info: Объект `ServerInfo` с информацией о сервере.
+            dns_info: Объект с DNS информацией о сервере.
+            embed: Embed объект.
+            ctx: Объект сообщения.
+        """
         file_name = info.ip + '_' + str(dns_info.port) + '.png'
         try: mkdir('./plots/')
         except FileExistsError: pass
@@ -94,4 +137,5 @@ class Statistic(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(Statistic(bot))

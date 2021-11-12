@@ -1,17 +1,32 @@
+"""Модуль для команды "мотд"."""
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 from src.commands._commands import MetodsForCommands
 
 
 class Motd(Cog):
+    """Класс для команды "мотд".
 
+    Attributes:
+        bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name='мотд')
-    async def motd(self, ctx, ip):
-        """Показывает мотд и ссылку на редактирование сервера"""
+    async def motd(self, ctx, ip: str):
+        """Показывает мотд и ссылку на редактирование сервера.
+
+        Args:
+            ctx: Объект сообщения.
+            ip: Айпи сервера.
+        """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
@@ -39,4 +54,5 @@ class Motd(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(Motd(bot))

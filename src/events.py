@@ -1,3 +1,4 @@
+"""Файл с событиями бота."""
 from datetime import datetime
 from socket import timeout, gaierror
 from traceback import format_exception
@@ -11,18 +12,29 @@ from src.bot import PingerBot
 
 
 class Events(Cog):
+    """Класс со всеми событиями.
+
+    Attributes:
+        bot: Главный объект бота.
+    """
     def __init__(self, bot):
+        """
+        Args:
+            bot: Главный объект бота.
+        """
         self.bot = bot
 
     @staticmethod
     @Cog.listener()
     async def on_connect():
+        """Просто держит в курсе."""
         print("\nУстановлено соединение с дискордом")
 
     @Cog.listener()
     async def on_ready(self):
-        self.bot.PingerBot = PingerBot(self.bot)
-        await self.bot.PingerBot.run_db()
+        """Важная часть запуска бота."""
+        pinger_bot_class = PingerBot(self.bot)
+        await pinger_bot_class.run_db()
         print('Зашел как:\n'
               f'{self.bot.user}\n'
               f'{self.bot.user.id}\n'
@@ -37,10 +49,11 @@ class Events(Cog):
         self.ping_servers.start()  # pylint: disable=E1101
         self.bot.app_info = await self.bot.application_info()
 
-        await self.bot.PingerBot.set_status(Status.online, 'пинг превыше всего', ActivityType.playing)
+        await pinger_bot_class.set_status(Status.online, 'пинг превыше всего', ActivityType.playing)
 
     @Cog.listener()
     async def on_message(self, message):
+        """Обрабатывает сообщения, в команды передается автоматически."""
         if message.author.bot: return
 
         message.content = message.content.lower()
@@ -50,17 +63,22 @@ class Events(Cog):
 
     @Cog.listener()
     async def on_command_error(self, ctx, exception):
+        """Error-handler, позволяет обрабатывать и игнорировать ошибки.
 
+        Args:
+            ctx: Объект сообщения.
+            exception: Объект исключения который вызвал это.
+        """
         if isinstance(exception, NotOwner):
-            return await ctx.send(f"Только мой Владелец, {self.bot.app_info.owner}, может использовать эту команду")
+            await ctx.send(f"Только мой Владелец, {self.bot.app_info.owner}, может использовать эту команду")
 
         elif isinstance(exception, MissingRequiredArgument):
-            return await ctx.send(f'Не хватает необходимого аргумента `{exception.param.name}`')
-        elif isinstance(exception, (Forbidden, NotFound, CommandNotFound)): return
+            await ctx.send(f'Не хватает необходимого аргумента `{exception.param.name}`')
+        elif isinstance(exception, (Forbidden, NotFound, CommandNotFound)): pass
 
         elif "Missing Permissions" in str(exception):
-            return await ctx.send("У меня нет необходимых прав для выполнения этой команды. "
-                                  "Предоставление мне разрешения администратора должно решить эту проблему")
+            await ctx.send("У меня нет необходимых прав для выполнения этой команды. "
+                           "Предоставление мне разрешения администратора должно решить эту проблему")
 
         else:
             await ctx.send(f'```\nКоманда: {ctx.message.content}\n{exception}\n```\n'
@@ -84,7 +102,7 @@ class Events(Cog):
 
     @loop(minutes=5)
     async def ping_servers(self):
-        """Пингует сервера и записывает их пинги в дата базу"""
+        """Пингует сервера и записывает их пинги в дата базу."""
 
         servers = await self.bot.db.get_servers()
         for serv in servers:
@@ -105,4 +123,5 @@ class Events(Cog):
 
 
 def setup(bot):
+    """Добавляет класс к слушателю бота."""
     bot.add_cog(Events(bot))
