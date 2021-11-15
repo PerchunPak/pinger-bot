@@ -105,8 +105,8 @@ class TestGetFunctions:
         await database.make_tables()
         await database.add_server('127.0.0.16', 25565, 0)
         answer = await database.get_server('127.0.0.16', 25565)
-        right_answer = await dict(database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.16' AND port=25565")[0])
-        assert answer == right_answer
+        right_answer = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.16' AND port=25565")
+        assert answer == dict(right_answer[0])
 
     @staticmethod
     @mark.asyncio
@@ -155,8 +155,8 @@ class TestGetFunctions:
         await database.add_server('127.0.0.23', 25565, 0)
         await database.add_alias('тест123', '127.0.0.23', 25565)
         answer = await database.get_ip_alias('тест123')
-        right_answer = dict(await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")[0])
-        assert answer == right_answer
+        right_answer = await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")
+        assert answer == dict(right_answer[0])
 
     @staticmethod
     @mark.asyncio
