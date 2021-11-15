@@ -32,7 +32,7 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            ip = str(ip_from_alias[0]['ip'])  # FIXME Порт всегда будет 25565
+            ip = str(ip_from_alias['ip'])  # FIXME Порт всегда будет 25565
             return ServerInfo(valid, alias, ip)
         else: alias = None
 

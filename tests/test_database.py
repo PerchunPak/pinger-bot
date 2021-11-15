@@ -155,7 +155,7 @@ class TestGetFunctions:
         await database.add_server('127.0.0.23', 25565, 0)
         await database.add_alias('тест123', '127.0.0.23', 25565)
         answer = await database.get_ip_alias('тест123')
-        right_answer = await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")
+        right_answer = dict(await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")[0])
         assert answer == right_answer
 
     @staticmethod

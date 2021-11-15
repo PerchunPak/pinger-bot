@@ -84,7 +84,7 @@ class TestAlias:
             alias_added: Embed объект ответа.
         """
         ip_from_alias = await database.get_ip_alias('тест2')
-        ip_from_alias = str(ip_from_alias[0]['ip']) + ':' + str(ip_from_alias[0]['port'])
+        ip_from_alias = str(ip_from_alias['ip']) + ':' + str(ip_from_alias['port'])
         assert ip_from_alias == '127.0.0.9:25565'
 
     @staticmethod
