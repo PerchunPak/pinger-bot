@@ -30,13 +30,11 @@ class Alias(Cog):
         """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
-        if info.valid:
-            database_server = await self.bot.db.get_server(info.ip, dns_info.port)
-            print()
-        else: database_server = []
+        if info.valid: database_server = await self.bot.db.get_server(info.ip, dns_info.port)
+        else: database_server = {}
         if len(database_server) != 0:
             name = info.alias if info.alias is not None else ip
-            if ctx.author.id != database_server[0]['owner']:
+            if ctx.author.id != database_server['owner']:
                 embed = Embed(
                     title=f'Вы не владелец сервера {name}',
                     description=f'Только владелец может изменить/добавить алиас сервера {name}',

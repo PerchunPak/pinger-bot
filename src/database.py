@@ -123,18 +123,23 @@ class PostgresController:
         """
         await self.pool.execute(sql, online, ip, port)
 
-    async def get_server(self, ip: str, port: int = 25565) -> list:
+    async def get_server(self, ip: str, port: int = 25565) -> dict:
         """Возвращает всю информацию сервера.
 
         Args:
             ip: Айпи сервера.
             port: Порт сервера.
+
+        Returns:
+            Информацию о сервере или пустой dict.
         """
         sql = """
         SELECT * FROM sunservers
         WHERE ip=$1 AND port=$2;
         """
-        return await self.pool.fetch(sql, ip, port)
+        result = await self.pool.fetch(sql, ip, port)
+        if len(result) != 0: return dict(result[0])
+        else: return {}
 
     async def get_servers(self) -> list:
         """Возвращает все сервера.
@@ -144,20 +149,22 @@ class PostgresController:
         """
         return await self.pool.fetch("SELECT * FROM sunservers;")
 
-    async def get_ip_alias(self, alias: str) -> list:
+    async def get_ip_alias(self, alias: str) -> dict:
         """Возвращает айпи и порт сервера через алиас.
 
         Args:
             alias: Алиас который дал юзер.
 
         Returns:
-            Список с сервером или пустой список.
-        """  # TODO Сделать более логичную логику для fetch
+            Сервер или пустой dict.
+        """
         sql = """
         SELECT ip, port FROM sunservers
         WHERE alias=$1;
         """
-        return await self.pool.fetch(sql, alias)
+        result = await self.pool.fetch(sql, alias)
+        if len(result) != 0: return dict(result[0])
+        else: return {}
 
     async def get_pings(self, ip: str, port: int = 25565) -> list:
         """Возвращает пинги сервера.
