@@ -34,7 +34,7 @@ async def bot(event_loop):
     )
     bot_var.load_extension("tests.commands")
     for file in listdir("./src/commands"):
-        if file.endswith(".py") and not file.startswith("_"):
+        if file.endswith(".py") and not file.endswith("_.py"):
             bot_var.load_extension("src.commands." + file[:-3])
 
     configure(bot_var)
