@@ -88,13 +88,13 @@ class Events(Cog):
 
             if len(traceback) <= 1500:
                 return await self.bot.app_info.owner.send(
-                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.message.context}".\n'
+                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.message.content}".\n'
                     f'Traceback: \n```\n{traceback}\n```')
             else:
                 traceback = [traceback[i:i + 1500] for i in range(0, len(traceback), 1500)]
 
                 await self.bot.app_info.owner.send(
-                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.message.context}".\n'
+                    f'Юзер `{str(ctx.author)}` нашел ошибку в команде "{ctx.message.content}".\n'
                     f'Traceback: \n```\n{traceback[0]}\n```')
 
                 for element in traceback[1:]:
