@@ -82,7 +82,7 @@ class Alias(Cog):
 
             embed.add_field(name="Не удалось добавить алиас",
                             value='Возможно вы указали неверный айпи')
-            embed.set_footer(text='**Причина:** Сервер не был найден в дата базе')
+            embed.set_footer(text='Причина: Сервер не был найден в дата базе')
             await ctx.send(ctx.author.mention, embed=embed)
 
 
