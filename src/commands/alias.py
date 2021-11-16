@@ -1,4 +1,5 @@
 """Модуль для команды "алиас"."""
+from asyncpg.exceptions import UniqueViolationError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 from src.commands.commands_ import MetodsForCommands
@@ -46,7 +47,18 @@ class Alias(Cog):
 
                 return await ctx.send(ctx.author.mention, embed=embed)
 
-            await self.bot.db.add_alias(alias, info.ip, dns_info.port)
+            try: await self.bot.db.add_alias(alias, info.ip, dns_info.port)
+            except UniqueViolationError:
+                embed = Embed(
+                    title=f'Алиас {alias} уже существует',
+                    description=f'Можно добавить только не существующий алиас',
+                    color=Color.red())
+
+                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+                embed.add_field(name="Ошибка", value='Алиас уже существует')
+                embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {name}"')
+
+                return await ctx.send(ctx.author.mention, embed=embed)
             embed = Embed(
                 title=f'Добавил алиас {alias} к серверу {ip}',
                 description=f'Теперь вы можете использовать вместо {ip} алиас {alias}',
