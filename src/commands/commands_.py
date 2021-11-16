@@ -60,7 +60,8 @@ class MetodsForCommands:
         info = await self.parse_ip(ip)
         if not info.valid: return False, False, info
 
-        dns_info = MinecraftServer.lookup(info.ip + ":" + info.port)
+        if info.port != "25565": dns_info = MinecraftServer.lookup(info.ip + ":" + info.port)
+        else: dns_info = MinecraftServer.lookup(info.ip)
         try: status = dns_info.status()
         except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
 
