@@ -2,7 +2,7 @@
 from re import sub as re_sub, IGNORECASE
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class Ping(Cog):

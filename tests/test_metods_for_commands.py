@@ -1,4 +1,4 @@
-"""Тесты для общих методов из файла /src/commands/_commands.py."""
+"""Тесты для общих методов из файла /src/commands/commands_.py."""
 from socket import timeout
 from discord import Color
 from discord.ext.test import message, get_embed
@@ -6,7 +6,7 @@ from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
 from pytest import fixture, mark
 from src.objects import ServerInfo
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class TestMetodsForCommands:

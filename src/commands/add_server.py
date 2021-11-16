@@ -2,7 +2,7 @@
 from asyncpg.exceptions import UniqueViolationError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class AddServer(Cog):

@@ -1,6 +1,6 @@
 """Добавляет тестовые команды которые будут использоваться самими тестами."""
 from discord.ext.commands import Cog, command
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class Commands(Cog):

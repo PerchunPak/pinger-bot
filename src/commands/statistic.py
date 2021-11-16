@@ -7,7 +7,7 @@ from discord.ext.commands import Cog, command
 from matplotlib.dates import DateFormatter
 from matplotlib.pyplot import subplots, xlabel, ylabel, title
 from src.objects import ServerInfo
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class Statistic(Cog):

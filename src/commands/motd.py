@@ -1,7 +1,7 @@
 """Модуль для команды "мотд"."""
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class Motd(Cog):

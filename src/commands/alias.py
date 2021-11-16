@@ -1,7 +1,7 @@
 """Модуль для команды "алиас"."""
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
-from src.commands._commands import MetodsForCommands
+from src.commands.commands_ import MetodsForCommands
 
 
 class Alias(Cog):

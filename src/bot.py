@@ -43,7 +43,7 @@ class PingerBot:
     def load_extensions(self):
         """Загружает файлы с командами, событиями и тд."""
         for file in listdir("./src/commands"):
-            if file.endswith(".py") and not file.startswith("_"):
+            if file.endswith(".py") and not file.endswith("_.py"):
                 self.bot.load_extension("src.commands." + file[:-3])
         self.bot.load_extension("src.events")
 
