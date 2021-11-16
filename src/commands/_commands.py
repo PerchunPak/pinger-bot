@@ -32,16 +32,20 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            ip = str(ip_from_alias['ip'])  # FIXME Порт всегда будет 25565
-            return ServerInfo(valid, alias, ip)
+            ip = str(ip_from_alias['ip'])
+            port = str(ip_from_alias['port'])
+            return ServerInfo(valid, alias, ip, port)
         else: alias = None
 
-        try:
-            gethostbyname(input_ip)
-            ip, valid = input_ip, True
-        except gaierror: valid, ip = False, None  # FIXME Если указать тут порт, выдаст gaierror
+        if ":" in input_ip: ip, given_port = input_ip.split(":")
+        else: ip, given_port = input_ip, "25565"
 
-        return ServerInfo(valid, alias, ip)
+        try:
+            gethostbyname(ip)
+            valid = True
+        except gaierror: valid, ip, given_port = False, None, None
+
+        return ServerInfo(valid, alias, ip, given_port)
 
     async def ping_server(self, ip: str) -> tuple:
         """Пингует сервер (очень логично).
@@ -56,7 +60,7 @@ class MetodsForCommands:
         info = await self.parse_ip(ip)
         if not info.valid: return False, False, info
 
-        dns_info = MinecraftServer.lookup(ip)
+        dns_info = MinecraftServer.lookup(info.ip + ":" + info.port)
         try: status = dns_info.status()
         except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
 
