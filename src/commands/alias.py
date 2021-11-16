@@ -28,6 +28,9 @@ class Alias(Cog):
             ctx: Объект сообщения.
             alias: Новый алиас сервера.
             ip: Айпи сервера.
+
+        Returns:
+            Объект отправленного сообщения, чтобы остановить команду.
         """
         await self.metods_for_commands.wait_please(ctx, ip)
         status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
@@ -59,6 +62,7 @@ class Alias(Cog):
                 embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {name}"')
 
                 return await ctx.send(ctx.author.mention, embed=embed)
+
             embed = Embed(
                 title=f'Добавил алиас {alias} к серверу {ip}',
                 description=f'Теперь вы можете использовать вместо {ip} алиас {alias}',
