@@ -35,7 +35,7 @@ class Motd(Cog):
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
                 color=Color.green())
 
-            motd = str(status.raw["description"]["text"]).replace(" ", "+")
+            motd = str(status.description).replace(" ", "+")
             motd_url = motd.replace("\n", "%0A")
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
