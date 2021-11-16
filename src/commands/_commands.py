@@ -39,7 +39,7 @@ class MetodsForCommands:
         try:
             gethostbyname(input_ip)
             ip, valid = input_ip, True
-        except gaierror: valid, ip = False, None
+        except gaierror: valid, ip = False, None  # FIXME Если указать тут порт, выдаст gaierror
 
         return ServerInfo(valid, alias, ip)
 
