@@ -34,7 +34,7 @@ class Ping(Cog):
             embed = Embed(
                 title=f'Результаты пинга {info.alias if info.alias is not None else ip}',
                 description=f'Цифровое айпи: {info.ip}:{str(dns_info.port)}\n**Онлайн**',
-                color=Color.green())
+                color=Color.green())  # FIXME Если в алиасе домен, цифровое айпи это домен
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
             embed.add_field(name="Время ответа", value=str(status.latency) + 'мс')
