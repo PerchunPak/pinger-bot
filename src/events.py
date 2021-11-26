@@ -103,10 +103,9 @@ class Events(Cog):
     @loop(minutes=5)
     async def ping_servers(self):
         """Пингует сервера и записывает их пинги в дата базу."""
-
         servers = await self.bot.db.get_servers()
         for serv in servers:
-            ip = str(serv['ip'])[:-3]
+            ip = str(serv['ip'])
             port = serv['port']
             mcserver = MinecraftServer.lookup(ip + ':' + str(port))
             try:
