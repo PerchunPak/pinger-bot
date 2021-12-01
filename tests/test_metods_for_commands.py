@@ -95,7 +95,7 @@ class TestMetodsForCommands:
         """
         dns_info = MinecraftServer("www")
         answer = await metods_for_commands.parse_ip("www")
-        assert answer == ServerInfo(False, None, dns_info, None, "???")  # FIXME
+        assert answer == ServerInfo(False, None, dns_info, None, "25565")
 
     @staticmethod
     def compare_ping_response_objects(obj1: PingResponse, obj2: PingResponse) -> bool:
@@ -162,7 +162,7 @@ class TestMetodsForCommands:
         """
         dns_info = MinecraftServer("www")
         answer = await metods_for_commands.ping_server("www")
-        assert answer == (False, False, ServerInfo(False, None, dns_info, None, "???"))
+        assert answer == (False, False, ServerInfo(False, None, dns_info, None, "25565"))
 
     @staticmethod
     @mark.asyncio
