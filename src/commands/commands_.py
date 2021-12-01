@@ -53,16 +53,15 @@ class MetodsForCommands:
             ip: Айпи сервера который нужно пинговать.
 
         Returns:
-            Объект статуса сервера, объект с DNS данными
-            о сервере и информация о сервере.
+            Объект статуса сервера и объект информации о сервере.
         """
         info = await self.parse_ip(ip)
         if not info.valid: return False, False, info
 
-        try: status = info.dns_info.status()
+        try: status = info.dns.status()
         except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
 
-        return status, info.dns_info, info
+        return status, info
 
     @staticmethod
     async def wait_please(ctx, ip: str):

@@ -30,9 +30,9 @@ class AddServer(Cog):
             ip: Айпи сервера.
         """
         await self.metods_for_commands.wait_please(ctx, ip)
-        status, dns_info, info = await self.metods_for_commands.ping_server(ip)
+        status, info = await self.metods_for_commands.ping_server(ip)
         if status:
-            try: await self.bot.db.add_server(dns_info.host, dns_info.port, ctx.author.id)
+            try: await self.bot.db.add_server(info.dns.host, info.dns.port, ctx.author.id)
             except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(
                     title=f'Не удалось добавить сервер {ip}',
@@ -45,10 +45,10 @@ class AddServer(Cog):
 
             embed = Embed(
                 title=f'Добавил сервер {ip}',
-                description=f"Цифровое айпи: {info.ip}:{str(dns_info.port)}\n**Онлайн**",
+                description=f"Цифровое айпи: {info.num_ip}:{str(info.dns.port)}\n**Онлайн**",
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
             embed.add_field(name="Сервер успешно добавлен",
                             value='Напишите "помощь" для получения большей информации о серверах')
             embed.set_footer(text=f'Теперь вы можете использовать "стата {ip}" или "алиас (алиас) {ip}"')

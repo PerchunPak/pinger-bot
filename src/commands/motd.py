@@ -28,7 +28,7 @@ class Motd(Cog):
             ip: Айпи сервера.
         """
         await self.metods_for_commands.wait_please(ctx, ip)
-        status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
+        status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
             embed = Embed(
                 title=f'Подробное мотд сервера {info.alias if info.alias is not None else ip}',
@@ -38,7 +38,7 @@ class Motd(Cog):
             motd = str(status.description).replace(" ", "+")
             motd_url = motd.replace("\n", "%0A")
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)

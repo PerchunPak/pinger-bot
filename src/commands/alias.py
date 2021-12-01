@@ -33,8 +33,8 @@ class Alias(Cog):
             Объект отправленного сообщения, чтобы остановить команду.
         """
         await self.metods_for_commands.wait_please(ctx, ip)
-        status, dns_info, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
-        if info.valid: database_server = await self.bot.db.get_server(info.ip, dns_info.port)
+        status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
+        if info.valid: database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
         else: database_server = {}
         if len(database_server) != 0:
             name = info.alias if info.alias is not None else ip
@@ -44,20 +44,20 @@ class Alias(Cog):
                     description=f'Только владелец может изменить/добавить алиас сервера {name}',
                     color=Color.red())
 
-                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
                 embed.add_field(name="Ошибка", value='Вы не владелец')
                 embed.set_footer(text=f'Для большей информации о сервере напишите "стата {name}"')
 
                 return await ctx.send(ctx.author.mention, embed=embed)
 
-            try: await self.bot.db.add_alias(alias, info.ip, dns_info.port)
+            try: await self.bot.db.add_alias(alias, info.dns.host, info.dns.port)
             except UniqueViolationError:
                 embed = Embed(
                     title=f'Алиас {alias} уже существует',
-                    description=f'Можно добавить только не существующий алиас',
+                    description='Можно добавить только не существующий алиас',
                     color=Color.red())
 
-                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+                embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
                 embed.add_field(name="Ошибка", value='Алиас уже существует')
                 embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {name}"')
 
@@ -68,7 +68,7 @@ class Alias(Cog):
                 description=f'Теперь вы можете использовать вместо {ip} алиас {alias}',
                 color=Color.green())
 
-            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.ip}:{str(dns_info.port)}")
+            embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
             embed.add_field(name="Данные успешно обновлены",
                             value='Напишите "помощь" для списка моих команд')
             embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')
