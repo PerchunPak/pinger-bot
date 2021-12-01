@@ -185,7 +185,7 @@ class PostgresController:
 
     async def remove_too_old_pings(self):
         """Удаляет пинги старше суток."""
-        yesterday = datetime.now() - timedelta(days=1)
+        yesterday = datetime.now() - timedelta(days=1, hours=2)
         sql = """
         DELETE FROM sunpings
         WHERE time < $1
