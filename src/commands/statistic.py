@@ -36,7 +36,7 @@ class Statistic(Cog):
         await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)
 
-        if info.valid: database_server = await self.bot.db.get_server(info.info.dns.host, info.dns.port)
+        if info.valid: database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
         else: database_server = {}
 
         if info.valid and len(database_server) != 0:
