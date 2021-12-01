@@ -69,8 +69,9 @@ class TestMetodsForCommands:
         await database.pool.execute("INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
         await database.pool.execute("UPDATE sunservers SET alias = $2 "
                                     "WHERE ip = $1 AND port = 25565;", "127.0.0.29", "тест28")
+        dns_info = MinecraftServer("127.0.0.29")
         answer = await metods_for_commands.parse_ip("тест28")
-        assert answer == ServerInfo(True, "тест28", "127.0.0.29")
+        assert answer == ServerInfo(True, "тест28", dns_info, "127.0.0.29", "25565")
 
     @staticmethod
     @mark.asyncio
@@ -80,8 +81,9 @@ class TestMetodsForCommands:
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
+        dns_info = MinecraftServer("127.0.0.30")
         answer = await metods_for_commands.parse_ip("127.0.0.30")
-        assert answer == ServerInfo(True, None, "127.0.0.30")
+        assert answer == ServerInfo(True, None, dns_info, "127.0.0.30", "25565")
 
     @staticmethod
     @mark.asyncio
@@ -91,8 +93,9 @@ class TestMetodsForCommands:
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
+        dns_info = MinecraftServer("www")
         answer = await metods_for_commands.parse_ip("www")
-        assert answer == ServerInfo(False, None, None)
+        assert answer == ServerInfo(False, None, dns_info, None, "???")  # FIXME
 
     @staticmethod
     def compare_ping_response_objects(obj1: PingResponse, obj2: PingResponse) -> bool:
@@ -147,7 +150,7 @@ class TestMetodsForCommands:
         # без этого при сравнении оно всегда выдает False
         assert self.compare_ping_response_objects(status, fake_server_answer()) and \
                dns_info.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, "127.0.0.31").__dict__
+               info.__dict__ == ServerInfo(True, None, dns_info, "127.0.0.31", "25565").__dict__
 
     @staticmethod
     @mark.asyncio
@@ -157,8 +160,9 @@ class TestMetodsForCommands:
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
+        dns_info = MinecraftServer("www")
         answer = await metods_for_commands.ping_server("www")
-        assert answer == (False, False, ServerInfo(False, None, None))
+        assert answer == (False, False, ServerInfo(False, None, dns_info, None, "???"))
 
     @staticmethod
     @mark.asyncio
@@ -187,7 +191,7 @@ class TestMetodsForCommands:
         # без этого при сравнении оно всегда выдает False
         assert status is False and \
                dns_info.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, "127.0.0.32").__dict__
+               info.__dict__ == ServerInfo(True, None, dns_info, "127.0.0.32", "25565").__dict__
 
     @staticmethod
     def test_wait_please_color(wait_please):

@@ -234,7 +234,8 @@ class TestAnotherFunctions:
             ORDER BY time;
         """
         pings = await database.pool.fetch(sql, "127.0.0.26", 25565)
-        pings_right = [('127.0.0.26', 25565, time_23h, 3),
+        pings_right = [('127.0.0.26', 25565, time_1d, 4),
+                       ('127.0.0.26', 25565, time_23h, 3),
                        ('127.0.0.26', 25565, time_12h, 2),
                        ('127.0.0.26', 25565, time_1h, 1)]
         i = 0

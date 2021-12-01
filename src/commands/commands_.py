@@ -34,7 +34,7 @@ class MetodsForCommands:
             valid, alias = True, input_ip
             dns_info = MinecraftServer.lookup(str(ip_from_alias['ip']) + ":" + str(ip_from_alias['port']))
             num_ip = gethostbyname(dns_info.host)
-            return ServerInfo(valid, alias, dns_info, num_ip, dns_info.port)
+            return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
         else: alias = None
 
         dns_info = MinecraftServer.lookup(input_ip)
@@ -44,7 +44,7 @@ class MetodsForCommands:
             valid = True
         except gaierror: valid, num_ip = False, None
 
-        return ServerInfo(valid, alias, dns_info, num_ip, dns_info.port)
+        return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
 
     async def ping_server(self, ip: str) -> tuple:
         """Пингует сервер (очень логично).
