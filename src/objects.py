@@ -1,18 +1,22 @@
 """Файл для кастомных объектов используемых в боте."""
+from mcstatus import MinecraftServer
 
 
 class ServerInfo:
     """Класс создан для возвращения объекта с информацией о сервере."""
-    def __init__(self, valid: bool, alias: str or None, ip: str or None, port: str or None = "25565"):
+    def __init__(self, valid: bool, alias: str or None, dns_info: MinecraftServer,
+                 ip: str or None, port: str or None):
         """
         Args:
             valid: Валидность айпи.
             alias: Алиас сервера.
+            dns_info: DNS-информация сервера
             ip: Айпи сервера.
             port: Порт сервер.
         """
         self.valid = valid
         self.alias = alias
+        self.dns_info = dns_info
         self.ip = ip
         self.port = port
 

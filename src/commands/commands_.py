@@ -32,20 +32,19 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            ip = str(ip_from_alias['ip'])
-            port = str(ip_from_alias['port'])
-            return ServerInfo(valid, alias, ip, port)
+            dns_info = MinecraftServer.lookup(str(ip_from_alias['ip']) + ":" + str(ip_from_alias['port']))
+            num_ip = gethostbyname(dns_info.host)
+            return ServerInfo(valid, alias, dns_info, num_ip, dns_info.port)
         else: alias = None
 
-        if ":" in input_ip: ip, given_port = input_ip.split(":")
-        else: ip, given_port = input_ip, "25565"
+        dns_info = MinecraftServer.lookup(input_ip)
 
         try:
-            gethostbyname(ip)
+            num_ip = gethostbyname(dns_info.host)
             valid = True
-        except gaierror: valid, ip, given_port = False, None, None
+        except gaierror: valid, num_ip = False, None
 
-        return ServerInfo(valid, alias, ip, given_port)
+        return ServerInfo(valid, alias, dns_info, num_ip, dns_info.port)
 
     async def ping_server(self, ip: str) -> tuple:
         """Пингует сервер (очень логично).
@@ -60,12 +59,10 @@ class MetodsForCommands:
         info = await self.parse_ip(ip)
         if not info.valid: return False, False, info
 
-        if info.port != "25565": dns_info = MinecraftServer.lookup(info.ip + ":" + info.port)
-        else: dns_info = MinecraftServer.lookup(info.ip)
-        try: status = dns_info.status()
+        try: status = info.dns_info.status()
         except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
 
-        return status, dns_info, info
+        return status, info.dns_info, info
 
     @staticmethod
     async def wait_please(ctx, ip: str):
