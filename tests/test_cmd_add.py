@@ -10,6 +10,7 @@ from pytest import fixture
 
 
 class TestAddServer:
+    """Класс для тестов и фикстур."""
     @staticmethod
     @fixture(scope='class')
     async def add_online(event_loop, bot, monkeypatch_session):
