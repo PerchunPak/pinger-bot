@@ -37,7 +37,9 @@ class PostgresController:
             Объект класса.
         """
         pool = await create_pool(connect_info)
-        return cls(pool)
+        pg_controller = cls(pool)
+        await pg_controller.make_tables()
+        return pg_controller
 
     async def make_tables(self):
         """Создает таблицы в дата базе если их ещё нет."""
