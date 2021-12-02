@@ -58,8 +58,7 @@ class OtherCommands(Cog):
         embed.add_field(name="Лицензия", value="[Apache License 2.0]"
                                                "(https://github.com/PerchunPak/PingerBot/blob/main/LICENSE)")
         embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/PingerBot", inline=False)
-        embed.set_footer(text="Примечание: Оригинальный автор не Perchun_Pak#9236, а NinjaSnail1080#8581")
-        # TODO Убрать упоминания об NinjaSnail1080
+        embed.set_footer(text="Примечание: Вы можете предлагать любые идеи в ЛС Perchun_Pak#9236")
         await ctx.send(embed=embed)
 
     @command(name="пригласить", aliases=["invite", "приглос", "приг"])
