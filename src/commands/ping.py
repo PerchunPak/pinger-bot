@@ -20,7 +20,7 @@ class Ping(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='пинг')
+    @command(name='пинг', aliases=["ping"])
     async def ping(self, ctx, ip: str):
         """Пинг сервера и показ его основной информации.
 

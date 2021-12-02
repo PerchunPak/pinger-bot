@@ -19,7 +19,7 @@ class Motd(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='мотд')
+    @command(name='мотд', aliases=["motd"])
     async def motd(self, ctx, ip: str):
         """Показывает мотд и ссылку на редактирование сервера.
 

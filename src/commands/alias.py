@@ -20,7 +20,7 @@ class Alias(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='алиас')
+    @command(name='алиас', aliases=["alias"])
     async def alias(self, ctx, alias: str, ip: str):
         """Добавление алиаса к серверу.
 

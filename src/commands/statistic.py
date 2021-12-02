@@ -25,7 +25,7 @@ class Statistic(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='стата')
+    @command(name='стата', aliases=["статистика", "stat", "statistic"])
     async def statistic(self, ctx, ip: str):
         """Статистика сервера.
 

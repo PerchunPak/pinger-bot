@@ -20,7 +20,7 @@ class AddServer(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='добавить')
+    @command(name='добавить', aliases=["добавь", "add"])
     @is_owner()
     async def add_server(self, ctx, ip: str):
         """Добавление сервера в бота.
