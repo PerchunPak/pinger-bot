@@ -166,6 +166,24 @@ class PostgresController:
         if len(result) != 0: return dict(result[0])
         else: return {}
 
+    async def get_alias_ip(self, ip: str, port: int) -> dict:
+        """Возвращает алиас сервера через айпи и порт который дал юзер.
+
+        Args:
+            ip: Айпи который дал юзер.
+            port: Порт который дал юзер.
+
+        Returns:
+            Сервер или пустой dict.
+        """
+        sql = """
+        SELECT alias FROM sunservers
+        WHERE ip=$1 AND port=$2;
+        """
+        result = await self.pool.fetch(sql, ip, port)
+        if len(result) != 0: return dict(result[0])
+        else: return {}
+
     async def get_pings(self, ip: str, port: int = 25565) -> list:
         """Возвращает пинги сервера.
 

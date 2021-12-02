@@ -35,9 +35,10 @@ class MetodsForCommands:
             dns_info = MinecraftServer.lookup(str(ip_from_alias['ip']) + ":" + str(ip_from_alias['port']))
             num_ip = gethostbyname(dns_info.host)
             return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
-        else: alias = None
-
-        dns_info = MinecraftServer.lookup(input_ip)
+        else:
+            dns_info = MinecraftServer.lookup(input_ip)
+            alias_from_ip = await self.bot.db.get_alias_ip(dns_info.host, dns_info.port)
+            alias = None if alias_from_ip == {} else alias_from_ip["alias"]
 
         try:
             num_ip = gethostbyname(dns_info.host)
