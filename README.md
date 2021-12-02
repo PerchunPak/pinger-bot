@@ -41,6 +41,19 @@
 Одна из них - `TOKEN`, который представляет собой строку, содержащую токен бота Discord. 
 Другой переменной является `POSTGRES`, это параметры подключения для базы данных Postgres, созданной на шаге 4.
 
+6. *Необязательно* **Разрешить добавлять сервера всем**
+
+Для этого зайдите в файл [`src/commands/add_server.py`](https://github.com/PerchunPak/PingerBot/blob/rewrite/src/commands/add_server.py), удалите строку `@is_owner()` и замените
+```py
+from discord.ext.commands import Cog, command, is_owner
+```
+На:
+```py
+from discord.ext.commands import Cog, command
+```
+
+Для отмены этого действия, просто верните строку и импорт.
+
 ## Запуск через Docker
 
 1. **Повторите все шаги выше.**
