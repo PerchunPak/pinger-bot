@@ -8,8 +8,6 @@ from pytest import fixture, mark
 from src.objects import ServerInfo
 from src.commands.commands_ import MetodsForCommands
 
-# TODO Добавить тесты для последних изменений
-
 
 class TestMetodsForCommands:
     """Класс для тестов и фикстур."""
