@@ -204,9 +204,9 @@ class TestAnotherFunctions:
         Args:
             database: Объект дата базы.
         """
-        raw_answer = ("one", "two", "three")
+        raw_answer = {"one", "two", "three"}
         answer = await database._PostgresController__clear_return([raw_answer])
-        assert dict(raw_answer) == answer
+        assert raw_answer == answer
 
     @staticmethod
     @mark.asyncio
