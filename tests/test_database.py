@@ -199,6 +199,11 @@ class TestAnotherFunctions:
     @staticmethod
     @mark.asyncio
     async def test_clear_return(database):
+        """Проверяет метод __clear_return
+
+        Args:
+            database: Объект дата базы.
+        """
         raw_answer = ("one", "two", "three")
         answer = await database._PostgresController__clear_return([raw_answer])
         assert dict(raw_answer) == answer
