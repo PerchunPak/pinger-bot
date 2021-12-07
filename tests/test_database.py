@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 from pytest import fixture, mark
 from src.database import PostgresController
+from tests.other import TestClass
 
 
 @fixture(scope='session')
@@ -201,12 +202,17 @@ class TestAnotherFunctions:
     async def test_clear_return(database):
         """Проверяет метод __clear_return
 
+        Иначе сделать никак, сделайте PL если знаете
+        как это лучше сделать.
+
         Args:
             database: Объект дата базы.
         """
-        raw_answer = {"one", "two", "three"}
-        answer = await database._PostgresController__clear_return([raw_answer])
-        assert raw_answer == answer
+        await database.add_ping('test_server', 25566, 123)
+        right_answer = await database.pool.fetch("SELECT * FROM sunpings")
+        right_answer = right_answer[0]
+        answer = await database._PostgresController__clear_return([right_answer])
+        assert dict(right_answer) == answer
 
     @staticmethod
     @mark.asyncio

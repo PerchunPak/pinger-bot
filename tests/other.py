@@ -44,3 +44,10 @@ class Commands(Cog):
 def setup(bot):
     """Добавляет класс к слушателю бота."""
     bot.add_cog(Commands(bot))
+
+
+class TestClass:
+    """Класс для создания объектов для тестов."""
+    def __init__(self, *args):
+        for arg in args:
+            self.__setattr__(arg, arg)
