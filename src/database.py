@@ -68,6 +68,19 @@ class PostgresController:
         for db_entry in db_entries:
             await self.pool.execute(db_entry)
 
+    async def __clear_return(self, result: list):
+        """Что бы не было копипаста, этот метод
+        возвращает чистый ответ метода.
+
+        Args:
+            result: Результат метода который нужно вернуть.
+
+        Returns:
+            Чистый ответ функции.
+        """
+        if len(result) != 0: return dict(result[0])
+        else: return {}
+
     async def add_server(self, ip: str, port: int, owner_id: int):
         """Добавляет в дата базу новый сервер.
 
@@ -140,8 +153,7 @@ class PostgresController:
         WHERE ip=$1 AND port=$2;
         """
         result = await self.pool.fetch(sql, ip, port)
-        if len(result) != 0: return dict(result[0])
-        else: return {}
+        return await self.__clear_return(result)
 
     async def get_servers(self) -> list:
         """Возвращает все сервера.
@@ -165,8 +177,7 @@ class PostgresController:
         WHERE alias=$1;
         """
         result = await self.pool.fetch(sql, alias)
-        if len(result) != 0: return dict(result[0])
-        else: return {}
+        return await self.__clear_return(result)
 
     async def get_alias_ip(self, ip: str, port: int) -> dict:
         """Возвращает алиас сервера через айпи и порт который дал юзер.
@@ -183,8 +194,7 @@ class PostgresController:
         WHERE ip=$1 AND port=$2;
         """
         result = await self.pool.fetch(sql, ip, port)
-        if len(result) != 0: return dict(result[0])
-        else: return {}
+        return await self.__clear_return(result)
 
     async def get_pings(self, ip: str, port: int = 25565) -> list:
         """Возвращает пинги сервера.

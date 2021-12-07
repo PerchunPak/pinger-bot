@@ -198,6 +198,24 @@ class TestAnotherFunctions:
     """Класс для тестов других функций."""
     @staticmethod
     @mark.asyncio
+    async def test_clear_return(database):
+        raw_answer = ("one", "two", "three")
+        answer = await database._PostgresController__clear_return([raw_answer])
+        assert dict(raw_answer) == answer
+
+    @staticmethod
+    @mark.asyncio
+    async def test_clear_return_empty(database):
+        """Проверяет метод __clear_return пустым ответом.
+
+        Args:
+            database: Объект дата базы.
+        """
+        returned = await database._PostgresController__clear_return([])
+        assert {} == returned
+
+    @staticmethod
+    @mark.asyncio
     async def test_make_tables(database):
         """Проверяет функцию make_tables.
 
