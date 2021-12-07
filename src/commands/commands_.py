@@ -57,7 +57,7 @@ class MetodsForCommands:
             Объект статуса сервера и объект информации о сервере.
         """
         info = await self.parse_ip(ip)
-        if not info.valid: return False, False, info
+        if not info.valid: return False, info
 
         try: status = info.dns.status()
         except (timeout, ConnectionRefusedError, gaierror, OSError): status = False

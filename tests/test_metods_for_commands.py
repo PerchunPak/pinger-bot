@@ -164,7 +164,7 @@ class TestMetodsForCommands:
         """
         dns_info = MinecraftServer("www")
         answer = await metods_for_commands.ping_server("www")
-        assert answer == (False, False, ServerInfo(False, None, dns_info, None, "25565"))
+        assert answer == (False, ServerInfo(False, None, dns_info, None, "25565"))
 
     @staticmethod
     @mark.asyncio
