@@ -2,7 +2,6 @@
 from datetime import datetime, timedelta
 from pytest import fixture, mark
 from src.database import PostgresController
-from tests.other import TestClass
 
 
 @fixture(scope='session')

@@ -32,7 +32,7 @@ async def bot(event_loop):
         help_command=None,
         intents=bot_intents
     )
-    bot_var.load_extension("tests.other")
+    bot_var.load_extension("tests.commands")
     for file in listdir("./src/commands"):
         if file.endswith(".py") and not file.endswith("_.py"):
             bot_var.load_extension("src.commands." + file[:-3])
