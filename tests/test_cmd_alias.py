@@ -65,7 +65,35 @@ class TestAlias:
         Returns:
             Embed объект ответа.
         """
-        await message("алиас тест3 127.0.0.10")
+        await message("алиас тест3 not_valid")
+        embed = get_embed()
+        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)                                 # "ожидайте, в процессе"
+            embed = get_embed()
+
+        return embed
+
+    @staticmethod
+    @fixture(scope='class')
+    async def alias_already_added(event_loop, bot, database):
+        """Фикстура для тестов если алиас уже добавлен.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            bot: Главный объект бота
+            database: Объект дата базы.
+
+        Returns:
+            Embed объект ответа.
+        """
+        test_user = None
+        for user in bot.users:
+            if user.bot: continue
+            test_user = user
+        await database.add_server('127.0.0.10', 25565, test_user.id)
+        await database.add_server('random_server.com', 25565, 0)
+        await database.add_alias("тест4", 'random_server.com', 25565)
+        await message("алиас тест4 127.0.0.10")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
             sleep(0.01)                                 # "ожидайте, в процессе"
@@ -122,3 +150,30 @@ class TestAlias:
             alias_not_added: Embed объект ответа.
         """
         assert 'не был найден в дата базе' in alias_not_added.footer.text
+
+    @staticmethod
+    def test_already_color(alias_already_added):
+        """Проверяет цвет если алиас уже добавлен.
+
+        Args:
+             alias_already_added: Embed объект ответа.
+        """
+        assert str(alias_already_added.color) == str(Color.red())
+
+    @staticmethod
+    def test_already_thumbnail_link(alias_already_added):
+        """Проверяет ссылку в маленькой картинке справо сверху.
+
+        Args:
+            alias_already_added: Embed объект ответа.
+        """
+        assert alias_already_added.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.10:25565'
+
+    @staticmethod
+    def test_already_alias_in_title(alias_already_added):
+        """Проверяет есть ли алиас в title если алиас уже добавлен
+
+        Args:
+            alias_already_added: Embed объект ответа.
+        """
+        assert "тест4" in alias_already_added.title
