@@ -67,6 +67,7 @@ class PostgresController:
         db_entries = (sunpings, sunservers)
         for db_entry in db_entries:
             await self.pool.execute(db_entry)
+
     @staticmethod
     async def __clear_return(result: list):
         """Что бы не было копипаста, этот метод
