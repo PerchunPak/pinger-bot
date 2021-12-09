@@ -6,8 +6,6 @@ from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
 from pytest import fixture
 
-# TODO Доделать тесты для команды "добавить"
-
 
 class TestAddServer:
     """Класс для тестов и фикстур."""
@@ -55,7 +53,7 @@ class TestAddServer:
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         monkeypatch_session.setattr(bot, "is_owner", fake_is_owner)
-        await message("добавить example.com")
+        await message("добавить 127.0.0.33")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
             sleep(0.01)                                 # "ожидайте, в процессе"
@@ -64,10 +62,37 @@ class TestAddServer:
         return embed
 
     @staticmethod
-    def test_color(add_online):
+    def test_online_color(add_online):
         """Проверят цвет в ответе бота.
 
         Args:
             add_online: Embed объект ответа.
         """
         assert str(add_online.color) == str(Color.green())
+
+    @staticmethod
+    def test_online_ip_in_title(add_online):
+        """Проверяет что есть айпи в title.
+
+        Args:
+            add_online: Embed объект ответа.
+        """
+        assert "127.0.0.33" in add_online.title
+
+    @staticmethod
+    def test_online_num_ip_description(add_online):
+        """Проверяет есть ли цифровое айпи в description.
+
+        Args:
+            add_online: Embed объект ответа.
+        """
+        assert "127.0.0.33:25565" in add_online.description
+
+    @staticmethod
+    def test_online_thumbnail_link(add_online):
+        """Проверяет ссылку в маленькой картинке справо сверху.
+
+        Args:
+            add_online: Embed объект ответа.
+        """
+        assert add_online.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.33:25565'
