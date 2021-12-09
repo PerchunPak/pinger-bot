@@ -91,7 +91,7 @@ class TestStatistic:
         await message("стата 127.0.0.4")
         msg = get_message()
         while str(msg.embeds[0].color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)                                         # "ожидайте, в процессе"
             msg = get_message()
 
         return msg
@@ -173,7 +173,7 @@ class TestStatistic:
             raise timeout
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        await message("стата 127.0.0.6")
+        await message("стата not_valid")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
             sleep(0.01)                                 # "ожидайте, в процессе"
