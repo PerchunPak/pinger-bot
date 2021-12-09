@@ -1,6 +1,6 @@
 """https://docs.pytest.org/en/6.2.x/fixture.html#scope-sharing-fixtures-across-classes-modules-packages-or-session"""
 from glob import glob
-from os import remove, listdir
+from os import mkdir, remove, listdir
 from shutil import rmtree
 from asyncio import get_event_loop
 from discord import Intents
@@ -41,6 +41,8 @@ async def bot(event_loop):
 
     bot_var.db = await PostgresController.get_instance()
     bot_var.app_info = await bot_var.application_info()
+    try: mkdir("./plots")
+    except FileExistsError: pass
     return bot_var
 
 
