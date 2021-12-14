@@ -192,7 +192,7 @@ class TestStatistic:
 
         Returns:
             Ответ функции `Statistic.get_yest_ping`.
-        """
+        """  # TODO Заменить функции на методы (и наоборот), где это правильно
         yesterday = datetime.now() - timedelta(hours=24)
         await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.7", 25565, yesterday, 12)
 
