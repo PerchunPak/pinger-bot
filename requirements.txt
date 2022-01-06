@@ -1,4 +1,4 @@
 discord.py==1.7.3
 asyncpg==0.25.0
 matplotlib>=3.3.4,<3.6.0
-mcstatus==8.0.0
+mcstatus>=7.0.0,<=8.0.0
