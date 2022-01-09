@@ -71,13 +71,13 @@ class PostgresController:
     @staticmethod
     async def __clear_return(result: list):
         """Что бы не было копипаста, этот метод
-        возвращает чистый ответ метода.
+        возвращает чистый ответ.
 
         Args:
             result: Результат метода который нужно вернуть.
 
         Returns:
-            Чистый ответ функции.
+            Чистый ответ метода/функции.
         """
         if len(result) != 0: return dict(result[0])
         else: return {}

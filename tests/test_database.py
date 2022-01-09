@@ -23,11 +23,11 @@ async def database(event_loop):
 
 
 class TestAddFunctions:
-    """Класс для тестов add_* функций."""
+    """Класс для тестов add_* методов."""
     @staticmethod
     @mark.asyncio
     async def test_add_server(database):
-        """Проверяет функцию add_server.
+        """Проверяет метод add_server.
 
         Args:
             database: Объект дата базы.
@@ -40,7 +40,7 @@ class TestAddFunctions:
     @staticmethod
     @mark.asyncio
     async def test_add_server_owner_id(database):
-        """Проверяет функцию add_server, правильно ли записывает owner_id.
+        """Проверяет метод add_server, правильно ли записывает owner_id.
 
         Args:
             database: Объект дата базы.
@@ -53,7 +53,7 @@ class TestAddFunctions:
     @staticmethod
     @mark.asyncio
     async def test_add_ping(database):
-        """Проверяет функцию add_ping.
+        """Проверяет метод add_ping.
 
         Args:
             database: Объект дата базы.
@@ -66,7 +66,7 @@ class TestAddFunctions:
     @staticmethod
     @mark.asyncio
     async def test_add_alias(database):
-        """Проверяет функцию add_alias.
+        """Проверяет метод add_alias.
 
         Args:
             database: Объект дата базы.
@@ -80,7 +80,7 @@ class TestAddFunctions:
     @staticmethod
     @mark.asyncio
     async def test_add_record(database):
-        """Проверяет функцию add_record.
+        """Проверяет метод add_record.
 
         Args:
             database: Объект дата базы.
@@ -93,11 +93,11 @@ class TestAddFunctions:
 
 
 class TestGetFunctions:
-    """Класс для тестов get_* функций."""
+    """Класс для тестов get_* методов."""
     @staticmethod
     @mark.asyncio
     async def test_get_server(database):
-        """Проверяет функцию get_server.
+        """Проверяет метод get_server.
 
         Args:
             database: Объект дата базы.
@@ -111,7 +111,7 @@ class TestGetFunctions:
     @staticmethod
     @mark.asyncio
     async def test_get_servers(database):
-        """Проверяет функцию get_servers.
+        """Проверяет метод get_servers.
 
         Args:
             database: Объект дата базы.
@@ -129,7 +129,7 @@ class TestGetFunctions:
     @staticmethod
     @mark.asyncio
     async def test_get_servers_len(database):
-        """Проверяет функцию get_servers_len.
+        """Проверяет метод get_servers_len.
 
         Args:
             database: Объект дата базы.
@@ -146,7 +146,7 @@ class TestGetFunctions:
     @staticmethod
     @mark.asyncio
     async def test_get_ip_alias(database):
-        """Проверяет функцию get_ip_alias.
+        """Проверяет метод get_ip_alias.
 
         Args:
             database: Объект дата базы.
@@ -161,7 +161,7 @@ class TestGetFunctions:
     @staticmethod
     @mark.asyncio
     async def test_get_pings(database):
-        """Проверяет функцию get_pings.
+        """Проверяет метод get_pings.
 
         Args:
             database: Объект дата базы.
@@ -179,7 +179,7 @@ class TestGetFunctions:
     @staticmethod
     @mark.asyncio
     async def test_get_pings_len(database):
-        """Проверяет функцию get_pings_len.
+        """Проверяет метод get_pings_len.
 
         Args:
             database: Объект дата базы.
@@ -195,7 +195,7 @@ class TestGetFunctions:
 
 
 class TestAnotherFunctions:
-    """Класс для тестов других функций."""
+    """Класс для тестов других методов."""
     @staticmethod
     @mark.asyncio
     async def test_clear_return(database):
@@ -227,7 +227,7 @@ class TestAnotherFunctions:
     @staticmethod
     @mark.asyncio
     async def test_make_tables(database):
-        """Проверяет функцию make_tables.
+        """Проверяет метод make_tables.
 
         Args:
             database: Объект дата базы.
@@ -239,7 +239,7 @@ class TestAnotherFunctions:
     @staticmethod
     @mark.asyncio
     async def test_remove_too_old_pings(database):
-        """Проверяет функцию remove_too_old_pings.
+        """Проверяет метод remove_too_old_pings.
 
         Args:
             database: Объект дата базы.
@@ -274,7 +274,7 @@ class TestAnotherFunctions:
     @staticmethod
     @mark.asyncio
     async def test_drop_table_sunpings(database):
-        """Проверяет функцию drop_tables на таблице sunpings.
+        """Проверяет метод drop_tables на таблице sunpings.
 
         Args:
             database: Объект дата базы.
@@ -288,7 +288,7 @@ class TestAnotherFunctions:
     @staticmethod
     @mark.asyncio
     async def test_drop_table_sunservers(database):
-        """Проверяет функцию drop_tables на таблице sunservers.
+        """Проверяет метод drop_tables на таблице sunservers.
 
         Args:
             database: Объект дата базы.

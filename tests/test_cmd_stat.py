@@ -32,7 +32,7 @@ class TestStatistic:
             """Эмулирует ответ сервера.
 
             Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
 
             Returns:
                 Фейковый ответ сервера.
@@ -74,7 +74,7 @@ class TestStatistic:
             """Эмулирует ответ сервера.
 
             Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
 
             Returns:
                 Фейковый ответ сервера.
@@ -127,7 +127,7 @@ class TestStatistic:
             """Эмулирует ответ сервера.
 
             Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
 
             Returns:
                 Фейковый ответ сервера.
@@ -165,7 +165,7 @@ class TestStatistic:
             """Когда сервер выключен, модуль вызывает exception socket.timeout.
 
             Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
 
             Raises:
                 Фейковый ответ сервера (то есть негативный).
@@ -191,8 +191,8 @@ class TestStatistic:
             database: Объект дата базы.
 
         Returns:
-            Ответ функции `Statistic.get_yest_ping`.
-        """  # TODO Заменить функции на методы (и наоборот), где это правильно
+            Ответ метода `Statistic.get_yest_ping`.
+        """
         yesterday = datetime.now() - timedelta(hours=24)
         await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.7", 25565, yesterday, 12)
 
@@ -218,7 +218,7 @@ class TestStatistic:
             database: Объект дата базы.
 
         Returns:
-            Ответ функции `Statistic.get_yest_ping`.
+            Ответ метода `Statistic.get_yest_ping`.
         """
         pings = await database.get_pings("127.0.0.8", 25565)
         return await Statistic.get_yest_ping(pings)
@@ -329,7 +329,7 @@ class TestStatistic:
         """Проверят правильно ли бот распознает вчерашние пинги.
 
         Args:
-            get_yest_ping: Ответ функции `Statistic.get_yest_ping`.
+            get_yest_ping: Ответ метода `Statistic.get_yest_ping`.
         """
         assert get_yest_ping == 12
 
@@ -338,7 +338,7 @@ class TestStatistic:
         """Проверяет правильно ли бот распознает вчерашний онлайн, если записей об этом нету.
 
         Args:
-            get_yest_ping_null: Ответ функции `Statistic.get_yest_ping`.
+            get_yest_ping_null: Ответ метода `Statistic.get_yest_ping`.
         """
         assert get_yest_ping_null == 'Нету информации'
 
