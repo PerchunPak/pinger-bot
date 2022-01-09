@@ -2,8 +2,8 @@
 from shutil import rmtree
 from os import listdir
 from discord import Status, Client, Activity, ActivityType
-from config import TOKEN
 from src.database import PostgresController
+from config import TOKEN
 
 
 class PingerBot:
