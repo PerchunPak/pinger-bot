@@ -7,19 +7,41 @@ from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
 from pytest import fixture
 
-# TODO Переделать fake_is_owner в общую фикстуру
-
 
 class TestAddServer:
     """Класс для тестов и фикстур."""
     @staticmethod
     @fixture(scope='class')
-    async def add_online(event_loop, bot, monkeypatch_session):
-        """Основная фикстура для тестов, добавляет онлайн сервер.
+    async def fake_is_owner(event_loop, bot, monkeypatch_session):
+        """Обманывает проверку на владельца бота.
 
         Args:
             event_loop: Обязательная фикстура для async фикстур.
             bot: Главный объект бота.
+            monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
+        """
+        async def fake_is_owner_func(*args, **kwargs) -> bool:
+            """Эмулирует ответ функции проверки автора.
+
+            Args:
+                args: Заглушка для аргументов.
+                kwargs: Тоже заглушка.
+
+            Returns:
+                True.
+            """
+            return True
+
+        monkeypatch_session.setattr(bot, "is_owner", fake_is_owner_func)
+
+    @staticmethod
+    @fixture(scope='class')
+    async def add_online(event_loop, fake_is_owner, monkeypatch_session):
+        """Основная фикстура для тестов, добавляет онлайн сервер.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            fake_is_owner: Обманывает проверку на владельца бота.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
 
         Returns:
@@ -42,20 +64,7 @@ class TestAddServer:
                 }
             )
 
-        async def fake_is_owner(class_self=None, author_id=None) -> bool:
-            """Эмулирует ответ функции проверки автора.
-
-            Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
-                author_id: Айди пользователя который приходит оригинальной функции.
-
-            Returns:
-                True.
-            """
-            return True
-
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        monkeypatch_session.setattr(bot, "is_owner", fake_is_owner)
         await message("добавить 127.0.0.33")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
@@ -66,12 +75,12 @@ class TestAddServer:
 
     @staticmethod
     @fixture(scope='class')
-    async def add_offline(event_loop, bot, monkeypatch_session):
+    async def add_offline(event_loop, fake_is_owner, monkeypatch_session):
         """Пытается добавить офлайн сервер.
 
         Args:
             event_loop: Обязательная фикстура для async фикстур.
-            bot: Главный объект бота.
+            fake_is_owner: Обманывает проверку на владельца бота.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
 
         Returns:
@@ -88,20 +97,7 @@ class TestAddServer:
             """
             raise timeout
 
-        async def fake_is_owner(class_self=None, author_id=None) -> bool:
-            """Эмулирует ответ функции проверки автора.
-
-            Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
-                author_id: Айди пользователя который приходит оригинальной функции.
-
-            Returns:
-                True.
-            """
-            return True
-
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        monkeypatch_session.setattr(bot, "is_owner", fake_is_owner)
         await message("добавить example.com")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
@@ -112,12 +108,12 @@ class TestAddServer:
 
     @staticmethod
     @fixture(scope='class')
-    async def add_already(event_loop, bot, database, monkeypatch_session):
+    async def add_already(event_loop, fake_is_owner, database, monkeypatch_session):
         """Пытается добавить уже добавленный сервер.
 
         Args:
             event_loop: Обязательная фикстура для async фикстур.
-            bot: Главный объект бота.
+            fake_is_owner: Обманывает проверку на владельца бота.
             database: Объект дата базы.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
 
@@ -141,20 +137,7 @@ class TestAddServer:
                 }
             )
 
-        async def fake_is_owner(class_self=None, author_id=None) -> bool:
-            """Эмулирует ответ функции проверки автора.
-
-            Args:
-                class_self: Иногда при вызове функции, так же приходит аргумент `self`.
-                author_id: Айди пользователя который приходит оригинальной функции.
-
-            Returns:
-                True.
-            """
-            return True
-
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
-        monkeypatch_session.setattr(bot, "is_owner", fake_is_owner)
         await database.add_server("127.0.0.34", 25565, 0)
         await message("добавить 127.0.0.34")
         embed = get_embed()
