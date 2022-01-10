@@ -1,7 +1,6 @@
 version: '3.1'
 
 services:
-
   db:
     image: postgres
     restart: always
@@ -10,10 +9,20 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pingerbotdb
     networks:
-      - default
+      - pingerbot
 
   bot:
     image: pingerbot:latest
     restart: always
+    environment:
+      DBHOST: db
+      POSTGRES_USER: pingerbot
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pingerbotdb
     networks:
-      - default
+      - pingerbot
+
+networks:
+  pingerbot:
+    name: pingerbot
+    driver: bridge
