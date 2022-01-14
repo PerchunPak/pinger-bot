@@ -6,7 +6,7 @@
 
 ## Установка
 
-1. **Установите [Python 3.6 или выше](https://www.python.org/downloads)**
+1. **Установите [Python 3.7 или выше](https://www.python.org/downloads)**
 
 Рекомендовано [Python 3.9](https://www.python.org/downloads/release/python-397), именно на нем тестируется бот.
 
