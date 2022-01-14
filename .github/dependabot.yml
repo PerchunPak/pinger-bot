@@ -9,11 +9,6 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-  # Also add tests directory
-  - package-ecosystem: "pip"
-    directory: "/tests"
-    schedule:
-      interval: "daily"
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
