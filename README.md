@@ -8,7 +8,7 @@
 
 1. **Установите [Python 3.7 или выше](https://www.python.org/downloads)**
 
-Рекомендовано [Python 3.9](https://www.python.org/downloads/release/python-397), именно на нем тестируется бот.
+Рекомендовано [Python 3.10](https://www.python.org/downloads/release/python-3101), именно на нем тестируется бот.
 
 2. **Клонируйте репозиторий**
 
