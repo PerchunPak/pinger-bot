@@ -87,8 +87,8 @@ jobs:
         PGUSER: pingerbot
         PGPASSWORD: password
         PGDATABASE: pingerbotdb
-    - name: Upload HTML report by Coverage (only on Python 3.9)
-      if: ${{ matrix.python-version == 3.9 }}
+    - name: Upload HTML report by Coverage (only on Python 3.10)
+      if: ${{ matrix.python-version == 3.10 }}
       uses: actions/upload-artifact@v2
       with:
         name: HTML report by Coverage
