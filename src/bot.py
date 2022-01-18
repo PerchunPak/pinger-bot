@@ -2,7 +2,7 @@
 from shutil import rmtree
 from os import listdir
 from discord import Status, Client, Activity, ActivityType
-from src.database import PostgresController
+from src.database.database import PostgresController
 from config import TOKEN
 
 

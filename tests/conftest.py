@@ -8,7 +8,7 @@ from discord.ext.commands import Bot
 from discord.ext.test import configure
 from pytest import fixture
 from _pytest.monkeypatch import MonkeyPatch
-from src.database import PostgresController
+from src.database.database import PostgresController
 
 
 @fixture(scope='session')

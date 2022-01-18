@@ -1,7 +1,7 @@
 """Файл для теста дата базы."""
 from datetime import datetime, timedelta
 from pytest import fixture, mark
-from src.database import PostgresController
+from src.database.database import PostgresController
 
 
 @fixture(scope='session')
