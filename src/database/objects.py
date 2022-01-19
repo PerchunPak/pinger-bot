@@ -12,10 +12,17 @@ class Base(Model):
 
 
 class Servers(Base):
-    ip = TextField(unique=true)
+    ip = TextField()
+    port = SmallIntegerField()
     owner = BigIntegerField()
     alias = TextField(null=True, unique=True)
     record = IntegerField(default=0)
+
+    class Meta:
+        # поля ip и port должны быть уникальными
+        indexes = (
+            (('ip', 'port'), True),
+        )
 
 
 class Pings(Base):
