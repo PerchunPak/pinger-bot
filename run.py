@@ -10,16 +10,16 @@ def main():
     bot_intents.members = True  # pylint: disable=E0237
 
     bot = Bot(
-        command_prefix=('!', ''),
+        command_prefix=("!", ""),
         description="Пингер бот",
         help_command=None,
         status=Status.invisible,
         intents=bot_intents,
-        fetch_offline_members=True
+        fetch_offline_members=True,
     )
 
     PingerBot(bot).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

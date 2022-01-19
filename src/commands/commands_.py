@@ -32,7 +32,9 @@ class MetodsForCommands:
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
-            dns_info = MinecraftServer.lookup(str(ip_from_alias['ip']) + ":" + str(ip_from_alias['port']))
+            dns_info = MinecraftServer.lookup(
+                str(ip_from_alias["ip"]) + ":" + str(ip_from_alias["port"])
+            )
             num_ip = gethostbyname(dns_info.host)
             return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
         else:
@@ -43,7 +45,8 @@ class MetodsForCommands:
         try:
             num_ip = gethostbyname(dns_info.host)
             valid = True
-        except gaierror: valid, num_ip = False, None
+        except gaierror:
+            valid, num_ip = False, None
 
         return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
 
@@ -57,10 +60,13 @@ class MetodsForCommands:
             Объект статуса сервера и объект информации о сервере.
         """
         info = await self.parse_ip(ip)
-        if not info.valid: return False, info
+        if not info.valid:
+            return False, info
 
-        try: status = info.dns.status()
-        except (timeout, ConnectionRefusedError, gaierror, OSError): status = False
+        try:
+            status = info.dns.status()
+        except (timeout, ConnectionRefusedError, gaierror, OSError):
+            status = False
 
         return status, info
 
@@ -73,9 +79,10 @@ class MetodsForCommands:
             ip: Айпи сервера.
         """
         embed = Embed(
-            title=f'Пингую {ip}...',
+            title=f"Пингую {ip}...",
             description="Подождите немного, я вас упомяну когда закончу",
-            color=Color.orange())
+            color=Color.orange(),
+        )
         await ctx.send(embed=embed)
 
     @staticmethod
@@ -88,10 +95,13 @@ class MetodsForCommands:
             online: Онлайн сервер или нет.
         """
         embed = Embed(
-            title=f'Результаты пинга {ip}',
+            title=f"Результаты пинга {ip}",
             description=f"\n\n**{'Онлайн' if online else 'Офлайн'}**",
-            color=Color.red())
+            color=Color.red(),
+        )
 
-        embed.add_field(name="Не удалось выполнить команду",
-                        value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
+        embed.add_field(
+            name="Не удалось выполнить команду",
+            value="Возможно вы указали неверный айпи, или сервер сейчас выключен",
+        )
         await ctx.send(ctx.author.mention, embed=embed)

@@ -12,6 +12,7 @@ class PingerBot:
     Attributes:
         bot: Для хранения главного объекта бота.
     """
+
     def __init__(self, bot):
         """
         Args:
@@ -31,10 +32,15 @@ class PingerBot:
             self.bot.loop.run_until_complete(self.bot.start(TOKEN))
         except KeyboardInterrupt:
             print("\nЗакрытие")
-            self.bot.loop.run_until_complete(self.bot.change_presence(status=Status.invisible))
-            for extension in self.bot.extensions.copy(): self.bot.unload_extension(extension)
-            try: rmtree('./plots/')
-            except FileNotFoundError: pass
+            self.bot.loop.run_until_complete(
+                self.bot.change_presence(status=Status.invisible)
+            )
+            for extension in self.bot.extensions.copy():
+                self.bot.unload_extension(extension)
+            try:
+                rmtree("./plots/")
+            except FileNotFoundError:
+                pass
             print("Выходим")
             self.bot.loop.run_until_complete(Client.close(self.bot))
         finally:
@@ -56,9 +62,11 @@ class PingerBot:
         pg_controller = await PostgresController.get_instance()
         await pg_controller.make_tables()
         self.bot.db = pg_controller
-        print('Дата-база инициализирована\n')
+        print("Дата-база инициализирована\n")
 
-    async def set_status(self, status: Status, activity_name: str, activity_type: ActivityType):
+    async def set_status(
+        self, status: Status, activity_name: str, activity_type: ActivityType
+    ):
         """Устанавливает статус боту
 
         Args:
@@ -69,4 +77,5 @@ class PingerBot:
                 играет, смотрит и тд.).
         """
         await self.bot.change_presence(
-            status=status, activity=Activity(name=activity_name, type=activity_type))
+            status=status, activity=Activity(name=activity_name, type=activity_type)
+        )

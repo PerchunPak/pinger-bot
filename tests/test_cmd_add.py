@@ -10,8 +10,9 @@ from pytest import fixture
 
 class TestAddServer:
     """Класс для тестов и фикстур."""
+
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def fake_is_owner(event_loop, bot, monkeypatch_session):
         """Обманывает проверку на владельца бота.
 
@@ -20,6 +21,7 @@ class TestAddServer:
             bot: Главный объект бота.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
         """
+
         async def fake_is_owner_func(*args, **kwargs) -> bool:
             """Эмулирует ответ функции проверки автора.
 
@@ -35,7 +37,7 @@ class TestAddServer:
         monkeypatch_session.setattr(bot, "is_owner", fake_is_owner_func)
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def add_online(event_loop, fake_is_owner, monkeypatch_session):
         """Основная фикстура для тестов, добавляет онлайн сервер.
 
@@ -47,6 +49,7 @@ class TestAddServer:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
 
@@ -58,7 +61,7 @@ class TestAddServer:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -67,14 +70,16 @@ class TestAddServer:
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("добавить 127.0.0.33")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def add_offline(event_loop, fake_is_owner, monkeypatch_session):
         """Пытается добавить офлайн сервер.
 
@@ -86,6 +91,7 @@ class TestAddServer:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
 
@@ -100,14 +106,16 @@ class TestAddServer:
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("добавить example.com")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def add_already(event_loop, fake_is_owner, database, monkeypatch_session):
         """Пытается добавить уже добавленный сервер.
 
@@ -120,6 +128,7 @@ class TestAddServer:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
 
@@ -131,7 +140,7 @@ class TestAddServer:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -141,8 +150,10 @@ class TestAddServer:
         await database.add_server("127.0.0.34", 25565, 0)
         await message("добавить 127.0.0.34")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
@@ -181,7 +192,9 @@ class TestAddServer:
         Args:
             add_online: Embed объект ответа.
         """
-        assert add_online.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.33:25565'
+        assert (
+            add_online.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.33:25565"
+        )
 
     @staticmethod
     def test_offline_color(add_offline):

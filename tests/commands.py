@@ -10,6 +10,7 @@ class Commands(Cog):
         bot: Атрибут для главного объекта бота.
         metods_for_commands: Инициализированный класс MetodsForCommands.
     """
+
     def __init__(self, bot):
         """
         Args:
@@ -48,6 +49,7 @@ def setup(bot):
 
 class TestClass:
     """Класс для создания объектов для тестов."""
+
     def __init__(self, *args):
         for arg in args:
             self.__setattr__(arg, arg)

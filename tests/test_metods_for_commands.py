@@ -11,6 +11,7 @@ from src.commands.commands_ import MetodsForCommands
 
 class TestMetodsForCommands:
     """Класс для тестов и фикстур."""
+
     @staticmethod
     @fixture(scope="session")
     def metods_for_commands(bot):
@@ -66,9 +67,15 @@ class TestMetodsForCommands:
             database: Объект дата базы.
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
-        await database.pool.execute("INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")
-        await database.pool.execute("UPDATE sunservers SET alias = $2 "
-                                    "WHERE ip = $1 AND port = 25565;", "127.0.0.29", "тест28")
+        await database.pool.execute(
+            "INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);",
+            "127.0.0.29",
+        )
+        await database.pool.execute(
+            "UPDATE sunservers SET alias = $2 " "WHERE ip = $1 AND port = 25565;",
+            "127.0.0.29",
+            "тест28",
+        )
         dns_info = MinecraftServer("127.0.0.29")
         answer = await metods_for_commands.parse_ip("тест28")
         assert answer == ServerInfo(True, "тест28", dns_info, "127.0.0.29", "25565")
@@ -113,7 +120,7 @@ class TestMetodsForCommands:
             obj1.players.__dict__ == obj2.players.__dict__,
             obj1.version.__dict__ == obj2.version.__dict__,
             obj1.description == obj2.description,
-            obj1.favicon == obj2.favicon
+            obj1.favicon == obj2.favicon,
         ]
 
         return False not in ret
@@ -126,6 +133,7 @@ class TestMetodsForCommands:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
         """
+
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
 
@@ -137,7 +145,7 @@ class TestMetodsForCommands:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -148,9 +156,12 @@ class TestMetodsForCommands:
         status, info = await metods_for_commands.ping_server("127.0.0.31")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
-        assert self.compare_ping_response_objects(status, fake_server_answer()) and \
-               info.dns.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, info.dns, "127.0.0.31", "25565").__dict__
+        assert (
+            self.compare_ping_response_objects(status, fake_server_answer())
+            and info.dns.__dict__ == expected_dns_info.__dict__
+            and info.__dict__
+            == ServerInfo(True, None, info.dns, "127.0.0.31", "25565").__dict__
+        )
 
     @staticmethod
     @mark.asyncio
@@ -173,6 +184,7 @@ class TestMetodsForCommands:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
         """
+
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout.
 
@@ -189,9 +201,12 @@ class TestMetodsForCommands:
         status, info = await metods_for_commands.ping_server("127.0.0.32")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
-        assert status is False and \
-               info.dns.__dict__ == expected_dns_info.__dict__ and \
-               info.__dict__ == ServerInfo(True, None, info.dns, "127.0.0.32", "25565").__dict__
+        assert (
+            status is False
+            and info.dns.__dict__ == expected_dns_info.__dict__
+            and info.__dict__
+            == ServerInfo(True, None, info.dns, "127.0.0.32", "25565").__dict__
+        )
 
     @staticmethod
     def test_wait_please_color(wait_please):

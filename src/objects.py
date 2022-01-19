@@ -4,8 +4,15 @@ from mcstatus import MinecraftServer
 
 class ServerInfo:
     """Класс создан для возвращения объекта с информацией о сервере."""
-    def __init__(self, valid: bool, alias: str or None, dns: MinecraftServer,  # pylint: disable=R0913
-                 num_ip: str or None, port: str or None):
+
+    def __init__(
+        self,
+        valid: bool,
+        alias: str or None,
+        dns: MinecraftServer,  # pylint: disable=R0913
+        num_ip: str or None,
+        port: str or None,
+    ):
         """
         Args:
             valid: Валидность айпи.
@@ -29,5 +36,10 @@ class ServerInfo:
         Returns:
             Результат сравнения.
         """
-        return self.valid == other.valid and self.alias == other.alias and self.dns.__dict__ == other.dns.__dict__ \
-            and self.num_ip == other.num_ip and self.port == other.port
+        return (
+            self.valid == other.valid
+            and self.alias == other.alias
+            and self.dns.__dict__ == other.dns.__dict__
+            and self.num_ip == other.num_ip
+            and self.port == other.port
+        )

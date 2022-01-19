@@ -10,8 +10,9 @@ from pytest import fixture
 
 class TestPing:
     """Класс для тестов и фикстур."""
+
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def ping_online(event_loop, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
@@ -22,6 +23,7 @@ class TestPing:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
 
@@ -33,7 +35,7 @@ class TestPing:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -42,14 +44,16 @@ class TestPing:
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("пинг example.com")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def ping_alias(event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы.
 
@@ -61,8 +65,8 @@ class TestPing:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server('127.0.0.1', 25565, 0)
-        await database.add_alias('тест_алиас', '127.0.0.1', 25565)
+        await database.add_server("127.0.0.1", 25565, 0)
+        await database.add_alias("тест_алиас", "127.0.0.1", 25565)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -75,7 +79,7 @@ class TestPing:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 0},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -84,14 +88,16 @@ class TestPing:
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("пинг тест_алиас")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def ping_offline(event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера.
 
@@ -102,6 +108,7 @@ class TestPing:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout.
 
@@ -116,8 +123,10 @@ class TestPing:
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         await message("пинг example.com")
         embed = get_embed()
-        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+        while str(embed.color) == str(
+            Color.orange()
+        ):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
@@ -138,7 +147,7 @@ class TestPing:
         Args:
             ping_alias: Embed объект ответа.
         """
-        assert 'тест_алиас' in ping_alias.title
+        assert "тест_алиас" in ping_alias.title
 
     @staticmethod
     def test_alias_numip(ping_alias):
@@ -147,7 +156,7 @@ class TestPing:
         Args:
             ping_alias: Embed объект ответа.
         """
-        assert '127.0.0.1:25565' in ping_alias.description
+        assert "127.0.0.1:25565" in ping_alias.description
 
     @staticmethod
     def test_thumbnail_link(ping_alias):
@@ -156,7 +165,9 @@ class TestPing:
         Args:
             ping_alias: Embed объект ответа.
         """
-        assert ping_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.1:25565'
+        assert (
+            ping_alias.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.1:25565"
+        )
 
     @staticmethod
     def test_ping_is_int(ping_online):
@@ -184,7 +195,7 @@ class TestPing:
         Args:
             ping_online: Embed объект ответа.
         """
-        online = ping_online.fields[2].value.split('/')
+        online = ping_online.fields[2].value.split("/")
         assert online[0] == "5"
 
     @staticmethod
@@ -194,7 +205,7 @@ class TestPing:
         Args:
             ping_online: Embed объект ответа.
         """
-        online = ping_online.fields[2].value.split('/')
+        online = ping_online.fields[2].value.split("/")
         assert online[1] == "20"
 
     @staticmethod
