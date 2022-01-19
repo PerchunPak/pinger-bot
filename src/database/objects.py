@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from peewee import *
 from config import POSTGRES
+from time import time
 
 database = PostgresqlDatabase(POSTGRES)
 
@@ -20,4 +21,4 @@ class Servers(Base):
 class Pings(Base):
     server = ForeignKeyField(Servers)
     players = IntegerField()
-    time = DateTimeField(auto_now=True)
+    time = IntegerField(default=time)
