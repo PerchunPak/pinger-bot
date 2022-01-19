@@ -1,13 +1,14 @@
 # Автоматические тесты через GitHub Actions
 
-name: Run Tests in main
+name: Run Tests in rewrite
 
 on:
   push:
     branches:
-    - main
-  pull_request:
-  release:
+    - rewrite
+
+env:
+  PINGERBOT_POSTGRES: postgres://pingerbot:password@localhost:5432/pingerbotdb
 
 jobs:
   lint:
@@ -33,6 +34,16 @@ jobs:
         flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
         # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
         flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
+    - name: Lint with PyLint
+      run: |
+        # ужасный линтер, тупой и умный одновременно
+        #
+        # указываем все файлы корневой директории
+        pylint *.py --rcfile=.pylint --exit-zero
+        # смотрим на файлы в папке src и src/commands
+        pylint src --rcfile=.pylint --exit-zero
+        # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621 и W0613
+        pylint tests --rcfile=tests/.pylint --exit-zero
   test:
     needs: lint
     runs-on: ubuntu-latest
@@ -76,9 +87,26 @@ jobs:
         PGUSER: pingerbot
         PGPASSWORD: password
         PGDATABASE: pingerbotdb
-    - name: Upload HTML report by Coverage (only on Python 3.9)
-      if: ${{ matrix.python-version == 3.9 }}
+    - name: Upload HTML report by Coverage (only on Python 3.10)
+      if: ${{ matrix.python-version == 3.10 }}
       uses: actions/upload-artifact@v2
       with:
         name: HTML report by Coverage
         path: ./htmlcov
+  deploy:
+    needs: test
+    if: |
+        needs.test.result == 'success' && 
+        github.event_name != 'pull_request' && 
+        github.actor == 'PerchunPak'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: FTP Deploy
+      continue-on-error: true
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: ${{ secrets.ftp_server }}
+        ftp-username: ${{ secrets.ftp_username }}
+        ftp-password: ${{ secrets.ftp_password }}
+        git-ftp-args: --insecure

@@ -1,11 +1,13 @@
-FROM python:3.9
-FROM gorialis/discord.py
+FROM python:slim
 
-WORKDIR /usr/src/app
+ENV PYTHONUNBUFFERED 1
+ENV PINGERBOT_DISCORD_TOKEN "TOKEN_HERE"
+ENV PINGERBOT_POSTGRES "postgres://pingerbot:password@db:5432/pingerbotdb"
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
 
 COPY . .
 
-CMD [ "python", "main.py" ]
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD [ "python3", "run.py" ]
