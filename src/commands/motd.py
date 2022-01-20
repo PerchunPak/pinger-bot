@@ -11,6 +11,7 @@ class Motd(Cog):
         bot: Атрибут для главного объекта бота.
         metods_for_commands: Инициализированный класс MetodsForCommands.
     """
+
     def __init__(self, bot):
         """
         Args:
@@ -19,7 +20,7 @@ class Motd(Cog):
         self.bot = bot
         self.metods_for_commands = MetodsForCommands(bot)
 
-    @command(name='мотд', aliases=["motd"])
+    @command(name="мотд", aliases=["motd"])
     async def motd(self, ctx, ip: str):
         """Показывает мотд и ссылку на редактирование сервера.
 
@@ -31,9 +32,10 @@ class Motd(Cog):
         status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
             embed = Embed(
-                title=f'Подробное мотд сервера {info.alias if info.alias is not None else ip}',
+                title=f"Подробное мотд сервера {info.alias if info.alias is not None else ip}",
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
-                color=Color.green())
+                color=Color.green(),
+            )
 
             motd = str(status.description).replace(" ", "+")
             motd_url = motd.replace("\n", "%0A")
@@ -44,12 +46,15 @@ class Motd(Cog):
             await ctx.send(ctx.author.mention, embed=embed)
         else:
             embed = Embed(
-                title=f'Подробное мотд сервера {info.alias if info.alias is not None else ip}',
+                title=f"Подробное мотд сервера {info.alias if info.alias is not None else ip}",
                 description="Эта команда дает возможность скопировать мотд и вставить на свой сервер",
-                color=Color.red())
+                color=Color.red(),
+            )
 
-            embed.add_field(name="Не удалось получить данные с сервера",
-                            value='Возможно вы указали неверный айпи, или сервер сейчас выключен')
+            embed.add_field(
+                name="Не удалось получить данные с сервера",
+                value="Возможно вы указали неверный айпи, или сервер сейчас выключен",
+            )
             await ctx.send(ctx.author.mention, embed=embed)
 
 

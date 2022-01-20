@@ -6,8 +6,9 @@ from pytest import fixture
 
 class TestOtherCommands:
     """Класс для тестов и фикстур."""
+
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def help_cmd(event_loop):
         """Фикстура для проверки команды "помощь".
 
@@ -21,7 +22,7 @@ class TestOtherCommands:
         return get_embed().to_dict()
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def about(event_loop):
         """Фикстура для проверки команды "инфо".
 
@@ -35,7 +36,7 @@ class TestOtherCommands:
         return get_embed()
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def invite(event_loop):
         """Фикстура для проверки команды "пригласить".
 
@@ -58,9 +59,8 @@ class TestOtherCommands:
         """
         i = 0
         commands = sorted([c for c in bot.commands if not c.hidden], key=lambda c: c.name)
-        for field in help_cmd['fields']:
-            assert {'inline': False, 'name': commands[i].name,
-                    'value': commands[i].help[0]} == field
+        for field in help_cmd["fields"]:
+            assert {"inline": False, "name": commands[i].name, "value": commands[i].help[0]} == field
             i += 1
 
     @staticmethod
@@ -122,7 +122,7 @@ class TestOtherCommands:
         Args:
             about: Embed объект ответа.
         """
-        assert '.'.join(map(str, version_info[:3])) in about.fields[3].value
+        assert ".".join(map(str, version_info[:3])) in about.fields[3].value
 
     @staticmethod
     def test_invite_link(bot, invite):
@@ -132,5 +132,4 @@ class TestOtherCommands:
             bot: Главный объект бота.
             invite: Сообщение ответа.
         """
-        assert f"https://discordapp.com/oauth2/authorize?client_id={bot.app_info.id}&scope=bot&permissions=8" \
-               in invite.content
+        assert f"https://discordapp.com/oauth2/authorize?client_id={bot.app_info.id}&scope=bot&permissions=8" in invite.content

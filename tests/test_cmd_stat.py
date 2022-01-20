@@ -12,8 +12,9 @@ from src.commands.statistic import Statistic
 
 class TestStatistic:
     """Класс для тестов и фикстур."""
+
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def stat_online(event_loop, database, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
@@ -25,8 +26,8 @@ class TestStatistic:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server('127.0.0.3', 25565, 0)
-        await database.add_record('127.0.0.3', 25565, 33)
+        await database.add_server("127.0.0.3", 25565, 0)
+        await database.add_record("127.0.0.3", 25565, 33)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -39,7 +40,7 @@ class TestStatistic:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -49,13 +50,13 @@ class TestStatistic:
         await message("стата 127.0.0.3")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def stat_online_as_msg(event_loop, database, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
@@ -67,8 +68,8 @@ class TestStatistic:
         Returns:
             Сообщение ответа.
         """
-        await database.add_server('127.0.0.4', 25565, 0)
-        await database.add_record('127.0.0.4', 25565, 33)
+        await database.add_server("127.0.0.4", 25565, 0)
+        await database.add_record("127.0.0.4", 25565, 33)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -81,7 +82,7 @@ class TestStatistic:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -91,13 +92,13 @@ class TestStatistic:
         await message("стата 127.0.0.4")
         msg = get_message()
         while str(msg.embeds[0].color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                         # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             msg = get_message()
 
         return msg
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def stat_alias(event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы.
 
@@ -109,8 +110,8 @@ class TestStatistic:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server('127.0.0.5', 25565, 0)
-        await database.add_alias('тест_алиас', '127.0.0.5', 25565)
+        await database.add_server("127.0.0.5", 25565, 0)
+        await database.add_alias("тест_алиас", "127.0.0.5", 25565)
         yesterday = datetime.now() - timedelta(hours=24)
         await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12)
 
@@ -134,7 +135,7 @@ class TestStatistic:
             """
             return PingResponse(
                 {
-                    "description": {'text': "A Minecraft Server"},
+                    "description": {"text": "A Minecraft Server"},
                     "players": {"max": 20, "online": 5},
                     "version": {"name": "1.17.1", "protocol": 756},
                 }
@@ -144,13 +145,13 @@ class TestStatistic:
         await message("стата тест_алиас")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def stat_offline(event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера.
 
@@ -161,6 +162,7 @@ class TestStatistic:
         Returns:
             Embed объект ответа.
         """
+
         def fake_server_answer(class_self=None):
             """Когда сервер выключен, модуль вызывает exception socket.timeout.
 
@@ -176,13 +178,13 @@ class TestStatistic:
         await message("стата not_valid")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def get_yest_ping(event_loop, database):
         """Вызывает метод получения вчерашнего пинга.
 
@@ -209,7 +211,7 @@ class TestStatistic:
         return await Statistic.get_yest_ping(pings)
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def get_yest_ping_null(event_loop, database):
         """Вызывает метод получения вчерашнего пинга.
 
@@ -239,7 +241,7 @@ class TestStatistic:
         Args:
             stat_alias: Embed объект ответа.
         """
-        assert 'тест_алиас' in stat_alias.title
+        assert "тест_алиас" in stat_alias.title
 
     @staticmethod
     def test_alias_numip(stat_alias):
@@ -248,7 +250,7 @@ class TestStatistic:
         Args:
             stat_alias: Embed объект ответа.
         """
-        assert '127.0.0.5:25565' in stat_alias.description
+        assert "127.0.0.5:25565" in stat_alias.description
 
     @staticmethod
     def test_online_in_description(stat_online):
@@ -257,7 +259,7 @@ class TestStatistic:
         Args:
             stat_online: Embed объект ответа.
         """
-        assert '**Онлайн**' in stat_online.description
+        assert "**Онлайн**" in stat_online.description
 
     @staticmethod
     def test_offline_in_description(stat_offline):
@@ -266,7 +268,7 @@ class TestStatistic:
         Args:
             stat_offline: Embed объект ответа.
         """
-        assert '**Офлайн**' in stat_offline.description
+        assert "**Офлайн**" in stat_offline.description
 
     @staticmethod
     def test_thumbnail_link(stat_alias):
@@ -275,7 +277,7 @@ class TestStatistic:
         Args:
             stat_alias: Embed объект ответа.
         """
-        assert stat_alias.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.5:25565'
+        assert stat_alias.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.5:25565"
 
     @staticmethod
     def test_online(stat_online):
@@ -284,8 +286,8 @@ class TestStatistic:
         Args:
             stat_online: Embed объект ответа.
         """
-        online = stat_online.fields[0].value.split('/')
-        assert online[0] == '5'
+        online = stat_online.fields[0].value.split("/")
+        assert online[0] == "5"
 
     @staticmethod
     def test_online_max(stat_online):
@@ -294,8 +296,8 @@ class TestStatistic:
         Args:
             stat_online: Embed объект ответа.
         """
-        online = stat_online.fields[0].value.split('/')
-        assert online[1] == '20'
+        online = stat_online.fields[0].value.split("/")
+        assert online[1] == "20"
 
     @staticmethod
     def test_record(stat_online):
@@ -304,7 +306,7 @@ class TestStatistic:
         Args:
             stat_online: Embed объект ответа.
         """
-        assert stat_online.fields[2].value == '33'
+        assert stat_online.fields[2].value == "33"
 
     @staticmethod
     def test_alias_in_footer(stat_alias):
@@ -313,7 +315,7 @@ class TestStatistic:
         Args:
             stat_alias: Embed объект ответа.
         """
-        assert 'тест_алиас' in stat_alias.footer.text
+        assert "тест_алиас" in stat_alias.footer.text
 
     @staticmethod
     def test_no_pings_for_plot(stat_online_as_msg):
@@ -322,7 +324,7 @@ class TestStatistic:
         Args:
             stat_online_as_msg: Сообщение ответа.
         """
-        assert 'слишком мало информации' in stat_online_as_msg.content
+        assert "слишком мало информации" in stat_online_as_msg.content
 
     @staticmethod
     def test_check_yesterday_online(get_yest_ping):
@@ -340,7 +342,7 @@ class TestStatistic:
         Args:
             get_yest_ping_null: Ответ метода `Statistic.get_yest_ping`.
         """
-        assert get_yest_ping_null == 'Нету информации'
+        assert get_yest_ping_null == "Нету информации"
 
     @staticmethod
     def test_plot(stat_alias):
@@ -349,4 +351,4 @@ class TestStatistic:
         Args:
             stat_alias: Embed объект ответа.
         """
-        assert stat_alias.image.url == 'attachment://127.0.0.5_25565.png'
+        assert stat_alias.image.url == "attachment://127.0.0.5_25565.png"

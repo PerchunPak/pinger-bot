@@ -15,7 +15,8 @@ class PostgresController:
     Attributes:
         pool: Пул дата базы.
     """
-    __slots__ = ('pool',)
+
+    __slots__ = ("pool",)
 
     def __init__(self, pool: Pool):
         """
@@ -79,8 +80,10 @@ class PostgresController:
         Returns:
             Чистый ответ метода/функции.
         """
-        if len(result) != 0: return dict(result[0])
-        else: return {}
+        if len(result) != 0:
+            return dict(result[0])
+        else:
+            return {}
 
     async def add_server(self, ip: str, port: int, owner_id: int):
         """Добавляет в дата базу новый сервер.

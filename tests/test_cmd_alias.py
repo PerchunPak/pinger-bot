@@ -7,8 +7,9 @@ from pytest import fixture, mark
 
 class TestAlias:
     """Класс для тестов и фикстур."""
+
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def alias_added_not_owner(event_loop, database):
         """Фикстура для тестов если сервер добавлен, но юзер не владелец.
 
@@ -19,17 +20,17 @@ class TestAlias:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server('127.0.0.8', 25565, 0)
+        await database.add_server("127.0.0.8", 25565, 0)
         await message("алиас тест1 127.0.0.8")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def alias_added(event_loop, bot, database):
         """Фикстура для тестов если алиас добавлен.
 
@@ -43,19 +44,20 @@ class TestAlias:
         """
         test_user = None
         for user in bot.users:
-            if user.bot: continue
+            if user.bot:
+                continue
             test_user = user
-        await database.add_server('127.0.0.9', 25565, test_user.id)
+        await database.add_server("127.0.0.9", 25565, test_user.id)
         await message("алиас тест2 127.0.0.9")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def alias_not_added(event_loop):
         """Фикстура для тестов если сервер не добавлен.
 
@@ -68,13 +70,13 @@ class TestAlias:
         await message("алиас тест3 not_valid")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
 
     @staticmethod
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def alias_already_added(event_loop, bot, database):
         """Фикстура для тестов если алиас уже добавлен.
 
@@ -88,15 +90,16 @@ class TestAlias:
         """
         test_user = None
         for user in bot.users:
-            if user.bot: continue
+            if user.bot:
+                continue
             test_user = user
-        await database.add_server('127.0.0.10', 25565, test_user.id)
-        await database.add_server('random_server.com', 25565, 0)
-        await database.add_alias("тест4", 'random_server.com', 25565)
+        await database.add_server("127.0.0.10", 25565, test_user.id)
+        await database.add_server("random_server.com", 25565, 0)
+        await database.add_alias("тест4", "random_server.com", 25565)
         await message("алиас тест4 127.0.0.10")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
-            sleep(0.01)                                 # "ожидайте, в процессе"
+            sleep(0.01)  # "ожидайте, в процессе"
             embed = get_embed()
 
         return embed
@@ -111,9 +114,9 @@ class TestAlias:
             database: Объект дата базы.
             alias_added: Embed объект ответа.
         """
-        ip_from_alias = await database.get_ip_alias('тест2')
-        ip_from_alias = str(ip_from_alias['ip']) + ':' + str(ip_from_alias['port'])
-        assert ip_from_alias == '127.0.0.9:25565'
+        ip_from_alias = await database.get_ip_alias("тест2")
+        ip_from_alias = str(ip_from_alias["ip"]) + ":" + str(ip_from_alias["port"])
+        assert ip_from_alias == "127.0.0.9:25565"
 
     @staticmethod
     def test_not_owner(alias_added_not_owner):
@@ -122,7 +125,7 @@ class TestAlias:
         Args:
             alias_added_not_owner: Embed объект ответа.
         """
-        assert alias_added_not_owner.fields[0].value == 'Вы не владелец'
+        assert alias_added_not_owner.fields[0].value == "Вы не владелец"
 
     @staticmethod
     def test_color(alias_added):
@@ -140,7 +143,7 @@ class TestAlias:
         Args:
             alias_added: Embed объект ответа.
         """
-        assert alias_added.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.9:25565'
+        assert alias_added.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.9:25565"
 
     @staticmethod
     def test_not_added(alias_not_added):
@@ -149,7 +152,7 @@ class TestAlias:
         Args:
             alias_not_added: Embed объект ответа.
         """
-        assert 'не был найден в дата базе' in alias_not_added.footer.text
+        assert "не был найден в дата базе" in alias_not_added.footer.text
 
     @staticmethod
     def test_already_color(alias_already_added):
@@ -167,7 +170,7 @@ class TestAlias:
         Args:
             alias_already_added: Embed объект ответа.
         """
-        assert alias_already_added.thumbnail.url == 'https://api.mcsrvstat.us/icon/127.0.0.10:25565'
+        assert alias_already_added.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.10:25565"
 
     @staticmethod
     def test_already_alias_in_title(alias_already_added):
