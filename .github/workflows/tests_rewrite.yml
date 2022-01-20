@@ -44,6 +44,10 @@ jobs:
         pylint src --rcfile=.pylint --exit-zero
         # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621 и W0613
         pylint tests --rcfile=tests/.pylint --exit-zero
+    # Показывает изменения которые бы ввел black
+    # Раз в месяц, они сами применяются
+    - name: Use black Auto-formatter
+      run: black . -l 127 --diff
   test:
     needs: lint
     runs-on: ubuntu-latest
