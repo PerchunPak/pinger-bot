@@ -21,34 +21,39 @@ class ErrorHandlers(Cog):
             return await ctx.send(f"Только мой Владелец, {self.bot.app_info.owner}, может использовать эту команду")
 
         elif isinstance(exception, MissingRequiredArgument):
-            return await ctx.send('Не хватает необходимого аргумента `%s`' % exception.param.name)
-        elif isinstance(exception, (Forbidden, NotFound)): return
+            return await ctx.send("Не хватает необходимого аргумента `%s`" % exception.param.name)
+        elif isinstance(exception, (Forbidden, NotFound)):
+            return
 
         elif "Missing Permissions" in str(exception):
-            return await ctx.send("У меня нет необходимых прав для выполнения этой команды. "
-                                  "Предоставление мне разрешения администратора должно решить эту проблему")
+            return await ctx.send(
+                "У меня нет необходимых прав для выполнения этой команды. "
+                "Предоставление мне разрешения администратора должно решить эту проблему"
+            )
 
         else:
-            await ctx.send(f'```\nКоманда: {ctx.command.qualified_name}\n{exception}\n```\n'
-                           'Неизвестная ошибка произошла и я не смог выполнить эту команду.\n'
-                           'Я уже сообщил своему создателю')
-            traceback = ''.join(format_exception(type(exception), exception, exception.__traceback__))
+            await ctx.send(
+                f"```\nКоманда: {ctx.command.qualified_name}\n{exception}\n```\n"
+                "Неизвестная ошибка произошла и я не смог выполнить эту команду.\n"
+                "Я уже сообщил своему создателю"
+            )
+            traceback = "".join(format_exception(type(exception), exception, exception.__traceback__))
 
             if not len(traceback) > 2000:
                 return await self.bot.app_info.owner.send(
-                    'Юзер `%s` нашел ошибку в команде %s.\n'
-                    'Traceback: \n```\n%s\n```'
-                    % (str(ctx.author), ctx.command.qualified_name, traceback))
+                    "Юзер `%s` нашел ошибку в команде %s.\n"
+                    "Traceback: \n```\n%s\n```" % (str(ctx.author), ctx.command.qualified_name, traceback)
+                )
             else:
-                traceback = [traceback[i:i + 2000] for i in range(0, len(traceback), 2000)]
+                traceback = [traceback[i : i + 2000] for i in range(0, len(traceback), 2000)]
 
                 await self.bot.app_info.owner.send(
-                    'Юзер `%s` нашел ошибку в команде %s.\n'
-                    'Traceback: \n```\n%s\n```'
-                    % (str(ctx.author), ctx.command.qualified_name, traceback[0]))
+                    "Юзер `%s` нашел ошибку в команде %s.\n"
+                    "Traceback: \n```\n%s\n```" % (str(ctx.author), ctx.command.qualified_name, traceback[0])
+                )
 
                 for element in traceback[1:]:
-                    await self.bot.app_info.owner.send(f'\n```\n{element}\n```')
+                    await self.bot.app_info.owner.send(f"\n```\n{element}\n```")
 
 
 def setup(bot):

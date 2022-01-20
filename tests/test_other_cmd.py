@@ -9,19 +9,19 @@ from sys import version_info
 class TestOtherCommands:
     """Класс для тестов и фикстур"""
 
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def help_cmd(self, event_loop, bot):
         """Фикстура для проверки команды "помощь"."""
         await message("помощь")
         return get_embed().to_dict()
 
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def about(self, event_loop, bot):
         """Фикстура для проверки команды "инфо"."""
         await message("инфо")
         return get_embed()
 
-    @fixture(scope='class')
+    @fixture(scope="class")
     async def invite(self, event_loop, bot):
         """Фикстура для проверки команды "пригласить"."""
         await message("пригласить")
@@ -31,8 +31,8 @@ class TestOtherCommands:
         """Проверяет правильно ли бот распознает команды."""
         i = 0
         commands = sorted([c for c in bot.commands if not c.hidden], key=lambda c: c.name)
-        for field in help_cmd['fields']:
-            assert {'inline': False, 'name': commands[i].name, 'value': commands[i].help} == field
+        for field in help_cmd["fields"]:
+            assert {"inline": False, "name": commands[i].name, "value": commands[i].help} == field
             i += 1
 
     def test_about_description(self, bot, about):
@@ -65,9 +65,8 @@ class TestOtherCommands:
 
     def test_about_python_version(self, bot, about):
         """Проверят правильно ли бот распознает версию Python."""
-        assert '.'.join(map(str, version_info[:3])) in about.fields[3].value
+        assert ".".join(map(str, version_info[:3])) in about.fields[3].value
 
     def test_invite_link(self, bot, invite):
         """Проверят правильно ли бот создает ссылку-приглашение."""
-        assert f"https://discordapp.com/oauth2/authorize?client_id={bot.app_info.id}&scope=bot&permissions=8" \
-               in invite.content
+        assert f"https://discordapp.com/oauth2/authorize?client_id={bot.app_info.id}&scope=bot&permissions=8" in invite.content
