@@ -46,6 +46,8 @@ P.S. Докер так же запускает Postgres, так что вы мо
 
 **`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
 
+И последнее, запустите авто-форматер black командой: `black . -l 127`
+
 4. **Запустите сами тесты командой `pytest`**
 
 Если вы запускаете тесты через какую либо IDE, вам прийдется добавить аргумент `--no-cov`, иначе [возможно будет возникать ошибка](https://pytest-cov.readthedocs.io/en/latest/debuggers.html)
