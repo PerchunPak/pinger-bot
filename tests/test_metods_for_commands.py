@@ -89,7 +89,8 @@ class TestMetodsForCommands:
         answer = await metods_for_commands.parse_ip("www")
         assert answer == ServerInfo(False, None, dns_info, None, "25565")
 
-    def compare_ping_response_objects(self, obj1: PingResponse, obj2: PingResponse) -> bool:
+    @staticmethod
+    def compare_ping_response_objects(obj1: PingResponse, obj2: PingResponse) -> bool:
         """Метод сравнивает объекты PingResponse.
 
         Args:
