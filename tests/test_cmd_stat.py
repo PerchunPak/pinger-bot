@@ -13,9 +13,8 @@ from src.commands.statistic import Statistic
 class TestStatistic:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="class")
-    async def stat_online(event_loop, database, monkeypatch_session):
+    async def stat_online(self, event_loop, database, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
         Args:
@@ -55,9 +54,8 @@ class TestStatistic:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def stat_online_as_msg(event_loop, database, monkeypatch_session):
+    async def stat_online_as_msg(self, event_loop, database, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
         Args:
@@ -97,9 +95,8 @@ class TestStatistic:
 
         return msg
 
-    @staticmethod
     @fixture(scope="class")
-    async def stat_alias(event_loop, database, monkeypatch_session):
+    async def stat_alias(self, event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы.
 
         Args:
@@ -150,9 +147,8 @@ class TestStatistic:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def stat_offline(event_loop, monkeypatch_session):
+    async def stat_offline(self, event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера.
 
         Args:
@@ -183,9 +179,8 @@ class TestStatistic:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def get_yest_ping(event_loop, database):
+    async def get_yest_ping(self, event_loop, database):
         """Вызывает метод получения вчерашнего пинга.
 
         Args:
@@ -210,9 +205,8 @@ class TestStatistic:
         pings = await database.get_pings("127.0.0.7", 25565)
         return await Statistic.get_yest_ping(pings)
 
-    @staticmethod
     @fixture(scope="class")
-    async def get_yest_ping_null(event_loop, database):
+    async def get_yest_ping_null(self, event_loop, database):
         """Вызывает метод получения вчерашнего пинга.
 
         Args:
@@ -225,8 +219,7 @@ class TestStatistic:
         pings = await database.get_pings("127.0.0.8", 25565)
         return await Statistic.get_yest_ping(pings)
 
-    @staticmethod
-    def test_color(stat_online):
+    def test_color(self, stat_online):
         """Проверят цвет в ответе бота.
 
         Args:
@@ -234,8 +227,7 @@ class TestStatistic:
         """
         assert str(stat_online.color) == str(Color.green())
 
-    @staticmethod
-    def test_alias_in(stat_alias):
+    def test_alias_in(self, stat_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи.
 
         Args:
@@ -243,8 +235,7 @@ class TestStatistic:
         """
         assert "тест_алиас" in stat_alias.title
 
-    @staticmethod
-    def test_alias_numip(stat_alias):
+    def test_alias_numip(self, stat_alias):
         """Проверят правильно ли бот распознает цифровое айпи, если использовать алиас.
 
         Args:
@@ -252,8 +243,7 @@ class TestStatistic:
         """
         assert "127.0.0.5:25565" in stat_alias.description
 
-    @staticmethod
-    def test_online_in_description(stat_online):
+    def test_online_in_description(self, stat_online):
         """Проверят правильно ли бот пишет онлайн сервера.
 
         Args:
@@ -261,8 +251,7 @@ class TestStatistic:
         """
         assert "**Онлайн**" in stat_online.description
 
-    @staticmethod
-    def test_offline_in_description(stat_offline):
+    def test_offline_in_description(self, stat_offline):
         """Проверят правильно ли бот пишет офлайн сервера.
 
         Args:
@@ -270,8 +259,7 @@ class TestStatistic:
         """
         assert "**Офлайн**" in stat_offline.description
 
-    @staticmethod
-    def test_thumbnail_link(stat_alias):
+    def test_thumbnail_link(self, stat_alias):
         """Проверяет ссылку в маленькой картинке справо сверху.
 
         Args:
@@ -279,8 +267,7 @@ class TestStatistic:
         """
         assert stat_alias.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.5:25565"
 
-    @staticmethod
-    def test_online(stat_online):
+    def test_online(self, stat_online):
         """Проверяет правильно ли бот распознает текущий онлайн.
 
         Args:
@@ -289,8 +276,7 @@ class TestStatistic:
         online = stat_online.fields[0].value.split("/")
         assert online[0] == "5"
 
-    @staticmethod
-    def test_online_max(stat_online):
+    def test_online_max(self, stat_online):
         """Проверяет правильно ли бот распознает максимальный онлайн.
 
         Args:
@@ -299,8 +285,7 @@ class TestStatistic:
         online = stat_online.fields[0].value.split("/")
         assert online[1] == "20"
 
-    @staticmethod
-    def test_record(stat_online):
+    def test_record(self, stat_online):
         """Проверяет правильно ли бот распознает рекорд онлайна.
 
         Args:
@@ -308,8 +293,7 @@ class TestStatistic:
         """
         assert stat_online.fields[2].value == "33"
 
-    @staticmethod
-    def test_alias_in_footer(stat_alias):
+    def test_alias_in_footer(self, stat_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи в footer.
 
         Args:
@@ -317,8 +301,7 @@ class TestStatistic:
         """
         assert "тест_алиас" in stat_alias.footer.text
 
-    @staticmethod
-    def test_no_pings_for_plot(stat_online_as_msg):
+    def test_no_pings_for_plot(self, stat_online_as_msg):
         """Проверяет что если пингов не достаточно для построения графика.
 
         Args:
@@ -326,8 +309,7 @@ class TestStatistic:
         """
         assert "слишком мало информации" in stat_online_as_msg.content
 
-    @staticmethod
-    def test_check_yesterday_online(get_yest_ping):
+    def test_check_yesterday_online(self, get_yest_ping):
         """Проверят правильно ли бот распознает вчерашние пинги.
 
         Args:
@@ -335,8 +317,7 @@ class TestStatistic:
         """
         assert get_yest_ping == 12
 
-    @staticmethod
-    def test_yest_null(get_yest_ping_null):
+    def test_yest_null(self, get_yest_ping_null):
         """Проверяет правильно ли бот распознает вчерашний онлайн, если записей об этом нету.
 
         Args:
@@ -344,8 +325,7 @@ class TestStatistic:
         """
         assert get_yest_ping_null == "Нету информации"
 
-    @staticmethod
-    def test_plot(stat_alias):
+    def test_plot(self, stat_alias):
         """Проверяет создает ли бот график онлайна.
 
         Args:

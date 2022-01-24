@@ -11,9 +11,8 @@ from pytest import fixture
 class TestAddServer:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="class")
-    async def fake_is_owner(event_loop, bot, monkeypatch_session):
+    async def fake_is_owner(self, event_loop, bot, monkeypatch_session):
         """Обманывает проверку на владельца бота.
 
         Args:
@@ -36,9 +35,8 @@ class TestAddServer:
 
         monkeypatch_session.setattr(bot, "is_owner", fake_is_owner_func)
 
-    @staticmethod
     @fixture(scope="class")
-    async def add_online(event_loop, fake_is_owner, monkeypatch_session):
+    async def add_online(self, event_loop, fake_is_owner, monkeypatch_session):
         """Основная фикстура для тестов, добавляет онлайн сервер.
 
         Args:
@@ -76,9 +74,8 @@ class TestAddServer:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def add_offline(event_loop, fake_is_owner, monkeypatch_session):
+    async def add_offline(self, event_loop, fake_is_owner, monkeypatch_session):
         """Пытается добавить офлайн сервер.
 
         Args:
@@ -110,9 +107,8 @@ class TestAddServer:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def add_already(event_loop, fake_is_owner, database, monkeypatch_session):
+    async def add_already(self, event_loop, fake_is_owner, database, monkeypatch_session):
         """Пытается добавить уже добавленный сервер.
 
         Args:
@@ -152,8 +148,7 @@ class TestAddServer:
 
         return embed
 
-    @staticmethod
-    def test_online_color(add_online):
+    def test_online_color(self, add_online):
         """Проверят цвет в ответе бота.
 
         Args:
@@ -161,8 +156,7 @@ class TestAddServer:
         """
         assert str(add_online.color) == str(Color.green())
 
-    @staticmethod
-    def test_online_ip_in_title(add_online):
+    def test_online_ip_in_title(self, add_online):
         """Проверяет что есть айпи в title.
 
         Args:
@@ -170,8 +164,7 @@ class TestAddServer:
         """
         assert "127.0.0.33" in add_online.title
 
-    @staticmethod
-    def test_online_num_ip_description(add_online):
+    def test_online_num_ip_description(self, add_online):
         """Проверяет есть ли цифровое айпи в description.
 
         Args:
@@ -179,8 +172,7 @@ class TestAddServer:
         """
         assert "127.0.0.33:25565" in add_online.description
 
-    @staticmethod
-    def test_online_thumbnail_link(add_online):
+    def test_online_thumbnail_link(self, add_online):
         """Проверяет ссылку в маленькой картинке справо сверху.
 
         Args:
@@ -188,8 +180,7 @@ class TestAddServer:
         """
         assert add_online.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.33:25565"
 
-    @staticmethod
-    def test_offline_color(add_offline):
+    def test_offline_color(self, add_offline):
         """Проверят цвет в офлайн ответе бота.
 
         Args:
@@ -197,8 +188,7 @@ class TestAddServer:
         """
         assert str(add_offline.color) == str(Color.red())
 
-    @staticmethod
-    def test_already_color(add_already):
+    def test_already_color(self, add_already):
         """Проверят цвет в ответе бота, если сервер уже добавлен.
 
         Args:
@@ -206,8 +196,7 @@ class TestAddServer:
         """
         assert str(add_already.color) == str(Color.red())
 
-    @staticmethod
-    def test_already_ip_in_title(add_already):
+    def test_already_ip_in_title(self, add_already):
         """Проверяет что есть айпи в title.
         Args:
             add_already: Embed объект ответа.

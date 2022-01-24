@@ -25,9 +25,7 @@ async def database(event_loop):
 class TestAddFunctions:
     """Класс для тестов add_* методов."""
 
-    @staticmethod
-    @mark.asyncio
-    async def test_add_server(database):
+    async def test_add_server(self, database):
         """Проверяет метод add_server.
 
         Args:
@@ -38,9 +36,7 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.11' AND port=25565")
         assert len(server) > 0
 
-    @staticmethod
-    @mark.asyncio
-    async def test_add_server_owner_id(database):
+    async def test_add_server_owner_id(self, database):
         """Проверяет метод add_server, правильно ли записывает owner_id.
 
         Args:
@@ -51,9 +47,7 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.12' AND port=25565")
         assert server[0]["owner"] == 123123
 
-    @staticmethod
-    @mark.asyncio
-    async def test_add_ping(database):
+    async def test_add_ping(self, database):
         """Проверяет метод add_ping.
 
         Args:
@@ -64,9 +58,7 @@ class TestAddFunctions:
         ping = await database.pool.fetch("SELECT * FROM sunpings WHERE ip='127.0.0.13' AND port=25565")
         assert ping[0]["players"] == 33
 
-    @staticmethod
-    @mark.asyncio
-    async def test_add_alias(database):
+    async def test_add_alias(self, database):
         """Проверяет метод add_alias.
 
         Args:
@@ -78,9 +70,7 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.14' AND port=25565")
         assert server[0]["alias"] == "тест"
 
-    @staticmethod
-    @mark.asyncio
-    async def test_add_record(database):
+    async def test_add_record(self, database):
         """Проверяет метод add_record.
 
         Args:
@@ -96,9 +86,7 @@ class TestAddFunctions:
 class TestGetFunctions:
     """Класс для тестов get_* методов."""
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_server(database):
+    async def test_get_server(self, database):
         """Проверяет метод get_server.
 
         Args:
@@ -110,9 +98,7 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunservers WHERE ip='127.0.0.16' AND port=25565")
         assert answer == dict(right_answer[0])
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_servers(database):
+    async def test_get_servers(self, database):
         """Проверяет метод get_servers.
 
         Args:
@@ -128,9 +114,7 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunservers;")
         assert answer == right_answer
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_servers_len(database):
+    async def test_get_servers_len(self, database):
         """Проверяет метод get_servers_len.
 
         Args:
@@ -145,9 +129,7 @@ class TestGetFunctions:
         answer = await database.get_servers()
         assert len(answer) == 3
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_ip_alias(database):
+    async def test_get_ip_alias(self, database):
         """Проверяет метод get_ip_alias.
 
         Args:
@@ -160,9 +142,7 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT ip, port FROM sunservers WHERE alias='тест123';")
         assert answer == dict(right_answer[0])
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_pings(database):
+    async def test_get_pings(self, database):
         """Проверяет метод get_pings.
 
         Args:
@@ -178,9 +158,7 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunpings WHERE ip='127.0.0.24' AND port=25565;")
         assert answer == right_answer
 
-    @staticmethod
-    @mark.asyncio
-    async def test_get_pings_len(database):
+    async def test_get_pings_len(self, database):
         """Проверяет метод get_pings_len.
 
         Args:
@@ -199,9 +177,7 @@ class TestGetFunctions:
 class TestAnotherFunctions:
     """Класс для тестов других методов."""
 
-    @staticmethod
-    @mark.asyncio
-    async def test_clear_return(database):
+    async def test_clear_return(self, database):
         """Проверяет метод __clear_return
 
         Иначе сделать никак, сделайте PL если знаете
@@ -216,9 +192,7 @@ class TestAnotherFunctions:
         answer = await database._PostgresController__clear_return([right_answer])
         assert dict(right_answer) == answer
 
-    @staticmethod
-    @mark.asyncio
-    async def test_clear_return_empty(database):
+    async def test_clear_return_empty(self, database):
         """Проверяет метод __clear_return пустым ответом.
 
         Args:
@@ -227,9 +201,7 @@ class TestAnotherFunctions:
         returned = await database._PostgresController__clear_return([])
         assert {} == returned
 
-    @staticmethod
-    @mark.asyncio
-    async def test_make_tables(database):
+    async def test_make_tables(self, database):
         """Проверяет метод make_tables.
 
         Args:
@@ -239,9 +211,7 @@ class TestAnotherFunctions:
         await database.pool.execute("SELECT * FROM sunpings;")
         await database.pool.execute("SELECT * FROM sunservers;")
 
-    @staticmethod
-    @mark.asyncio
-    async def test_remove_too_old_pings(database):
+    async def test_remove_too_old_pings(self, database):
         """Проверяет метод remove_too_old_pings.
 
         Args:
@@ -276,9 +246,7 @@ class TestAnotherFunctions:
             assert tuple(ping) == pings_right[i]
             i += 1
 
-    @staticmethod
-    @mark.asyncio
-    async def test_drop_table_sunpings(database):
+    async def test_drop_table_sunpings(self, database):
         """Проверяет метод drop_tables на таблице sunpings.
 
         Args:
@@ -290,9 +258,7 @@ class TestAnotherFunctions:
         sunpings = await database.pool.fetch("SELECT * FROM sunpings;")
         assert len(sunpings) == 0
 
-    @staticmethod
-    @mark.asyncio
-    async def test_drop_table_sunservers(database):
+    async def test_drop_table_sunservers(self, database):
         """Проверяет метод drop_tables на таблице sunservers.
 
         Args:

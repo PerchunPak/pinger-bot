@@ -7,9 +7,8 @@ from pytest import fixture
 class TestOtherCommands:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="class")
-    async def help_cmd(event_loop):
+    async def help_cmd(self, event_loop):
         """Фикстура для проверки команды "помощь".
 
         Args:
@@ -21,9 +20,8 @@ class TestOtherCommands:
         await message("помощь")
         return get_embed().to_dict()
 
-    @staticmethod
     @fixture(scope="class")
-    async def about(event_loop):
+    async def about(self, event_loop):
         """Фикстура для проверки команды "инфо".
 
         Args:
@@ -35,9 +33,8 @@ class TestOtherCommands:
         await message("инфо")
         return get_embed()
 
-    @staticmethod
     @fixture(scope="class")
-    async def invite(event_loop):
+    async def invite(self, event_loop):
         """Фикстура для проверки команды "пригласить".
 
         Args:
@@ -49,8 +46,7 @@ class TestOtherCommands:
         await message("пригласить")
         return get_message()
 
-    @staticmethod
-    def test_help_commands(bot, help_cmd):
+    def test_help_commands(self, bot, help_cmd):
         """Проверяет правильно ли бот распознает команды.
 
         Args:
@@ -63,8 +59,7 @@ class TestOtherCommands:
             assert {"inline": False, "name": commands[i].name, "value": commands[i].help[0]} == field
             i += 1
 
-    @staticmethod
-    def test_about_description(bot, about):
+    def test_about_description(self, bot, about):
         """Проверят правильно ли бот распознает описание в дискорде.
 
         Args:
@@ -73,8 +68,7 @@ class TestOtherCommands:
         """
         assert bot.app_info.description in about.description
 
-    @staticmethod
-    def test_about_id(bot, about):
+    def test_about_id(self, bot, about):
         """Проверят правильно ли бот распознает свой айди.
 
         Args:
@@ -83,8 +77,7 @@ class TestOtherCommands:
         """
         assert str(bot.app_info.id) in about.description
 
-    @staticmethod
-    def test_about_owner(bot, about):
+    def test_about_owner(self, bot, about):
         """Проверят правильно ли бот распознает владельца.
 
         Args:
@@ -93,8 +86,7 @@ class TestOtherCommands:
         """
         assert str(bot.app_info.owner) == about.fields[0].value
 
-    @staticmethod
-    def test_about_count_servers_int(about):
+    def test_about_count_servers_int(self, about):
         """Проверят int ли количество серверов.
         Если не int, оно выдаст ошибку при переводе в int.
         А если просто написать int(something()), будет не понятно из за чего тест проваливается.
@@ -104,8 +96,7 @@ class TestOtherCommands:
         """
         assert isinstance(int(about.fields[1].value), int)
 
-    @staticmethod
-    def test_about_count_users_int(about):
+    def test_about_count_users_int(self, about):
         """Проверят int ли количество пользователей.
         Если не int, оно выдаст ошибку при переводе в int.
         А если просто написать int(something()), будет не понятно из за чего тест проваливается.
@@ -115,8 +106,7 @@ class TestOtherCommands:
         """
         assert isinstance(int(about.fields[2].value), int)
 
-    @staticmethod
-    def test_about_python_version(about):
+    def test_about_python_version(self, about):
         """Проверят правильно ли бот распознает версию Python.
 
         Args:
@@ -124,8 +114,7 @@ class TestOtherCommands:
         """
         assert ".".join(map(str, version_info[:3])) in about.fields[3].value
 
-    @staticmethod
-    def test_invite_link(bot, invite):
+    def test_invite_link(self, bot, invite):
         """Проверят правильно ли бот создает ссылку-приглашение.
 
         Args:

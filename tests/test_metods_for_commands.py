@@ -12,9 +12,8 @@ from src.commands.commands_ import MetodsForCommands
 class TestMetodsForCommands:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="session")
-    def metods_for_commands(bot):
+    def metods_for_commands(self, bot):
         """Фикстура сохраняющая экземпляр класса.
 
         Args:
@@ -25,9 +24,8 @@ class TestMetodsForCommands:
         """
         return MetodsForCommands(bot)
 
-    @staticmethod
     @fixture(scope="class")
-    async def wait_please():
+    async def wait_please(self):
         """Фикстура получающая ответ от тестовой команды wait_please.
 
         Returns:
@@ -36,9 +34,8 @@ class TestMetodsForCommands:
         await message("wait_please example.com")
         return get_embed()
 
-    @staticmethod
     @fixture(scope="class")
-    async def fail_message_online():
+    async def fail_message_online(self):
         """Фикстура получающая ответ от тестовой команды fail_message.
 
         Returns:
@@ -47,9 +44,8 @@ class TestMetodsForCommands:
         await message("fail_message example.com 1")
         return get_embed()
 
-    @staticmethod
     @fixture(scope="class")
-    async def fail_message_offline():
+    async def fail_message_offline(self):
         """Фикстура получающая ответ от тестовой команды fail_message, но теперь если online=False.
 
         Returns:
@@ -58,9 +54,7 @@ class TestMetodsForCommands:
         await message("fail_message example.com 0")
         return get_embed()
 
-    @staticmethod
-    @mark.asyncio
-    async def test_parse_ip_alias(database, metods_for_commands):
+    async def test_parse_ip_alias(self, database, metods_for_commands):
         """Тест на проверку алиаса в методе MetodsForCommands.parse_ip.
 
         Args:
@@ -75,9 +69,7 @@ class TestMetodsForCommands:
         answer = await metods_for_commands.parse_ip("тест28")
         assert answer == ServerInfo(True, "тест28", dns_info, "127.0.0.29", "25565")
 
-    @staticmethod
-    @mark.asyncio
-    async def test_parse_ip_valid(metods_for_commands):
+    async def test_parse_ip_valid(self, metods_for_commands):
         """Тест на проверку действий при валидном айпи.
 
         Args:
@@ -87,9 +79,7 @@ class TestMetodsForCommands:
         answer = await metods_for_commands.parse_ip("127.0.0.30")
         assert answer == ServerInfo(True, None, dns_info, "127.0.0.30", "25565")
 
-    @staticmethod
-    @mark.asyncio
-    async def test_parse_ip_not_valid(metods_for_commands):
+    async def test_parse_ip_not_valid(self, metods_for_commands):
         """Тест на проверку действий при не валидном айпи.
 
         Args:
@@ -99,8 +89,7 @@ class TestMetodsForCommands:
         answer = await metods_for_commands.parse_ip("www")
         assert answer == ServerInfo(False, None, dns_info, None, "25565")
 
-    @staticmethod
-    def compare_ping_response_objects(obj1: PingResponse, obj2: PingResponse) -> bool:
+    def compare_ping_response_objects(self, obj1: PingResponse, obj2: PingResponse) -> bool:
         """Метод сравнивает объекты PingResponse.
 
         Args:
@@ -120,7 +109,6 @@ class TestMetodsForCommands:
 
         return False not in ret
 
-    @mark.asyncio
     async def test_ping_server_valid(self, metods_for_commands, monkeypatch_session):
         """Тест на проверку действий при валидном айпи в методе MetodsForCommands.ping_server.
 
@@ -157,9 +145,7 @@ class TestMetodsForCommands:
             and info.__dict__ == ServerInfo(True, None, info.dns, "127.0.0.31", "25565").__dict__
         )
 
-    @staticmethod
-    @mark.asyncio
-    async def test_ping_server_not_valid(metods_for_commands):
+    async def test_ping_server_not_valid(self, metods_for_commands):
         """Тест на проверку действий при не валидном айпи.
 
         Args:
@@ -169,9 +155,7 @@ class TestMetodsForCommands:
         answer = await metods_for_commands.ping_server("www")
         assert answer == (False, ServerInfo(False, None, dns_info, None, "25565"))
 
-    @staticmethod
-    @mark.asyncio
-    async def test_ping_server_not_answer(metods_for_commands, monkeypatch_session):
+    async def test_ping_server_not_answer(self, metods_for_commands, monkeypatch_session):
         """Тест на проверку действий если сервер не ответил.
 
         Args:
@@ -201,8 +185,7 @@ class TestMetodsForCommands:
             and info.__dict__ == ServerInfo(True, None, info.dns, "127.0.0.32", "25565").__dict__
         )
 
-    @staticmethod
-    def test_wait_please_color(wait_please):
+    def test_wait_please_color(self, wait_please):
         """Тест на проверку цвета в сообщении wait_please.
 
         Args:
@@ -210,8 +193,7 @@ class TestMetodsForCommands:
         """
         assert str(wait_please.color) == str(Color.orange())
 
-    @staticmethod
-    def test_wait_please_ip_in_title(wait_please):
+    def test_wait_please_ip_in_title(self, wait_please):
         """Тест на проверку есть ли айпи в title.
 
         Args:
@@ -219,8 +201,7 @@ class TestMetodsForCommands:
         """
         assert "example.com" in wait_please.title
 
-    @staticmethod
-    def test_fail_message_online_color(fail_message_online):
+    def test_fail_message_online_color(self, fail_message_online):
         """Тест на проверку цвета в сообщении fail_message (online).
 
         Args:
@@ -228,8 +209,7 @@ class TestMetodsForCommands:
         """
         assert str(fail_message_online.color) == str(Color.red())
 
-    @staticmethod
-    def test_fail_message_online_ip_in_title(fail_message_online):
+    def test_fail_message_online_ip_in_title(self, fail_message_online):
         """Тест на проверку есть ли айпи в title.
 
         Args:
@@ -237,8 +217,7 @@ class TestMetodsForCommands:
         """
         assert "example.com" in fail_message_online.title
 
-    @staticmethod
-    def test_fail_message_online_status(fail_message_online):
+    def test_fail_message_online_status(self, fail_message_online):
         """Тест на проверку правильного статуса в описании Embed'а.
 
         Args:
@@ -246,8 +225,7 @@ class TestMetodsForCommands:
         """
         assert "Онлайн" in fail_message_online.description
 
-    @staticmethod
-    def test_fail_message_offline_color(fail_message_offline):
+    def test_fail_message_offline_color(self, fail_message_offline):
         """Тест на проверку цвета в сообщении fail_message (offline).
 
         Args:
@@ -255,8 +233,7 @@ class TestMetodsForCommands:
         """
         assert str(fail_message_offline.color) == str(Color.red())
 
-    @staticmethod
-    def test_fail_message_offline_ip_in_title(fail_message_offline):
+    def test_fail_message_offline_ip_in_title(self, fail_message_offline):
         """Тест на проверку есть ли айпи в title.
 
         Args:
@@ -264,8 +241,7 @@ class TestMetodsForCommands:
         """
         assert "example.com" in fail_message_offline.title
 
-    @staticmethod
-    def test_fail_message_offline_status(fail_message_offline):
+    def test_fail_message_offline_status(self, fail_message_offline):
         """Тест на проверку правильного статуса в описании Embed'а.
 
         Args:

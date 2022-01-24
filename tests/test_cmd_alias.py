@@ -8,9 +8,8 @@ from pytest import fixture, mark
 class TestAlias:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="class")
-    async def alias_added_not_owner(event_loop, database):
+    async def alias_added_not_owner(self, event_loop, database):
         """Фикстура для тестов если сервер добавлен, но юзер не владелец.
 
         Args:
@@ -29,9 +28,8 @@ class TestAlias:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def alias_added(event_loop, bot, database):
+    async def alias_added(self, event_loop, bot, database):
         """Фикстура для тестов если алиас добавлен.
 
         Args:
@@ -56,9 +54,8 @@ class TestAlias:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def alias_not_added(event_loop):
+    async def alias_not_added(self, event_loop):
         """Фикстура для тестов если сервер не добавлен.
 
         Args:
@@ -75,9 +72,8 @@ class TestAlias:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def alias_already_added(event_loop, bot, database):
+    async def alias_already_added(self, event_loop, bot, database):
         """Фикстура для тестов если алиас уже добавлен.
 
         Args:
@@ -104,9 +100,7 @@ class TestAlias:
 
         return embed
 
-    @staticmethod
-    @mark.asyncio
-    async def test_is_added_to_db(event_loop, database, alias_added):
+    async def test_is_added_to_db(self, event_loop, database, alias_added):
         """Проверяет добавился ли алиас в дата базу.
 
         Args:
@@ -118,8 +112,7 @@ class TestAlias:
         ip_from_alias = str(ip_from_alias["ip"]) + ":" + str(ip_from_alias["port"])
         assert ip_from_alias == "127.0.0.9:25565"
 
-    @staticmethod
-    def test_not_owner(alias_added_not_owner):
+    def test_not_owner(self, alias_added_not_owner):
         """Проверяет правильно ли бот понимает кто владелец.
 
         Args:
@@ -127,8 +120,7 @@ class TestAlias:
         """
         assert alias_added_not_owner.fields[0].value == "Вы не владелец"
 
-    @staticmethod
-    def test_color(alias_added):
+    def test_color(self, alias_added):
         """Проверят цвет в ответе бота.
 
         Args:
@@ -136,8 +128,7 @@ class TestAlias:
         """
         assert str(alias_added.color) == str(Color.green())
 
-    @staticmethod
-    def test_thumbnail_link(alias_added):
+    def test_thumbnail_link(self, alias_added):
         """Проверяет ссылку в маленькой картинке справо сверху.
 
         Args:
@@ -145,8 +136,7 @@ class TestAlias:
         """
         assert alias_added.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.9:25565"
 
-    @staticmethod
-    def test_not_added(alias_not_added):
+    def test_not_added(self, alias_not_added):
         """Проверяет правильно ли бот распознает если сервере еще не добавлен.
 
         Args:
@@ -154,8 +144,7 @@ class TestAlias:
         """
         assert "не был найден в дата базе" in alias_not_added.footer.text
 
-    @staticmethod
-    def test_already_color(alias_already_added):
+    def test_already_color(self, alias_already_added):
         """Проверяет цвет если алиас уже добавлен.
 
         Args:
@@ -163,8 +152,7 @@ class TestAlias:
         """
         assert str(alias_already_added.color) == str(Color.red())
 
-    @staticmethod
-    def test_already_thumbnail_link(alias_already_added):
+    def test_already_thumbnail_link(self, alias_already_added):
         """Проверяет ссылку в маленькой картинке справо сверху.
 
         Args:
@@ -172,8 +160,7 @@ class TestAlias:
         """
         assert alias_already_added.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.10:25565"
 
-    @staticmethod
-    def test_already_alias_in_title(alias_already_added):
+    def test_already_alias_in_title(self, alias_already_added):
         """Проверяет есть ли алиас в title если алиас уже добавлен
 
         Args:

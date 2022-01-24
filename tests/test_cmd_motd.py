@@ -11,9 +11,8 @@ from pytest import fixture
 class TestMotd:
     """Класс для тестов и фикстур."""
 
-    @staticmethod
     @fixture(scope="class")
-    async def motd_online(event_loop, monkeypatch_session):
+    async def motd_online(self, event_loop, monkeypatch_session):
         """Основная фикстура для тестов, отсылает онлайн сервер.
 
         Args:
@@ -50,9 +49,8 @@ class TestMotd:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def motd_alias(event_loop, database, monkeypatch_session):
+    async def motd_alias(self, event_loop, database, monkeypatch_session):
         """Фикстура для тестов поддерживает ли команда алиасы.
 
         Args:
@@ -92,9 +90,8 @@ class TestMotd:
 
         return embed
 
-    @staticmethod
     @fixture(scope="class")
-    async def motd_offline(event_loop, monkeypatch_session):
+    async def motd_offline(self, event_loop, monkeypatch_session):
         """Вызывает команду с пингом выключенного сервера.
 
         Args:
@@ -125,8 +122,7 @@ class TestMotd:
 
         return embed
 
-    @staticmethod
-    def test_color(motd_online):
+    def test_color(self, motd_online):
         """Проверят цвет в ответе бота.
 
         Args:
@@ -134,8 +130,7 @@ class TestMotd:
         """
         assert str(motd_online.color) == str(Color.green())
 
-    @staticmethod
-    def test_alias_in(motd_alias):
+    def test_alias_in(self, motd_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи.
 
         Args:
@@ -143,8 +138,7 @@ class TestMotd:
         """
         assert "тест_алиас" in motd_alias.title
 
-    @staticmethod
-    def test_thumbnail_link(motd_alias):
+    def test_thumbnail_link(self, motd_alias):
         """Проверяет ссылку в маленькой картинке справо сверху.
 
         Args:
@@ -152,8 +146,7 @@ class TestMotd:
         """
         assert motd_alias.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.2:25565"
 
-    @staticmethod
-    def test_motd(motd_online):
+    def test_motd(self, motd_online):
         """Проверяет правильно ли бот распознает мотд.
 
         Args:
@@ -161,8 +154,7 @@ class TestMotd:
         """
         assert motd_online.fields[0].value == "A Minecraft Server"
 
-    @staticmethod
-    def test_url_motd(motd_online):
+    def test_url_motd(self, motd_online):
         """Проверяет правильно ли генерирует ссылку на редактирование мотд.
 
         Args:
@@ -172,8 +164,7 @@ class TestMotd:
         normal_motd = normal_motd.replace("%0A", "\n").replace("+", " ")
         assert normal_motd == "A Minecraft Server"
 
-    @staticmethod
-    def test_offline_color(motd_offline):
+    def test_offline_color(self, motd_offline):
         """Проверяет цвет Embed-а когда сервер оффлайн.
 
         Args:
