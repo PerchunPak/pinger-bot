@@ -5,11 +5,11 @@ from mcstatus import MinecraftServer
 class ServerInfo:
     """Класс создан для возвращения объекта с информацией о сервере."""
 
-    def __init__(
+    def __init__(  # pylint: disable=R0913
         self,
         valid: bool,
         alias: str or None,
-        dns: MinecraftServer,  # pylint: disable=R0913
+        dns: MinecraftServer,
         num_ip: str or None,
         port: str or None,
     ):

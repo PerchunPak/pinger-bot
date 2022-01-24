@@ -33,7 +33,7 @@ jobs:
         # крашит билд если есть ошибки синтаксиса или не обьявленные переменные
         flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
         # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
-        flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
+        flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70,W503
     - name: Lint with PyLint
       run: |
         # ужасный линтер, тупой и умный одновременно
@@ -42,7 +42,7 @@ jobs:
         pylint *.py --rcfile=.pylint --exit-zero
         # смотрим на файлы в папке src и src/commands
         pylint src --rcfile=.pylint --exit-zero
-        # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621 и W0613
+        # потом смотрим в папке tests, из за особенностей pytest нужно в disable добавить W0621, W0613 и др.
         pylint tests --rcfile=tests/.pylint --exit-zero
     # Показывает изменения которые бы ввел black
     # Раз в месяц, они сами применяются

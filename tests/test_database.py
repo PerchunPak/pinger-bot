@@ -1,6 +1,6 @@
 """Файл для теста дата базы."""
 from datetime import datetime, timedelta
-from pytest import fixture, mark
+from pytest import fixture
 from src.database import PostgresController
 
 

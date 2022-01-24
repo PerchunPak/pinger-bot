@@ -2,7 +2,7 @@
 from time import sleep
 from discord import Color
 from discord.ext.test import message, get_embed
-from pytest import fixture, mark
+from pytest import fixture
 
 
 class TestAlias:

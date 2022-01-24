@@ -4,7 +4,7 @@ from discord import Color
 from discord.ext.test import message, get_embed
 from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
-from pytest import fixture, mark
+from pytest import fixture
 from src.objects import ServerInfo
 from src.commands.commands_ import MetodsForCommands
 

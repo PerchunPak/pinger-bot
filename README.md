@@ -81,7 +81,7 @@ P.S. Докер так же запускает Postgres, так что вы мо
 
 3. **Запустите проверку линта**
 
-**`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
+**`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70,W503`**
 
 И так же по желанию *PyLint*
 
