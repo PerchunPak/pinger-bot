@@ -71,7 +71,7 @@ class PostgresController:
 
     @staticmethod
     async def __clear_return(result: list):
-        """Что бы не было копипаста, этот метод
+        """Что бы не было копи паста, этот метод
         возвращает чистый ответ.
 
         Args:
@@ -184,11 +184,11 @@ class PostgresController:
         return await self.__clear_return(result)
 
     async def get_alias_ip(self, ip: str, port: int) -> dict:
-        """Возвращает алиас сервера через айпи и порт который дал юзер.
+        """Возвращает алиас сервера через айпи и порт, который дал юзер.
 
         Args:
             ip: Айпи который дал юзер.
-            port: Порт который дал юзер.
+            port: Порт, который дал юзер.
 
         Returns:
             Сервер или пустой dict.

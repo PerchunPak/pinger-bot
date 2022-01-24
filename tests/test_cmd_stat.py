@@ -302,7 +302,7 @@ class TestStatistic:
         assert "тест_алиас" in stat_alias.footer.text
 
     def test_no_pings_for_plot(self, stat_online_as_msg):
-        """Проверяет что если пингов не достаточно для построения графика.
+        """Проверяет что если пингов недостаточно для построения графика.
 
         Args:
             stat_online_as_msg: Сообщение ответа.

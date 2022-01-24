@@ -137,7 +137,7 @@ class TestAlias:
         assert alias_added.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.9:25565"
 
     def test_not_added(self, alias_not_added):
-        """Проверяет правильно ли бот распознает если сервере еще не добавлен.
+        """Проверяет правильно ли бот распознает если сервер еще не добавлен.
 
         Args:
             alias_not_added: Embed объект ответа.

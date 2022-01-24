@@ -155,7 +155,7 @@ class TestMotd:
         assert motd_online.fields[0].value == "A Minecraft Server"
 
     def test_url_motd(self, motd_online):
-        """Проверяет правильно ли генерирует ссылку на редактирование мотд.
+        """Проверяет правильно ли, генерирует ссылку на редактирование мотд.
 
         Args:
             motd_online: Embed объект ответа.

@@ -89,7 +89,7 @@ class TestOtherCommands:
     def test_about_count_servers_int(self, about):
         """Проверят int ли количество серверов.
         Если не int, оно выдаст ошибку при переводе в int.
-        А если просто написать int(something()), будет не понятно из за чего тест проваливается.
+        А если просто написать int(something()), будет непонятно из-за чего тест проваливается.
 
         Args:
             about: Embed объект ответа.
@@ -99,7 +99,7 @@ class TestOtherCommands:
     def test_about_count_users_int(self, about):
         """Проверят int ли количество пользователей.
         Если не int, оно выдаст ошибку при переводе в int.
-        А если просто написать int(something()), будет не понятно из за чего тест проваливается.
+        А если просто написать int(something()), будет непонятно из-за чего тест проваливается.
 
         Args:
             about: Embed объект ответа.
