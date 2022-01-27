@@ -1,10 +1,24 @@
 """
 Вся работа с дата базой здесь.
-Взято и изменено под свои нужды с https://github.com/dashwav/nano-chan
 """
 from datetime import datetime, timedelta
-from asyncpg import create_pool
-from asyncpg.pool import Pool
+from sqlalchemy import (
+    create_engine,
+    MetaData,
+    Table,
+    Column,
+    String,
+    Integer,
+    SmallInteger,
+    BigInteger,
+    DateTime,
+    UniqueConstraint,
+    insert,
+    update,
+    select,
+)
+from sqlalchemy.engine.cursor import CursorResult
+from sqlalchemy.exc import NoResultFound
 from config import POSTGRES
 
 
@@ -13,20 +27,23 @@ class PostgresController:
     только тут все взаимодействия с ней.
 
     Attributes:
-        pool: Пул дата базы.
+        engine: Engine объект дата базы.
+        metadata: МетаДата базы данных.
+        t: Быстрый доступ к объектам таблиц
     """
 
-    __slots__ = ("pool",)
+    __slots__ = ("engine", "metadata", "t")
 
-    def __init__(self, pool: Pool):
+    def __init__(self, engine):
         """
         Args:
-            pool: Пул дата базы.
+            engine: Engine объект дата базы.
         """
-        self.pool = pool
+        self.engine = engine
+        self.metadata = MetaData()
 
     @classmethod
-    async def get_instance(cls, connect_info: str = POSTGRES):
+    def get_instance(cls, connect_info: str = POSTGRES):
         """Создает объект класса `PostgresController`.
 
         Этот метод так же создаст необходимые таблицы.
@@ -37,55 +54,58 @@ class PostgresController:
         Returns:
             Объект класса.
         """
-        pool = await create_pool(connect_info)
-        pg_controller = cls(pool)
-        await pg_controller.make_tables()
-        return pg_controller
+        engine = create_engine(connect_info, future=True)
+        db_obj = cls(engine)
+        await db_obj.make_tables()
+        return db_obj
 
-    async def make_tables(self):
+    def make_tables(self):
         """Создает таблицы в дата базе если их ещё нет."""
 
-        sunpings = """
-        CREATE TABLE IF NOT EXISTS sunpings (
-            ip TEXT NOT NULL,
-            port SMALLINT NOT NULL DEFAULT 25565,
-            time TIMESTAMP,
-            players INTEGER NOT NULL
-        );
-        """
+        sunpings = Table(
+            "sunpings",
+            self.metadata,
+            Column("ip", String),
+            Column("port", SmallInteger),
+            Column("time", DateTime),
+            Column("players", Integer),
+            extend_existing=True,
+        )
 
-        sunservers = """
-        CREATE TABLE IF NOT EXISTS sunservers (
-            ip TEXT NOT NULL,
-            port SMALLINT NOT NULL DEFAULT 25565,
-            record SMALLINT NOT NULL DEFAULT 0,
-            alias TEXT UNIQUE,
-            owner BIGSERIAL NOT NULL,
-            UNIQUE (ip, port)
-        );
-        """
+        sunservers = Table(
+            "sunservers",
+            self.metadata,
+            Column("ip", String),
+            Column("port", SmallInteger),
+            Column("record", SmallInteger, default=0),
+            Column("alias", String, unique=True),
+            Column("owner", BigInteger),
+            UniqueConstraint("ip", "port"),
+            extend_existing=True,
+        )
 
-        db_entries = (sunpings, sunservers)
-        for db_entry in db_entries:
-            await self.pool.execute(db_entry)
+        self.metadata.create_all(self.engine, tables=[sunpings, sunservers])
+        self.t.sp = sunpings
+        self.t.ss = sunservers
 
-    @staticmethod
-    async def __clear_return(result: list):
-        """Что бы не было копи паста, этот метод
-        возвращает чистый ответ.
+    def execute(self, to_execute, params: dict = {}, commit: bool = False) -> CursorResult:
+        """Выполняет команду(ы) в базу данных.
 
         Args:
-            result: Результат метода который нужно вернуть.
+            to_execute: Данные которые отправлять в sqlalchemy.
+            params: Параметры передаваемые вместе с запросом.
+            commit: Сохранять ли изменения в БД?
 
         Returns:
-            Чистый ответ метода/функции.
+            Сырой результат ответа базы данных. Для преобразования в нормальный вид, используйте .one() или .all().
         """
-        if len(result) != 0:
-            return dict(result[0])
-        else:
-            return {}
+        with self.engine.connect() as conn:
+            result = conn.execute(to_execute, params)
+            if commit:
+                conn.commit()
+        return result
 
-    async def add_server(self, ip: str, port: int, owner_id: int):
+    def add_server(self, ip: str, port: int, owner_id: int):
         """Добавляет в дата базу новый сервер.
 
         Args:
@@ -93,13 +113,9 @@ class PostgresController:
             port: Порт сервера.
             owner_id: Айди владельца сервера.
         """
-        sql = """
-        INSERT INTO sunservers (ip, port, owner) VALUES ($1, $2, $3);
-        """
+        self.execute(insert(self.t.ss).values(ip=ip, port=port, owner=owner_id), commit=True)
 
-        await self.pool.execute(sql, ip, port, owner_id)
-
-    async def add_ping(self, ip: str, port: int, players: int):
+    def add_ping(self, ip: str, port: int, players: int):
         """Добавляет данные о пинге в дата базу.
 
         Args:
@@ -107,12 +123,9 @@ class PostgresController:
             port: Порт сервера.
             players: Количество игроков на сервере в момент пинга.
         """
-        sql = """
-        INSERT INTO sunpings VALUES ($1, $2, $3, $4)
-        """
-        await self.pool.execute(sql, ip, port, datetime.now(), players)
+        self.execute(insert(self.t.sp).values(ip=ip, port=port, players=players), commit=True)
 
-    async def add_alias(self, alias: str, ip: str, port: int):
+    def add_alias(self, alias: str, ip: str, port: int):
         """Добавляет алиас в дата базу.
 
         Args:
@@ -120,14 +133,11 @@ class PostgresController:
             ip: Айпи сервера.
             port: Порт сервера.
         """
-        sql = """
-        UPDATE sunservers
-        SET alias = $1
-        WHERE ip = $2 AND port = $3;
-        """
-        await self.pool.execute(sql, alias, ip, port)
+        self.execute(
+            update(self.t.ss).values(alias=alias).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
+        )
 
-    async def add_record(self, ip: str, port: int, online: int):
+    def add_record(self, ip: str, port: int, online: int):
         """Добавляет данные о рекорде в дата базу.
 
         Args:
@@ -135,14 +145,11 @@ class PostgresController:
             port: Порт сервера.
             online: Рекорд онлайна.
         """
-        sql = """
-        UPDATE sunservers
-        SET record = $1
-        WHERE ip = $2 AND port = $3;
-        """
-        await self.pool.execute(sql, online, ip, port)
+        self.execute(
+            update(self.t.ss).values(record=online).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
+        )
 
-    async def get_server(self, ip: str, port: int = 25565) -> dict:
+    def get_server(self, ip: str, port: int = 25565) -> CursorResult:
         """Возвращает всю информацию сервера.
 
         Args:
@@ -150,40 +157,35 @@ class PostgresController:
             port: Порт сервера.
 
         Returns:
-            Информацию о сервере или пустой dict.
+            Объект Result с результатом запроса.
         """
-        sql = """
-        SELECT * FROM sunservers
-        WHERE ip=$1 AND port=$2;
-        """
-        result = await self.pool.fetch(sql, ip, port)
-        return await self.__clear_return(result)
+        return self.execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
 
-    async def get_servers(self) -> list:
+    def get_servers(self) -> CursorResult:
         """Возвращает все сервера.
 
         Returns:
-            Список со всеми серверами.
+            Result со всеми серверами.
         """
-        return await self.pool.fetch("SELECT * FROM sunservers;")
+        return self.execute(select(self.t.ss)).all()
 
-    async def get_ip_alias(self, alias: str) -> dict:
+    def get_ip_alias(self, alias: str) -> tuple:
         """Возвращает айпи и порт сервера через алиас.
 
         Args:
             alias: Алиас который дал юзер.
 
         Returns:
-            Сервер или пустой dict.
+            Сервер или пустой tuple.
         """
-        sql = """
-        SELECT ip, port FROM sunservers
-        WHERE alias=$1;
-        """
-        result = await self.pool.fetch(sql, alias)
-        return await self.__clear_return(result)
+        try:
+            result = self.execute(select(self.t.ss).where(self.t.ss == alias)).one()
+        except NoResultFound:
+            result = ()
 
-    async def get_alias_ip(self, ip: str, port: int) -> dict:
+        return result
+
+    def get_alias_ip(self, ip: str, port: int) -> tuple:
         """Возвращает алиас сервера через айпи и порт, который дал юзер.
 
         Args:
@@ -193,14 +195,14 @@ class PostgresController:
         Returns:
             Сервер или пустой dict.
         """
-        sql = """
-        SELECT alias FROM sunservers
-        WHERE ip=$1 AND port=$2;
-        """
-        result = await self.pool.fetch(sql, ip, port)
-        return await self.__clear_return(result)
+        try:
+            result = self.execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
+        except NoResultFound:
+            result = ()
 
-    async def get_pings(self, ip: str, port: int = 25565) -> list:
+        return result
+
+    def get_pings(self, ip: str, port: int = 25565) -> list:
         """Возвращает пинги сервера.
 
         Args:
@@ -215,9 +217,11 @@ class PostgresController:
         WHERE ip=$1 AND port=$2
         ORDER BY time;
         """
-        return await self.pool.fetch(sql, ip, port)
+        return self.execute(
+            select(self.t.sp).where(self.t.sp.ip == ip).where(self.t.sp.port == port).order_by(self.tt.sp.time)
+        ).all()
 
-    async def remove_too_old_pings(self):
+    def remove_too_old_pings(self):
         """Удаляет пинги старше суток."""
         yesterday = datetime.now() - timedelta(days=1, hours=2)
         sql = """
@@ -226,8 +230,7 @@ class PostgresController:
         """
         return await self.pool.execute(sql, yesterday)
 
-    async def drop_tables(self):
+    def drop_tables(self):
         """Сбрасывает все данные в дата базе."""
-        await self.pool.execute("DROP TABLE IF EXISTS sunpings;")
-        await self.pool.execute("DROP TABLE IF EXISTS sunservers;")
-        await self.make_tables()
+        self.metadata.drop_all([self.t.ss, self.t.sp])
+        self.make_tables()
