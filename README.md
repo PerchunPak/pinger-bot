@@ -1,18 +1,10 @@
 [![Run Tests](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml) [![Run Tests in rewrite](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml/badge.svg?branch=rewrite)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml)
 
-# Ветка rewrite
+# Ветка newdb
 
-Эта ветка сделана для того чтобы **переписать** бота на *подобие нормального кода* как в [`database.py`](https://github.com/PerchunPak/PingerBot/blob/abe01c3f0f58ceab2a80cad54e860d22642b77fe/database.py).
+Эта ветка сделана для того чтобы **переписать** систему обращения к базе данных на фреймворк SQLAlchemy Core
 
-**По причине:** Стало сложно **тестировать** и **настраивать/создавать** новые фичи, как например *алиасы*.
-
-# Эта ветка не до конца протестирована, однако рекомендуется к использованию больше чем main.
-
-## Внимание
-
-Если вы хотите использовать ту же дата базу, что и от версии до переписи, это все сломает. Лучше всего удалить все записи в дата базе, и потом в ручную их добавить (если они так необходимы вам).
-
-Это связано с переводом хранения айпи из CIDR (только цифровое айпи) в TEXT (любой текст, соответственно)
+# Эта ветка еще не тестировалась, испольщуйте её только в эксперементальных целях
 
 ## Установка
 
@@ -44,7 +36,7 @@
 
 6. *Необязательно* **Разрешить добавлять сервера всем**
 
-Для этого зайдите в файл [`src/commands/add_server.py`](https://github.com/PerchunPak/PingerBot/blob/rewrite/src/commands/add_server.py), удалите строку `@is_owner()` и замените
+Для этого зайдите в файл [`src/commands/add_server.py`](https://github.com/PerchunPak/PingerBot/blob/newdb/src/commands/add_server.py), удалите строку `@is_owner()` и замените
 ```py
 from discord.ext.commands import Cog, command, is_owner
 ```
