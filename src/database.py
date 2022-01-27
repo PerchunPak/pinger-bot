@@ -16,6 +16,7 @@ from sqlalchemy import (
     insert,
     update,
     select,
+    delete,
 )
 from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
@@ -56,7 +57,7 @@ class PostgresController:
         """
         engine = create_engine(connect_info, future=True)
         db_obj = cls(engine)
-        await db_obj.make_tables()
+        db_obj.make_tables()
         return db_obj
 
     def make_tables(self):
@@ -212,11 +213,6 @@ class PostgresController:
         Returns:
             Список пингов сервера.
         """
-        sql = """
-        SELECT * FROM sunpings
-        WHERE ip=$1 AND port=$2
-        ORDER BY time;
-        """
         return self.execute(
             select(self.t.sp).where(self.t.sp.ip == ip).where(self.t.sp.port == port).order_by(self.tt.sp.time)
         ).all()
@@ -224,11 +220,7 @@ class PostgresController:
     def remove_too_old_pings(self):
         """Удаляет пинги старше суток."""
         yesterday = datetime.now() - timedelta(days=1, hours=2)
-        sql = """
-        DELETE FROM sunpings
-        WHERE time < $1
-        """
-        return await self.pool.execute(sql, yesterday)
+        self.execute(delete(self.t.sp).where(self.t.sp.time < yesterday))
 
     def drop_tables(self):
         """Сбрасывает все данные в дата базе."""
