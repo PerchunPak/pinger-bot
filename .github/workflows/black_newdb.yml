@@ -1,4 +1,4 @@
-name: Black Formatter - rewrite
+name: Black Formatter - newdb
 
 on:
   schedule:

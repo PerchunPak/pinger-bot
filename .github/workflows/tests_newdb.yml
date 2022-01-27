@@ -1,11 +1,11 @@
 # Автоматические тесты через GitHub Actions
 
-name: Run Tests in rewrite
+name: Run Tests in newdb
 
 on:
   push:
     branches:
-    - rewrite
+    - newdb
 
 env:
   PINGERBOT_POSTGRES: postgres://pingerbot:password@localhost:5432/pingerbotdb
