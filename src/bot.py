@@ -57,7 +57,7 @@ class PingerBot:
         И добавляет в объект бота атрибут `db` который
         представляет собой экземпляр класса `PostgresController`.
         """
-        pg_controller = await PostgresController.get_instance()
+        pg_controller = PostgresController.get_instance()
         await pg_controller.make_tables()
         self.bot.db = pg_controller
         print("Дата-база инициализирована\n")

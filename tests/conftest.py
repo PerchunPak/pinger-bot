@@ -33,7 +33,7 @@ async def bot(event_loop):
 
     configure(bot_var)
 
-    bot_var.db = await PostgresController.get_instance()
+    bot_var.db = PostgresController.get_instance()
     bot_var.app_info = await bot_var.application_info()
     try:
         mkdir("./plots")

@@ -14,7 +14,7 @@ async def database(event_loop):
     Yields:
         Объект дата базы.
     """
-    db = await PostgresController.get_instance()
+    db = PostgresController.get_instance()
     await db.pool.execute("DROP TABLE IF EXISTS sunpings;")
     await db.pool.execute("DROP TABLE IF EXISTS sunservers;")
     yield db
@@ -189,7 +189,7 @@ class TestAnotherFunctions:
         await database.add_ping("test_server", 25566, 123)
         right_answer = await database.pool.fetch("SELECT * FROM sunpings")
         right_answer = right_answer[0]
-        answer = await database._PostgresController__clear_return([right_answer])
+        answer = database._PostgresController__clear_return([right_answer])
         assert dict(right_answer) == answer
 
     async def test_clear_return_empty(self, database):
@@ -198,7 +198,7 @@ class TestAnotherFunctions:
         Args:
             database: Объект дата базы.
         """
-        returned = await database._PostgresController__clear_return([])
+        returned = database._PostgresController__clear_return([])
         assert {} == returned
 
     async def test_make_tables(self, database):
