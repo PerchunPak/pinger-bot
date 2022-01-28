@@ -8,6 +8,7 @@ from discord.ext.commands import Bot
 from discord.ext.test import configure
 from pytest import fixture
 from _pytest.monkeypatch import MonkeyPatch
+from sqlalchemy.engine.cursor import CursorResult
 from src.database import PostgresController
 
 
@@ -64,6 +65,36 @@ def monkeypatch_session(request):
     mpatch.undo()
 
 
+def create_execute(engine):
+    """Создает функцию execute
+
+    Args:
+        engine: Объект Engine базы данных.
+
+    Returns:
+        Функцию execute.
+    """
+
+    def execute(to_execute, params: dict = {}, commit: bool = False) -> CursorResult:
+        """Выполняет команду(ы) в базу данных.
+
+        Args:
+            to_execute: Данные которые отправлять в sqlalchemy.
+            params: Параметры передаваемые вместе с запросом.
+            commit: Сохранять ли изменения в БД?
+
+        Returns:
+            Сырой результат ответа базы данных. Для преобразования в нормальный вид, используйте .one() или .all().
+        """
+        with engine.connect() as conn:
+            result = conn.execute(to_execute, params)
+            if commit:
+                conn.commit()
+        return result
+
+    return execute
+
+
 @fixture(scope="class")
 def database(bot):
     """Очищает базу данных каждый раз.
@@ -75,6 +106,7 @@ def database(bot):
         Объект дата базы.
     """
     bot.db.drop_tables()
+    bot.db.execute = create_execute(bot.db.engine)
     yield bot.db
     bot.db.drop_tables()
 

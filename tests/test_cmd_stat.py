@@ -7,6 +7,7 @@ from discord.ext.test import message, get_embed, get_message
 from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
 from pytest import fixture
+from sqlalchemy import insert
 from src.commands.statistic import Statistic
 
 
@@ -110,18 +111,16 @@ class TestStatistic:
         database.add_server("127.0.0.5", 25565, 0)
         database.add_alias("тест_алиас", "127.0.0.5", 25565)
         yesterday = datetime.now() - timedelta(hours=24)
-        database.pool.execute(
-            "INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12
-        )  # FIXME db.pool
+        database.execute(insert(database.t.sp).values("127.0.0.5", 25565, yesterday, 12))
 
         # Генерирует 25 пингов
         i = 0
         args = []
         while i <= 25:
             time = datetime.now() - timedelta(minutes=i * 10)
-            args.append(("127.0.0.5", 25565, time, i))
+            args.append({"ip": "127.0.0.5", "port": 25565, "time": time, "players": i})
             i += 1
-        database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)  # FIXME db.pool
+        database.execute(insert(database.t.sp), params=args)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -193,18 +192,16 @@ class TestStatistic:
             Ответ метода `Statistic.get_yest_ping`.
         """
         yesterday = datetime.now() - timedelta(hours=24)
-        database.pool.execute(
-            "INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.7", 25565, yesterday, 12
-        )  # FIXME db.pool
+        database.execute(insert(database.t.sp).values("127.0.0.7", 25565, yesterday, 12))
 
         # Генерирует 25 пингов
         i = 0
         args = []
         while i <= 25:
             time = datetime.now() - timedelta(minutes=i * 10)
-            args.append(("127.0.0.7", 25565, time, i))
+            args.append({"ip": "127.0.0.7", "port": 25565, "time": time, "players": i})
             i += 1
-        database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)  # FIXME db.pool
+        database.execute(insert(database.t.sp), params=args)
 
         pings = database.get_pings("127.0.0.7", 25565)
         return await Statistic.get_yest_ping(pings)

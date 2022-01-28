@@ -31,10 +31,11 @@ class PostgresController:
     Attributes:
         engine: Engine объект дата базы.
         metadata: МетаДата базы данных.
-        t: Быстрый доступ к объектам таблиц
+        t: Быстрый доступ к объектам таблиц.
+        execute: Функция execute для тестов, объявлена в conftest.py.
     """
 
-    __slots__ = ("engine", "metadata", "t")
+    __slots__ = ("engine", "metadata", "t", "execute")
 
     def __init__(self, engine):
         """
@@ -44,6 +45,7 @@ class PostgresController:
         self.engine = engine
         self.metadata = MetaData()
         self.t = None
+        self.execute = None
 
     @classmethod
     def get_instance(cls, connect_info: str = POSTGRES):
@@ -90,7 +92,7 @@ class PostgresController:
         self.metadata.create_all(self.engine, tables=[sunpings, sunservers])
         self.t = FastTables(sunservers, sunpings)
 
-    def execute(self, to_execute, params: dict = {}, commit: bool = False) -> CursorResult:
+    def _execute(self, to_execute, params: dict = {}, commit: bool = False) -> CursorResult:
         """Выполняет команду(ы) в базу данных.
 
         Args:
@@ -115,7 +117,7 @@ class PostgresController:
             port: Порт сервера.
             owner_id: Айди владельца сервера.
         """
-        self.execute(insert(self.t.ss).values(ip=ip, port=port, owner=owner_id), commit=True)
+        self._execute(insert(self.t.ss).values(ip=ip, port=port, owner=owner_id), commit=True)
 
     def add_ping(self, ip: str, port: int, players: int):
         """Добавляет данные о пинге в дата базу.
@@ -125,7 +127,7 @@ class PostgresController:
             port: Порт сервера.
             players: Количество игроков на сервере в момент пинга.
         """
-        self.execute(insert(self.t.sp).values(ip=ip, port=port, players=players), commit=True)
+        self._execute(insert(self.t.sp).values(ip=ip, port=port, players=players), commit=True)
 
     def add_alias(self, alias: str, ip: str, port: int):
         """Добавляет алиас в дата базу.
@@ -135,7 +137,7 @@ class PostgresController:
             ip: Айпи сервера.
             port: Порт сервера.
         """
-        self.execute(
+        self._execute(
             update(self.t.ss).values(alias=alias).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
         )
 
@@ -147,7 +149,7 @@ class PostgresController:
             port: Порт сервера.
             online: Рекорд онлайна.
         """
-        self.execute(
+        self._execute(
             update(self.t.ss).values(record=online).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
         )
 
@@ -161,7 +163,7 @@ class PostgresController:
         Returns:
             Объект Result с результатом запроса.
         """
-        return self.execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
+        return self._execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
 
     def get_servers(self) -> CursorResult:
         """Возвращает все сервера.
@@ -169,7 +171,7 @@ class PostgresController:
         Returns:
             Result со всеми серверами.
         """
-        return self.execute(select(self.t.ss)).all()
+        return self._execute(select(self.t.ss)).all()
 
     def get_ip_alias(self, alias: str) -> tuple:
         """Возвращает айпи и порт сервера через алиас.
@@ -181,7 +183,7 @@ class PostgresController:
             Сервер или пустой tuple.
         """
         try:
-            result = self.execute(select(self.t.ss).where(self.t.ss == alias)).one()
+            result = self._execute(select(self.t.ss).where(self.t.ss == alias)).one()
         except NoResultFound:
             result = ()
 
@@ -198,7 +200,7 @@ class PostgresController:
             Сервер или пустой dict.
         """
         try:
-            result = self.execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
+            result = self._execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
         except NoResultFound:
             result = ()
 
@@ -214,14 +216,14 @@ class PostgresController:
         Returns:
             Список пингов сервера.
         """
-        return self.execute(
+        return self._execute(
             select(self.t.sp).where(self.t.sp.ip == ip).where(self.t.sp.port == port).order_by(self.tt.sp.time)
         ).all()
 
     def remove_too_old_pings(self):
         """Удаляет пинги старше суток."""
         yesterday = datetime.now() - timedelta(days=1, hours=2)
-        self.execute(delete(self.t.sp).where(self.t.sp.time < yesterday))
+        self._execute(delete(self.t.sp).where(self.t.sp.time < yesterday))
 
     def drop_tables(self):
         """Сбрасывает все данные в дата базе."""

@@ -5,6 +5,7 @@ from discord.ext.test import message, get_embed
 from mcstatus import MinecraftServer
 from mcstatus.pinger import PingResponse
 from pytest import fixture
+from sqlalchemy import insert, update
 from src.objects import ServerInfo
 from src.commands.commands_ import MetodsForCommands
 
@@ -61,10 +62,8 @@ class TestMetodsForCommands:
             database: Объект дата базы.
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
-        database.pool.execute("INSERT INTO sunservers (ip, port, owner) VALUES ($1, 25565, 0);", "127.0.0.29")  # FIXME db.pool
-        database.pool.execute(
-            "UPDATE sunservers SET alias = $2 " "WHERE ip = $1 AND port = 25565;", "127.0.0.29", "тест28"
-        )  # FIXME db.pool
+        database.execute(insert(database.t.ss).values(ip="127.0.0.29", port=25565, owner=0))
+        database.execute(update(database.t.ss).values(alias="тест28").where(ip="127.0.0.29").where(port=25565))
         dns_info = MinecraftServer("127.0.0.29")
         answer = await metods_for_commands.parse_ip("тест28")
         assert answer == ServerInfo(True, "тест28", dns_info, "127.0.0.29", "25565")
