@@ -25,8 +25,8 @@ class TestStatistic:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server("127.0.0.3", 25565, 0)
-        await database.add_record("127.0.0.3", 25565, 33)
+        database.add_server("127.0.0.3", 25565, 0)
+        database.add_record("127.0.0.3", 25565, 33)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -66,8 +66,8 @@ class TestStatistic:
         Returns:
             Сообщение ответа.
         """
-        await database.add_server("127.0.0.4", 25565, 0)
-        await database.add_record("127.0.0.4", 25565, 33)
+        database.add_server("127.0.0.4", 25565, 0)
+        database.add_record("127.0.0.4", 25565, 33)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -107,10 +107,12 @@ class TestStatistic:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server("127.0.0.5", 25565, 0)
-        await database.add_alias("тест_алиас", "127.0.0.5", 25565)
+        database.add_server("127.0.0.5", 25565, 0)
+        database.add_alias("тест_алиас", "127.0.0.5", 25565)
         yesterday = datetime.now() - timedelta(hours=24)
-        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12)
+        database.pool.execute(
+            "INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.5", 25565, yesterday, 12
+        )  # FIXME db.pool
 
         # Генерирует 25 пингов
         i = 0
@@ -119,7 +121,7 @@ class TestStatistic:
             time = datetime.now() - timedelta(minutes=i * 10)
             args.append(("127.0.0.5", 25565, time, i))
             i += 1
-        await database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)
+        database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)  # FIXME db.pool
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -191,7 +193,9 @@ class TestStatistic:
             Ответ метода `Statistic.get_yest_ping`.
         """
         yesterday = datetime.now() - timedelta(hours=24)
-        await database.pool.execute("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.7", 25565, yesterday, 12)
+        database.pool.execute(
+            "INSERT INTO sunpings VALUES ($1, $2, $3, $4);", "127.0.0.7", 25565, yesterday, 12
+        )  # FIXME db.pool
 
         # Генерирует 25 пингов
         i = 0
@@ -200,9 +204,9 @@ class TestStatistic:
             time = datetime.now() - timedelta(minutes=i * 10)
             args.append(("127.0.0.7", 25565, time, i))
             i += 1
-        await database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)
+        database.pool.executemany("INSERT INTO sunpings VALUES ($1, $2, $3, $4);", args)  # FIXME db.pool
 
-        pings = await database.get_pings("127.0.0.7", 25565)
+        pings = database.get_pings("127.0.0.7", 25565)
         return await Statistic.get_yest_ping(pings)
 
     @fixture(scope="class")
@@ -216,7 +220,7 @@ class TestStatistic:
         Returns:
             Ответ метода `Statistic.get_yest_ping`.
         """
-        pings = await database.get_pings("127.0.0.8", 25565)
+        pings = database.get_pings("127.0.0.8", 25565)
         return await Statistic.get_yest_ping(pings)
 
     def test_color(self, stat_online):

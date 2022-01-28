@@ -25,7 +25,13 @@ async def bot(event_loop):
     bot_intents = Intents.default()
     bot_intents.members = True  # pylint: disable=E0237
 
-    bot_var = Bot(command_prefix="", description="Пингер бот", case_insensitive=False, help_command=None, intents=bot_intents)
+    bot_var = Bot(
+        command_prefix="",
+        description="Пингер бот",
+        case_insensitive=False,
+        help_command=None,
+        intents=bot_intents,
+    )
     bot_var.load_extension("tests.commands")
     for file in listdir("./src/commands"):
         if file.endswith(".py") and not file.endswith("_.py"):
@@ -59,20 +65,18 @@ def monkeypatch_session(request):
 
 
 @fixture(scope="class")
-async def database(event_loop, bot):
+def database(bot):
     """Очищает базу данных каждый раз.
 
     Args:
-        event_loop: Обязательная фикстура для async фикстур.
         bot: Главный объект бота.
 
     Yields:
         Объект дата базы.
     """
-    await bot.db.drop_tables()
-    await bot.db.make_tables()
+    bot.db.drop_tables()
     yield bot.db
-    await bot.db.drop_tables()
+    bot.db.drop_tables()
 
 
 def pytest_sessionfinish():

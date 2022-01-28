@@ -19,7 +19,7 @@ class TestAlias:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server("127.0.0.8", 25565, 0)
+        database.add_server("127.0.0.8", 25565, 0)
         await message("алиас тест1 127.0.0.8")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
@@ -45,7 +45,7 @@ class TestAlias:
             if user.bot:
                 continue
             test_user = user
-        await database.add_server("127.0.0.9", 25565, test_user.id)
+        database.add_server("127.0.0.9", 25565, test_user.id)
         await message("алиас тест2 127.0.0.9")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
@@ -89,9 +89,9 @@ class TestAlias:
             if user.bot:
                 continue
             test_user = user
-        await database.add_server("127.0.0.10", 25565, test_user.id)
-        await database.add_server("random_server.com", 25565, 0)
-        await database.add_alias("тест4", "random_server.com", 25565)
+        database.add_server("127.0.0.10", 25565, test_user.id)
+        database.add_server("random_server.com", 25565, 0)
+        database.add_alias("тест4", "random_server.com", 25565)
         await message("алиас тест4 127.0.0.10")
         embed = get_embed()
         while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
@@ -108,7 +108,7 @@ class TestAlias:
             database: Объект дата базы.
             alias_added: Embed объект ответа.
         """
-        ip_from_alias = await database.get_ip_alias("тест2")
+        ip_from_alias = database.get_ip_alias("тест2")
         ip_from_alias = str(ip_from_alias["ip"]) + ":" + str(ip_from_alias["port"])
         assert ip_from_alias == "127.0.0.9:25565"
 

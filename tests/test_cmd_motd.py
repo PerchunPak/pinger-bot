@@ -61,8 +61,8 @@ class TestMotd:
         Returns:
             Embed объект ответа.
         """
-        await database.add_server("127.0.0.2", 25565, 0)
-        await database.add_alias("тест_алиас", "127.0.0.2", 25565)
+        database.add_server("127.0.0.2", 25565, 0)
+        database.add_alias("тест_алиас", "127.0.0.2", 25565)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
