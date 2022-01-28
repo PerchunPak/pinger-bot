@@ -20,6 +20,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
+from src.objects import FastTables
 from config import POSTGRES
 
 
@@ -42,6 +43,7 @@ class PostgresController:
         """
         self.engine = engine
         self.metadata = MetaData()
+        self.t = None
 
     @classmethod
     def get_instance(cls, connect_info: str = POSTGRES):
@@ -86,8 +88,7 @@ class PostgresController:
         )
 
         self.metadata.create_all(self.engine, tables=[sunpings, sunservers])
-        self.t.sp = sunpings
-        self.t.ss = sunservers
+        self.t = FastTables(sunservers, sunpings)
 
     def execute(self, to_execute, params: dict = {}, commit: bool = False) -> CursorResult:
         """Выполняет команду(ы) в базу данных.

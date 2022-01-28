@@ -1,5 +1,6 @@
 """Файл для кастомных объектов используемых в боте."""
 from mcstatus import MinecraftServer
+from sqlalchemy import Table
 
 
 class ServerInfo:
@@ -43,3 +44,23 @@ class ServerInfo:
             and self.num_ip == other.num_ip
             and self.port == other.port
         )
+
+
+class FastTables:
+    """Класс служит конструктором объекта, для быстрого доступа к таблицам в database.py
+
+    Attributes:
+        ss: Объект Table с таблицей sunservers.
+        sp: Объект Table с таблицей sunpings.
+    """
+
+    __slots__ = ("ss", "sp")
+
+    def __init__(self, sunservers: Table, sunpings: Table):
+        """Просто __init__ метод для инициализации объекта.
+        Args:
+            sunservers: Объект Table с таблицей sunservers.
+            sunpings: Объект Table с таблицей sunpings.
+        """
+        self.ss = sunservers
+        self.sp = sunpings
