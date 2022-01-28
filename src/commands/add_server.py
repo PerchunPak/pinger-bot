@@ -34,7 +34,7 @@ class AddServer(Cog):
         status, info = await self.metods_for_commands.ping_server(ip)
         if status:
             try:
-                await self.bot.db.add_server(info.dns.host, info.dns.port, ctx.author.id)
+                self.bot.db.add_server(info.dns.host, info.dns.port, ctx.author.id)
             except UniqueViolationError:  # сервер уже добавлен
                 embed = Embed(title=f"Не удалось добавить сервер {ip}", description="**Онлайн**", color=Color.red())
 

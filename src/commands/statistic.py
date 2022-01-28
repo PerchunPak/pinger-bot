@@ -38,7 +38,7 @@ class Statistic(Cog):
         status, info = await self.metods_for_commands.ping_server(ip)
 
         if info.valid:
-            database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
+            database_server = self.bot.db.get_server(info.dns.host, info.dns.port)
         else:
             database_server = {}
 
@@ -49,7 +49,7 @@ class Statistic(Cog):
                 color=Color.green(),
             )
 
-            pings = await self.bot.db.get_pings(info.dns.host, info.dns.port)
+            pings = self.bot.db.get_pings(info.dns.host, info.dns.port)
             online_yest = await self.get_yest_ping(pings)
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")

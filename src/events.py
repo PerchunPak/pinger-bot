@@ -116,7 +116,7 @@ class Events(Cog):
     @loop(minutes=5)
     async def ping_servers(self):
         """Пингует сервера и записывает их пинги в дата базу."""
-        servers = await self.bot.db.get_servers()
+        servers = self.bot.db.get_servers()
         for serv in servers:
             ip = str(serv["ip"])
             port = serv["port"]
@@ -129,11 +129,11 @@ class Events(Cog):
 
             if online:
                 online_players = status.players.online
-                await self.bot.db.add_ping(ip, port, online_players)
+                self.bot.db.add_ping(ip, port, online_players)
 
                 if online_players >= serv["record"] + 1:
-                    await self.bot.db.add_record(ip, port, online_players)
-        await self.bot.db.remove_too_old_pings()
+                    self.bot.db.add_record(ip, port, online_players)
+        self.bot.db.remove_too_old_pings()
 
 
 def setup(bot):

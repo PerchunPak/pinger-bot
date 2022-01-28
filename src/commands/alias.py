@@ -36,7 +36,7 @@ class Alias(Cog):
         await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if info.valid:
-            database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
+            database_server = self.bot.db.get_server(info.dns.host, info.dns.port)
         else:
             database_server = {}
         if len(database_server) != 0:
@@ -55,7 +55,7 @@ class Alias(Cog):
                 return await ctx.send(ctx.author.mention, embed=embed)
 
             try:
-                await self.bot.db.add_alias(alias, info.dns.host, info.dns.port)
+                self.bot.db.add_alias(alias, info.dns.host, info.dns.port)
             except UniqueViolationError:
                 embed = Embed(
                     title=f"Алиас {alias} уже существует",

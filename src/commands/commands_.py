@@ -28,7 +28,7 @@ class MetodsForCommands:
         Returns:
             Объект с информацией о сервере.
         """
-        ip_from_alias = await self.bot.db.get_ip_alias(input_ip)
+        ip_from_alias = self.bot.db.get_ip_alias(input_ip)
 
         if len(ip_from_alias) != 0:
             valid, alias = True, input_ip
@@ -37,7 +37,7 @@ class MetodsForCommands:
             return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
         else:
             dns_info = MinecraftServer.lookup(input_ip)
-            alias_from_ip = await self.bot.db.get_alias_ip(dns_info.host, dns_info.port)
+            alias_from_ip = self.bot.db.get_alias_ip(dns_info.host, dns_info.port)
             alias = None if alias_from_ip == {} else alias_from_ip["alias"]
 
         try:
