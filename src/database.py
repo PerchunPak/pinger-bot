@@ -225,5 +225,5 @@ class PostgresController:
 
     def drop_tables(self):
         """Сбрасывает все данные в дата базе."""
-        self.metadata.drop_all([self.t.ss, self.t.sp])
+        self.metadata.drop_all(self.engine, [self.t.ss, self.t.sp])
         self.make_tables()
