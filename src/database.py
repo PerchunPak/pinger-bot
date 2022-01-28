@@ -138,7 +138,7 @@ class PostgresController:
             port: Порт сервера.
         """
         self._execute(
-            update(self.t.ss).values(alias=alias).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
+            update(self.t.ss).values(alias=alias).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port), commit=True
         )
 
     def add_record(self, ip: str, port: int, online: int):
@@ -150,7 +150,7 @@ class PostgresController:
             online: Рекорд онлайна.
         """
         self._execute(
-            update(self.t.ss).values(record=online).where(self.t.ss.ip == ip).where(self.t.ss.port == port), commit=True
+            update(self.t.ss).values(record=online).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port), commit=True
         )
 
     def get_server(self, ip: str, port: int = 25565) -> CursorResult:
@@ -163,7 +163,7 @@ class PostgresController:
         Returns:
             Объект Result с результатом запроса.
         """
-        return self._execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
+        return self._execute(select(self.t.ss).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port)).one()
 
     def get_servers(self) -> CursorResult:
         """Возвращает все сервера.
@@ -183,7 +183,7 @@ class PostgresController:
             Сервер или пустой tuple.
         """
         try:
-            result = self._execute(select(self.t.ss).where(self.t.ss == alias)).one()
+            result = self._execute(select(self.t.ss).where(self.t.ss.c.alias == alias)).one()
         except NoResultFound:
             result = ()
 
@@ -200,7 +200,7 @@ class PostgresController:
             Сервер или пустой dict.
         """
         try:
-            result = self._execute(select(self.t.ss).where(self.t.ss.ip == ip).where(self.t.ss.port == port)).one()
+            result = self._execute(select(self.t.ss).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port)).one()
         except NoResultFound:
             result = ()
 
@@ -217,13 +217,13 @@ class PostgresController:
             Список пингов сервера.
         """
         return self._execute(
-            select(self.t.sp).where(self.t.sp.ip == ip).where(self.t.sp.port == port).order_by(self.tt.sp.time)
+            select(self.t.sp).where(self.t.sp.c.ip == ip).where(self.t.sp.c.port == port).order_by(self.tt.sp.time)
         ).all()
 
     def remove_too_old_pings(self):
         """Удаляет пинги старше суток."""
         yesterday = datetime.now() - timedelta(days=1, hours=2)
-        self._execute(delete(self.t.sp).where(self.t.sp.time < yesterday))
+        self._execute(delete(self.t.sp).where(self.t.sp.c.time < yesterday))
 
     def drop_tables(self):
         """Сбрасывает все данные в дата базе."""
