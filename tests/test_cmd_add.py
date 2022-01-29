@@ -20,7 +20,7 @@ class TestAddServer:
             monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
         """
 
-        def fake_is_owner_func(*args, **kwargs) -> bool:
+        async def fake_is_owner_func(*args, **kwargs) -> bool:
             """Эмулирует ответ функции проверки автора.
 
             Args:
