@@ -21,6 +21,7 @@ from sqlalchemy import (
 from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
 from src.objects import FastTables
+from src.decoratore_db_execute import ParseResult
 from config import POSTGRES
 
 
@@ -107,7 +108,7 @@ class PostgresController:
             result = conn.execute(to_execute, params)
             if commit:
                 conn.commit()
-        return result
+        return ParseResult(result)
 
     def add_server(self, ip: str, port: int, owner_id: int):
         """Добавляет в дата базу новый сервер.
@@ -202,7 +203,7 @@ class PostgresController:
         try:
             result = self._execute(select(self.t.ss).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port)).one()
         except NoResultFound:
-            result = ()
+            result = {}
 
         return result
 
