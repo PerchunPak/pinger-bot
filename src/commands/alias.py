@@ -1,5 +1,5 @@
 """Модуль для команды "алиас"."""
-from asyncpg.exceptions import UniqueViolationError
+from sqlalchemy.exc import IntegrityError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 from src.commands.commands_ import MetodsForCommands
@@ -56,7 +56,7 @@ class Alias(Cog):
 
             try:
                 self.bot.db.add_alias(alias, info.dns.host, info.dns.port)
-            except UniqueViolationError:
+            except IntegrityError:
                 embed = Embed(
                     title=f"Алиас {alias} уже существует",
                     description="Можно добавить только не существующий алиас",

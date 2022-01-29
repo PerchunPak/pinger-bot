@@ -1,5 +1,5 @@
 """Файл для команды "добавить" и ничего больше."""
-from asyncpg.exceptions import UniqueViolationError
+from sqlalchemy.exc import IntegrityError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
 from src.commands.commands_ import MetodsForCommands
@@ -35,7 +35,7 @@ class AddServer(Cog):
         if status:
             try:
                 self.bot.db.add_server(info.dns.host, info.dns.port, ctx.author.id)
-            except UniqueViolationError:  # сервер уже добавлен
+            except IntegrityError:  # сервер уже добавлен
                 embed = Embed(title=f"Не удалось добавить сервер {ip}", description="**Онлайн**", color=Color.red())
 
                 embed.add_field(name="Не удалось добавить сервер", value="Сервер уже добавлен")

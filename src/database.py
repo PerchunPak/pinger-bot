@@ -218,7 +218,7 @@ class PostgresController:
             Список пингов сервера.
         """
         return self._execute(
-            select(self.t.sp).where(self.t.sp.c.ip == ip).where(self.t.sp.c.port == port).order_by(self.tt.sp.time)
+            select(self.t.sp).where(self.t.sp.c.ip == ip).where(self.t.sp.c.port == port).order_by(self.t.sp.time)
         ).all()
 
     def remove_too_old_pings(self):

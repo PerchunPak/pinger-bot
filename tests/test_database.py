@@ -34,7 +34,9 @@ class TestAddFunctions:
         """
         database.make_tables()
         database.add_server("127.0.0.11", 25565, 0)
-        server = database.execute(select(database.t.ss).where(ip="127.0.0.11").where(port=25565))
+        server = database.execute(
+            select(database.t.ss).where(database.t.ss.c.ip == "127.0.0.11").where(database.t.ss.c.port == 25565)
+        ).one()
         assert len(server) > 0
 
     async def test_add_server_owner_id(self, database):
@@ -45,8 +47,10 @@ class TestAddFunctions:
         """
         database.make_tables()
         database.add_server("127.0.0.12", 25565, 123123)
-        server = database.execute(select(database.t.ss).where(ip="127.0.0.12").where(port=25565))
-        assert server[0]["owner"] == 123123
+        server = database.execute(
+            select(database.t.ss).where(database.t.ss.c.ip == "127.0.0.12").where(database.t.ss.c.port == 25565)
+        ).one()
+        assert server["owner"] == 123123
 
     async def test_add_ping(self, database):
         """Проверяет метод add_ping.
@@ -56,8 +60,10 @@ class TestAddFunctions:
         """
         database.make_tables()
         database.add_ping("127.0.0.13", 25565, 33)
-        ping = database.execute(select(database.t.sp).where(ip="127.0.0.13").where(port=25565))
-        assert ping[0]["players"] == 33
+        ping = database.execute(
+            select(database.t.sp).where(database.t.sp.c.ip == "127.0.0.13").where(database.t.sp.c.port == 25565)
+        ).one()
+        assert ping["players"] == 33
 
     async def test_add_alias(self, database):
         """Проверяет метод add_alias.
@@ -68,8 +74,10 @@ class TestAddFunctions:
         database.make_tables()
         database.add_server("127.0.0.14", 25565, 0)
         database.add_alias("тест", "127.0.0.14", 25565)
-        server = database.execute(select(database.t.ss).where(ip="127.0.0.14").where(port=25565))
-        assert server[0]["alias"] == "тест"
+        server = database.execute(
+            select(database.t.ss).where(database.t.ss.c.ip == "127.0.0.14").where(database.t.ss.c.port == 25565)
+        ).one()
+        assert server["alias"] == "тест"
 
     async def test_add_record(self, database):
         """Проверяет метод add_record.
@@ -80,8 +88,10 @@ class TestAddFunctions:
         database.make_tables()
         database.add_server("127.0.0.15", 25565, 0)
         database.add_record("127.0.0.15", 25565, 33)
-        server = database.execute(select(database.t.ss).where(ip="127.0.0.15").where(port=25565))
-        assert server[0]["record"] == 33
+        server = database.execute(
+            select(database.t.ss).where(database.t.ss.c.ip == "127.0.0.15").where(database.t.ss.c.port == 25565)
+        ).one()
+        assert server["record"] == 33
 
 
 class TestGetFunctions:
@@ -96,8 +106,10 @@ class TestGetFunctions:
         database.make_tables()
         database.add_server("127.0.0.16", 25565, 0)
         answer = database.get_server("127.0.0.16", 25565)
-        right_answer = database.execute(select(database.t.ss).where(ip="127.0.0.16").where(port=25565))
-        assert answer == dict(right_answer[0])
+        right_answer = database.execute(
+            select(database.t.ss).where(database.t.ss.c.ip == "127.0.0.16").where(database.t.ss.c.port == 25565)
+        ).one()
+        assert answer == right_answer
 
     async def test_get_servers(self, database):
         """Проверяет метод get_servers.
@@ -110,7 +122,7 @@ class TestGetFunctions:
         database.add_server("127.0.0.18", 25565, 0)
         database.add_server("127.0.0.19", 25565, 0)
         answer = database.get_servers()
-        right_answer = database.execute(select(database.t.ss))
+        right_answer = database.execute(select(database.t.ss)).all()
         assert answer == right_answer
 
     async def test_get_servers_len(self, database):
@@ -136,8 +148,8 @@ class TestGetFunctions:
         database.add_server("127.0.0.23", 25565, 0)
         database.add_alias("тест123", "127.0.0.23", 25565)
         answer = database.get_ip_alias("тест123")
-        right_answer = database.execute(select(database.t.ss).where(alias="тест123"))
-        assert answer == dict(right_answer[0])
+        right_answer = database.execute(select(database.t.ss).where(database.t.ss.c.alias == "тест123")).one()
+        assert answer == right_answer
 
     async def test_get_pings(self, database):
         """Проверяет метод get_pings.
@@ -150,7 +162,9 @@ class TestGetFunctions:
         database.add_ping("127.0.0.24", 25565, 2)
         database.add_ping("127.0.0.24", 25565, 3)
         answer = database.get_pings("127.0.0.24", 25565)
-        right_answer = database.execute(select(database.t.sp).where(ip="127.0.0.24").where(port=25565))
+        right_answer = database.execute(
+            select(database.t.sp).where(database.t.sp.c.ip == "127.0.0.24").where(database.t.sp.c.port == 25565)
+        ).all()
         assert answer == right_answer
 
     async def test_get_pings_len(self, database):
@@ -169,30 +183,6 @@ class TestGetFunctions:
 
 class TestAnotherFunctions:
     """Класс для тестов других методов."""
-
-    async def test_clear_return(self, database):
-        """Проверяет метод __clear_return
-
-        Иначе сделать никак, сделайте PL если знаете
-        как это лучше сделать.
-
-        Args:
-            database: Объект дата базы.
-        """
-        database.add_ping("test_server", 25566, 123)
-        right_answer = database.execute(select(database.t.ss))
-        right_answer = right_answer[0]
-        answer = database._PostgresController__clear_return([right_answer])
-        assert dict(right_answer) == answer
-
-    async def test_clear_return_empty(self, database):
-        """Проверяет метод __clear_return пустым ответом.
-
-        Args:
-            database: Объект дата базы.
-        """
-        returned = database._PostgresController__clear_return([])
-        assert {} == returned
 
     async def test_make_tables(self, database):
         """Проверяет метод make_tables.
@@ -216,22 +206,24 @@ class TestAnotherFunctions:
         time_23h = datetime.now() - timedelta(hours=23)
         time_1d = datetime.now() - timedelta(days=1, minutes=10)
         time_3d = datetime.now() - timedelta(days=3)
-        database.execute(insert(database.t.sp).values("127.0.0.26", 25565, time_1h, 1))
-        database.execute(insert(database.t.sp).values("127.0.0.26", 25565, time_12h, 2))
-        database.execute(insert(database.t.sp).values("127.0.0.26", 25565, time_23h, 3))
-        database.execute(insert(database.t.sp).values("127.0.0.26", 25565, time_1d, 4))
-        database.execute(insert(database.t.sp).values("127.0.0.26", 25565, time_3d, 5))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.26", port=25565, time=time_1h, players=1))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.26", port=25565, time=time_12h, players=2))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.26", port=25565, time=time_23h, players=3))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.26", port=25565, time=time_1d, players=4))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.26", port=25565, time=time_3d, players=5))
         database.remove_too_old_pings()
-        pings = database.execute(select(database.t.sp).where(ip="127.0.0.26").where(port=25565)).all()
+        pings = database.execute(
+            select(database.t.sp).where(database.t.sp.c.ip == "127.0.0.26").where(database.t.sp.c.port == 25565)
+        ).all()
         pings_right = [
-            ("127.0.0.26", 25565, time_1d, 4),
-            ("127.0.0.26", 25565, time_23h, 3),
-            ("127.0.0.26", 25565, time_12h, 2),
-            ("127.0.0.26", 25565, time_1h, 1),
+            {"127.0.0.26", 25565, time_1d, 4},
+            {"127.0.0.26", 25565, time_23h, 3},
+            {"127.0.0.26", 25565, time_12h, 2},
+            {"127.0.0.26", 25565, time_1h, 1},
         ]
         i = 0
         for ping in pings:
-            assert tuple(ping) == pings_right[i]
+            assert ping == pings_right[i]
             i += 1
 
     async def test_drop_table_sunpings(self, database):
