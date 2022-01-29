@@ -9,6 +9,7 @@ from discord.ext.test import configure
 from pytest import fixture
 from _pytest.monkeypatch import MonkeyPatch
 from sqlalchemy.engine.cursor import CursorResult
+from src.decoratore_db_execute import ParseResult
 from src.database import PostgresController
 
 
@@ -90,7 +91,7 @@ def create_execute(engine):
             result = conn.execute(to_execute, params)
             if commit:
                 conn.commit()
-        return result
+        return ParseResult(result)
 
     return execute
 
