@@ -174,7 +174,7 @@ class PostgresController:
         """
         return self._execute(select(self.t.ss)).all()
 
-    def get_ip_alias(self, alias: str) -> tuple:
+    def get_ip_alias(self, alias: str) -> dict:
         """Возвращает айпи и порт сервера через алиас.
 
         Args:
@@ -186,7 +186,7 @@ class PostgresController:
         try:
             result = self._execute(select(self.t.ss).where(self.t.ss.c.alias == alias)).one()
         except NoResultFound:
-            result = ()
+            result = {}
 
         return result
 
@@ -218,7 +218,7 @@ class PostgresController:
             Список пингов сервера.
         """
         return self._execute(
-            select(self.t.sp).where(self.t.sp.c.ip == ip).where(self.t.sp.c.port == port).order_by(self.t.sp.time)
+            select(self.t.sp).where(self.t.sp.c.ip == ip).where(self.t.sp.c.port == port).order_by(self.t.sp.c.time)
         ).all()
 
     def remove_too_old_pings(self):

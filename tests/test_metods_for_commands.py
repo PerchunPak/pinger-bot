@@ -62,12 +62,13 @@ class TestMetodsForCommands:
             database: Объект дата базы.
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
-        database.execute(insert(database.t.ss).values(ip="127.0.0.29", port=25565, owner=0))
+        database.execute(insert(database.t.ss).values(ip="127.0.0.29", port=25565, owner=0), commit=True)
         database.execute(
             update(database.t.ss)
             .values(alias="тест28")
             .where(database.t.ss.c.ip == "127.0.0.29")
-            .where(database.t.ss.c.port == 25565)
+            .where(database.t.ss.c.port == 25565),
+            commit=True,
         )
         dns_info = MinecraftServer("127.0.0.29")
         answer = await metods_for_commands.parse_ip("тест28")

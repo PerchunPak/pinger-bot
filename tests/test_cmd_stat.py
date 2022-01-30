@@ -111,7 +111,7 @@ class TestStatistic:
         database.add_server("127.0.0.5", 25565, 0)
         database.add_alias("тест_алиас", "127.0.0.5", 25565)
         yesterday = datetime.now() - timedelta(hours=24)
-        database.execute(insert(database.t.sp).values(ip="127.0.0.5", port=25565, time=yesterday, players=12))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.5", port=25565, time=yesterday, players=12), commit=True)
 
         # Генерирует 25 пингов
         i = 0
@@ -120,7 +120,7 @@ class TestStatistic:
             time = datetime.now() - timedelta(minutes=i * 10)
             args.append({"ip": "127.0.0.5", "port": 25565, "time": time, "players": i})
             i += 1
-        database.execute(insert(database.t.sp), params=args)
+        database.execute(insert(database.t.sp), params=args, commit=True)
 
         def fake_server_answer(class_self=None) -> PingResponse:
             """Эмулирует ответ сервера.
@@ -192,7 +192,7 @@ class TestStatistic:
             Ответ метода `Statistic.get_yest_ping`.
         """
         yesterday = datetime.now() - timedelta(hours=24)
-        database.execute(insert(database.t.sp).values(ip="127.0.0.7", port=25565, time=yesterday, players=12))
+        database.execute(insert(database.t.sp).values(ip="127.0.0.7", port=25565, time=yesterday, players=12), commit=True)
 
         # Генерирует 25 пингов
         i = 0
