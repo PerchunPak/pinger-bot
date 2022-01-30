@@ -2,7 +2,7 @@
 from shutil import rmtree
 from os import listdir
 from discord import Status, Client, Activity, ActivityType
-from src.database import PostgresController
+from src.database import DatabaseController
 from config import TOKEN
 
 
@@ -55,11 +55,9 @@ class PingerBot:
         """Запускает дата базу.
 
         И добавляет в объект бота атрибут `db` который
-        представляет собой экземпляр класса `PostgresController`.
+        представляет собой экземпляр класса `DatabaseController`.
         """
-        pg_controller = PostgresController.get_instance()
-        await pg_controller.make_tables()
-        self.bot.db = pg_controller
+        self.bot.db = DatabaseController.get_instance()
         print("Дата-база инициализирована\n")
 
     async def set_status(self, status: Status, activity_name: str, activity_type: ActivityType):

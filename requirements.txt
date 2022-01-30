@@ -1,5 +1,4 @@
 discord.py==1.7.3
-asyncpg==0.25.0
 sqlalchemy==1.4.31
 matplotlib==3.5.1
 mcstatus==8.0.0

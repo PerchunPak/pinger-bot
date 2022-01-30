@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pytest import fixture
 from sqlalchemy import select, insert, update
 from tests.conftest import create_execute
-from src.database import PostgresController
+from src.database import DatabaseController
 
 
 @fixture(scope="session")
@@ -16,7 +16,7 @@ async def database(event_loop):
     Yields:
         Объект дата базы.
     """
-    db = PostgresController.get_instance()
+    db = DatabaseController.get_instance()
     db.execute = create_execute(db.engine)
     db.drop_tables()
     yield db

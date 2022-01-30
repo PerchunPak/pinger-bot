@@ -2,7 +2,7 @@ FROM python:slim
 
 ENV PYTHONUNBUFFERED 1
 ENV PINGERBOT_DISCORD_TOKEN "TOKEN_HERE"
-ENV PINGERBOT_POSTGRES "postgres://pingerbot:password@db:5432/pingerbotdb"
+ENV PINGERBOT_DB "sqlite:///:memory:"
 
 WORKDIR /app
 

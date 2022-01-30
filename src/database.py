@@ -22,10 +22,10 @@ from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
 from src.objects import FastTables
 from src.decoratore_db_execute import ParseResult
-from config import POSTGRES
+from config import DB_DATA
 
 
-class PostgresController:
+class DatabaseController:
     """Класс для управления дата базой,
     только тут все взаимодействия с ней.
 
@@ -49,8 +49,8 @@ class PostgresController:
         self.execute = None
 
     @classmethod
-    def get_instance(cls, connect_info: str = POSTGRES):
-        """Создает объект класса `PostgresController`.
+    def get_instance(cls, connect_info: str = DB_DATA):
+        """Создает объект класса `DatabaseController`.
 
         Этот метод так же создаст необходимые таблицы.
 
