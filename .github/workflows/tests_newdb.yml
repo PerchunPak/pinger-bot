@@ -48,3 +48,52 @@ jobs:
     # Раз в месяц, они сами применяются
     - name: Use black Auto-formatter
       run: black . -l 127 --diff
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9, '3.10']
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: pingerbot
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: pingerbotdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.pythonLocation }}
+        key: ${{ env.pythonLocation }}-${{ github.job }}
+    - name: Install dependencies
+      run: |
+        pip install -U pip
+        pip install -Ur requirements.txt -r tests_requirements.txt
+    - name: Test with pytest
+      run: pytest
+      env:
+        PGHOST: localhost
+        PGPORT: 5432
+        PGUSER: pingerbot
+        PGPASSWORD: password
+        PGDATABASE: pingerbotdb
+    - name: Upload HTML report by Coverage (only on Python 3.10)
+      if: ${{ matrix.python-version == 3.10 }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: HTML report by Coverage
+        path: ./htmlcov
