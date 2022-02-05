@@ -1,4 +1,4 @@
 discord.py==1.7.3
 sqlalchemy==1.4.31
 matplotlib==3.5.1
-mcstatus==9.0.0.dev2
+mcstatus==9.0.0.dev3
