@@ -16,7 +16,7 @@ async def database(event_loop):
     Yields:
         Объект дата базы.
     """
-    db = DatabaseController.get_instance()
+    db = DatabaseController.get_instance(connect_info="sqlite:///:memory:")
     db.execute = create_execute(db.engine)
     db.drop_tables()
     yield db
