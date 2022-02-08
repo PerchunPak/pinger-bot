@@ -127,7 +127,6 @@ class TestStatistic:
 
         return embed
 
-    @mark.asyncio
     async def test_server_not_added_color(self, event_loop, bot, database, stat_online_not_added):
         """Проверят цвет в ответе бота, если сервер не добавлен"""
         await database.make_tables()

@@ -22,7 +22,6 @@ async def database(event_loop):
 class TestAddFunctions:
     """Класс для тестов add_* функций"""
 
-    @mark.asyncio
     async def test_add_server(self, database):
         """Проверяет функцию add_server"""
         await database.make_tables()
@@ -30,7 +29,6 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.10' AND port=25565")
         assert len(server) > 0
 
-    @mark.asyncio
     async def test_add_server_owner_id(self, database):
         """Проверяет функцию add_server, правильно ли записывает owner_id"""
         await database.make_tables()
@@ -38,7 +36,6 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.11' AND port=25565")
         assert server[0]["owner"] == 123123
 
-    @mark.asyncio
     async def test_add_ping(self, database):
         """Проверяет функцию add_ping"""
         await database.make_tables()
@@ -46,7 +43,6 @@ class TestAddFunctions:
         ping = await database.pool.fetch("SELECT * FROM sunpings WHERE ip='127.0.0.12' AND port=25565")
         assert ping[0]["players"] == 33
 
-    @mark.asyncio
     async def test_add_alias(self, database):
         """Проверяет функцию add_alias"""
         await database.make_tables()
@@ -55,7 +51,6 @@ class TestAddFunctions:
         server = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.13' AND port=25565")
         assert server[0]["alias"] == "тест"
 
-    @mark.asyncio
     async def test_add_record(self, database):
         """Проверяет функцию add_record"""
         await database.make_tables()
@@ -68,7 +63,6 @@ class TestAddFunctions:
 class TestGetFunctions:
     """Класс для тестов get_* функций"""
 
-    @mark.asyncio
     async def test_get_server(self, database):
         """Проверяет функцию get_server"""
         await database.make_tables()
@@ -77,7 +71,6 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunservers WHERE numip='127.0.0.15' AND port=25565")
         assert answer == right_answer
 
-    @mark.asyncio
     async def test_get_servers(self, database):
         """Проверяет функцию get_servers"""
         await database.pool.execute("DROP TABLE IF EXISTS sunpings;")
@@ -90,7 +83,6 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunservers;")
         assert answer == right_answer
 
-    @mark.asyncio
     async def test_get_servers_len(self, database):
         """Проверяет функцию get_servers_len"""
         await database.pool.execute("DROP TABLE IF EXISTS sunpings;")
@@ -102,7 +94,6 @@ class TestGetFunctions:
         answer = await database.get_servers()
         assert len(answer) == 3
 
-    @mark.asyncio
     async def test_get_ip_alias(self, database):
         """Проверяет функцию get_ip_alias"""
         await database.make_tables()
@@ -112,7 +103,6 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT numip, port FROM sunservers WHERE alias='тест123';")
         assert answer == right_answer
 
-    @mark.asyncio
     async def test_get_pings(self, database):
         """Проверяет функцию get_pings"""
         await database.pool.execute("DROP TABLE IF EXISTS sunpings;")
@@ -125,7 +115,6 @@ class TestGetFunctions:
         right_answer = await database.pool.fetch("SELECT * FROM sunpings WHERE ip='127.0.0.23' AND port=25565;")
         assert answer == right_answer
 
-    @mark.asyncio
     async def test_get_pings_len(self, database):
         """Проверяет функцию get_pings_len"""
         await database.pool.execute("DROP TABLE IF EXISTS sunpings;")
@@ -141,14 +130,12 @@ class TestGetFunctions:
 class TestAnotherFunctions:
     """Класс для тестов других функций"""
 
-    @mark.asyncio
     async def test_make_tables(self, database):
         """Проверяет функцию make_tables"""
         await database.make_tables()
         await database.pool.execute("SELECT * FROM sunpings;")
         await database.pool.execute("SELECT * FROM sunservers;")
 
-    @mark.asyncio
     async def test_remove_too_old_pings(self, database):
         """Проверяет функцию remove_too_old_pings"""
         await database.make_tables()
@@ -179,7 +166,6 @@ class TestAnotherFunctions:
             assert tuple(ping) == pings_right[i]
             i += 1
 
-    @mark.asyncio
     async def test_drop_table_sunpings(self, database):
         """Проверяет функцию drop_tables на таблице sunpings"""
         await database.make_tables()
@@ -188,7 +174,6 @@ class TestAnotherFunctions:
         sunpings = await database.pool.fetch("SELECT * FROM sunpings;")
         assert len(sunpings) == 0
 
-    @mark.asyncio
     async def test_drop_table_sunservers(self, database):
         """Проверяет функцию drop_tables на таблице sunservers"""
         await database.make_tables()

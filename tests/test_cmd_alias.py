@@ -50,7 +50,6 @@ class TestAlias:
 
         return embed
 
-    @mark.asyncio
     async def test_is_added_to_db(self, event_loop, bot, database, alias_added):
         """Проверяет добавился ли алиас в дата базу"""
         ip_from_alias = await database.get_ip_alias("тест2")
