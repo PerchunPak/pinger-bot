@@ -71,7 +71,7 @@ class DatabaseController:
         sunpings = Table(
             "sunpings",
             self.metadata,
-            Column("ip", String),
+            Column("ip", String(256)),
             Column("port", SmallInteger),
             Column("time", DateTime),
             Column("players", Integer),
@@ -81,10 +81,10 @@ class DatabaseController:
         sunservers = Table(
             "sunservers",
             self.metadata,
-            Column("ip", String),
+            Column("ip", String(256)),
             Column("port", SmallInteger),
             Column("record", SmallInteger, default=0),
-            Column("alias", String, unique=True),
+            Column("alias", String(256), unique=True),
             Column("owner", BigInteger),
             UniqueConstraint("ip", "port"),
             extend_existing=True,
