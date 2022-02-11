@@ -1,7 +1,7 @@
 FROM python:slim
 
 LABEL author="cofob" maintainer="c@cofob.ru"
-LABEL org.opencontainers.image.source="https://github.com/cofob/PingerBot"
+LABEL org.opencontainers.image.source="https://github.com/PerchunPak/PingerBot"
 LABEL org.opencontainers.image.licenses=Apache-2.0
 
 ENV PYTHONUNBUFFERED 1
