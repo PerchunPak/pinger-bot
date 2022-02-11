@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     restart: always
-    volume:
+    volumes:
       - ./db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: pingerbot
