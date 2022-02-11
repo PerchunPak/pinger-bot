@@ -122,6 +122,45 @@ class TestPing:
 
         return embed
 
+    @fixture(scope="class")
+    async def ping_null_motd(self, event_loop, database, monkeypatch_session):
+        """Фикстура для тестов поддерживает ли команда алиасы.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            database: Объект дата базы.
+            monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
+
+        Returns:
+            Embed объект ответа.
+        """
+
+        def fake_server_answer(class_self=None) -> PingResponse:
+            """Эмулирует ответ сервера.
+
+            Args:
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
+
+            Returns:
+                Фейковый ответ сервера.
+            """
+            return PingResponse(
+                {
+                    "description": {"text": "&f"},
+                    "players": {"max": 20, "online": 0},
+                    "version": {"name": "1.17.1", "protocol": 756},
+                }
+            )
+
+        monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
+        await message("пинг example.com")
+        embed = get_embed()
+        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
+            embed = get_embed()
+
+        return embed
+
     def test_color(self, ping_online):
         """Проверят цвет в ответе бота.
 
@@ -129,6 +168,14 @@ class TestPing:
             ping_online: Embed объект ответа.
         """
         assert str(ping_online.color) == str(Color.green())
+
+    def test_null_motd_right_viewed(self, ping_null_motd):
+        """Проверяет правильно ли бот распознает мотд, если оно равняется &f.
+
+        Args:
+            ping_null_motd: Embed объект ответа.
+        """
+        assert "Нету информации" in ping_null_motd.fields[3].value
 
     def test_alias_in(self, ping_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи.
