@@ -201,15 +201,6 @@ class TestPing:
         """
         assert ping_alias.thumbnail.url == "https://api.mcsrvstat.us/icon/127.0.0.1:25565"
 
-    def test_ping_is_int(self, ping_online):
-        """Проверяет является ли значение в "Время ответа" int объектом.
-
-        Args:
-            ping_online: Embed объект ответа.
-        """
-        # Если при переводе в int возникнет ошибка, тест провалится
-        assert isinstance(int(ping_online.fields[0].value[:-2]), int)
-
     def test_check_version(self, ping_online):
         """Проверяет правильно ли бот распознает версию.
 
