@@ -1,28 +1,23 @@
-version: '3.1'
+version: '3.8'
+
+volumes:
+  db:
 
 services:
   db:
     image: postgres
     restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: pingerbot
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pingerbotdb
-    networks:
-      - pingerbot
-
   bot:
-    image: pingerbot:latest
+    image: PerchunPak/pingerbot:latest
     restart: always
     environment:
-      DBHOST: db
-      POSTGRES_USER: pingerbot
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: pingerbotdb
-    networks:
-      - pingerbot
-
-networks:
-  pingerbot:
-    name: pingerbot
-    driver: bridge
+      PINGERBOT_POSTGRES: "postgres://pingerbot:password@db:5432/pingerbotdb"
+      PINGERBOT_DISCORD_TOKEN: ${PINGERBOT_DISCORD_TOKEN}
+    depends_on:
+      - db
