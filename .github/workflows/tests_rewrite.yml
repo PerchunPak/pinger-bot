@@ -112,10 +112,10 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
-          username: PerchunPak
+          username: perchunpak
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: PerchunPak/pingerbot:latest
+          tags: perchunpak/pingerbot:latest
