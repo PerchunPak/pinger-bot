@@ -43,6 +43,8 @@ class Ping(Cog):
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
             motd_clean = re_sub(r"[\xA7|&][0-9A-FK-OR]", "", status.description, flags=IGNORECASE)
+            if motd_clean == "":
+                motd_clean = "Нету информации"
             embed.add_field(name="Мотд", value=motd_clean)
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
