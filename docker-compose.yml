@@ -14,7 +14,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pingerbotdb
   bot:
-    image: cofob/pingerbot:latest
+    image: PerchunPak/pingerbot:latest
     restart: always
     environment:
       PINGERBOT_POSTGRES: "postgres://pingerbot:password@db:5432/pingerbotdb"
