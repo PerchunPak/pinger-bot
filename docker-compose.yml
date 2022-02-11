@@ -17,7 +17,7 @@ services:
     image: cofob/pingerbot:latest
     restart: always
     environment:
-      PINGERBOT_POSTGRES: "postgres://pingerbot:password@pingerbot-db-1:5432/pingerbotdb"
+      PINGERBOT_POSTGRES: "postgres://pingerbot:password@db:5432/pingerbotdb"
       PINGERBOT_DISCORD_TOKEN: ${PINGERBOT_DISCORD_TOKEN}
     depends_on:
       - db
