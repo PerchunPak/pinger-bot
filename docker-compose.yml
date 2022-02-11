@@ -10,12 +10,11 @@ services:
       POSTGRES_USER: pingerbot
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pingerbotdb
-
   bot:
     image: cofob/pingerbot:latest
     restart: always
     environment:
       PINGERBOT_POSTGRES: "postgres://pingerbot:password@pingerbot-db-1:5432/pingerbotdb"
-      PINGERBOT_DISCORD_TOKEN: "TOKEN_HERE"
+      PINGERBOT_DISCORD_TOKEN: ${PINGERBOT_DISCORD_TOKEN}
     depends_on:
       - db
