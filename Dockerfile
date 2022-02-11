@@ -8,7 +8,8 @@ ENV PYTHONUNBUFFERED 1
 ENV PINGERBOT_DISCORD_TOKEN "TOKEN"
 ENV PINGERBOT_POSTGRES "postgres://pingerbot:password@db:5432/pingerbotdb"
 
-RUN apt-get update && apt-get libpq-dev -y && useradd -d /home/container -m container
+RUN apt-get update && apt-get install libpq-dev -y --no-install-recommends && \
+    useradd -d /home/container -m container
 
 USER container
 ENV USER=container HOME=/home/container
