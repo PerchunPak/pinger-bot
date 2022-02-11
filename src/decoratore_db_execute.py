@@ -1,4 +1,5 @@
 from sqlalchemy.engine.cursor import CursorResult
+from sqlalchemy.exc import NoResultFound
 
 
 class Decorator(CursorResult):
@@ -27,7 +28,10 @@ class ParseResult(Decorator):
     """Парсит результат, и в итоге выдает dict'ы вместо tuple."""
 
     def one(self):
-        return dict(zip(self.cursor_result.keys(), self.cursor_result.one()))
+        try:
+            return dict(zip(self.cursor_result.keys(), self.cursor_result.one()))
+        except NoResultFound:
+            return {}
 
     def all(self):
         ret = []
