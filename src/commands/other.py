@@ -75,7 +75,7 @@ class OtherCommands(Cog):
             ctx: Объект сообщения.
         """
         await ctx.send(
-            'Это моя пригласительная ссылка чтобы Вы могли считать "ладно" тоже:\n'
+            "Это моя пригласительная ссылка чтобы Вы могли пинговать сервера тоже:\n"
             f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
             "&scope=bot&permissions=8"
         )
