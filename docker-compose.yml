@@ -16,5 +16,6 @@ services:
     restart: always
     environment:
       PINGERBOT_POSTGRES: "postgres://pingerbot:password@pingerbot_db_1:5432/pingerbotdb"
+      PINGERBOT_DISCORD_TOKEN: "TOKEN_HERE"
     depends_on:
       - db
