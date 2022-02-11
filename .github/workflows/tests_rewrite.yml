@@ -105,12 +105,17 @@ jobs:
         github.actor == 'PerchunPak'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: FTP Deploy
-      continue-on-error: true
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
-      with:
-        ftp-server: ${{ secrets.ftp_server }}
-        ftp-username: ${{ secrets.ftp_username }}
-        ftp-password: ${{ secrets.ftp_password }}
-        git-ftp-args: --insecure
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: PerchunPak/pingerbot:latest
