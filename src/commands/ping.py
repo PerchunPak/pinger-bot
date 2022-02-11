@@ -39,7 +39,7 @@ class Ping(Cog):
             )
 
             embed.set_thumbnail(url=f"https://api.mcsrvstat.us/icon/{info.dns.host}:{str(info.dns.port)}")
-            embed.add_field(name="Время ответа", value=str(status.latency) + "мс")
+            embed.add_field(name="Время ответа", value=str("{:.2f}".format(status.latency)) + "мс")
             embed.add_field(name="Используемое ПО", value=status.version.name)
             embed.add_field(name="Онлайн", value=f"{status.players.online}/{status.players.max}")
             motd_clean = re_sub(r"[\xA7|&][0-9A-FK-OR]", "", status.description, flags=IGNORECASE)
