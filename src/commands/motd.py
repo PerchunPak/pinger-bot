@@ -29,7 +29,7 @@ class Motd(Cog):
             ip: Айпи сервера.
         """
         msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
-        status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
+        status, info = self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
             embed = Embed(
                 title=f"Подробное мотд сервера {info.alias if info.alias is not None else ip}",

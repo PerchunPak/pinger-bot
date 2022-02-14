@@ -100,11 +100,10 @@ class TestAlias:
 
         return embed
 
-    async def test_is_added_to_db(self, event_loop, database, alias_added):
+    def test_is_added_to_db(self, database, alias_added):
         """Проверяет добавился ли алиас в дата базу.
 
         Args:
-            event_loop: Обязательная фикстура для async тестов.
             database: Объект дата базы.
             alias_added: Embed объект ответа.
         """

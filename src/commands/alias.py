@@ -34,7 +34,7 @@ class Alias(Cog):
             Объект отправленного сообщения, чтобы остановить команду.
         """
         msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
-        status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
+        status, info = self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if info.valid:
             database_server = self.bot.db.get_server(info.dns.host, info.dns.port)
         else:

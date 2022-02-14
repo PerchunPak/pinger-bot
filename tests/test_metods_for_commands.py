@@ -55,7 +55,7 @@ class TestMetodsForCommands:
         await message("fail_message example.com 0")
         return get_embed()
 
-    async def test_parse_ip_alias(self, database, metods_for_commands):
+    def test_parse_ip_alias(self, database, metods_for_commands):
         """Тест на проверку алиаса в методе MetodsForCommands.parse_ip.
 
         Args:
@@ -71,27 +71,27 @@ class TestMetodsForCommands:
             commit=True,
         )
         dns_info = MinecraftServer("127.0.0.29")
-        answer = await metods_for_commands.parse_ip("тест28")
+        answer = metods_for_commands.parse_ip("тест28")
         assert answer == ServerInfo(True, "тест28", dns_info, "127.0.0.29", "25565")
 
-    async def test_parse_ip_valid(self, metods_for_commands):
+    def test_parse_ip_valid(self, metods_for_commands):
         """Тест на проверку действий при валидном айпи.
 
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
         dns_info = MinecraftServer("127.0.0.30")
-        answer = await metods_for_commands.parse_ip("127.0.0.30")
+        answer = metods_for_commands.parse_ip("127.0.0.30")
         assert answer == ServerInfo(True, None, dns_info, "127.0.0.30", "25565")
 
-    async def test_parse_ip_not_valid(self, metods_for_commands):
+    def test_parse_ip_not_valid(self, metods_for_commands):
         """Тест на проверку действий при не валидном айпи.
 
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
         dns_info = MinecraftServer("www")
-        answer = await metods_for_commands.parse_ip("www")
+        answer = metods_for_commands.parse_ip("www")
         assert answer == ServerInfo(False, None, dns_info, None, "25565")
 
     @staticmethod
@@ -115,7 +115,7 @@ class TestMetodsForCommands:
 
         return False not in ret
 
-    async def test_ping_server_valid(self, metods_for_commands, monkeypatch_session):
+    def test_ping_server_valid(self, metods_for_commands, monkeypatch_session):
         """Тест на проверку действий при валидном айпи в методе MetodsForCommands.ping_server.
 
         Args:
@@ -142,7 +142,7 @@ class TestMetodsForCommands:
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         expected_dns_info = MinecraftServer.lookup("127.0.0.31")
-        status, info = await metods_for_commands.ping_server("127.0.0.31")
+        status, info = metods_for_commands.ping_server("127.0.0.31")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
         assert (
@@ -151,17 +151,17 @@ class TestMetodsForCommands:
             and info.__dict__ == ServerInfo(True, None, info.dns, "127.0.0.31", "25565").__dict__
         )
 
-    async def test_ping_server_not_valid(self, metods_for_commands):
+    def test_ping_server_not_valid(self, metods_for_commands):
         """Тест на проверку действий при не валидном айпи.
 
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
         dns_info = MinecraftServer("www")
-        answer = await metods_for_commands.ping_server("www")
+        answer = metods_for_commands.ping_server("www")
         assert answer == (False, ServerInfo(False, None, dns_info, None, "25565"))
 
-    async def test_ping_server_not_answer(self, metods_for_commands, monkeypatch_session):
+    def test_ping_server_not_answer(self, metods_for_commands, monkeypatch_session):
         """Тест на проверку действий если сервер не ответил.
 
         Args:
@@ -182,7 +182,7 @@ class TestMetodsForCommands:
 
         monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
         expected_dns_info = MinecraftServer.lookup("127.0.0.32")
-        status, info = await metods_for_commands.ping_server("127.0.0.32")
+        status, info = metods_for_commands.ping_server("127.0.0.32")
         # __dict__ чтобы можно было сравнивать классы
         # без этого при сравнении оно всегда выдает False
         assert (

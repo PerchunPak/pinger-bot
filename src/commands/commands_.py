@@ -19,7 +19,7 @@ class MetodsForCommands:
         """
         self.bot = bot
 
-    async def parse_ip(self, input_ip: str) -> ServerInfo:
+    def parse_ip(self, input_ip: str) -> ServerInfo:
         """Парсит айпи (логично).
 
         Args:
@@ -48,7 +48,7 @@ class MetodsForCommands:
 
         return ServerInfo(valid, alias, dns_info, num_ip, str(dns_info.port))
 
-    async def ping_server(self, ip: str) -> tuple:
+    def ping_server(self, ip: str) -> tuple:
         """Пингует сервер (очень логично).
 
         Args:
@@ -57,7 +57,7 @@ class MetodsForCommands:
         Returns:
             Объект статуса сервера и объект информации о сервере.
         """
-        info = await self.parse_ip(ip)
+        info = self.parse_ip(ip)
         if not info.valid:
             return False, info
 

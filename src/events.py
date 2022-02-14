@@ -35,7 +35,7 @@ class Events(Cog):
     async def on_ready(self):
         """Важная часть запуска бота."""
         pinger_bot_class = PingerBot(self.bot)
-        await pinger_bot_class.run_db()
+        pinger_bot_class.run_db()
         print(
             "Зашел как:\n"
             f"{self.bot.user}\n"

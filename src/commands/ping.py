@@ -30,7 +30,7 @@ class Ping(Cog):
             ip: Айпи сервера.
         """
         msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
-        status, info = await self.metods_for_commands.ping_server(ip)
+        status, info = self.metods_for_commands.ping_server(ip)
         if status:
             embed = Embed(
                 title=f"Результаты пинга {info.alias if info.alias is not None else ip}",

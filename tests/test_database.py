@@ -7,11 +7,8 @@ from src.database import DatabaseController
 
 
 @fixture(scope="session")
-async def database(event_loop):
+def database():
     """Инициализирует дата базу.
-
-    Args:
-        event_loop: Обязательная фикстура для async фикстур.
 
     Yields:
         Объект дата базы.
@@ -26,7 +23,7 @@ async def database(event_loop):
 class TestAddFunctions:
     """Класс для тестов add_* методов."""
 
-    async def test_add_server(self, database):
+    def test_add_server(self, database):
         """Проверяет метод add_server.
 
         Args:
@@ -39,7 +36,7 @@ class TestAddFunctions:
         ).one()
         assert len(server) > 0
 
-    async def test_add_server_owner_id(self, database):
+    def test_add_server_owner_id(self, database):
         """Проверяет метод add_server, правильно ли записывает owner_id.
 
         Args:
@@ -52,7 +49,7 @@ class TestAddFunctions:
         ).one()
         assert server["owner"] == 123123
 
-    async def test_add_ping(self, database):
+    def test_add_ping(self, database):
         """Проверяет метод add_ping.
 
         Args:
@@ -65,7 +62,7 @@ class TestAddFunctions:
         ).one()
         assert ping["players"] == 33
 
-    async def test_add_alias(self, database):
+    def test_add_alias(self, database):
         """Проверяет метод add_alias.
 
         Args:
@@ -79,7 +76,7 @@ class TestAddFunctions:
         ).one()
         assert server["alias"] == "тест"
 
-    async def test_add_record(self, database):
+    def test_add_record(self, database):
         """Проверяет метод add_record.
 
         Args:
@@ -97,7 +94,7 @@ class TestAddFunctions:
 class TestGetFunctions:
     """Класс для тестов get_* методов."""
 
-    async def test_get_server(self, database):
+    def test_get_server(self, database):
         """Проверяет метод get_server.
 
         Args:
@@ -111,7 +108,7 @@ class TestGetFunctions:
         ).one()
         assert answer == right_answer
 
-    async def test_get_servers(self, database):
+    def test_get_servers(self, database):
         """Проверяет метод get_servers.
 
         Args:
@@ -125,7 +122,7 @@ class TestGetFunctions:
         right_answer = database.execute(select(database.t.ss)).all()
         assert answer == right_answer
 
-    async def test_get_servers_len(self, database):
+    def test_get_servers_len(self, database):
         """Проверяет метод get_servers_len.
 
         Args:
@@ -138,7 +135,7 @@ class TestGetFunctions:
         answer = database.get_servers()
         assert len(answer) == 3
 
-    async def test_get_ip_alias(self, database):
+    def test_get_ip_alias(self, database):
         """Проверяет метод get_ip_alias.
 
         Args:
@@ -151,7 +148,7 @@ class TestGetFunctions:
         right_answer = database.execute(select(database.t.ss).where(database.t.ss.c.alias == "тест123")).one()
         assert answer == right_answer
 
-    async def test_get_ip_alias_null(self, database):
+    def test_get_ip_alias_null(self, database):
         """Проверяет метод get_ip_alias, если сервера нету.
 
         Args:
@@ -161,7 +158,7 @@ class TestGetFunctions:
         answer = database.get_ip_alias("тест1231")
         assert answer == {}
 
-    async def test_get_pings(self, database):
+    def test_get_pings(self, database):
         """Проверяет метод get_pings.
 
         Args:
@@ -177,7 +174,7 @@ class TestGetFunctions:
         ).all()
         assert answer == right_answer
 
-    async def test_get_pings_len(self, database):
+    def test_get_pings_len(self, database):
         """Проверяет метод get_pings_len.
 
         Args:
@@ -209,7 +206,7 @@ class TestGetFunctions:
 class TestAnotherFunctions:
     """Класс для тестов других методов."""
 
-    async def test_make_tables(self, database):
+    def test_make_tables(self, database):
         """Проверяет метод make_tables.
 
         Args:
@@ -219,7 +216,7 @@ class TestAnotherFunctions:
         database.execute(select(database.t.sp))
         database.execute(select(database.t.ss))
 
-    async def test_remove_too_old_pings(self, database):
+    def test_remove_too_old_pings(self, database):
         """Проверяет метод remove_too_old_pings.
 
         Args:
@@ -251,7 +248,7 @@ class TestAnotherFunctions:
             assert ping == pings_right[i]
             i += 1
 
-    async def test_drop_table_sunpings(self, database):
+    def test_drop_table_sunpings(self, database):
         """Проверяет метод drop_tables на таблице sunpings.
 
         Args:
@@ -263,7 +260,7 @@ class TestAnotherFunctions:
         sunpings = database.execute(select(database.t.sp)).all()
         assert len(sunpings) == 0
 
-    async def test_drop_table_sunservers(self, database):
+    def test_drop_table_sunservers(self, database):
         """Проверяет метод drop_tables на таблице sunservers.
 
         Args:

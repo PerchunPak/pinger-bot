@@ -51,7 +51,7 @@ class PingerBot:
                 self.bot.load_extension("src.commands." + file[:-3])
         self.bot.load_extension("src.events")
 
-    async def run_db(self):
+    def run_db(self):
         """Запускает дата базу.
 
         И добавляет в объект бота атрибут `db` который
