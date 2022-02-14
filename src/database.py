@@ -181,7 +181,7 @@ class DatabaseController:
             alias: Алиас который дал юзер.
 
         Returns:
-            Сервер или пустой tuple.
+            Сервер или пустой dict.
         """
         try:
             result = self._execute(select(self.t.ss).where(self.t.ss.c.alias == alias)).one()
