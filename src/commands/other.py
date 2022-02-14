@@ -1,6 +1,5 @@
 """Модуль для других команд."""
 from sys import version_info
-from subprocess import check_output
 from discord import Color, Embed
 from discord.ext.commands import Cog, command
 
@@ -62,7 +61,7 @@ class OtherCommands(Cog):
         embed.add_field(name="Язык программирования", value=f"Python {'.'.join(map(str, version_info[:-2]))}")
         embed.add_field(name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
         embed.add_field(
-            name="Версия коммита", value=check_output(["git", "rev-parse", "--short", "HEAD"]).decode("ascii").strip()
+            name="Лицензия", value="[Apache License 2.0]" "(https://github.com/PerchunPak/PingerBot/blob/main/LICENSE)"
         )
         embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/PingerBot", inline=False)
         embed.set_footer(text="Примечание: Вы можете предлагать любые идеи в ЛС Perchun_Pak#9236")
