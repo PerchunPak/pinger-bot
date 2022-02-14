@@ -75,11 +75,15 @@ class MetodsForCommands:
         Args:
             ctx: Объект сообщения.
             ip: Айпи сервера.
+
+        Returns:
+            Объект сообщения которое отправил бот.
         """
         embed = Embed(
             title=f"Пингую {ip}...", description="Подождите немного, я вас упомяну когда закончу", color=Color.orange()
         )
-        await ctx.send(embed=embed)
+        msg = await ctx.send(embed=embed)
+        return msg
 
     @staticmethod
     async def fail_message(ctx, ip: str, online: bool):

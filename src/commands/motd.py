@@ -28,7 +28,7 @@ class Motd(Cog):
             ctx: Объект сообщения.
             ip: Айпи сервера.
         """
-        await self.metods_for_commands.wait_please(ctx, ip)
+        msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if status:
             embed = Embed(
@@ -44,6 +44,7 @@ class Motd(Cog):
             embed.add_field(name="Мотд", value=f"{status.description}")
             embed.add_field(name="Ссылка на редактирование", value="https://mctools.org/motd-creator?text=" + motd_url)
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
         else:
             embed = Embed(
                 title=f"Подробное мотд сервера {info.alias if info.alias is not None else ip}",
@@ -56,6 +57,7 @@ class Motd(Cog):
                 value="Возможно вы указали неверный айпи, или сервер сейчас выключен",
             )
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
 
 
 def setup(bot):

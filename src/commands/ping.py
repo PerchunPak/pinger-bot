@@ -29,7 +29,7 @@ class Ping(Cog):
             ctx: Объект сообщения.
             ip: Айпи сервера.
         """
-        await self.metods_for_commands.wait_please(ctx, ip)
+        msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)
         if status:
             embed = Embed(
@@ -49,8 +49,10 @@ class Ping(Cog):
             embed.set_footer(text=f'Для получения ссылки на редактирование МОТД, напишите "мотд {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
         else:
             await self.metods_for_commands.fail_message(ctx, ip, online=status)
+            await msg_wait_please.delete()
 
 
 def setup(bot):
