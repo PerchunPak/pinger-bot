@@ -1,11 +1,37 @@
 """Тесты для других команд."""
 from sys import version_info
+from sqlalchemy import insert, select
+from discord import Color
 from discord.ext.test import message, get_message, get_embed
 from pytest import fixture
 
 
 class TestOtherCommands:
     """Класс для тестов и фикстур."""
+
+    @fixture(scope="class")
+    async def fake_is_owner(self, event_loop, bot, monkeypatch_session):
+        """Обманывает проверку на владельца бота.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            bot: Главный объект бота.
+            monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
+        """
+
+        async def fake_is_owner_func(*args, **kwargs) -> bool:
+            """Эмулирует ответ функции проверки автора.
+
+            Args:
+                args: Заглушка для аргументов.
+                kwargs: Тоже заглушка.
+
+            Returns:
+                True.
+            """
+            return True
+
+        monkeypatch_session.setattr(bot, "is_owner", fake_is_owner_func)
 
     @fixture(scope="class")
     async def help_cmd(self, event_loop):
@@ -44,6 +70,90 @@ class TestOtherCommands:
             Сообщение ответа.
         """
         await message("пригласить")
+        return get_message()
+
+    @fixture(scope="class")
+    async def who_owner(self, event_loop, bot, database):
+        """Фикстура для проверки команды "владелец".
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            bot: Главный объект бота.
+            database: Объект базы данных.
+
+        Returns:
+            Сообщение ответа.
+        """
+        test_user = None
+        for user in bot.users:
+            if user.bot:
+                continue
+            test_user = user
+        database._execute(
+            insert(database.t.ss).values(ip="example.com", port=25565, alias="тест_алиас", owner=test_user.id), commit=True
+        )
+        await message("who_owner тест_алиас")
+        return get_embed(), test_user
+
+    @fixture(scope="class")
+    async def who_owner_null(self, event_loop):
+        """Фикстура для проверки команды "владелец", если сервер не добавлен.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+
+        Returns:
+            Сообщение ответа.
+        """
+        await message("who_owner example123")
+        return get_embed()
+
+    @fixture(scope="class")
+    async def execute_sql_select(self, event_loop, database, fake_is_owner):
+        """Фикстура для проверки команды "execute_sql".
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            database: Объект базы данных.
+            fake_is_owner: Обманывает проверку на владельца бота.
+
+        Returns:
+            Сообщение ответа.
+        """
+        database._execute(insert(database.t.ss).values(ip="example1", port=25565, owner=0), commit=True)
+        database._execute(insert(database.t.ss).values(ip="example2", port=25565, owner=0), commit=True)
+        database._execute(insert(database.t.ss).values(ip="example3", port=25565, owner=0), commit=True)
+        await message("execute_sql 1 0 SELECT * FROM sunservers;")
+        return get_message()
+
+    @fixture(scope="class")
+    async def execute_sql_select_null(self, event_loop, database, fake_is_owner):
+        """Фикстура для проверки команды "execute_sql", если серверов нету в БД.
+
+        Args:
+            database: Объект базы данных.
+            event_loop: Обязательная фикстура для async фикстур.
+            fake_is_owner: Обманывает проверку на владельца бота.
+
+        Returns:
+            Сообщение ответа.
+        """
+        database.drop_tables()
+        await message("execute_sql 1 0 SELECT * FROM sunservers;")
+        return get_message()
+
+    @fixture(scope="class")
+    async def execute_sql_insert(self, event_loop, fake_is_owner):
+        """Фикстура для проверки команды "пригласить".
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            fake_is_owner: Обманывает проверку на владельца бота.
+
+        Returns:
+            Сообщение ответа.
+        """
+        await message("execute_sql 0 1 INSERT INTO sunservers VALUES ('example.org', 25565, 0, 'ssss', 0);")
         return get_message()
 
     def test_help_commands(self, bot, help_cmd):
@@ -122,3 +232,71 @@ class TestOtherCommands:
             invite: Сообщение ответа.
         """
         assert f"https://discordapp.com/oauth2/authorize?client_id={bot.app_info.id}&scope=bot&permissions=8" in invite.content
+
+    def test_who_owner(self, who_owner):
+        """Проверяет есть ли владелец в ответе бота.
+
+        Args:
+            who_owner: Сообщение ответа.
+        """
+        who_owner, test_user = who_owner
+        test_user_display_name = "@" + test_user.display_name + "#" + test_user.discriminator
+        assert test_user_display_name in who_owner.description
+
+    def test_who_owner_alias_in_title(self, who_owner):
+        """Проверяет есть ли алиас в title из ответа бота.
+
+        Args:
+            who_owner: Сообщение ответа.
+        """
+        assert "тест_алиас" in who_owner[0].title
+
+    def test_who_owner_alias_in_footer(self, who_owner):
+        """Проверяет есть ли алиас в футере из ответа бота.
+
+        Args:
+            who_owner: Сообщение ответа.
+        """
+        assert "тест_алиас" in who_owner[0].footer.text
+
+    def test_who_owner_null_color(self, who_owner_null):
+        """Проверяет правильный ли цвет embed'а из негативного ответа бота.
+
+        Args:
+            who_owner_null: Сообщение ответа.
+        """
+        assert Color.red() == who_owner_null.color
+
+    def test_servers_in(self, database, execute_sql_select):
+        """Проверяет есть ли сервера в ответе бота.
+
+        Args:
+            database: Объект базы данных.
+            execute_sql_select: Сообщение ответа.
+        """
+        raw_right_answer = database._execute(select(database.t.ss)).all()
+        right_answer = ""
+        for record in raw_right_answer:
+            right_answer += str(record) + "\n"
+        answer = execute_sql_select.clean_content.replace("Результат: \n", "")
+        assert answer == right_answer
+
+    async def test_null_answer(self, database, execute_sql_select_null):
+        """Проверяет ответ бота если SELECT возвращает 0.
+
+        Args:
+            database: Объект базы данных.
+            execute_sql_select_null: Сообщение ответа.
+        """
+        answer = execute_sql_select_null.clean_content
+        assert "Выполнено успешно" in answer
+
+    async def test_execute_sql_insert(self, database, execute_sql_insert):
+        """Проверяет ответ бота если SELECT возвращает 0.
+
+        Args:
+            database: Объект базы данных.
+            execute_sql_insert: Сообщение ответа.
+        """
+        answer = execute_sql_insert.clean_content
+        assert "Выполнено успешно" in answer
