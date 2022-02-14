@@ -1,7 +1,8 @@
 """Модуль для других команд."""
 from sys import version_info
 from discord import Color, Embed
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, is_owner
+from src.commands.commands_ import MetodsForCommands
 
 
 class OtherCommands(Cog):
@@ -9,6 +10,7 @@ class OtherCommands(Cog):
 
     Attributes:
         bot: Атрибут для главного объекта бота.
+        metods_for_commands: Инициализированный класс MetodsForCommands.
     """
 
     def __init__(self, bot):
@@ -17,6 +19,7 @@ class OtherCommands(Cog):
             bot: Главный объект бота.
         """
         self.bot = bot
+        self.metods_for_commands = MetodsForCommands(bot)
 
     @command(name="помощь", aliases=["help", "хэлп", "хєлп", "хелп"])
     async def help(self, ctx):
@@ -79,6 +82,65 @@ class OtherCommands(Cog):
             f"https://discordapp.com/oauth2/authorize?client_id={self.bot.app_info.id}"
             "&scope=bot&permissions=8"
         )
+
+    @command(name="владелец", aliases=["who_owner", "owner", "кто_владелец", "кто владелец"])
+    async def who_owner(self, ctx, server_name):
+        """Выполняет SQL запрос в базу данных. Только для владельца.
+
+        Args:
+            ctx: Объект сообщения.
+            server_name: Имя сервера (айпи или алиас).
+        """
+        info = await self.metods_for_commands.parse_ip(server_name)
+
+        if info.valid:
+            database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
+        else:
+            database_server = {}
+
+        if info.valid and len(database_server) != 0:
+            owner_obj = self.bot.get_user(database_server["owner"])
+            owner = "@" + owner_obj.display_name + "#" + owner_obj.discriminator
+
+            embed = Embed(
+                title=f"Владелец сервера {info.alias if info.alias is not None else server_name}",
+                description="Это " + owner,
+                color=Color.green(),
+            )
+
+            embed.set_footer(
+                text="Для большей информации о сервере напишите "
+                f'"стата {info.alias if info.alias is not None else server_name}"'
+            )
+
+            return await ctx.send(embed=embed)
+        else:
+            embed = Embed(
+                title=f"Владелец сервера {server_name}",
+                color=Color.red(),
+            )
+
+            embed.add_field(
+                name="Не удалось выполнить команду", value="Возможно вы указали неверный айпи, или сервер не добавлен"
+            )
+            return await ctx.send(embed=embed)
+
+    @command(name="execute_sql", aliases=["sql", "sql_execute", "execute"])
+    @is_owner()
+    async def execute_sql(self, ctx, *sql):
+        """Выполняет SQL запрос в базу данных. Только для владельца.
+
+        Args:
+            ctx: Объект сообщения.
+            sql: SQL для обработки.
+        """
+        result = await self.bot.db.pool.fetch(" ".join(sql))
+        ret = "Результат: \n"
+        for record in result:
+            ret += str(dict(record)) + "\n"
+        if ret == "Результат: \n":
+            ret = "Выполнено успешно."
+        await ctx.send(ret)
 
 
 def setup(bot):
