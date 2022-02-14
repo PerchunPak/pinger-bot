@@ -298,3 +298,4 @@ $RECYCLE.BIN/
 
 # PingerBot files
 grafics/
+*.db

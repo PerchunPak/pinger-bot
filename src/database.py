@@ -31,12 +31,13 @@ class DatabaseController:
 
     Attributes:
         engine: Engine объект дата базы.
+        connection: Connection объект, engine будет создавать каждый раз новый Connection.
         metadata: МетаДата базы данных.
         t: Быстрый доступ к объектам таблиц.
         execute: Функция execute для тестов, объявлена в conftest.py.
     """
 
-    __slots__ = ("engine", "metadata", "t", "execute")
+    __slots__ = ("engine", "connection", "metadata", "t", "execute")
 
     def __init__(self, engine):
         """
@@ -44,6 +45,7 @@ class DatabaseController:
             engine: Engine объект дата базы.
         """
         self.engine = engine
+        self.connection = engine.connect()
         self.metadata = MetaData()
         self.t = None
         self.execute = None
@@ -104,10 +106,11 @@ class DatabaseController:
         Returns:
             Сырой результат ответа базы данных. Для преобразования в нормальный вид, используйте .one() или .all().
         """
-        with self.engine.connect() as conn:
-            result = conn.execute(to_execute, params)
-            if commit:
-                conn.commit()
+        result = self.connection.execute(to_execute, params)
+        if commit:
+            self.connection.commit()
+        else:
+            self.connection.rollback()
         return ParsedResult(result)
 
     def add_server(self, ip: str, port: int, owner_id: int):
