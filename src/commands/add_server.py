@@ -30,7 +30,7 @@ class AddServer(Cog):
             ctx: Объект сообщения.
             ip: Айпи сервера.
         """
-        await self.metods_for_commands.wait_please(ctx, ip)
+        msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)
         if status:
             try:
@@ -39,7 +39,9 @@ class AddServer(Cog):
                 embed = Embed(title=f"Не удалось добавить сервер {ip}", description="**Онлайн**", color=Color.red())
 
                 embed.add_field(name="Не удалось добавить сервер", value="Сервер уже добавлен")
-                return await ctx.send(ctx.author.mention, embed=embed)
+                await ctx.send(ctx.author.mention, embed=embed)
+                await msg_wait_please.delete()
+                return
 
             embed = Embed(
                 title=f"Добавил сервер {ip}",
@@ -54,6 +56,7 @@ class AddServer(Cog):
             embed.set_footer(text=f'Теперь вы можете использовать "стата {ip}" или "алиас (алиас) {ip}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
         else:
             await self.metods_for_commands.fail_message(ctx, ip, online=status)
 

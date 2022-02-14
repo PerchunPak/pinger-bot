@@ -33,7 +33,7 @@ class Alias(Cog):
         Returns:
             Объект отправленного сообщения, чтобы остановить команду.
         """
-        await self.metods_for_commands.wait_please(ctx, ip)
+        msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
         if info.valid:
             database_server = await self.bot.db.get_server(info.dns.host, info.dns.port)
@@ -52,7 +52,9 @@ class Alias(Cog):
                 embed.add_field(name="Ошибка", value="Вы не владелец")
                 embed.set_footer(text=f'Для большей информации о сервере напишите "стата {name}"')
 
-                return await ctx.send(ctx.author.mention, embed=embed)
+                await ctx.send(ctx.author.mention, embed=embed)
+                await msg_wait_please.delete()
+                return
 
             try:
                 await self.bot.db.add_alias(alias, info.dns.host, info.dns.port)
@@ -67,7 +69,9 @@ class Alias(Cog):
                 embed.add_field(name="Ошибка", value="Алиас уже существует")
                 embed.set_footer(text=f'Для большей информации о сервере напишите "пинг {name}"')
 
-                return await ctx.send(ctx.author.mention, embed=embed)
+                await ctx.send(ctx.author.mention, embed=embed)
+                await msg_wait_please.delete()
+                return
 
             embed = Embed(
                 title=f"Добавил алиас {alias} к серверу {ip}",
@@ -80,12 +84,14 @@ class Alias(Cog):
             embed.set_footer(text=f'Для большей информации о сервере напишите "стата {alias}"')
 
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
         else:
             embed = Embed(title=f"Не удалось добавить алиас {alias} к серверу {ip}", description="**Упс**", color=Color.red())
 
             embed.add_field(name="Не удалось добавить алиас", value="Возможно вы указали неверный айпи")
             embed.set_footer(text="Причина: Сервер не был найден в дата базе")
             await ctx.send(ctx.author.mention, embed=embed)
+            await msg_wait_please.delete()
 
 
 def setup(bot):

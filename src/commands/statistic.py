@@ -34,7 +34,7 @@ class Statistic(Cog):
             ctx: Объект сообщения.
             ip: Айпи сервера.
         """
-        await self.metods_for_commands.wait_please(ctx, ip)
+        msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = await self.metods_for_commands.ping_server(ip)
 
         if info.valid:
@@ -65,8 +65,10 @@ class Statistic(Cog):
 
             fig = self.create_plot(pings, info, ip)
             await self.send_and_cache_plot(fig, info, embed, ctx)
+            await msg_wait_please.delete()
         else:
             await self.metods_for_commands.fail_message(ctx, ip, online=status)
+            await msg_wait_please.delete()
 
     @staticmethod
     async def get_yest_ping(pings: list) -> str:
