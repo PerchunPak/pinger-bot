@@ -61,7 +61,9 @@ class OtherCommands(Cog):
         embed.add_field(name="Количество пользователей", value=str(len(self.bot.users)))
         embed.add_field(name="Язык программирования", value=f"Python {'.'.join(map(str, version_info[:-2]))}")
         embed.add_field(name="Библиотека", value="[discord.py](https://github.com/Rapptz/discord.py)")
-        embed.add_field(name="Версия коммита", value=check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip())
+        embed.add_field(
+            name="Версия коммита", value=check_output(["git", "rev-parse", "--short", "HEAD"]).decode("ascii").strip()
+        )
         embed.add_field(name="Открытый код", value="https://github.com/PerchunPak/PingerBot", inline=False)
         embed.set_footer(text="Примечание: Вы можете предлагать любые идеи в ЛС Perchun_Pak#9236")
         await ctx.send(embed=embed)
