@@ -180,6 +180,21 @@ class TestGetFunctions:
         answer = database.get_pings("127.0.0.25", 25565)
         assert len(answer) == 3
 
+    def test_get_alias_ip(self, database):
+        """Проверяет метод get_alias_ip.
+
+        Args:
+            database: Объект дата базы.
+        """
+        database.drop_tables()
+        database.add_server("example.org", 25565, 0)
+        database.add_alias("example", "example.org", 25565)
+        answer = database.get_alias_ip("example.org", 25565)
+        right_answer = database.execute(
+            select(database.t.ss.c.alias).where(database.t.ss.c.ip == "example.org").where(database.t.ss.c.port == 25565)
+        ).one()["alias"]
+        assert answer == right_answer
+
 
 class TestAnotherFunctions:
     """Класс для тестов других методов."""

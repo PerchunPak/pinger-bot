@@ -190,7 +190,7 @@ class DatabaseController:
 
         return result
 
-    def get_alias_ip(self, ip: str, port: int) -> tuple:
+    def get_alias_ip(self, ip: str, port: int) -> str:
         """Возвращает алиас сервера через айпи и порт, который дал юзер.
 
         Args:
@@ -198,12 +198,14 @@ class DatabaseController:
             port: Порт, который дал юзер.
 
         Returns:
-            Сервер или пустой dict.
+            Сервер или пустой str.
         """
         try:
-            result = self._execute(select(self.t.ss).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port)).one()
-        except NoResultFound:
-            result = {}
+            result = self._execute(
+                select(self.t.ss.c.alias).where(self.t.ss.c.ip == ip).where(self.t.ss.c.port == port)
+            ).one()["alias"]
+        except (NoResultFound, KeyError):
+            result = ""
 
         return result
 
