@@ -1,7 +1,7 @@
 """Файл для теста дата базы."""
 from datetime import datetime, timedelta
 from pytest import fixture
-from sqlalchemy import select, insert, update
+from sqlalchemy import select, insert
 from tests.conftest import create_execute
 from src.database import DatabaseController
 
