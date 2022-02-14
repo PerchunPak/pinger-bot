@@ -151,6 +151,16 @@ class TestGetFunctions:
         right_answer = database.execute(select(database.t.ss).where(database.t.ss.c.alias == "тест123")).one()
         assert answer == right_answer
 
+    async def test_get_ip_alias_null(self, database):
+        """Проверяет метод get_ip_alias, если сервера нету.
+
+        Args:
+            database: Объект дата базы.
+        """
+        database.make_tables()
+        answer = database.get_ip_alias("тест1231")
+        assert answer == {}
+
     async def test_get_pings(self, database):
         """Проверяет метод get_pings.
 
