@@ -2,8 +2,8 @@ from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
 
 
-class Decorator(CursorResult):
-    """Класс декоратора для CursorResult."""
+class ParseResult(CursorResult):
+    """Парсит результат, и в итоге выдает dict'ы вместо tuple."""
 
     def __init__(self, cursor_result: CursorResult) -> None:
         """
@@ -12,30 +12,15 @@ class Decorator(CursorResult):
         """
         self._cursor_result = cursor_result
 
-    @property
-    def cursor_result(self):
-        """Декоратор делегирует всю работу обёрнутому компоненту."""
-        return self._cursor_result
-
-    def one(self):
-        return self._cursor_result.one()
-
-    def all(self):
-        return self._cursor_result.all()
-
-
-class ParseResult(Decorator):
-    """Парсит результат, и в итоге выдает dict'ы вместо tuple."""
-
     def one(self):
         try:
-            return dict(zip(self.cursor_result.keys(), self.cursor_result.one()))
+            return dict(zip(self._cursor_result.keys(), self._cursor_result.one()))
         except NoResultFound:
             return {}
 
     def all(self):
         ret = []
-        for result in self.cursor_result.all():
-            parsed = dict(zip(self.cursor_result.keys(), result))
+        for result in self._cursor_result.all():
+            parsed = dict(zip(self._cursor_result.keys(), result))
             ret.append(parsed)
         return ret
