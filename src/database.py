@@ -183,12 +183,7 @@ class DatabaseController:
         Returns:
             Сервер или пустой dict.
         """
-        try:
-            result = self._execute(select(self.t.ss).where(self.t.ss.c.alias == alias)).one()
-        except NoResultFound:
-            result = {}
-
-        return result
+        return self._execute(select(self.t.ss).where(self.t.ss.c.alias == alias)).one()
 
     def get_alias_ip(self, ip: str, port: int) -> str:
         """Возвращает алиас сервера через айпи и порт, который дал юзер.
