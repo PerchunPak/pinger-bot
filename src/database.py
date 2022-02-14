@@ -175,7 +175,7 @@ class DatabaseController:
         return self._execute(select(self.t.ss)).all()
 
     def get_ip_alias(self, alias: str) -> dict:
-        """Возвращает айпи и порт сервера через алиас.
+        """Возвращает сервер через алиас.
 
         Args:
             alias: Алиас который дал юзер.
