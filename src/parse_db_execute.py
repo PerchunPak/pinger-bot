@@ -2,7 +2,7 @@ from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
 
 
-class ParseResult(CursorResult):
+class ParsedResult(CursorResult):
     """Парсит результат, и в итоге выдает dict'ы вместо tuple."""
 
     def __init__(self, cursor_result: CursorResult) -> None:

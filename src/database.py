@@ -21,7 +21,7 @@ from sqlalchemy import (
 from sqlalchemy.engine.cursor import CursorResult
 from sqlalchemy.exc import NoResultFound
 from src.objects import FastTables
-from src.decoratore_db_execute import ParseResult
+from src.parse_db_execute import ParsedResult
 from config import DB_DATA
 
 
@@ -108,7 +108,7 @@ class DatabaseController:
             result = conn.execute(to_execute, params)
             if commit:
                 conn.commit()
-        return ParseResult(result)
+        return ParsedResult(result)
 
     def add_server(self, ip: str, port: int, owner_id: int):
         """Добавляет в дата базу новый сервер.
