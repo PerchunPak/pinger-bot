@@ -122,7 +122,7 @@ class TestOtherCommands:
         Returns:
             Сообщение ответа.
         """
-        commit = commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
         await message("version")
         return get_embed(), commit
 
