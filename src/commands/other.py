@@ -125,7 +125,7 @@ class OtherCommands(Cog):
             )
             return await ctx.send(embed=embed)
 
-    @command(name="execute_sql", aliases=["sql", "sql_execute", "execute"])
+    @command(name="execute_sql", aliases=["sql", "sql_execute", "execute"], hidden=True)
     @is_owner()
     async def execute_sql(self, ctx, *sql):
         """Выполняет SQL запрос в базу данных. Только для владельца.
