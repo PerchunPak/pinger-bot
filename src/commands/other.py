@@ -85,7 +85,7 @@ class OtherCommands(Cog):
 
     @command(name="владелец", aliases=["who_owner", "owner", "кто_владелец", "кто владелец"])
     async def who_owner(self, ctx, server_name):
-        """Выполняет SQL запрос в базу данных. Только для владельца.
+        """Показывает владельца сервера.
 
         Args:
             ctx: Объект сообщения.
