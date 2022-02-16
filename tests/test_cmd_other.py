@@ -1,5 +1,6 @@
 """Тесты для других команд."""
 from sys import version_info
+from subprocess import check_output
 from discord import Color
 from discord.ext.test import message, get_message, get_embed
 from pytest import fixture
@@ -110,6 +111,20 @@ class TestOtherCommands:
         """
         await message("who_owner example123")
         return get_embed()
+
+    @fixture(scope="class")
+    async def get_bot_version(self, event_loop):
+        """Фикстура для проверки команды "версия".
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+
+        Returns:
+            Сообщение ответа.
+        """
+        commit = commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        await message("version")
+        return get_embed(), commit
 
     @fixture(scope="class")
     async def execute_sql_select(self, event_loop, database, fake_is_owner):
@@ -270,6 +285,24 @@ class TestOtherCommands:
             who_owner_null: Сообщение ответа.
         """
         assert Color.red() == who_owner_null.color
+
+    def test_get_bot_version(self, get_bot_version):
+        """Проверяет правильный ли хэш коммита в ответе бота.
+
+        Args:
+            get_bot_version: Сообщение ответа.
+        """
+        embed, commit = get_bot_version
+        assert commit[:7] == embed.fields[0].value
+
+    def test_get_bot_version_footer(self, get_bot_version):
+        """Проверяет правильный ли хэш коммита в футере ответе бота.
+
+        Args:
+            get_bot_version: Сообщение ответа.
+        """
+        embed, commit = get_bot_version
+        assert commit == embed.footer.text
 
     async def test_servers_in(self, database, execute_sql_select):
         """Проверяет есть ли сервера в ответе бота.

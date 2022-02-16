@@ -1,5 +1,6 @@
 """Модуль для других команд."""
 from sys import version_info
+from subprocess import check_output, CalledProcessError
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
 from src.commands.commands_ import MetodsForCommands
@@ -124,6 +125,36 @@ class OtherCommands(Cog):
                 name="Не удалось выполнить команду", value="Возможно вы указали неверный айпи, или сервер не добавлен"
             )
             return await ctx.send(embed=embed)
+
+    @command(name="version", aliases=["commit", "v", "ver", "версия", "вер", "в", "комит", "коммит"], hiden=True)
+    async def get_bot_version(self, ctx):
+        """Отправляет пользователю коммит взятый из папки .git.
+
+        Args:
+            ctx: Объект сообщения.
+
+        Returns:
+            Объект сообщения отправленного пользователю в ответ.
+        """
+        try:
+            commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        except (FileNotFoundError, CalledProcessError):
+            # TODO Добавить тестов для кода ниже
+            embed = Embed(
+                title="Версия бота",
+                color=Color.red(),
+            )
+            embed.add_field(name="GIT не доступен", value="К сожалению, бот не может получить доступ к GIT")
+            return await ctx.send(embed=embed)
+
+        embed = Embed(
+            title="Версия бота",
+            color=Color.green(),
+        )
+        embed.add_field(name="Хэш коммита", value=commit[:7])
+        embed.set_footer(text=commit)
+
+        return await ctx.send(embed=embed)
 
     @command(name="execute_sql", aliases=["sql", "sql_execute", "execute"], hidden=True)
     @is_owner()
