@@ -11,7 +11,7 @@ from _pytest.monkeypatch import MonkeyPatch
 from src.database import PostgresController
 
 
-@fixture(scope="session")
+@fixture(scope="session", autouse=True)
 async def bot(event_loop):
     """Инициализация бота (и базы данных тоже).
 
@@ -58,7 +58,7 @@ def monkeypatch_session(request):
     mpatch.undo()
 
 
-@fixture(scope="class")
+@fixture(scope="class", autouse=True)
 async def database(event_loop, bot):
     """Очищает базу данных каждый раз.
 
