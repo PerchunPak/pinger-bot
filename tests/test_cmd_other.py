@@ -4,6 +4,7 @@ from subprocess import check_output
 from discord import Color
 from discord.ext.test import message, get_message, get_embed
 from pytest import fixture
+from src.commands.other import OtherCommands
 
 
 class TestOtherCommands:
@@ -125,6 +126,30 @@ class TestOtherCommands:
         commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
         await message("version")
         return get_embed(), commit
+
+    @fixture(scope="class")
+    async def get_bot_version_fail(self, event_loop, monkeypatch_session):
+        """Фикстура для проверки команды "версия", если GIT не установлен.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
+
+        Returns:
+            Сообщение ответа.
+        """
+
+        def fake_get_commit(*args, **kwargs):
+            """Эмулирует не удачный ответ метода `OtherCommands.get_commit`.
+
+            Raises:
+                CalledProcessError: всегда при вызове.
+            """
+            raise FileNotFoundError
+
+        monkeypatch_session.setattr(OtherCommands, "get_commit", fake_get_commit)
+        await message("version")
+        return get_embed()
 
     @fixture(scope="class")
     async def execute_sql_select(self, event_loop, database, fake_is_owner):
@@ -286,6 +311,15 @@ class TestOtherCommands:
         """
         assert Color.red() == who_owner_null.color
 
+    def test_get_bot_version_color(self, get_bot_version):
+        """Проверяет правильный ли цвет Embed'а в ответе бота.
+
+        Args:
+            get_bot_version: Сообщение ответа.
+        """
+        embed, commit = get_bot_version
+        assert str(Color.green()) == str(embed.color)
+
     def test_get_bot_version(self, get_bot_version):
         """Проверяет правильный ли хэш коммита в ответе бота.
 
@@ -303,6 +337,30 @@ class TestOtherCommands:
         """
         embed, commit = get_bot_version
         assert commit == embed.footer.text
+
+    def test_get_bot_version_fail_color(self, get_bot_version_fail):
+        """Проверяет правильный ли цвет Embed'а в ответе бота.
+
+        Args:
+            get_bot_version_fail: Сообщение ответа.
+        """
+        assert str(get_bot_version_fail.color) == str(Color.red())
+
+    def test_get_bot_version_fail_git_in_name(self, get_bot_version_fail):
+        """Проверяет есть ли слово GIT в ответе бота.
+
+        Args:
+            get_bot_version_fail: Сообщение ответа.
+        """
+        assert "GIT" in get_bot_version_fail.fields[0].name
+
+    def test_get_bot_version_fail_git_in_value(self, get_bot_version_fail):
+        """Проверяет есть ли слово GIT в ответе бота.
+
+        Args:
+            get_bot_version_fail: Сообщение ответа.
+        """
+        assert "GIT" in get_bot_version_fail.fields[0].value
 
     async def test_servers_in(self, database, execute_sql_select):
         """Проверяет есть ли сервера в ответе бота.

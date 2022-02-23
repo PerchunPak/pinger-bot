@@ -139,7 +139,6 @@ class OtherCommands(Cog):
         try:
             commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
         except (FileNotFoundError, CalledProcessError):
-            # TODO Добавить тестов для кода ниже
             embed = Embed(
                 title="Версия бота",
                 color=Color.red(),
