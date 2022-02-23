@@ -4,7 +4,6 @@ from subprocess import check_output
 from discord import Color
 from discord.ext.test import message, get_message, get_embed
 from pytest import fixture
-from src.commands.other import OtherCommands
 
 
 class TestOtherCommands:
@@ -147,7 +146,7 @@ class TestOtherCommands:
             """
             raise FileNotFoundError
 
-        monkeypatch_session.setattr(OtherCommands, "get_commit", fake_get_commit)
+        monkeypatch_session.setattr("subprocess.check_output", fake_get_commit)
         await message("version")
         return get_embed()
 
