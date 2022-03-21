@@ -35,7 +35,7 @@ class Alias(Cog):
         """
         msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = self.metods_for_commands.ping_server(ip)  # pylint: disable=W0612
-        if info.valid:
+        if info.valid and status:
             database_server = self.bot.db.get_server(info.dns.host, info.dns.port)
         else:
             database_server = {}

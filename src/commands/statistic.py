@@ -37,12 +37,12 @@ class Statistic(Cog):
         msg_wait_please = await self.metods_for_commands.wait_please(ctx, ip)
         status, info = self.metods_for_commands.ping_server(ip)
 
-        if info.valid:
+        if info.valid and status:
             database_server = self.bot.db.get_server(info.dns.host, info.dns.port)
         else:
             database_server = {}
 
-        if info.valid and len(database_server) != 0:
+        if info.valid and status and len(database_server) != 0:
             embed = Embed(
                 title=f"Статистика сервера {info.alias if info.alias is not None else ip}",
                 description=f"Цифровое айпи: {info.num_ip}:{str(info.dns.port)}\n" f"**{'Онлайн' if status else 'Офлайн'}**",

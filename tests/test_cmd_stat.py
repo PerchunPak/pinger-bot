@@ -181,6 +181,38 @@ class TestStatistic:
         return embed
 
     @fixture(scope="class")
+    async def stat_valid_offline(self, event_loop, monkeypatch_session):
+        """Вызывает команду с пингом выключенного сервера.
+
+        Args:
+            event_loop: Обязательная фикстура для async фикстур.
+            monkeypatch_session: `monkeypatch` фикстура только с scope='session'.
+
+        Returns:
+            Embed объект ответа.
+        """
+
+        def fake_server_answer(class_self=None):
+            """Когда сервер выключен, модуль вызывает exception socket.timeout.
+
+            Args:
+                class_self: Иногда при вызове метода, так же приходит аргумент `self`.
+
+            Raises:
+                Фейковый ответ сервера (то есть негативный).
+            """
+            raise timeout
+
+        monkeypatch_session.setattr(MinecraftServer, "status", fake_server_answer)
+        await message("стата example.com")
+        embed = get_embed()
+        while str(embed.color) == str(Color.orange()):  # ждет пока бот не отошлет результаты вместо
+            sleep(0.01)  # "ожидайте, в процессе"
+            embed = get_embed()
+
+        return embed
+
+    @fixture(scope="class")
     async def get_yest_ping(self, event_loop, database):
         """Вызывает метод получения вчерашнего пинга.
 
@@ -220,13 +252,29 @@ class TestStatistic:
         pings = database.get_pings("127.0.0.8", 25565)
         return await Statistic.get_yest_ping(pings)
 
-    def test_color(self, stat_online):
+    def test_online_color(self, stat_online):
         """Проверят цвет в ответе бота.
 
         Args:
             stat_online: Embed объект ответа.
         """
         assert str(stat_online.color) == str(Color.green())
+
+    def test_offline_color(self, stat_offline):
+        """Проверят цвет в ответе бота, если сервер офлайн и/или не валидный.
+
+        Args:
+            stat_offline: Embed объект ответа.
+        """
+        assert str(stat_offline.color) == str(Color.red())
+
+    def test_valid_offline_color(self, stat_valid_offline):
+        """Проверят цвет в ответе бота, если сервер офлайн и валидный.
+
+        Args:
+            stat_valid_offline: Embed объект ответа.
+        """
+        assert str(stat_valid_offline.color) == str(Color.red())
 
     def test_alias_in(self, stat_alias):
         """Проверяет правильно ли бот распознает алиас, и не выводит цифровой айпи.
@@ -259,6 +307,14 @@ class TestStatistic:
             stat_offline: Embed объект ответа.
         """
         assert "**Офлайн**" in stat_offline.description
+
+    def test_valid_offline_in_description(self, stat_valid_offline):
+        """Проверят правильно ли бот пишет офлайн сервера.
+
+        Args:
+            stat_valid_offline: Embed объект ответа.
+        """
+        assert "**Офлайн**" in stat_valid_offline.description
 
     def test_thumbnail_link(self, stat_alias):
         """Проверяет ссылку в маленькой картинке справо сверху.
