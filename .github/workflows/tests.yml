@@ -82,7 +82,7 @@ jobs:
         PGDATABASE: pingerbotdb
     - name: Upload HTML report by Coverage (only on Python 3.9)
       if: ${{ matrix.python-version == 3.9 }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: HTML report by Coverage
         path: ./htmlcov
