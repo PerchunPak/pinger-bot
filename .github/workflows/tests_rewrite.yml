@@ -125,5 +125,3 @@ jobs:
         with:
           push: true
           tags: perchunpak/pingerbot:latest
-      - name: Inform about update
-        run: curl ${{ secrets.UPDATE_PROD_URL }}
