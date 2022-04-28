@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Apply Black code style
       run: |
-        black . -l 127
+        poetry run black . -l 127
     - name: Commit files
       continue-on-error: true
       run: |

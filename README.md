@@ -91,6 +91,8 @@ from discord.ext.commands import Cog, command
 
 3. **Запустите проверку линта**
 
+P.S. Если вам пишет что команда не найдена, попробуйте в начало добавить `poetry run`.
+
 **`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70,W503`**
 
 И так же по желанию *PyLint*
