@@ -1,10 +1,15 @@
-FROM python:3.9
-FROM gorialis/discord.py
+FROM python:3.10-alpine
+
+ENV PYTHONUNBUFFERED=1
+
+RUN curl -sSL "https://install.python-poetry.org" | python
+ENV PATH="${HOME}/.poetry/bin:${PATH}"
 
 WORKDIR /usr/src/app
+COPY poetry.lock pyproject.toml ./
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN poetry config virtualenvs.in-project true
+RUN poetry install --no-dev
 
 COPY . .
 
