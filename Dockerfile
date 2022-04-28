@@ -1,11 +1,14 @@
-FROM python:3.10-alpine
+FROM python:slim
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED 1
 
+WORKDIR /app
+
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install libpq-dev gcc g++ curl -y --no-install-recommends
 RUN curl -sSL "https://install.python-poetry.org" | python
-ENV PATH="${HOME}/.poetry/bin:${PATH}"
+ENV PATH="/root/.local/bin:${PATH}"
 
-WORKDIR /usr/src/app
 COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.in-project true
@@ -13,4 +16,4 @@ RUN poetry install --no-dev
 
 COPY . .
 
-CMD [ "python", "main.py" ]
+CMD ["poetry", "run", "python", "run.py"]
