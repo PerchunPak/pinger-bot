@@ -10,19 +10,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.10
+    - name: Install poetry
+      run: |
+        curl -sSL "https://install.python-poetry.org" | python
+
+        # Adding `poetry` to `$PATH`:
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: ${{ env.pythonLocation }}
-        key: ${{ env.pythonLocation }}-${{ github.job }}
+        python-version: '3.10'
+        cache: 'poetry'
     - name: Install dependencies
       run: |
-        pip install -U pip
-        pip install -Ur requirements.txt -r tests_requirements.txt
+        poetry env use "3.10"
+        poetry install
     - name: Apply Black code style
       run: |
         black . -l 127
