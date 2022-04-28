@@ -56,9 +56,11 @@ P.S. Докер так же запускает Postgres, так что вы мо
 
 1. **Повторите все шаги выше.**
 
-2. **Установите зависимости `pip install -Ur tests_requirements.txt`**
+2. **Установите зависимости `poetry install`**
 
 3. **Запустите проверку линта**
+
+P.S. Если вам пишет что команда не найдена, попробуйте в начало добавить `poetry run`.
 
 **`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
 

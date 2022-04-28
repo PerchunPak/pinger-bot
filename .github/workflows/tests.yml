@@ -32,13 +32,13 @@ jobs:
     - name: Lint with flake8
       run: |
         # крашит билд если есть ошибки синтаксиса или не обьявленные переменные
-        flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
+        poetry run flake8 . --exclude .*,__*__,venv --count --select=E9,F63,F7,F82 --show-source
         # exit-zero переводит все ошибки в предупреждения. Редактор GitHub 127 символов в ширину
-        flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
+        poetry run flake8 . --exclude .*,__*__,venv --count --exit-zero --max-complexity=10 --max-line-length=127 --ignore=E70
     # Показывает изменения которые бы ввел black
     # Раз в месяц, они сами применяются
     - name: Use black Auto-formatter
-      run: black . -l 127 --diff
+      run: poetry run black . -l 127 --diff
   test:
     needs: lint
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
         poetry env use "${{ matrix.python-version }}"
         poetry install
     - name: Test with pytest
-      run: pytest
+      run: poetry run pytest
       env:
         PGHOST: localhost
         PGPORT: 5432
