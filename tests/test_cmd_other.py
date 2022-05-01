@@ -1,9 +1,9 @@
 """Тесты для других команд."""
 from sys import version_info
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 from discord import Color
 from discord.ext.test import message, get_message, get_embed
-from pytest import fixture
+from pytest import fixture, skip
 
 
 class TestOtherCommands:
@@ -122,7 +122,10 @@ class TestOtherCommands:
         Returns:
             Сообщение ответа.
         """
-        commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        try:
+            commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        except (FileNotFoundError, CalledProcessError):
+            return skip("Гит не был обнаружен.")
         await message("version")
         return get_embed(), commit
 
@@ -142,7 +145,7 @@ class TestOtherCommands:
             """Эмулирует не удачный ответ метода `OtherCommands.get_commit`.
 
             Raises:
-                CalledProcessError: всегда при вызове.
+                FileNotFoundError: всегда при вызове.
             """
             raise FileNotFoundError
 
