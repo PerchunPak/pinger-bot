@@ -2,6 +2,10 @@
 [![Run Tests in rewrite](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml/badge.svg?branch=rewrite)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml)
 [![Run Tests in newdb](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml/badge.svg)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml)
 
+# Устарелая ветка. Остается только для истории.
+
+# Outdated branch. Only for history.
+
 # Ветка rewrite
 
 Эта ветка сделана для того чтобы **переписать** бота на *подобие нормального кода* как в [`database.py`](https://github.com/PerchunPak/PingerBot/blob/abe01c3f0f58ceab2a80cad54e860d22642b77fe/database.py).
