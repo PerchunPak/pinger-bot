@@ -85,8 +85,8 @@ class TestMetodsForCommands:
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
-        dns_info = MinecraftServer("www")
-        answer = await metods_for_commands.parse_ip("www")
+        dns_info = MinecraftServer("not_valid")
+        answer = await metods_for_commands.parse_ip("not_valid")
         assert answer == ServerInfo(False, None, dns_info, None, "25565")
 
     @staticmethod
@@ -152,8 +152,8 @@ class TestMetodsForCommands:
         Args:
             metods_for_commands: Экземпляр класса `MetodsForCommands`.
         """
-        dns_info = MinecraftServer("www")
-        answer = await metods_for_commands.ping_server("www")
+        dns_info = MinecraftServer("not_valid")
+        answer = await metods_for_commands.ping_server("not_valid")
         assert answer == (False, ServerInfo(False, None, dns_info, None, "25565"))
 
     async def test_ping_server_not_answer(self, metods_for_commands, monkeypatch_session):
