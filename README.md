@@ -2,6 +2,10 @@
 [![Run Tests in rewrite](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml/badge.svg?branch=rewrite)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml)
 [![Run Tests in newdb](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml/badge.svg)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml)
 
+# Устарелая ветка. Остается только для истории.
+
+# Outdated branch. Only for history.
+
 # Pinger Bot
 
 Это почти доделанная альтернатива [RuMineBot](https://vk.com/ruminebot). По сути представляет собой её копию, только опенсорс.
