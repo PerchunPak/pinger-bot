@@ -1,6 +1,6 @@
 """Модуль для других команд."""
 from sys import version_info
-from subprocess import check_output, CalledProcessError
+import subprocess
 from discord import Color, Embed
 from discord.ext.commands import Cog, command, is_owner
 from src.commands.commands_ import MetodsForCommands
@@ -137,9 +137,8 @@ class OtherCommands(Cog):
             Объект сообщения отправленного пользователю в ответ.
         """
         try:
-            commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
-        except (FileNotFoundError, CalledProcessError):
-            # TODO Добавить тестов для кода ниже
+            commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        except (FileNotFoundError, subprocess.CalledProcessError):
             embed = Embed(
                 title="Версия бота",
                 color=Color.red(),
