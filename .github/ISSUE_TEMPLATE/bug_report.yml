@@ -1,0 +1,75 @@
+name: Сообщение об ошибке
+description: Что то работает не правильно?
+labels: "needs triage,bug"
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Описание
+      description: >-
+        Понятное и чистое описание того что представляет из себя баг.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Что ожидалось?
+      description: >-
+        Понятное и чистое описание того что вы ожидали чтобы произошло.
+
+  - type: input
+    id: commit_repo
+    attributes:
+      label: Версия репозитория
+      placeholder: cd pinger-bot; git rev-parse HEAD
+    validations:
+      required: true
+  - type: input
+    id: python_version
+    attributes:
+      label: Версия Python
+      placeholder: python -V
+    validations:
+      required: true
+  - type: input
+    id: poetry_version
+    attributes:
+      label: Версия poetry
+      placeholder: poetry version
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Как повторить
+      description: Пожалуйста напишите подробные шаги для повторения ошибки.
+      placeholder: |
+        1. Измените строку ...
+        2. Потом запустите ...
+        3. И ошибка произойдет.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Логи
+      description: Укажите все содержимое консоли когда произошла ошибка.
+      render: sh-session
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Это не дубликат
+      options:
+        - label: В репозитории и в интернете нет дубликата этой ошибки.
+          required: true

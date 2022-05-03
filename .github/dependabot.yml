@@ -1,16 +1,45 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "daily"
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"
+  ignore:
+    - dependency-name: "*"
+      update-types: [ "version-update:semver-patch" ]
+    # Update these dependencies with CI (poetry update)
+    - dependency-name: "colorama"
+    # Update these dependencies with fire-square-style
+    - dependency-name: "python-decouple"
+    - dependency-name: "structlog"
+    ### Docs section ###
+    - dependency-name: "sphinx"
+    - dependency-name: "sphinx-autodoc-typehints"
+    - dependency-name: "sphinxcontrib-apidoc"
+    - dependency-name: "furo"
+    - dependency-name: "m2r2"
+    - dependency-name: "tomli"
+    ### Dev section ###
+    - dependency-name: "black"
+    - dependency-name: "click"
+    - dependency-name: "isort"
+    - dependency-name: "pycln"
+    - dependency-name: "doc8"
+    - dependency-name: "pre-commit"
+    - dependency-name: "mypy"
+    - dependency-name: "flake8"
+    - dependency-name: "flake8-docstrings"
+    - dependency-name: "pydocstyle"
+    - dependency-name: "safety"
+    - dependency-name: "pytest"
+    - dependency-name: "pytest-cov"
+    - dependency-name: "pytest-mock"
+    - dependency-name: "pytest-testmon"
+    - dependency-name: "pytest-randomly"
+
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"

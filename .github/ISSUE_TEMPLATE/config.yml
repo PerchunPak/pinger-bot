@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Пустой баг репорт"
+    url: https://github.com/PerchunPak/pinger-bot/issues/new
+    about: Только для участников репозитория.
+

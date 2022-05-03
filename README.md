@@ -1,22 +1,26 @@
-[![Run Tests in main](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests.yml)
-[![Run Tests in rewrite](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml/badge.svg?branch=rewrite)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_rewrite.yml)
-[![Run Tests in newdb](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml/badge.svg)](https://github.com/PerchunPak/PingerBot/actions/workflows/tests_newdb.yml)
+# pinger-bot
 
-# Pinger Bot
+[![Build Status](https://github.com/PerchunPak/pinger-bot/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/PerchunPak/pinger-bot/actions?query=workflow%3Atest)
+[![codecov](https://codecov.io/gh/PerchunPak/pinger-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/PerchunPak/pinger-bot)
+[![Documentation Build Status](https://readthedocs.org/projects/pinger-bot/badge/?version=latest)](https://pinger-bot.readthedocs.io/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python support versions badge](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org/downloads/)
 
-Это почти доделанная альтернатива [RuMineBot](https://vk.com/ruminebot). По сути представляет собой её копию, только опенсорс.
+Простой бот для отслеживания статуса и статистики своих MineCraft серверов.
+
+## Особенности
+
+- Бесплатно! Мы не попросим ни копейки за использование!
+- SelfHosted - Вы сами управляете ботом от начала и до конца!
 
 ## Установка
 
-1. **Установите [Python 3.7 или выше](https://www.python.org/downloads)**
+```bash
+git clone https://github.com/PerchunPak/pinger-bot.git
+cd pinger-bot
+```
 
-Рекомендовано [Python 3.10](https://www.python.org/downloads/release/python-3101), именно на нем тестируется бот.
-
-2. **Клонируйте репозиторий**
-
-Используйте `git clone https://github.com/PerchunPak/PingerBot.git` и `cd PingerBot`
-
-3. **Установите `poetry` [рекомендованым путем](https://python-poetry.org/docs/master/#installation)**
+Затем установите `poetry` [рекомендованым путем](https://python-poetry.org/docs/master/#installation).
 
 Если вы на платформе Linux, используйте команду:
 
@@ -30,48 +34,20 @@ curl -sSL https://install.python-poetry.org | python -
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
 
-4. **Установите зависимости**
+И наконец установим зависимости:
 
-Используйте `poetry install --no-dev`
+```bash
+poetry install
+```
 
-5. **Создайте базу данных в формате PostGreSQL**
+## Пример
 
-Вам нужна будет версия 9.5 или выше. База данных будет хранить пинги и добавленные сервера. Централизованной базы данных нет.
+```
+В разработке!
+```
 
-6. **Настройте Конфигурацию.**
+## Спасибо
 
-В корневом каталоге есть файл под названием `config.py`, который содержит две переменные, необходимые для запуска бота. Один из них - `TOKEN`, который представляет собой строку, содержащую токен бота Discord. Другой переменной является `POSTGRES`, которая представляет собой строку, содержащую параметры подключения для базы данных Postgres, созданной на шаге 4.
-
-## Хостинг через Docker
-
-1. **Повторите все шаги выше кроме шагов 3-4.**
-
-P.S. Докер так же запускает Postgres, так что вы можете указать стандартные данные от дата базы которые будут работать
-
-2. **Используйте `docker build -t pingerbot .`**
-
-3. **Запустите дата базу и бота с помощью `docker-compose up -d`**
-
-## Запуск тестов
-
-1. **Повторите все шаги выше.**
-
-2. **Установите зависимости `poetry install`**
-
-3. **Запустите проверку линта**
-
-P.S. Если вам пишет что команда не найдена, попробуйте в начало добавить `poetry run`.
-
-**`flake8 . --exclude .*,__*__,venv --count --max-complexity=10 --max-line-length=127 --ignore=E70`**
-
-И последнее, запустите авто-форматер black командой: `black . -l 127`
-
-4. **Запустите сами тесты командой `pytest`**
-
-Если вы запускаете тесты через какую либо IDE, вам прийдется добавить аргумент `--no-cov`, иначе [возможно будет возникать ошибка](https://pytest-cov.readthedocs.io/en/latest/debuggers.html)
-
----
-
-**Важная Заметка**: Вам нужно включить привилегию `SERVER MEMBERS` для работы бота. [Следуйте этим инструкциям.](https://discordpy.readthedocs.io/en/latest/intents.html#privileged-intents)
-
-**Важная Заметка 2**: Нет, я не собираюсь разрешать приглашать основного бота всем, моя дата база слишком маленькая даже для нескольких серверов.
+Этот проект был сгенерирован с помощью [`fire-square-style`](https://github.com/fire-square/fire-square-style).
+Текущая версия примера: [29e4f5f44a5ae08f31f2052ca9b8059c41313dae](https://github.com/fire-square/fire-square-style/tree/29e4f5f44a5ae08f31f2052ca9b8059c41313dae).
+Смотрите что [обновилось](https://github.com/fire-square/fire-square-style/compare/29e4f5f44a5ae08f31f2052ca9b8059c41313dae...master) с того времени.
