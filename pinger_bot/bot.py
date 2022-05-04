@@ -66,6 +66,6 @@ class PingerBot:
         for file_name in glob("pinger_bot/cogs/**/*.py", recursive=True):
             file = Path(file_name)
             if not file.stem.endswith("_"):
-                log.debug("Загружаю cog...", name=file)
+                log.debug("Загружаю cog...", name=str(file))
                 self.bot.load_extension(".".join(file.parts)[:-3])
         log.debug("Загрузка cog'ов завершена.")
