@@ -4,6 +4,8 @@ from nextcord.ext.commands.bot import Bot
 from nextcord.ext.commands.cog import Cog
 from structlog.stdlib import get_logger
 
+from pinger_bot.helpers import OnCommand
+
 log = get_logger()
 
 
@@ -16,8 +18,8 @@ class PingCommandCog(Cog):
 
     @slash_command()
     async def ping(self, interaction: Interaction) -> None:
-        """Just a ping command."""
-        log.debug("ping command", user=interaction.user, message=interaction.message, channel=interaction.channel)
+        """Пингует сервер и выдает информацию про него."""
+        OnCommand(__name__, interaction)
         embed = Embed(title="Результат пинга")
         await interaction.response.send_message(embed=embed)
 
