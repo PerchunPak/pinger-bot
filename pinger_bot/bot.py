@@ -50,14 +50,14 @@ class PingerBot:
     @staticmethod
     def handle_debug_options() -> None:
         """Handle and activate some debug options."""
-        if config.debug:
-            # Enable debug logging in nextcord
-            logging.basicConfig(level=logging.DEBUG)
-            structlog_configure(wrapper_class=make_filtering_bound_logger(logging.DEBUG))
-        else:
-            logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.DEBUG if config.debug else logging.INFO)
+        structlog_configure(
+            wrapper_class=make_filtering_bound_logger(logging.DEBUG if config.verbose else logging.INFO)
+        )
+
+        if not config.debug:
             logging.getLogger("nextcord").setLevel(logging.WARNING)
-            structlog_configure(wrapper_class=make_filtering_bound_logger(logging.INFO))
+
         # debug-log after configuring logger
         log.debug("PingerBot.handle_debug_options", debug=config.debug)
 

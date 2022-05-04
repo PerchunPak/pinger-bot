@@ -11,6 +11,8 @@ class Config:
 
     discord_token: str = decouple("DISCORD_TOKEN")
     debug: bool = decouple("DEBUG", cast=bool, default=False)
+    #: Not so many info, that in debug.
+    verbose: bool = debug or decouple("VERBOSE", cast=bool, default=False)
     #: Setting this in ``bot.py``.
     bot: Bot = None
 
