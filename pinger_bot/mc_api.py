@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from mcstatus import BedrockServer, JavaServer
 from structlog.stdlib import get_logger
 
+from pinger_bot.config import gettext as _
+
 log = get_logger()
 
 
@@ -68,7 +70,7 @@ class MCServer:
         Raises:
             StatusError: When unexpected error was raised.
         """
-        log.info("Trying to ping {}...".format(host))
+        log.info(_("Trying to ping {}...").format(host))
         try:
             server = await JavaServer.async_lookup(host)
             return await cls.handle_java(server)
@@ -77,8 +79,8 @@ class MCServer:
                 server = BedrockServer.lookup(host)
                 return await cls.handle_bedrock(server)
             except Exception as exception:
-                log.debug("Error while pinging server", host=host, exception=exception)
-                raise StatusError("Something went wrong, while we pinged the server.")
+                log.debug(_("Error while pinging server"), host=host, exception=exception)
+                raise StatusError(_("Something went wrong, while we pinged the server."))
 
     @classmethod
     async def handle_java(cls, server: JavaServer) -> "MCServer":

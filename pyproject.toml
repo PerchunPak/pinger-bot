@@ -21,6 +21,7 @@ python = "^3.8"
 # Our dependecies
 nextcord = "~2.0.0-alpha"
 mcstatus = "~9.0"
+Babel = "~2.10"
 
 python-decouple = "~3"
 structlog = "21.5.0"

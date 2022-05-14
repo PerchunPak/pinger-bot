@@ -40,6 +40,11 @@ curl -sSL https://install.python-poetry.org | python -
 poetry install
 ```
 
+После установки зависимостей, нужно скомпилировать файлы перевода.
+```bash
+poetry run pybabel compile -d locales
+```
+
 ## Пример
 
 ```

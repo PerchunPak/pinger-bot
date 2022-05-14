@@ -23,5 +23,11 @@ package:
 	poetry run pip check
 	poetry run safety check --full-report
 
+.PHONY: translate
+translate:
+	poetry run pybabel extract -o ./locales/base.pot ./pinger_bot
+	poetry run pybabel update -d ./locales -i ./locales/base.pot
+	poetry run pybabel compile -d ./locales
+
 .PHONY: test
 test: style package unit

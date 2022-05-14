@@ -96,7 +96,7 @@ name = "babel"
 version = "2.10.1"
 description = "Internationalization utilities"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -755,7 +755,7 @@ name = "pytz"
 version = "2022.1"
 description = "World timezone definitions, modern and historical"
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 
 [[package]]
@@ -1125,7 +1125,7 @@ docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-autoapi", "furo", "m2r2", 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "73eec4c129e7942fd35059bac9aa0902084faa4a4a5a0b6e993dafddb15e7231"
+content-hash = "14fee88a28296a147bf2477a5b097af650eeb4eb3dd89bd54f3bb93673d4646f"
 
 [metadata.files]
 aiohttp = [

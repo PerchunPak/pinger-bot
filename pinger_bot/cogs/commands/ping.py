@@ -4,6 +4,7 @@ from nextcord.ext.commands.bot import Bot
 from nextcord.ext.commands.cog import Cog
 from structlog.stdlib import get_logger
 
+from pinger_bot.config import gettext as _
 from pinger_bot.helpers import OnCommand
 
 log = get_logger()
@@ -16,11 +17,11 @@ class PingCommandCog(Cog):
         """__init__ method."""
         self.bot = bot
 
-    @slash_command(description="Ping the server and give information about it.")
+    @slash_command(description=_("Ping the server and give information about it."))
     async def ping(self, interaction: Interaction) -> None:
         """Ping the server and give information about it."""
         OnCommand(__name__, interaction)
-        embed = Embed(title="Ping Results")
+        embed = Embed(title=_("Ping Results"))
         await interaction.response.send_message(embed=embed)
 
 

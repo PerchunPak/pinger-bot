@@ -3,6 +3,8 @@ from nextcord.ext.commands.bot import Bot
 from nextcord.ext.commands.cog import Cog
 from structlog.stdlib import get_logger
 
+from pinger_bot.config import gettext as _
+
 log = get_logger()
 
 
@@ -16,7 +18,7 @@ class EventsCog(Cog):
     @Cog.listener()
     async def on_ready(self) -> None:
         """Logs when the bot is ready."""
-        log.info("Bot running!")
+        log.info(_("Bot running! For stop it, use CTRL C."))
 
 
 def setup(bot: Bot) -> None:

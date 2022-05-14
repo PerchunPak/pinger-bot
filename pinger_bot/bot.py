@@ -11,6 +11,7 @@ from structlog import make_filtering_bound_logger
 from structlog.stdlib import get_logger
 
 from pinger_bot.config import config
+from pinger_bot.config import gettext as _
 
 log = get_logger()
 
@@ -25,13 +26,13 @@ class PingerBot:
     @classmethod
     def run(cls) -> None:
         """Main function to run bot."""
-        log.info("Preparing and run the bot...")
+        log.info(_("Preparing and run the bot..."))
 
         cls.handle_debug_options()
         instance = cls()
         instance.handle_cogs()
 
-        log.info("Pre-Run ended.")
+        log.info(_("Pre-Run ended."))
 
         instance.bot.run(config.discord_token)
 
@@ -42,7 +43,7 @@ class PingerBot:
         Returns:
             Bot object.
         """
-        log.debug("Create bot object...")
+        log.debug(_("Create bot object..."))
         bot = Bot(command_prefix="!", intents=Intents().all())
         config.bot = bot
         return bot
@@ -66,6 +67,6 @@ class PingerBot:
         for file_name in glob("pinger_bot/cogs/**/*.py", recursive=True):
             file = Path(file_name)
             if not file.stem.endswith("_"):
-                log.debug("Loading cog...", name=str(file))
+                log.debug(_("Loading cog..."), name=str(file))
                 self.bot.load_extension(".".join(file.parts)[:-3])
-        log.debug("All cogs loaded.")
+        log.debug(_("All cogs loaded."))
