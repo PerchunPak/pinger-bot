@@ -16,7 +16,7 @@ class EventsCog(Cog):
     @Cog.listener()
     async def on_ready(self) -> None:
         """Logs when the bot is ready."""
-        log.info("Бот запущен!")
+        log.info("Bot running!")
 
 
 def setup(bot: Bot) -> None:

@@ -25,13 +25,13 @@ class PingerBot:
     @classmethod
     def run(cls) -> None:
         """Main function to run bot."""
-        log.info("Запускаю бота...")
+        log.info("Preparing and run the bot...")
 
         cls.handle_debug_options()
         instance = cls()
         instance.handle_cogs()
 
-        log.info("Пре-запуск закончен.")
+        log.info("Pre-Run ended.")
 
         instance.bot.run(config.discord_token)
 
@@ -42,7 +42,7 @@ class PingerBot:
         Returns:
             Bot object.
         """
-        log.debug("Создаю объект бота...")
+        log.debug("Create bot object...")
         bot = Bot(command_prefix="!", intents=Intents().all())
         config.bot = bot
         return bot
@@ -66,6 +66,6 @@ class PingerBot:
         for file_name in glob("pinger_bot/cogs/**/*.py", recursive=True):
             file = Path(file_name)
             if not file.stem.endswith("_"):
-                log.debug("Загружаю cog...", name=str(file))
+                log.debug("Loading cog...", name=str(file))
                 self.bot.load_extension(".".join(file.parts)[:-3])
-        log.debug("Загрузка cog'ов завершена.")
+        log.debug("All cogs loaded.")

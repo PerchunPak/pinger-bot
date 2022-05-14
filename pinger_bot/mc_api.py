@@ -1,6 +1,5 @@
 """API module with Minecraft Servers API."""
 from dataclasses import dataclass
-from typing import Optional, Union
 
 from mcstatus import BedrockServer, JavaServer
 from structlog.stdlib import get_logger
@@ -69,7 +68,7 @@ class MCServer:
         Raises:
             StatusError: When unexpected error was raised.
         """
-        log.info(f"Пытаюсь пингануть {host}...")
+        log.info("Trying to ping {}...".format(host))
         try:
             server = await JavaServer.async_lookup(host)
             return await cls.handle_java(server)
@@ -78,7 +77,7 @@ class MCServer:
                 server = BedrockServer.lookup(host)
                 return await cls.handle_bedrock(server)
             except Exception as exception:
-                log.debug("ping server error", host=host, exception=exception)
+                log.debug("Error while pinging server", host=host, exception=exception)
                 raise StatusError("Something went wrong, while we pinged the server.")
 
     @classmethod

@@ -8,7 +8,7 @@ log = get_logger()
 
 def main() -> None:
     """Run the bot."""
-    log.info("Привет Мир!")
+    log.info("Hello World!")
     PingerBot.run()
 
 

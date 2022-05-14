@@ -16,11 +16,11 @@ class PingCommandCog(Cog):
         """__init__ method."""
         self.bot = bot
 
-    @slash_command()
+    @slash_command(description="Ping the server and give information about it.")
     async def ping(self, interaction: Interaction) -> None:
-        """Пингует сервер и выдает информацию про него."""
+        """Ping the server and give information about it."""
         OnCommand(__name__, interaction)
-        embed = Embed(title="Результат пинга")
+        embed = Embed(title="Ping Results")
         await interaction.response.send_message(embed=embed)
 
 
