@@ -23,6 +23,9 @@ poetry run pre-commit install
 
 Используйте `make test` для запуска всего что у нас есть!
 
+Так же из-за конфликта между `pytest-testmon` и `pytest-cov` мы используем аргумент `--no-cov` во время `make test` и таким
+самым даем приоритет `pytest-testmon`. Если вы хотите сгенерировать отчет с помощью `pytest-cov`, используйте `make test ci=1`.
+
 
 ## Тестирование
 

@@ -39,7 +39,7 @@ jobs:
         poetry install
 
     - name: Run checks
-      run: make test
+      run: make test ci=1
 
     # Upload coverage to codecov: https://codecov.io/
     - name: Upload coverage to Codecov

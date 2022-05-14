@@ -11,7 +11,11 @@ style:
 
 .PHONY: unit
 unit:
-	poetry run pytest
+ifeq ($(ci),1)
+	poetry run pytest --no-testmon
+else
+	poetry run pytest --no-cov
+endif
 
 .PHONY: package
 package:

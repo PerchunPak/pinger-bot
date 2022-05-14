@@ -49,5 +49,5 @@ poetry install
 ## Спасибо
 
 Этот проект был сгенерирован с помощью [`fire-square-style`](https://github.com/fire-square/fire-square-style).
-Текущая версия примера: [92cbe03e197d9c59b1a94289f135b03c6570646e](https://github.com/fire-square/fire-square-style/tree/92cbe03e197d9c59b1a94289f135b03c6570646e).
-Смотрите что [обновилось](https://github.com/fire-square/fire-square-style/compare/92cbe03e197d9c59b1a94289f135b03c6570646e...master) с того времени.
+Текущая версия примера: [c94d4ab18b51f38443ab456eea8aa0553faf43d8](https://github.com/fire-square/fire-square-style/tree/c94d4ab18b51f38443ab456eea8aa0553faf43d8).
+Смотрите что [обновилось](https://github.com/fire-square/fire-square-style/compare/c94d4ab18b51f38443ab456eea8aa0553faf43d8...master) с того времени.
