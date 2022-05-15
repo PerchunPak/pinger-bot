@@ -35,7 +35,7 @@ class OnCommand:
             If message object is None, return None. Else return context of this message.
         """
         if self.interaction.message is not None:
-            return self.interaction.message.clean_content
+            return self.interaction.message.clean_content()
         return None
 
     def log(self, **kwargs) -> None:
