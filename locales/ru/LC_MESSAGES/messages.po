@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-14 16:36+0200\n"
+"POT-Creation-Date: 2022-05-15 22:22+0200\n"
 "PO-Revision-Date: 2022-05-14 11:57+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -59,7 +59,19 @@ msgstr "Бот запущен! Для остановки нажмите CTRL C."
 msgid "Ping the server and give information about it."
 msgstr "Пингует сервер и дает информацию про него."
 
-#: pinger_bot/cogs/commands/ping.py:24
+#: pinger_bot/cogs/commands/ping.py:22
+msgid "The IP address of the server."
+msgstr "Айпи адрес сервера."
+
+#: pinger_bot/cogs/commands/ping.py:27
 msgid "Ping Results"
 msgstr "Результаты Пинга"
+
+#: pinger_bot/realization/common.py:10
+msgid "Pinging {}..."
+msgstr "Пингую {}..."
+
+#: pinger_bot/realization/common.py:11
+msgid "Wait please, I will ping you when I'm done."
+msgstr "Пожалуйста подождите, я упомяну вас когда закончу."
 

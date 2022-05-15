@@ -10,16 +10,17 @@ log = get_logger()
 class OnCommand:
     """Perform some actions when command executed."""
 
-    def __init__(self, name: str, interaction: Interaction) -> None:
+    def __init__(self, name: str, interaction: Interaction, **kwargs) -> None:
         """Main entrypoint.
 
         Args:
             name: Let it as ``__name__`` always.
             interaction: ``Interaction`` object. Dirrectly from ``nextcord`` API.
+            kwargs: Passed directly to ``structlog``.
         """
         self.name = name
         self.interaction = interaction
-        self.log()
+        self.log(**kwargs)
 
     def get_full_nick(self) -> Optional[str]:
         """Return user nick and discriminator in human format."""
@@ -37,6 +38,6 @@ class OnCommand:
             return self.interaction.message.clean_content
         return None
 
-    def log(self) -> None:
+    def log(self, **kwargs) -> None:
         """One of final step of the class. Execute log method."""
-        log.debug(self.name, user=self.get_full_nick(), message=self.handle_message_context())
+        log.debug(self.name, user=self.get_full_nick(), message=self.handle_message_context(), **kwargs)

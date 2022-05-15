@@ -1,5 +1,5 @@
 """Module for the ``ping`` command."""
-from nextcord import Embed, Interaction, slash_command
+from nextcord import Embed, Interaction, SlashOption, slash_command
 from nextcord.ext.commands.bot import Bot
 from nextcord.ext.commands.cog import Cog
 from structlog.stdlib import get_logger
@@ -18,9 +18,16 @@ class PingCommandCog(Cog):
         self.bot = bot
 
     @slash_command(description=_("Ping the server and give information about it."))
-    async def ping(self, interaction: Interaction) -> None:
+    async def ping(
+        self,
+        interaction: Interaction,
+        ip: str = SlashOption(
+            description=_("The IP address of the server."),
+            required=True,
+        ),
+    ) -> None:
         """Ping the server and give information about it."""
-        OnCommand(__name__, interaction)
+        OnCommand(__name__, interaction, ip=ip)
         embed = Embed(title=_("Ping Results"))
         await interaction.response.send_message(embed=embed)
 
