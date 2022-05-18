@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-18 20:35+0200\n"
+"POT-Creation-Date: 2022-05-18 21:57+0200\n"
 "PO-Revision-Date: 2022-05-14 11:57+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -47,39 +47,75 @@ msgstr "Все модули загружены."
 msgid "Command '{}'"
 msgstr "Команда '{}'"
 
-#: pinger_bot/hooks.py:40
+#: pinger_bot/hooks.py:41
 msgid "Wait please..."
 msgstr "Пожалуйста подождите..."
 
-#: pinger_bot/hooks.py:40
+#: pinger_bot/hooks.py:42
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr "Я работаю над этим, пожалуйста подождите. Я вас упомяну когда закончу."
 
-#: pinger_bot/hooks.py:46
+#: pinger_bot/hooks.py:50
 msgid "Bot running! For stop it, use CTRL C."
 msgstr "Бот запущен! Для остановки нажмите CTRL C."
 
-#: pinger_bot/mc_api.py:73
+#: pinger_bot/mc_api.py:82
 msgid "Trying to ping {}..."
 msgstr "Пытаюсь пингануть {}..."
 
-#: pinger_bot/mc_api.py:82
+#: pinger_bot/mc_api.py:92
 msgid "Error while pinging server"
 msgstr "Ошибка во время пинга сервера"
 
-#: pinger_bot/mc_api.py:83
+#: pinger_bot/mc_api.py:97
 msgid "Something went wrong, while we pinged the server."
 msgstr "Что-то пошло не так, пока я пинговал сервер."
 
-#: pinger_bot/ext/commands/ping.py:21
+#: pinger_bot/ext/commands/ping.py:25
 msgid "The IP address of the server."
 msgstr "Айпи адрес сервера."
 
-#: pinger_bot/ext/commands/ping.py:22
+#: pinger_bot/ext/commands/ping.py:26
 msgid "Ping the server and give information about it."
 msgstr "Пингует сервер и дает информацию про него."
 
-#: pinger_bot/ext/commands/ping.py:25
-msgid "Ping Results"
-msgstr "Результаты Пинга"
+#: pinger_bot/ext/commands/ping.py:36 pinger_bot/ext/commands/ping.py:58
+msgid "Ping Results {}"
+msgstr "Результаты Пинга {}"
+
+#: pinger_bot/ext/commands/ping.py:37
+msgid "Number IP: {}"
+msgstr "Цифровой айпи: {}"
+
+#: pinger_bot/ext/commands/ping.py:41
+msgid "Latency"
+msgstr "Время Ответа"
+
+#: pinger_bot/ext/commands/ping.py:42
+msgid "Version"
+msgstr "Версия"
+
+#: pinger_bot/ext/commands/ping.py:43
+msgid "Players"
+msgstr "Игроки"
+
+#: pinger_bot/ext/commands/ping.py:44
+msgid "MOTD"
+msgstr "MOTD"
+
+#: pinger_bot/ext/commands/ping.py:48
+msgid "If you want to get link for editing the server MOTD, use this command: {}"
+msgstr "Для получения ссылки на редактирование MOTD, напишите: {}"
+
+#: pinger_bot/ext/commands/ping.py:60
+msgid "Can't ping the server."
+msgstr "Не могу пингануть сервер."
+
+#: pinger_bot/ext/commands/ping.py:60
+msgid "Maybe you set invalid IP address, or server just offline."
+msgstr "Возможно вы указали не правильный IP адрес, или сервер просто выключен."
+
+#: pinger_bot/ext/commands/ping.py:69
+msgid "No info."
+msgstr "Нет информации."
 
