@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-18 21:57+0200\n"
+"POT-Creation-Date: 2022-05-18 22:40+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -71,9 +71,37 @@ msgstr "Помилка поки пінгували сервер"
 msgid "Something went wrong, while we pinged the server."
 msgstr "Щось пішло не так, поки ми пінгували сервер."
 
-#: pinger_bot/ext/commands/ping.py:25
+#: pinger_bot/ext/commands/motd.py:22 pinger_bot/ext/commands/ping.py:25
 msgid "The IP address of the server."
 msgstr "Айпі адреса сервера."
+
+#: pinger_bot/ext/commands/motd.py:23
+msgid "Get link for editing the server MOTD."
+msgstr "Дає посилання на редагування MOTD сервера."
+
+#: pinger_bot/ext/commands/motd.py:33 pinger_bot/ext/commands/motd.py:49
+msgid "Detailed MOTD of the {}"
+msgstr "Детальне MOTD сервера {}"
+
+#: pinger_bot/ext/commands/motd.py:34
+msgid "This command give ability to edit the MOTD of the server."
+msgstr "Ця команда дає можливість редагувати MOTD сервера."
+
+#: pinger_bot/ext/commands/motd.py:40 pinger_bot/ext/commands/ping.py:44
+msgid "MOTD"
+msgstr "MOTD"
+
+#: pinger_bot/ext/commands/motd.py:41
+msgid "Link for editing"
+msgstr "Посилання для редагування"
+
+#: pinger_bot/ext/commands/motd.py:51 pinger_bot/ext/commands/ping.py:60
+msgid "Can't ping the server."
+msgstr "Не можу пінганути сервер."
+
+#: pinger_bot/ext/commands/motd.py:51 pinger_bot/ext/commands/ping.py:60
+msgid "Maybe you set invalid IP address, or server just offline."
+msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто вимкнений."
 
 #: pinger_bot/ext/commands/ping.py:26
 msgid "Ping the server and give information about it."
@@ -99,21 +127,9 @@ msgstr "Версія"
 msgid "Players"
 msgstr "Гравці"
 
-#: pinger_bot/ext/commands/ping.py:44
-msgid "MOTD"
-msgstr "MOTD"
-
 #: pinger_bot/ext/commands/ping.py:48
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr "Щоб отримати посилання на редактування MOTD, використайте: {}"
-
-#: pinger_bot/ext/commands/ping.py:60
-msgid "Can't ping the server."
-msgstr "Не можу пінганути сервер."
-
-#: pinger_bot/ext/commands/ping.py:60
-msgid "Maybe you set invalid IP address, or server just offline."
-msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто вимкнений."
 
 #: pinger_bot/ext/commands/ping.py:69
 msgid "No info."
