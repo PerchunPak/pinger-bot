@@ -5,6 +5,7 @@ from structlog.stdlib import get_logger
 from tanjun.abc import SlashContext
 
 from pinger_bot.config import gettext as _
+from pinger_bot.hooks import wait_please_hook
 
 log = get_logger()
 
@@ -15,6 +16,7 @@ class PingCommand:
     """Cog for the ``ping`` command."""
 
     @staticmethod
+    @wait_please_hook.add_to_command
     @component.with_slash_command
     @tanjun.with_str_slash_option("ip", _("The IP address of the server."))
     @tanjun.as_slash_command("ping", _("Ping the server and give information about it."))

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-18 19:22+0200\n"
+"POT-Creation-Date: 2022-05-18 20:35+0200\n"
 "PO-Revision-Date: 2022-05-14 11:57+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -43,11 +43,19 @@ msgstr "Загружаю модуль..."
 msgid "All modules loaded."
 msgstr "Все модули загружены."
 
-#: pinger_bot/hooks.py:33
+#: pinger_bot/hooks.py:34
 msgid "Command '{}'"
 msgstr "Команда '{}'"
 
-#: pinger_bot/hooks.py:38
+#: pinger_bot/hooks.py:40
+msgid "Wait please..."
+msgstr "Пожалуйста подождите..."
+
+#: pinger_bot/hooks.py:40
+msgid "I'm working on it, please wait. I will ping you when it's done."
+msgstr "Я работаю над этим, пожалуйста подождите. Я вас упомяну когда закончу."
+
+#: pinger_bot/hooks.py:46
 msgid "Bot running! For stop it, use CTRL C."
 msgstr "Бот запущен! Для остановки нажмите CTRL C."
 
@@ -63,15 +71,15 @@ msgstr "Ошибка во время пинга сервера"
 msgid "Something went wrong, while we pinged the server."
 msgstr "Что-то пошло не так, пока я пинговал сервер."
 
-#: pinger_bot/ext/commands/ping.py:19
+#: pinger_bot/ext/commands/ping.py:21
 msgid "The IP address of the server."
 msgstr "Айпи адрес сервера."
 
-#: pinger_bot/ext/commands/ping.py:20
+#: pinger_bot/ext/commands/ping.py:22
 msgid "Ping the server and give information about it."
 msgstr "Пингует сервер и дает информацию про него."
 
-#: pinger_bot/ext/commands/ping.py:23
+#: pinger_bot/ext/commands/ping.py:25
 msgid "Ping Results"
 msgstr "Результаты Пинга"
 
