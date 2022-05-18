@@ -17,6 +17,10 @@ class Players:
     online: int
     max: int
 
+    def __str__(self) -> str:
+        """Return string representation of Players object."""
+        return f"{self.online}/{self.max}"
+
 
 class StatusError(Exception):
     """Raised by ``MCServer.status`` when something went wrong."""
