@@ -1,52 +1,62 @@
 """Main file to initialise bot object."""
 import logging
-from functools import lru_cache
-from glob import glob
 from pathlib import Path
 
-from nextcord import Intents
-from nextcord.ext.commands.bot import Bot
+from hikari import GatewayBot, StartedEvent
 from structlog import configure as structlog_configure
 from structlog import make_filtering_bound_logger
 from structlog.stdlib import get_logger
+from tanjun import Client
 
-from pinger_bot.config import config
+from pinger_bot.config import Config
 from pinger_bot.config import gettext as _
+from pinger_bot.hooks import Hooks, hooks
 
 log = get_logger()
 
+config = Config()
 
-class PingerBot:
+
+class PingerBot(GatewayBot):
     """Main bot class."""
 
-    def __init__(self) -> None:
-        """__init__ method."""
-        self.bot = self.get_bot_obj()
+    def __init__(self, **kwargs) -> None:
+        """__init__ method.
+
+        Args:
+            kwargs: Additional arguments which passing to ``GatewayBot.__init__``.
+        """
+        log.debug(_("Creating bot object..."))
+
+        super().__init__(config.discord_token, logs="DEBUG" if config.debug else "WARNING", **kwargs)
+
+        self.client = Client.from_gateway_bot(self)
+        self.client.set_type_dependency(Config, config)
+
+        self.client.set_slash_hooks(hooks)
+        self.event_manager.subscribe(StartedEvent, Hooks.on_started)
 
     @classmethod
-    def run(cls) -> None:
-        """Main function to run bot."""
+    def run(cls, **kwargs) -> None:
+        """Main function to run bot.
+
+        Args:
+            kwargs: Additional arguments which passing to ``GatewayBot.run``.
+        """
         log.info(_("Preparing and run the bot..."))
 
         cls.handle_debug_options()
         instance = cls()
-        instance.handle_cogs()
+        instance.load_modules()
 
         log.info(_("Pre-Run ended."))
 
-        instance.bot.run(config.discord_token)
-
-    @lru_cache
-    def get_bot_obj(self) -> Bot:
-        """Generate ``bot`` object and write it to config.
-
-        Returns:
-            Bot object.
-        """
-        log.debug(_("Create bot object..."))
-        bot = Bot(command_prefix="!", intents=Intents().all())
-        config.bot = bot
-        return bot
+        super().run(
+            self=instance,
+            asyncio_debug=config.debug,
+            check_for_updates=False,
+            **kwargs,
+        )
 
     @staticmethod
     def handle_debug_options() -> None:
@@ -57,16 +67,18 @@ class PingerBot:
         )
 
         if not config.debug:
-            logging.getLogger("nextcord").setLevel(logging.WARNING)
+            logging.getLogger("hikari").setLevel(logging.WARNING)
 
         # debug-log after configuring logger
-        log.debug("PingerBot.handle_debug_options", debug=config.debug)
+        log.debug("PingerBot.handle_debug_options", debug=config.debug, verbose=config.verbose)
 
-    def handle_cogs(self) -> None:
-        """Loads cogs, commands etc."""
-        for file_name in glob("pinger_bot/cogs/**/*.py", recursive=True):
-            file = Path(file_name)
-            if not file.stem.endswith("_"):
-                log.debug(_("Loading cog..."), name=str(file))
-                self.bot.load_extension(".".join(file.parts)[:-3])
-        log.debug(_("All cogs loaded."))
+    def load_modules(self) -> None:
+        """Load modules from ``ext`` folder."""
+        log.debug(_("Loading modules..."))
+
+        for module in Path(__file__).parent.glob("ext/**/*.py"):
+            if module.name != "__init__.py":
+                log.debug(_("Loading module..."), name=str(module.relative_to(Path(__file__).parent)))
+                self.client.load_modules(module)
+
+        log.debug(_("All modules loaded."))

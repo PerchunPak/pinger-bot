@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-15 22:22+0200\n"
+"POT-Creation-Date: 2022-05-18 19:22+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -19,24 +19,36 @@ msgid "Hello World!"
 msgstr "Hello World!"
 
 #: pinger_bot/bot.py:29
+msgid "Creating bot object..."
+msgstr "Creating bot object..."
+
+#: pinger_bot/bot.py:46
 msgid "Preparing and run the bot..."
 msgstr "Preparing and run the bot..."
 
-#: pinger_bot/bot.py:35
+#: pinger_bot/bot.py:52
 msgid "Pre-Run ended."
 msgstr "Pre-Run ended."
 
-#: pinger_bot/bot.py:46
-msgid "Create bot object..."
-msgstr "Create bot object..."
+#: pinger_bot/bot.py:77
+msgid "Loading modules..."
+msgstr "Loading modules..."
 
-#: pinger_bot/bot.py:70
-msgid "Loading cog..."
-msgstr "Loading cog..."
+#: pinger_bot/bot.py:81
+msgid "Loading module..."
+msgstr "Loading module..."
 
-#: pinger_bot/bot.py:72
-msgid "All cogs loaded."
-msgstr "All cogs loaded."
+#: pinger_bot/bot.py:84
+msgid "All modules loaded."
+msgstr "All modules loaded."
+
+#: pinger_bot/hooks.py:33
+msgid "Command '{}'"
+msgstr "Command '{}'"
+
+#: pinger_bot/hooks.py:38
+msgid "Bot running! For stop it, use CTRL C."
+msgstr "Bot running! For stop it, use CTRL C."
 
 #: pinger_bot/mc_api.py:73
 msgid "Trying to ping {}..."
@@ -50,27 +62,15 @@ msgstr "Error while pinging server"
 msgid "Something went wrong, while we pinged the server."
 msgstr "Something went wrong, while we pinged the server."
 
-#: pinger_bot/cogs/events.py:21
-msgid "Bot running! For stop it, use CTRL C."
-msgstr "Bot running! For stop it, use CTRL C."
-
-#: pinger_bot/cogs/commands/ping.py:20
-msgid "Ping the server and give information about it."
-msgstr "Ping the server and give information about it."
-
-#: pinger_bot/cogs/commands/ping.py:22
+#: pinger_bot/ext/commands/ping.py:19
 msgid "The IP address of the server."
 msgstr "The IP address of the server."
 
-#: pinger_bot/cogs/commands/ping.py:27
+#: pinger_bot/ext/commands/ping.py:20
+msgid "Ping the server and give information about it."
+msgstr "Ping the server and give information about it."
+
+#: pinger_bot/ext/commands/ping.py:23
 msgid "Ping Results"
 msgstr "Ping Results"
-
-#: pinger_bot/realization/common.py:10
-msgid "Pinging {}..."
-msgstr "Pinging {}..."
-
-#: pinger_bot/realization/common.py:11
-msgid "Wait please, I will ping you when I'm done."
-msgstr "Wait please, I will ping you when I'm done."
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-15 22:22+0200\n"
+"POT-Creation-Date: 2022-05-18 19:22+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -20,24 +20,36 @@ msgid "Hello World!"
 msgstr "Привіт Світ!"
 
 #: pinger_bot/bot.py:29
+msgid "Creating bot object..."
+msgstr "Роблю об'єкт бота..."
+
+#: pinger_bot/bot.py:46
 msgid "Preparing and run the bot..."
 msgstr "Підготовлюю та запускаю бота..."
 
-#: pinger_bot/bot.py:35
+#: pinger_bot/bot.py:52
 msgid "Pre-Run ended."
 msgstr "Підготовка закінчена."
 
-#: pinger_bot/bot.py:46
-msgid "Create bot object..."
-msgstr "Роблю об'єкт бота..."
+#: pinger_bot/bot.py:77
+msgid "Loading modules..."
+msgstr "Завантажую модуль..."
 
-#: pinger_bot/bot.py:70
-msgid "Loading cog..."
-msgstr "Завантажую cog..."
+#: pinger_bot/bot.py:81
+msgid "Loading module..."
+msgstr "Завантажую модуль..."
 
-#: pinger_bot/bot.py:72
-msgid "All cogs loaded."
-msgstr "Усі cog'і загружені."
+#: pinger_bot/bot.py:84
+msgid "All modules loaded."
+msgstr "Усі модулі загружені."
+
+#: pinger_bot/hooks.py:33
+msgid "Command '{}'"
+msgstr "Команда '{}'"
+
+#: pinger_bot/hooks.py:38
+msgid "Bot running! For stop it, use CTRL C."
+msgstr "Бот запущений! Для його зупинки натисніть CTRL C."
 
 #: pinger_bot/mc_api.py:73
 msgid "Trying to ping {}..."
@@ -51,27 +63,15 @@ msgstr "Помилка поки пінгували сервер"
 msgid "Something went wrong, while we pinged the server."
 msgstr "Щось пішло не так, поки ми пінгували сервер."
 
-#: pinger_bot/cogs/events.py:21
-msgid "Bot running! For stop it, use CTRL C."
-msgstr "Бот запущений! Для його зупинки натисніть CTRL C."
-
-#: pinger_bot/cogs/commands/ping.py:20
-msgid "Ping the server and give information about it."
-msgstr "Пінгує сервер та дає інформацію про нього."
-
-#: pinger_bot/cogs/commands/ping.py:22
+#: pinger_bot/ext/commands/ping.py:19
 msgid "The IP address of the server."
 msgstr "Айпі адреса сервера."
 
-#: pinger_bot/cogs/commands/ping.py:27
+#: pinger_bot/ext/commands/ping.py:20
+msgid "Ping the server and give information about it."
+msgstr "Пінгує сервер та дає інформацію про нього."
+
+#: pinger_bot/ext/commands/ping.py:23
 msgid "Ping Results"
 msgstr "Результати Пінгу"
-
-#: pinger_bot/realization/common.py:10
-msgid "Pinging {}..."
-msgstr "Пінгую {}..."
-
-#: pinger_bot/realization/common.py:11
-msgid "Wait please, I will ping you when I'm done."
-msgstr "Почекайте будь ласка, я згадаю вас коли закінчу."
 
