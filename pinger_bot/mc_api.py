@@ -74,12 +74,17 @@ class MCServer:
         try:
             server = await JavaServer.async_lookup(host)
             return await cls.handle_java(server)
-        except Exception:
+        except Exception as java_error:
             try:
                 server = BedrockServer.lookup(host)
                 return await cls.handle_bedrock(server)
-            except Exception as exception:
-                log.debug(_("Error while pinging server"), host=host, exception=exception)
+            except Exception as bedrock_error:
+                log.debug(
+                    _("Error while pinging server"),
+                    host=host,
+                    java_error=str(java_error),
+                    bedrock_error=str(bedrock_error),
+                )
                 raise StatusError(_("Something went wrong, while we pinged the server."))
 
     @classmethod
