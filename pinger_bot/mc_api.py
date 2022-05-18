@@ -1,5 +1,6 @@
 """API module with Minecraft Servers API."""
 from dataclasses import dataclass
+from typing import Optional
 
 from mcstatus import BedrockServer, JavaServer
 from structlog.stdlib import get_logger
@@ -42,6 +43,8 @@ class MCServer:
     icon: str = None  # type: ignore[assignment] # will be set in __post_init__
     #: Number IP of the server.
     num_ip: str = None  # type: ignore[assignment] # will be set in __post_init__
+    #: Display IP of the server (alias, if this unset - None).
+    display_ip: Optional[str] = None
 
     def __post_init__(self) -> None:
         """Post init method.
@@ -54,6 +57,8 @@ class MCServer:
             self.icon = f"https://api.mcsrvstat.us/icon/{self.host}:{str(self.port)}"  # type: ignore[unreachable]
         if self.num_ip is None:
             self.num_ip = self.host + ":" + str(self.port)  # type: ignore[unreachable]
+        if self.display_ip is None:
+            self.display_ip = None  # TODO add aliases
 
     @classmethod
     async def status(cls, host: str) -> "MCServer":
