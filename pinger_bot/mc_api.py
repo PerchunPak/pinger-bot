@@ -63,7 +63,7 @@ class MCServer:
         if self.num_ip is None:
             self.num_ip = self.host + ":" + str(self.port)  # type: ignore[unreachable]
         if self.display_ip is None:
-            self.display_ip = self.input_ip  # TODO add aliases
+            self.display_ip = self.input_ip  # type: ignore[unreachable]  # TODO add aliases
 
     @classmethod
     async def status(cls, host: str) -> "MCServer":
