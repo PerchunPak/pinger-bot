@@ -30,7 +30,7 @@ class MotdCommand:
             return
 
         embed = Embed(
-            title=_("Detailed MOTD of the {}").format(server.display_ip if server.display_ip is not None else ip),
+            title=_("Detailed MOTD of the {}").format(server.display_ip),
             description=_("This command give ability to edit the MOTD of the server."),
             color=(46, 204, 113),
         )

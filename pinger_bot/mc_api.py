@@ -1,6 +1,5 @@
 """API module with Minecraft Servers API."""
 from dataclasses import dataclass
-from typing import Optional
 
 from mcstatus import BedrockServer, JavaServer
 from structlog.stdlib import get_logger
@@ -34,6 +33,8 @@ class MCServer:
     host: str
     #: Port of the server, example ``25565`` or ``19132``.
     port: int
+    #: Unparsed and unmodified IP, which was passed before ``mcstatus``.
+    input_ip: str
     #: MOTD of the server.
     motd: str
     #: Name of the version, example ``1.18`` or ``1.7``.
@@ -47,8 +48,8 @@ class MCServer:
     icon: str = None  # type: ignore[assignment] # will be set in __post_init__
     #: Number IP of the server.
     num_ip: str = None  # type: ignore[assignment] # will be set in __post_init__
-    #: Display IP of the server (alias, if this unset - None).
-    display_ip: Optional[str] = None
+    #: Display IP of the server (alias, if this unset - input_ip).
+    display_ip: str = None  # type: ignore[assignment] # will be set in __post_init__
 
     def __post_init__(self) -> None:
         """Post init method.
@@ -62,7 +63,7 @@ class MCServer:
         if self.num_ip is None:
             self.num_ip = self.host + ":" + str(self.port)  # type: ignore[unreachable]
         if self.display_ip is None:
-            self.display_ip = None  # TODO add aliases
+            self.display_ip = self.input_ip  # TODO add aliases
 
     @classmethod
     async def status(cls, host: str) -> "MCServer":
@@ -81,12 +82,10 @@ class MCServer:
         """
         log.info(_("Trying to ping {}...").format(host))
         try:
-            server = await JavaServer.async_lookup(host)
-            return await cls.handle_java(server)
+            return await cls.handle_java(host)
         except Exception as java_error:
             try:
-                server = BedrockServer.lookup(host)
-                return await cls.handle_bedrock(server)
+                return await cls.handle_bedrock(host)
             except Exception as bedrock_error:
                 log.debug(
                     _("Error while pinging server"),
@@ -97,20 +96,22 @@ class MCServer:
                 raise StatusError(_("Something went wrong, while we pinged the server."))
 
     @classmethod
-    async def handle_java(cls, server: JavaServer) -> "MCServer":
+    async def handle_java(cls, host: str) -> "MCServer":
         """Handle java server and transform it to ``MCServer`` object.
 
         Args:
-            server: ``mcstatus.JavaServer`` object.
+            host: Host where server is, like ``127.0.0.1:25565``.
 
         Returns:
             Initialised ``MCServer`` object.
         """
-        log.debug("MCServer.handle_java", host=server.address.host, port=server.address.port)
+        log.debug("MCServer.handle_java", host=host)
+        server = await JavaServer.async_lookup(host)
         status = await server.async_status()
         return cls(
             host=server.address.host,
             port=server.address.port,
+            input_ip=host,
             motd=status.description,
             version=status.version.name,
             players=Players(
@@ -121,20 +122,22 @@ class MCServer:
         )
 
     @classmethod
-    async def handle_bedrock(cls, server: BedrockServer) -> "MCServer":
+    async def handle_bedrock(cls, host: str) -> "MCServer":
         """Handle bedrock server and transform it to ``MCServer`` object.
 
         Args:
-            server: ``mcstatus.BedrockServer`` object.
+            host: Host where server is, like ``127.0.0.1:25565``.
 
         Returns:
             Initialised ``MCServer`` object.
         """
-        log.debug("MCServer.handle_bedrock", host=server.address.host, port=server.address.port)
+        log.debug("MCServer.handle_bedrock", host=host)
+        server = BedrockServer.lookup(host)
         status = await server.async_status()
         return cls(
             host=server.address.host,
             port=server.address.port,
+            input_ip=host,
             motd=status.motd,
             version=status.version.version,
             players=Players(

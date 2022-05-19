@@ -33,7 +33,7 @@ class PingCommand:
             return
 
         embed = Embed(
-            title=_("Ping Results {}").format(server.display_ip if server.display_ip is not None else ip),
+            title=_("Ping Results {}").format(server.display_ip),
             description=_("Number IP: {}").format(server.num_ip),
             color=(46, 204, 113),
         )
@@ -46,7 +46,7 @@ class PingCommand:
 
         embed.set_footer(
             _("If you want to get link for editing the server MOTD, use this command: {}").format(
-                f"'/motd {server.display_ip if server.display_ip is not None else ip}'"
+                f"'/motd {server.display_ip}'"
             )
         )
 
