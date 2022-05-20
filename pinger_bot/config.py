@@ -14,6 +14,8 @@ class Config:
     debug: bool = decouple("DEBUG", cast=bool, default=False)
     #: Not so many info, that in debug.
     verbose: bool = debug or decouple("VERBOSE", cast=bool, default=False)
+    #: DB_URI to connect.
+    db_uri: str = decouple("DB_URI", default="sqlite+aiosqlite:///pinger_bot.db")
 
 
 config = Config()
