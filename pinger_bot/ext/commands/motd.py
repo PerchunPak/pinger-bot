@@ -1,28 +1,31 @@
 """Module for the ``motd`` command."""
-import tanjun
 from hikari import Embed
+from lightbulb import Plugin, command, implements, option
+from lightbulb.commands import SlashCommand
+from lightbulb.context.slash import SlashContext
 from structlog.stdlib import get_logger
-from tanjun.abc import SlashContext
 
+from pinger_bot.bot import PingerBot
 from pinger_bot.config import gettext as _
-from pinger_bot.hooks import wait_please_hook
+from pinger_bot.ext.commands import wait_please_message
 from pinger_bot.mc_api import MCServer, StatusError
 
 log = get_logger()
 
-component = tanjun.Component(name="motd")
+plugin = Plugin("motd")
 
 
 class MotdCommand:
     """Class for the ``motd`` command."""
 
     @staticmethod
-    @wait_please_hook.add_to_command
-    @component.with_slash_command
-    @tanjun.with_str_slash_option("ip", _("The IP address of the server."))
-    @tanjun.as_slash_command("motd", _("Get link for editing the server MOTD."))
+    @plugin.command
+    @option("ip", _("The IP address of the server."), type=str)
+    @command("motd", _("Get link for editing the server MOTD."), pass_options=True)
+    @implements(SlashCommand)
     async def motd(ctx: SlashContext, ip: str) -> None:
         """Ping the server and give information about it."""
+        await wait_please_message(ctx)
         try:
             server = await MCServer.status(ip)
         except StatusError:
@@ -53,4 +56,6 @@ class MotdCommand:
         return embed
 
 
-load_slash = component.make_loader()
+def load(bot: PingerBot) -> None:
+    """Load the command."""
+    bot.add_plugin(plugin)

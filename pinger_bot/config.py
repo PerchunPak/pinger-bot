@@ -16,6 +16,7 @@ class Config:
     verbose: bool = debug or decouple("VERBOSE", cast=bool, default=False)
 
 
+config = Config()
 translation_obj = translation(
     "messages", str(Path(__file__).parent.parent / "locales"), languages=[decouple("LOCALE", default="ru")]
 )

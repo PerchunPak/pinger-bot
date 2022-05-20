@@ -16,11 +16,11 @@ readme = "README.md"
 repository = "https://github.com/PerchunPak/pinger-bot"
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.11"
+python = "^3.8,<3.11"
 
 # Our dependecies
 hikari = "~2.0.0-dev"
-hikari-tanjun = "~2.5.0-alpha"
+hikari-lightbulb = "~2.2"
 mcstatus = "~9.0"
 Babel = "~2.10"
 # TODO add APScheduler for scheduling tasks

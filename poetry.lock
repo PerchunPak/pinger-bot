@@ -38,14 +38,6 @@ optional = true
 python-versions = "*"
 
 [[package]]
-name = "alluka"
-version = "0.1.1"
-description = "A type based dependency injection framework for Python 3.9+."
-category = "main"
-optional = false
-python-versions = ">=3.9.0,<3.12"
-
-[[package]]
 name = "astroid"
 version = "2.11.5"
 description = "An abstract syntax tree for Python with inference support."
@@ -149,11 +141,11 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "certifi"
-version = "2021.10.8"
+version = "2022.5.18.1"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
 
 [[package]]
 name = "cfgv"
@@ -360,20 +352,22 @@ server = ["pynacl (>=1.5,<2.0)"]
 speedups = ["aiodns (>=3.0,<4.0)", "cchardet (>=2.1,<3.0)", "Brotli (>=1.0,<2.0)", "ciso8601 (>=2.2,<3.0)"]
 
 [[package]]
-name = "hikari-tanjun"
-version = "2.5.2a1"
-description = "A flexible command framework designed to extend Hikari."
+name = "hikari-lightbulb"
+version = "2.2.1"
+description = "A simple to use command handler for Hikari"
 category = "main"
 optional = false
-python-versions = ">=3.9.0,<3.12"
+python-versions = ">=3.8.0,<3.11"
 
 [package.dependencies]
-alluka = ">=0.1,<1.0"
-hikari = ">=2.0.0.dev108,<2.1.0"
+hikari = ">=2.0.0.dev107,<2.1.0"
+
+[package.extras]
+crontrigger = ["croniter (>=1.3.4,<1.4.0)", "types-croniter (>=1.0.8,<1.1.0)"]
 
 [[package]]
 name = "identify"
-version = "2.5.0"
+version = "2.5.1"
 description = "File identification library for Python"
 category = "dev"
 optional = false
@@ -642,7 +636,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "pycln"
-version = "1.3.2"
+version = "1.3.3"
 description = "A formatter for finding and removing unused import statements."
 category = "dev"
 optional = false
@@ -1160,8 +1154,8 @@ docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-autoapi", "furo", "m2r2", 
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9,<3.11"
-content-hash = "5908d53d51792829dcff2552c708b5590a3e4f88979957f14ae4a5d0881d91b9"
+python-versions = "^3.8,<3.11"
+content-hash = "fc67443aa8fdf88deebd37483ea4a9784e797caaffba2b7bb9173ce92ff9f149"
 
 [metadata.files]
 aiohttp = [
@@ -1246,10 +1240,6 @@ alabaster = [
     {file = "alabaster-0.7.12-py2.py3-none-any.whl", hash = "sha256:446438bdcca0e05bd45ea2de1668c1d9b032e1a9154c2c259092d77031ddd359"},
     {file = "alabaster-0.7.12.tar.gz", hash = "sha256:a661d72d58e6ea8a57f7a86e37d86716863ee5e92788398526d58b26a4e4dc02"},
 ]
-alluka = [
-    {file = "alluka-0.1.1-py3-none-any.whl", hash = "sha256:8b92b7373290f5b849116a6a0427a3f8483b135c716b688e82ba64ccec5c1b80"},
-    {file = "alluka-0.1.1.tar.gz", hash = "sha256:90a0985ef1a3b5a7b558dfaee39d3b566441f1618dafd22a3277ead7014f67d3"},
-]
 astroid = [
     {file = "astroid-2.11.5-py3-none-any.whl", hash = "sha256:14ffbb4f6aa2cf474a0834014005487f7ecd8924996083ab411e7fa0b508ce0b"},
     {file = "astroid-2.11.5.tar.gz", hash = "sha256:f4e4ec5294c4b07ac38bab9ca5ddd3914d4bf46f9006eb5c0ae755755061044e"},
@@ -1304,8 +1294,8 @@ black = [
     {file = "black-22.3.0.tar.gz", hash = "sha256:35020b8886c022ced9282b51b5a875b6d1ab0c387b31a065b84db7c33085ca79"},
 ]
 certifi = [
-    {file = "certifi-2021.10.8-py2.py3-none-any.whl", hash = "sha256:d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569"},
-    {file = "certifi-2021.10.8.tar.gz", hash = "sha256:78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"},
+    {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
+    {file = "certifi-2022.5.18.1.tar.gz", hash = "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"},
 ]
 cfgv = [
     {file = "cfgv-3.3.1-py2.py3-none-any.whl", hash = "sha256:c6a0883f3917a037485059700b9e75da2464e6c27051014ad85ba6aaa5884426"},
@@ -1471,13 +1461,13 @@ hikari = [
     {file = "hikari-2.0.0.dev108-py3-none-any.whl", hash = "sha256:bc78e5c753f0b87ae24e1a644a2e4d01d08d5ed35cbaca0f160da5283a589785"},
     {file = "hikari-2.0.0.dev108.tar.gz", hash = "sha256:d13cfcd0e3732185fa3048b5d9fd8b6078b5dbb0df7820ba7e3e55083bf9d4b5"},
 ]
-hikari-tanjun = [
-    {file = "hikari-tanjun-2.5.2a1.tar.gz", hash = "sha256:7918689f1308537e820a12b9cd02652bf5c38841423fba78bc5c58cfe40eeac4"},
-    {file = "hikari_tanjun-2.5.2a1-py3-none-any.whl", hash = "sha256:471969d16fd711d965d123907f3abcb18548b41aefededdc20363cc822427d4b"},
+hikari-lightbulb = [
+    {file = "hikari-lightbulb-2.2.1.tar.gz", hash = "sha256:77c543dfec286b21ce4382bb5ede7a3106bbcab5ae43f41a1dc921b5e2e7e3af"},
+    {file = "hikari_lightbulb-2.2.1-py3-none-any.whl", hash = "sha256:2fafc1486e3bb187f7bd2c8f5fc1b7fee29ca29addcaab638ebc981cbff576a0"},
 ]
 identify = [
-    {file = "identify-2.5.0-py2.py3-none-any.whl", hash = "sha256:3acfe15a96e4272b4ec5662ee3e231ceba976ef63fd9980ed2ce9cc415df393f"},
-    {file = "identify-2.5.0.tar.gz", hash = "sha256:c83af514ea50bf2be2c4a3f2fb349442b59dc87284558ae9ff54191bff3541d2"},
+    {file = "identify-2.5.1-py2.py3-none-any.whl", hash = "sha256:0dca2ea3e4381c435ef9c33ba100a78a9b40c0bab11189c7cf121f75815efeaa"},
+    {file = "identify-2.5.1.tar.gz", hash = "sha256:3d11b16f3fe19f52039fb7e39c9c884b21cb1b586988114fbe42671f03de3e82"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
@@ -1749,8 +1739,8 @@ py = [
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
 ]
 pycln = [
-    {file = "pycln-1.3.2-py3-none-any.whl", hash = "sha256:eaee54af2e682809e459ad49e0b01e5ff2244943bcefd130887cc8ac859ea755"},
-    {file = "pycln-1.3.2.tar.gz", hash = "sha256:53bb187b2285a1dddcc5dee8ace41c98d9e7db9d5d8e642a075dff1927aa3add"},
+    {file = "pycln-1.3.3-py3-none-any.whl", hash = "sha256:dc59f25ae8147420d641dc9e2338af9850ebf09b55972355332402ec412dc192"},
+    {file = "pycln-1.3.3.tar.gz", hash = "sha256:ce31864993a3b34e021b107847b7975edcf31da05d6ce849562c132e50c2c444"},
 ]
 pycodestyle = [
     {file = "pycodestyle-2.8.0-py2.py3-none-any.whl", hash = "sha256:720f8b39dde8b293825e7ff02c475f3077124006db4f440dcbc9a20b76548a20"},
