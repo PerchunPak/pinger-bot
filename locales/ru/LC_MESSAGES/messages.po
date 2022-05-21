@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-20 18:16+0200\n"
+"POT-Creation-Date: 2022-05-21 16:42+0200\n"
 "PO-Revision-Date: 2022-05-14 11:57+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -31,17 +31,29 @@ msgstr "Подготавливаем и запускаем бота..."
 msgid "Pre-Run ended."
 msgstr "Подготовка бота закончена."
 
-#: pinger_bot/mc_api.py:83
+#: pinger_bot/mc_api.py:101
+msgid "Cannot resolve IP {}"
+msgstr "Не могу пропарсить IP {}"
+
+#: pinger_bot/mc_api.py:186
 msgid "Trying to ping {}..."
 msgstr "Пытаюсь пингануть {}..."
 
-#: pinger_bot/mc_api.py:91
+#: pinger_bot/mc_api.py:194
 msgid "Error while pinging server"
 msgstr "Ошибка во время пинга сервера"
 
-#: pinger_bot/mc_api.py:96
+#: pinger_bot/mc_api.py:199
 msgid "Something went wrong, while we pinged the server."
 msgstr "Что-то пошло не так, пока я пинговал сервер."
+
+#: pinger_bot/models.py:65
+msgid "Starting DB engine..."
+msgstr "Запускаю двигатель (engine) базы данных..."
+
+#: pinger_bot/models.py:67
+msgid "Starting DB session..."
+msgstr "Запускаю сессию базы данных..."
 
 #: pinger_bot/ext/events.py:34
 msgid "Command '{}'"

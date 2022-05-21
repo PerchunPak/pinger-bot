@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-20 18:16+0200\n"
+"POT-Creation-Date: 2022-05-21 16:42+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -30,17 +30,29 @@ msgstr "Preparing and run the bot..."
 msgid "Pre-Run ended."
 msgstr "Pre-Run ended."
 
-#: pinger_bot/mc_api.py:83
+#: pinger_bot/mc_api.py:101
+msgid "Cannot resolve IP {}"
+msgstr "Cannot resolve IP {}"
+
+#: pinger_bot/mc_api.py:186
 msgid "Trying to ping {}..."
 msgstr "Trying to ping {}..."
 
-#: pinger_bot/mc_api.py:91
+#: pinger_bot/mc_api.py:194
 msgid "Error while pinging server"
 msgstr "Error while pinging server"
 
-#: pinger_bot/mc_api.py:96
+#: pinger_bot/mc_api.py:199
 msgid "Something went wrong, while we pinged the server."
 msgstr "Something went wrong, while we pinged the server."
+
+#: pinger_bot/models.py:65
+msgid "Starting DB engine..."
+msgstr "Starting DB engine..."
+
+#: pinger_bot/models.py:67
+msgid "Starting DB session..."
+msgstr "Starting DB session..."
 
 #: pinger_bot/ext/events.py:34
 msgid "Command '{}'"
