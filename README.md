@@ -40,6 +40,16 @@ curl -sSL https://install.python-poetry.org | python -
 poetry install
 ```
 
+Так же для работы бота необходимо указать какую СУБД вы будете использовать.
+На данный момент мы поддерживаем только `SQLite`, `MySQL` и `PostgreSQL`.
+Для установки необходимой зависимости, необходимо просто использовать аргумент `-E` с названием СУБД в нижнем регистре.
+
+Например:
+
+```bash
+poetry install -E mysql
+```
+
 После установки зависимостей, нужно скомпилировать файлы перевода.
 ```bash
 poetry run pybabel compile -d locales
@@ -57,9 +67,18 @@ poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 poetry run python pinger_bot/pinger_bot.py
 ```
 
+Если вам все еще что-то не понятно - вы всегда можете написать мне!
+
 ## Конфигурация
 
 Вся настройка бота происходит в файле `.env` или `settings.ini`. Все настройки описаны в файле [config.py](/pinger_bot/config.py).
+
+### База данных
+
+При настройке базы данных есть несколько дополнительных нюансов:
+
+- Если вы используете SQLite, вам нужно указать путь к базе данных. Рекомендуется указывать абсолютный путь.
+- Чтобы узнать что указывать в поле `DB_URI`, [смотрите эту статью](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls).
 
 ## Обновление
 
