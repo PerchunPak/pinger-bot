@@ -45,6 +45,18 @@ poetry install
 poetry run pybabel compile -d locales
 ```
 
+И после этого, нужно применить миграции:
+```bash
+cd pinger_bot
+poetry run alembic -c migrations/alembic.ini upgrade head
+cd ..
+```
+
+Ну и наконец, запустить бота:
+```bash
+poetry run python pinger_bot/pinger_bot.py
+```
+
 ## Пример
 
 ```
