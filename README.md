@@ -52,15 +52,29 @@ poetry run alembic -c migrations/alembic.ini upgrade head
 cd ..
 ```
 
+Так же нужно настроить конфигурацию бота, [смотрите этот раздел](#конфигурация).
+
 Ну и наконец, запустить бота:
 ```bash
 poetry run python pinger_bot/pinger_bot.py
 ```
 
-## Пример
+## Конфигурация
 
-```
-В разработке!
+Вся настройка бота происходит в файле `.env` или `settings.ini`. Все настройки описаны в файле [config.py](/pinger_bot/config.py).
+
+## Обновление
+
+Для обновления бота, просто скачайте заново репозиторий (предварительно сохранив конфиги и базу данных), или если вы
+использовали `git` для установки запустите команду `git pull`.
+
+После чего, нужно обновить переводы и базу данных, шаги аналогичны установке бота.
+
+```bash
+poetry run pybabel compile -d locales
+cd pinger_bot
+poetry run alembic -c migrations/alembic.ini upgrade head
+cd ..
 ```
 
 ## Спасибо
