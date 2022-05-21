@@ -47,9 +47,7 @@ poetry run pybabel compile -d locales
 
 И после этого, нужно применить миграции:
 ```bash
-cd pinger_bot
-poetry run alembic -c migrations/alembic.ini upgrade head
-cd ..
+poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
 Так же нужно настроить конфигурацию бота, [смотрите этот раздел](#конфигурация).
@@ -72,9 +70,7 @@ poetry run python pinger_bot/pinger_bot.py
 
 ```bash
 poetry run pybabel compile -d locales
-cd pinger_bot
-poetry run alembic -c migrations/alembic.ini upgrade head
-cd ..
+poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
 ## Спасибо
