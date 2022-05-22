@@ -82,7 +82,7 @@ jobs:
     needs: 'test'
     strategy:
       matrix:
-        dialect: ['sqlite', 'mysql', 'postgres']
+        dialect: ['sqlite', 'mysql', 'postgresql']
 
     steps:
     - name: Set up Docker Buildx
