@@ -15,45 +15,41 @@ log = get_logger()
 plugin = Plugin("motd")
 
 
-class MotdCommand:
-    """Class for the ``motd`` command."""
+async def get_fail_embed(ip: str) -> Embed:
+    """Get the embed for when the ping fails."""
+    embed = Embed(title=_("Detailed MOTD of the {}").format(ip), color=(231, 76, 60))
+    embed.add_field(
+        name=_("Can't ping the server."), value=_("Maybe you set invalid IP address, or server just offline.")
+    )
+    return embed
 
-    @staticmethod
-    @plugin.command
-    @option("ip", _("The IP address of the server."), type=str)
-    @command("motd", _("Get link for editing the server MOTD."), pass_options=True)
-    @implements(SlashCommand)
-    async def motd(ctx: SlashContext, ip: str) -> None:
-        """Ping the server and give information about it."""
-        await wait_please_message(ctx)
-        try:
-            server = await MCServer.status(ip)
-        except StatusError:
-            await ctx.respond(ctx.author.mention, embed=await MotdCommand.get_fail_embed(ip), user_mentions=True)
-            return
 
-        embed = Embed(
-            title=_("Detailed MOTD of the {}").format(server.address.display_ip),
-            description=_("This command give ability to edit the MOTD of the server."),
-            color=(46, 204, 113),
-        )
+@plugin.command
+@option("ip", _("The IP address of the server."), type=str)
+@command("motd", _("Get link for editing the server MOTD."), pass_options=True)
+@implements(SlashCommand)
+async def motd(ctx: SlashContext, ip: str) -> None:
+    """Ping the server and give information about it."""
+    await wait_please_message(ctx)
+    try:
+        server = await MCServer.status(ip)
+    except StatusError:
+        await ctx.respond(ctx.author.mention, embed=await get_fail_embed(ip), user_mentions=True)
+        return
 
-        motd_url = server.motd.replace(" ", "+").replace("\n", "%0A")
+    embed = Embed(
+        title=_("Detailed MOTD of the {}").format(server.address.display_ip),
+        description=_("This command give ability to edit the MOTD of the server."),
+        color=(46, 204, 113),
+    )
 
-        embed.add_field(name=_("MOTD"), value=server.motd)
-        embed.add_field(name=_("Link for editing"), value="https://mctools.org/motd-creator?text=" + motd_url)
-        embed.set_thumbnail(server.icon)
+    motd_url = server.motd.replace(" ", "+").replace("\n", "%0A")
 
-        await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
+    embed.add_field(name=_("MOTD"), value=server.motd)
+    embed.add_field(name=_("Link for editing"), value="https://mctools.org/motd-creator?text=" + motd_url)
+    embed.set_thumbnail(server.icon)
 
-    @staticmethod
-    async def get_fail_embed(ip: str) -> Embed:
-        """Get the embed for when the ping fails."""
-        embed = Embed(title=_("Detailed MOTD of the {}").format(ip), color=(231, 76, 60))
-        embed.add_field(
-            name=_("Can't ping the server."), value=_("Maybe you set invalid IP address, or server just offline.")
-        )
-        return embed
+    await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
 def load(bot: PingerBot) -> None:
