@@ -17,31 +17,35 @@ log = get_logger()
 
 @dataclass
 class Address:
-    """Parse host and port from string, plus additional things like alias."""
+    """Class for containing information about server address.
 
-    #: Host where server is, like ``127.0.0.1``.
+    Todo:
+        Add ``alias`` field.
+    """
+
     host: str
-    #: Port of the server, example ``25565`` or ``19132``.
+    """Host where server is, like ``127.0.0.1``."""
     port: int
-    #: Unparsed and unmodified IP, which was passed before everything.
+    """Port of the server, example ``25565`` or ``19132``."""
     input_ip: str
-    #: Display IP of the server (alias, if this unset - input_ip).
+    """Unparsed and unmodified IP, which was passed before everything."""
     display_ip: str
-    #: Number IP of the server. Always with port. Example ``127.0.0.1:25565``.
+    """Display IP of the server (:py:attr:`alias`, if this unset - :py:attr:`.input_ip`)."""
     num_ip: str
-    #: Private attribute with JavaServer or BedrockServer instance.
+    """Number IP of the server. Always with port. Example ``127.0.0.1:25565``."""
     _server: Union[JavaServer, BedrockServer]
+    """Private attribute with JavaServer or BedrockServer instance."""
 
     @classmethod
     async def resolve(cls, input_ip: str, *, java: bool) -> "Address":
-        """Resolve IP or domain or alias to ``Address`` object.
+        """Resolve IP or domain or alias to :py:class:`.Address` object.
 
         Args:
             input_ip: IP or domain or alias to resolve.
-            java: If True, then ``mcstatus.JavaServer`` will be used. Else - ``mcstatus.BedrockServer`` server.
+            java: If True, then :py:class:`mcstatus.JavaServer` will be used. Else - :py:class:`mcstatus.BedrockServer` server.
 
         Returns:
-            Resolved ``Address`` object.
+            Resolved :py:class:`.Address` object.
         """
         ip_from_alias = await cls._get_ip_from_alias(input_ip)
 
@@ -127,10 +131,12 @@ class Address:
 
 @dataclass
 class Players:
-    """Dataclass for ``MCServer.players`` field."""
+    """Dataclass for :py:attr:`.MCServer.players` field."""
 
     online: int
+    """Number of online players."""
     max: int
+    """Maximum number of players."""
 
     def __str__(self) -> str:
         """Return string representation of Players object."""
@@ -138,31 +144,34 @@ class Players:
 
 
 class StatusError(Exception):
-    """Raised by ``MCServer.status`` when something went wrong."""
+    """Raised by :py:meth:`.MCServer.status` when something went wrong."""
 
 
 @dataclass
 class MCServer:
-    """Represents an MineCraft Server, doesn't connected to platform."""
+    """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
 
     address: Address
-    #: MOTD of the server.
+    """:py:class:`.Address` of the server."""
     motd: str
-    #: Name of the version, example ``1.18`` or ``1.7``.
+    """MOTD of the server."""
     version: str
-    #: ``Players`` object.
+    """Name of the version, example ``1.18`` or ``1.7``."""
     players: Players
-    #: Time of response from server, in MS.
+    """:py:class:`.Players` object."""
     latency: float
+    """Time of response from server, in milliseconds."""
 
-    #: Icon of the server.
-    icon: str = None  # type: ignore[assignment] # will be set in __post_init__
+    icon: str = None  # type: ignore[assignment]
+    """Icon of the server. Default value :py:obj:`None`, because real default value
+    will be set in :py:meth:`.MCServer.__post_init__`.
+    """
 
     def __post_init__(self) -> None:
         """Post init method.
 
         Examples:
-            See examples in ``MCServer.handle_java`` or ``handle_bedrock`` methods.
+            See examples in :py:meth:`.MCServer.handle_java` or :py:meth:`.MCServer.handle_bedrock` methods.
         """
         # it is reachable if user not defined this fields
         if self.icon is None:
@@ -172,13 +181,13 @@ class MCServer:
     async def status(cls, host: str) -> "MCServer":
         """Get cross-platform status.
 
-        First ping it as JavaServer, and if it fails, ping as BedrockServer.
+        First ping it as :py:class:`mcstatus.JavaServer`, and if it fails, ping as :py:class:`mcstatus.BedrockServer`.
 
         Args:
             host: Host where server is, like ``127.0.0.1:25565``, ``hypixel.net`` or alias.
 
         Returns:
-            Initialised ``MCServer`` object.
+            Initialised :py:class:`.MCServer` object.
 
         Raises:
             StatusError: When **any** unexpected error was raised.
@@ -200,13 +209,13 @@ class MCServer:
 
     @classmethod
     async def handle_java(cls, host: str) -> "MCServer":
-        """Handle java server and transform it to ``MCServer`` object.
+        """Handle java server and transform it to :py:class:`.MCServer` object.
 
         Args:
             host: Host where server is, like ``127.0.0.1:25565``.
 
         Returns:
-            Initialised ``MCServer`` object.
+            Initialised :py:class:`.MCServer` object.
         """
         log.debug("MCServer.handle_java", host=host)
         address = await Address.resolve(host, java=True)
@@ -224,13 +233,13 @@ class MCServer:
 
     @classmethod
     async def handle_bedrock(cls, host: str) -> "MCServer":
-        """Handle bedrock server and transform it to ``MCServer`` object.
+        """Handle bedrock server and transform it to :py:class:`.MCServer` object.
 
         Args:
             host: Host where server is, like ``127.0.0.1:25565``.
 
         Returns:
-            Initialised ``MCServer`` object.
+            Initialised :py:class:`.MCServer` object.
         """
         log.debug("MCServer.handle_bedrock", host=host)
         address = await Address.resolve(host, java=False)

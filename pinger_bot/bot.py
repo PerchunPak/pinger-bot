@@ -15,14 +15,13 @@ log = get_logger()
 
 
 class PingerBot(BotApp):
-    """Main bot class."""
+    """Main bot class.
+
+    Args:
+        kwargs: Additional arguments which passing to :py:func:`hikari.GatewayBot.__init__`.
+    """
 
     def __init__(self, **kwargs) -> None:
-        """__init__ method.
-
-        Args:
-            kwargs: Additional arguments which passing to ``hikari.GatewayBot.__init__``.
-        """
         log.debug(_("Creating bot object..."))
 
         super().__init__(
@@ -34,7 +33,7 @@ class PingerBot(BotApp):
         """Main function to run bot.
 
         Args:
-            kwargs: Additional arguments which passing to ``hikari.GatewayBot.run``.
+            kwargs: Additional arguments which passing to :py:func:`hikari.GatewayBot.run`.
         """
         log.info(_("Preparing and run the bot..."))
 

@@ -16,10 +16,20 @@ from pinger_bot.mc_api import MCServer, StatusError
 log = get_logger()
 
 plugin = Plugin("ping")
+""":py:obj:`lightbulb.Plugin` object."""
 
 
 async def get_fail_embed(ip: str) -> Embed:
-    """Get the embed for when the ping fails."""
+    """Get the embed for when the ping fails.
+
+    See source code for more information.
+
+    Args:
+        ip: The IP address of the server to reference in text.
+
+    Returns:
+        The embed where ping failed.
+    """
     embed = Embed(title=_("Ping Results {}").format(ip), color=(231, 76, 60))
     embed.add_field(
         name=_("Can't ping the server."), value=_("Maybe you set invalid IP address, or server just offline.")
@@ -28,7 +38,16 @@ async def get_fail_embed(ip: str) -> Embed:
 
 
 async def clear_motd(motd: str) -> str:
-    """Clear the MOTD from the non-readable characters."""
+    """Clear the :py:attr:`~pinger_bot.mc_api.MCServer.motd` from the non-readable characters.
+
+    This removes ``&`` and ``§`` from the :py:attr:`~pinger_bot.mc_api.MCServer.motd` (plus next character).
+
+    Args:
+        motd: :py:attr:`~pinger_bot.mc_api.MCServer.motd` of the server.
+
+    Returns:
+        Clear :py:attr:`~pinger_bot.mc_api.MCServer.motd`.
+    """
     motd_clean = re_sub(r"[\xA7|&][0-9A-FK-OR]", "", motd, flags=IGNORECASE)
     if motd_clean == "":
         motd_clean = _("No info.")
@@ -40,7 +59,12 @@ async def clear_motd(motd: str) -> str:
 @command("ping", _("Ping the server and give information about it."), pass_options=True)
 @implements(SlashCommand)
 async def ping(ctx: SlashContext, ip: str) -> None:
-    """Ping the server and give information about it."""
+    """Ping the server and give information about it.
+
+    Args:
+        ctx: The context of the command.
+        ip: The IP address of the server.
+    """
     await wait_please_message(ctx)
     try:
         server = await MCServer.status(ip)
@@ -70,5 +94,5 @@ async def ping(ctx: SlashContext, ip: str) -> None:
 
 
 def load(bot: PingerBot) -> None:
-    """Load the command."""
+    """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)

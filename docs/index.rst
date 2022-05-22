@@ -5,7 +5,7 @@
 
 .. toctree::
 	:maxdepth: 1
-	:caption: Список Изменений
+	:caption: История Изменений
 
 	pages/changelog.rst
 

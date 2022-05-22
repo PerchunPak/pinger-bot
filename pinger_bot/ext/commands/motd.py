@@ -13,10 +13,20 @@ from pinger_bot.mc_api import MCServer, StatusError
 log = get_logger()
 
 plugin = Plugin("motd")
+""":py:obj:`lightbulb.Plugin` object."""
 
 
 async def get_fail_embed(ip: str) -> Embed:
-    """Get the embed for when the ping fails."""
+    """Get the embed for when the ping fails.
+
+    See source code for more information.
+
+    Args:
+        ip: The IP address of the server to reference in text.
+
+    Returns:
+        The embed where ping failed.
+    """
     embed = Embed(title=_("Detailed MOTD of the {}").format(ip), color=(231, 76, 60))
     embed.add_field(
         name=_("Can't ping the server."), value=_("Maybe you set invalid IP address, or server just offline.")
@@ -29,7 +39,12 @@ async def get_fail_embed(ip: str) -> Embed:
 @command("motd", _("Get link for editing the server MOTD."), pass_options=True)
 @implements(SlashCommand)
 async def motd(ctx: SlashContext, ip: str) -> None:
-    """Ping the server and give information about it."""
+    """Ping the server and give information about it.
+
+    Args:
+        ctx: The context of the command.
+        ip: The IP address of the server to ping.
+    """
     await wait_please_message(ctx)
     try:
         server = await MCServer.status(ip)
@@ -53,5 +68,5 @@ async def motd(ctx: SlashContext, ip: str) -> None:
 
 
 def load(bot: PingerBot) -> None:
-    """Load the command."""
+    """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)

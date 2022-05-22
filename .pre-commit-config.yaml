@@ -3,7 +3,6 @@ repos:
   rev: v4.1.0
   hooks:
   - id: check-added-large-files
-  - id: check-docstring-first
   - id: check-vcs-permalinks
   - id: check-yaml
   - id: destroyed-symlinks

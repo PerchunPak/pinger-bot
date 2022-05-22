@@ -10,6 +10,7 @@ from pinger_bot.config import gettext as _
 log = get_logger()
 
 plugin = Plugin(name="events")
+""":py:obj:`lightbulb.Plugin` object."""
 
 
 class Events:
@@ -22,7 +23,6 @@ class Events:
 
         Args:
             event: Event that triggered listener.
-
         """
         if event.context.command is None:
             return
@@ -42,10 +42,10 @@ class Events:
     @staticmethod
     @plugin.listener(StoppingEvent)
     async def on_stopping(event: StoppingEvent) -> None:
-        """On-started hook. Just logs that the bot started."""
+        """On-started hook. Just logs that the bot stopping."""
         log.info(_("Bot stopping. Bye!"))
 
 
 def load(bot: PingerBot) -> None:
-    """Load the command."""
+    """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)
