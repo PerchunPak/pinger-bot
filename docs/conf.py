@@ -59,6 +59,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
+    "sphinx.ext.autosectionlabel",
     # Used to write beautiful docstrings:
     "sphinx.ext.napoleon",
     # Used to include .md files:
@@ -82,6 +83,9 @@ autodoc_default_flags = {
 # Set `typing.TYPE_CHECKING` to `True`:
 # https://pypi.org/project/sphinx-autodoc-typehints/
 set_type_checking_flag = True
+
+# Automatically generate section labels:
+autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

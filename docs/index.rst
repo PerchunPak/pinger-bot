@@ -9,6 +9,12 @@
 
 	pages/changelog.rst
 
+.. toctree::
+	:maxdepth: 1
+	:caption: Гайды
+
+	pages/docker.rst
+
 Индексы и таблицы
 ------------------
 

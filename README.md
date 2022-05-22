@@ -20,6 +20,8 @@ git clone https://github.com/PerchunPak/pinger-bot.git
 cd pinger-bot
 ```
 
+### Установка `poetry`
+
 Затем установите `poetry` [рекомендованым путем](https://python-poetry.org/docs/master/#installation).
 
 Если вы на платформе Linux, используйте команду:
@@ -34,7 +36,7 @@ curl -sSL https://install.python-poetry.org | python -
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
 
-И наконец установим зависимости:
+### Установка зависимостей
 
 ```bash
 poetry install
@@ -50,35 +52,42 @@ poetry install
 poetry install -E mysql
 ```
 
-После установки зависимостей, нужно скомпилировать файлы перевода.
+### Компиляция файлов перевода
+
 ```bash
 poetry run pybabel compile -d locales
 ```
 
-И после этого, нужно применить миграции:
+### Миграции базы данных
+
 ```bash
 poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
-Так же нужно настроить конфигурацию бота, [смотрите этот раздел](#конфигурация).
-
-Ну и наконец, запустить бота:
-```bash
-poetry run python pinger_bot/pinger_bot.py
-```
-
-Если вам все еще что-то не понятно - вы всегда можете написать мне!
-
-## Конфигурация
+### Конфигурация
 
 Вся настройка бота происходит в файле `.env` или `settings.ini`. Все настройки описаны в файле [config.py](/pinger_bot/config.py).
 
-### База данных
+#### База данных
 
 При настройке базы данных есть несколько дополнительных нюансов:
 
 - Если вы используете SQLite, вам нужно указать путь к базе данных. Рекомендуется указывать абсолютный путь.
 - Чтобы узнать что указывать в поле `DB_URI`, [смотрите эту статью](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls).
+
+### Запуск бота
+
+```bash
+poetry run python pinger_bot/pinger_bot.py
+```
+
+### Если что то не понятно
+
+Вы всегда можете написать мне!
+
+## Использование в Docker
+
+Смотрите отдельную [страницу в документации](https://pinger-bot.readthedocs.io/ru/latest/pages/docker.html).
 
 ## Обновление
 
