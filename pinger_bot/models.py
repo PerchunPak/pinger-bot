@@ -45,7 +45,7 @@ class Server(Base):  # type: ignore[valid-type,misc]
     """Port of the server."""
     max = Column(SmallInteger, nullable=False)
     """Max players on the server."""
-    alias = Column(String(256), unique=True, nullable=False)
+    alias = Column(String(256), unique=True)
     """Alias of the server. Can be used as IP of the server."""
     owner = Column(BigInteger, nullable=False)
     """Owner's Discord ID of the server."""
