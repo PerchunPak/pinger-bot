@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-22 20:14+0200\n"
+"POT-Creation-Date: 2022-05-23 22:44+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -18,39 +18,39 @@ msgstr ""
 msgid "Hello World!"
 msgstr "Hello World!"
 
-#: pinger_bot/bot.py:26
+#: pinger_bot/bot.py:25
 msgid "Creating bot object..."
 msgstr "Creating bot object..."
 
-#: pinger_bot/bot.py:39
+#: pinger_bot/bot.py:38
 msgid "Preparing and run the bot..."
 msgstr "Preparing and run the bot..."
 
-#: pinger_bot/bot.py:45
+#: pinger_bot/bot.py:44
 msgid "Pre-Run ended."
 msgstr "Pre-Run ended."
 
-#: pinger_bot/mc_api.py:101
+#: pinger_bot/mc_api.py:105
 msgid "Cannot resolve IP {}"
 msgstr "Cannot resolve IP {}"
 
-#: pinger_bot/mc_api.py:186
+#: pinger_bot/mc_api.py:195
 msgid "Trying to ping {}..."
 msgstr "Trying to ping {}..."
 
-#: pinger_bot/mc_api.py:194
+#: pinger_bot/mc_api.py:203
 msgid "Error while pinging server"
 msgstr "Error while pinging server"
 
-#: pinger_bot/mc_api.py:199
+#: pinger_bot/mc_api.py:208
 msgid "Something went wrong, while we pinged the server."
 msgstr "Something went wrong, while we pinged the server."
 
-#: pinger_bot/models.py:65
+#: pinger_bot/models.py:85
 msgid "Starting DB engine..."
 msgstr "Starting DB engine..."
 
-#: pinger_bot/models.py:67
+#: pinger_bot/models.py:88
 msgid "Starting DB session..."
 msgstr "Starting DB session..."
 
@@ -66,75 +66,115 @@ msgstr "Bot running! For stop it, use CTRL C."
 msgid "Bot stopping. Bye!"
 msgstr "Bot stopping. Bye!"
 
-#: pinger_bot/ext/commands/__init__.py:11
+#: pinger_bot/ext/commands/__init__.py:20
 msgid "Wait please..."
 msgstr "Wait please..."
 
-#: pinger_bot/ext/commands/__init__.py:12
+#: pinger_bot/ext/commands/__init__.py:21
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr "I'm working on it, please wait. I will ping you when it's done."
 
-#: pinger_bot/ext/commands/motd.py:20 pinger_bot/ext/commands/motd.py:41
-msgid "Detailed MOTD of the {}"
-msgstr "Detailed MOTD of the {}"
+#: pinger_bot/ext/commands/add.py:39 pinger_bot/ext/commands/add.py:57
+#, fuzzy
+msgid "Cannot add server {}"
+msgstr "Cannot resolve IP {}"
 
-#: pinger_bot/ext/commands/motd.py:22 pinger_bot/ext/commands/ping.py:25
+#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/motd.py:32
+#: pinger_bot/ext/commands/ping.py:35
 msgid "Can't ping the server."
 msgstr "Can't ping the server."
 
-#: pinger_bot/ext/commands/motd.py:22 pinger_bot/ext/commands/ping.py:25
+#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/motd.py:32
+#: pinger_bot/ext/commands/ping.py:35
 msgid "Maybe you set invalid IP address, or server just offline."
 msgstr "Maybe you set invalid IP address, or server just offline."
 
-#: pinger_bot/ext/commands/motd.py:28 pinger_bot/ext/commands/ping.py:39
+#: pinger_bot/ext/commands/add.py:58
+msgid "Server was already added."
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:58
+msgid "Maybe you set invalid IP address."
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:64 pinger_bot/ext/commands/motd.py:38
+#: pinger_bot/ext/commands/ping.py:58
 msgid "The IP address of the server."
 msgstr "The IP address of the server."
 
-#: pinger_bot/ext/commands/motd.py:29
+#: pinger_bot/ext/commands/add.py:65
+msgid "Add server to database."
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:92
+msgid "Added server {}"
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:93
+msgid "Name of the server in database: {}"
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:99
+msgid "Server successfully added."
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:99
+msgid "Write `/help` for more info about commands to use."
+msgstr ""
+
+#: pinger_bot/ext/commands/add.py:103
+msgid "Now you can use `/statistic {0}`, or a `/alias {0} (your alias)` command."
+msgstr ""
+
+#: pinger_bot/ext/commands/motd.py:30 pinger_bot/ext/commands/motd.py:56
+msgid "Detailed MOTD of the {}"
+msgstr "Detailed MOTD of the {}"
+
+#: pinger_bot/ext/commands/motd.py:39
 msgid "Get link for editing the server MOTD."
 msgstr "Get link for editing the server MOTD."
 
-#: pinger_bot/ext/commands/motd.py:42
+#: pinger_bot/ext/commands/motd.py:57
 msgid "This command give ability to edit the MOTD of the server."
 msgstr "This command give ability to edit the MOTD of the server."
 
-#: pinger_bot/ext/commands/motd.py:48 pinger_bot/ext/commands/ping.py:60
+#: pinger_bot/ext/commands/motd.py:63 pinger_bot/ext/commands/ping.py:84
 msgid "MOTD"
 msgstr "MOTD"
 
-#: pinger_bot/ext/commands/motd.py:49
+#: pinger_bot/ext/commands/motd.py:64
 msgid "Link for editing"
 msgstr "Link for editing"
 
-#: pinger_bot/ext/commands/ping.py:23 pinger_bot/ext/commands/ping.py:52
+#: pinger_bot/ext/commands/ping.py:33 pinger_bot/ext/commands/ping.py:76
 msgid "Ping Results {}"
 msgstr "Ping Results {}"
 
-#: pinger_bot/ext/commands/ping.py:34
+#: pinger_bot/ext/commands/ping.py:53
 msgid "No info."
 msgstr "No info."
 
-#: pinger_bot/ext/commands/ping.py:40
+#: pinger_bot/ext/commands/ping.py:59
 msgid "Ping the server and give information about it."
 msgstr "Ping the server and give information about it."
 
-#: pinger_bot/ext/commands/ping.py:53
+#: pinger_bot/ext/commands/ping.py:77
 msgid "Number IP: {}"
 msgstr "Number IP: {}"
 
-#: pinger_bot/ext/commands/ping.py:57
+#: pinger_bot/ext/commands/ping.py:81
 msgid "Latency"
 msgstr "Latency"
 
-#: pinger_bot/ext/commands/ping.py:58
+#: pinger_bot/ext/commands/ping.py:82
 msgid "Version"
 msgstr "Version"
 
-#: pinger_bot/ext/commands/ping.py:59
+#: pinger_bot/ext/commands/ping.py:83
 msgid "Players"
 msgstr "Players"
 
-#: pinger_bot/ext/commands/ping.py:64
+#: pinger_bot/ext/commands/ping.py:88
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr "If you want to get link for editing the server MOTD, use this command: {}"
 
