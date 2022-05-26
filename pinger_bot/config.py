@@ -1,29 +1,64 @@
 """File for the Config dataclass."""
 from dataclasses import dataclass
 from gettext import translation
+from os import environ
 from pathlib import Path
-from typing import Literal
 
-from decouple import config as decouple
+from omegaconf import OmegaConf
+from omegaconf.dictconfig import DictConfig
 
 
 @dataclass
 class Config:
     """Main dataclass for config."""
 
-    discord_token: str = decouple("DISCORD_TOKEN")
+    discord_token: str = "???"
     """Your Discord bot token."""
-    locale: Literal["en", "ru", "uk"] = decouple("LOCALE", default="ru")
-    """Bot's language, on which it speak."""
-    debug: bool = decouple("DEBUG", cast=bool, default=False)
+    locale: str = "ru"
+    """Bot's language, on which it speak. At now only supporting ``en`` (English), ``uk`` (Ukrainian) and ``ru`` (Russian)."""
+    debug: bool = False
     """Debug mode. Produce a lot of spam."""
-    verbose: bool = debug or decouple("VERBOSE", cast=bool, default=False)
+    verbose: bool = debug
     """Not so much info, that in debug."""
-    db_uri: str = decouple("DB_URI", default="sqlite+aiosqlite:///pinger_bot.db")
+    db_uri: str = "sqlite+aiosqlite:///pinger_bot.db"
     """DB_URI to connect."""
 
+    @classmethod
+    def setup(cls) -> "Config":
+        """Set up the config.
 
-config = Config()
+        It is just load config from file, also it is rewrite config with merged data.
+
+        Returns:
+            :py:class:`.Config` instance.
+        """
+        config_path = Path(__file__).parent.parent / "config.yml"
+        cfg = OmegaConf.structured(Config)
+
+        if config_path.exists():
+            loaded_config = OmegaConf.load(config_path)
+            cfg = OmegaConf.merge(cfg, loaded_config)
+
+        with open(config_path, "w") as config_file:
+            OmegaConf.save(cfg, config_file)
+
+        cls._handle_env_variables(cfg)
+
+        return cfg  # type: ignore[no-any-return] # actually return :py:class:`.Config`
+
+    @staticmethod
+    def _handle_env_variables(cfg: DictConfig) -> None:
+        """Process all values, and redef them with values from env variables.
+
+        Args:
+            cfg: :py:class:`.Config` instance.
+        """
+        for key, value in cfg.items():
+            if str(key).upper() in environ:
+                cfg[str(key)] = environ[str(key).upper()]
+
+
+config = Config.setup()
 """Initialized :py:class:`Config`."""
 translation_obj = translation("messages", str(Path(__file__).parent.parent / "locales"), languages=[config.locale])
 """This is setuped :py:obj:`gettext.translation` object."""

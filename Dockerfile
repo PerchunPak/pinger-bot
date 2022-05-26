@@ -25,9 +25,9 @@ RUN poetry run pybabel compile -d locales
 FROM base AS additional-steps-sqlite
 RUN poetry install --no-dev --no-root -E sqlite
 
-RUN echo "DISCORD_TOKEN='placeholder'" >> .env
+RUN echo "discord_token: PLACEHOLDER" >> config.yml
 RUN poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
-RUN rm .env
+RUN rm config.yml
 
 FROM base AS additional-steps-mysql
 RUN poetry install --no-dev --no-root -E mysql
