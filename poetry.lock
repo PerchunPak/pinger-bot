@@ -684,7 +684,7 @@ python-versions = "*"
 
 [[package]]
 name = "omegaconf"
-version = "2.2.1"
+version = "2.2.2"
 description = "A flexible configuration library"
 category = "main"
 optional = false
@@ -2031,8 +2031,8 @@ nodeenv = [
     {file = "nodeenv-1.6.0.tar.gz", hash = "sha256:3ef13ff90291ba2a4a7a4ff9a979b63ffdd00a464dbe04acf0ea6471517a4c2b"},
 ]
 omegaconf = [
-    {file = "omegaconf-2.2.1-py3-none-any.whl", hash = "sha256:5ce512b0a8996b5acddc7b30f6bffa337a4b0ada1d96b4270588365e2a69e6d5"},
-    {file = "omegaconf-2.2.1.tar.gz", hash = "sha256:6796a5b51a0112410d9940c3a5d2938d5e644377a5517c02db1aef99e03b8af2"},
+    {file = "omegaconf-2.2.2-py3-none-any.whl", hash = "sha256:556917181487fb66fe832d3c7b324f51b2f4c8adc373dd5091be921501b7d420"},
+    {file = "omegaconf-2.2.2.tar.gz", hash = "sha256:65c85b2a84669a570c70f2df00de3cebcd9b47a8587d3c53b1aa5766bb096f77"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
