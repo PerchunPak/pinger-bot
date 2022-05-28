@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-23 22:44+0200\n"
+"POT-Creation-Date: 2022-05-28 22:13+0200\n"
 "PO-Revision-Date: 2022-05-14 11:57+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -35,17 +35,13 @@ msgstr "Подготовка бота закончена."
 msgid "Cannot resolve IP {}"
 msgstr "Не могу пропарсить IP {}"
 
-#: pinger_bot/mc_api.py:195
+#: pinger_bot/mc_api.py:188
 msgid "Trying to ping {}..."
 msgstr "Пытаюсь пингануть {}..."
 
-#: pinger_bot/mc_api.py:203
+#: pinger_bot/mc_api.py:196
 msgid "Error while pinging server"
 msgstr "Ошибка во время пинга сервера"
-
-#: pinger_bot/mc_api.py:208
-msgid "Something went wrong, while we pinged the server."
-msgstr "Что-то пошло не так, пока я пинговал сервер."
 
 #: pinger_bot/models.py:85
 msgid "Starting DB engine..."
@@ -67,11 +63,11 @@ msgstr "Бот запущен! Для остановки нажмите CTRL C."
 msgid "Bot stopping. Bye!"
 msgstr "Бот останавливается. Пока!"
 
-#: pinger_bot/ext/commands/__init__.py:20
+#: pinger_bot/ext/commands/__init__.py:22
 msgid "Wait please..."
 msgstr "Пожалуйста подождите..."
 
-#: pinger_bot/ext/commands/__init__.py:21
+#: pinger_bot/ext/commands/__init__.py:23
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr "Я работаю над этим, пожалуйста подождите. Я вас упомяну когда закончу."
 
@@ -79,13 +75,13 @@ msgstr "Я работаю над этим, пожалуйста подождит
 msgid "Cannot add server {}"
 msgstr "Не могу добавить сервер {}"
 
-#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/motd.py:32
-#: pinger_bot/ext/commands/ping.py:35
+#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/alias.py:35
+#: pinger_bot/ext/commands/motd.py:32 pinger_bot/ext/commands/ping.py:35
 msgid "Can't ping the server."
 msgstr "Не могу пингануть сервер."
 
-#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/motd.py:32
-#: pinger_bot/ext/commands/ping.py:35
+#: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/alias.py:35
+#: pinger_bot/ext/commands/motd.py:32 pinger_bot/ext/commands/ping.py:35
 msgid "Maybe you set invalid IP address, or server just offline."
 msgstr "Возможно вы указали не правильный IP адрес, или сервер просто выключен."
 
@@ -106,29 +102,99 @@ msgstr "Айпи адрес сервера."
 msgid "Add server to database."
 msgstr "Добавить сервер в базу данных."
 
-#: pinger_bot/ext/commands/add.py:92
+#: pinger_bot/ext/commands/add.py:93
 msgid "Added server {}"
 msgstr "Добавлен сервер {}"
 
-#: pinger_bot/ext/commands/add.py:93
+#: pinger_bot/ext/commands/add.py:94
 msgid "Name of the server in database: {}"
 msgstr "Имя сервера в базе данных: {}"
 
-#: pinger_bot/ext/commands/add.py:99
+#: pinger_bot/ext/commands/add.py:100
 msgid "Server successfully added."
 msgstr "Сервер был успешно добавлен."
 
-#: pinger_bot/ext/commands/add.py:99
+#: pinger_bot/ext/commands/add.py:100
 msgid "Write `/help` for more info about commands to use."
 msgstr "Напишите `/help` для большей информации про команды, и их использование."
 
-#: pinger_bot/ext/commands/add.py:103
+#: pinger_bot/ext/commands/add.py:104
 msgid "Now you can use `/statistic {0}`, or a `/alias {0} (your alias)` command."
 msgstr ""
 "Теперь вы можете использовать `/statistic {0}`, или `/alias {0} (ваш "
 "алиас) команду."
 
-#: pinger_bot/ext/commands/motd.py:30 pinger_bot/ext/commands/motd.py:56
+#: pinger_bot/ext/commands/alias.py:33 pinger_bot/ext/commands/ping.py:33
+#: pinger_bot/ext/commands/ping.py:75
+msgid "Ping Results {}"
+msgstr "Результаты Пинга {}"
+
+#: pinger_bot/ext/commands/alias.py:50
+msgid "You are not an owner of the server"
+msgstr "Вы не владелец сервера."
+
+#: pinger_bot/ext/commands/alias.py:51
+msgid "Only server's owner can set/change alias."
+msgstr "Только владелец сервера может устанавливать/изменять алиас."
+
+#: pinger_bot/ext/commands/alias.py:55
+msgid "Can't set alias."
+msgstr "Не могу установить алиас."
+
+#: pinger_bot/ext/commands/alias.py:56
+msgid "You are not owner of the server {}."
+msgstr "Вы не владелец сервера {}."
+
+#: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
+#: pinger_bot/ext/commands/alias.py:141
+msgid "For more information about the server, write: {}"
+msgstr "Для большей информации про сервер, напишите: {}"
+
+#: pinger_bot/ext/commands/alias.py:77
+msgid "Alias {} already exists"
+msgstr "Алиас {} уже существует"
+
+#: pinger_bot/ext/commands/alias.py:78
+msgid "You can add only not existing alias."
+msgstr "Вы можете добавлять только не существующие алиасы."
+
+#: pinger_bot/ext/commands/alias.py:81
+msgid "Error"
+msgstr "Ошибка"
+
+#: pinger_bot/ext/commands/alias.py:81
+msgid "Alias already exists."
+msgstr "Алиас уже существует."
+
+#: pinger_bot/ext/commands/alias.py:92
+msgid "The IP address or alias of the server."
+msgstr "Айпи адрес или алиас сервера."
+
+#: pinger_bot/ext/commands/alias.py:93
+msgid "New alias of the server."
+msgstr "Новый алиас сервера."
+
+#: pinger_bot/ext/commands/alias.py:94
+msgid "Set alias of the server."
+msgstr "Установить алиас сервера."
+
+#: pinger_bot/ext/commands/alias.py:133
+msgid "Added alias {} to server {}"
+msgstr "Добавлен алиас {} к серверу {}"
+
+#: pinger_bot/ext/commands/alias.py:134
+msgid "Now you can use {} instead of {}"
+msgstr "Теперь вы можете использовать {} вместо {}"
+
+#: pinger_bot/ext/commands/alias.py:138
+msgid "Data successfully updated"
+msgstr "Сервер был успешно добавлен."
+
+#: pinger_bot/ext/commands/alias.py:138
+msgid "Write '/help' for list of my commands"
+msgstr "Напишите '/help' для получения списка моих команд"
+
+#: pinger_bot/ext/commands/motd.py:30 pinger_bot/ext/commands/motd.py:55
 msgid "Detailed MOTD of the {}"
 msgstr "Детальное MOTD сервера {}"
 
@@ -136,21 +202,17 @@ msgstr "Детальное MOTD сервера {}"
 msgid "Get link for editing the server MOTD."
 msgstr "Дает ссылку на редактирование MOTD сервера."
 
-#: pinger_bot/ext/commands/motd.py:57
+#: pinger_bot/ext/commands/motd.py:56
 msgid "This command give ability to edit the MOTD of the server."
 msgstr "Эта команда дает возможность редактировать MOTD сервера."
 
-#: pinger_bot/ext/commands/motd.py:63 pinger_bot/ext/commands/ping.py:84
+#: pinger_bot/ext/commands/motd.py:62 pinger_bot/ext/commands/ping.py:83
 msgid "MOTD"
 msgstr "MOTD"
 
-#: pinger_bot/ext/commands/motd.py:64
+#: pinger_bot/ext/commands/motd.py:63
 msgid "Link for editing"
 msgstr "Ссылка для редактирования"
-
-#: pinger_bot/ext/commands/ping.py:33 pinger_bot/ext/commands/ping.py:76
-msgid "Ping Results {}"
-msgstr "Результаты Пинга {}"
 
 #: pinger_bot/ext/commands/ping.py:53
 msgid "No info."
@@ -160,23 +222,23 @@ msgstr "Нет информации."
 msgid "Ping the server and give information about it."
 msgstr "Пингует сервер и дает информацию про него."
 
-#: pinger_bot/ext/commands/ping.py:77
+#: pinger_bot/ext/commands/ping.py:76
 msgid "Number IP: {}"
 msgstr "Цифровой айпи: {}"
 
-#: pinger_bot/ext/commands/ping.py:81
+#: pinger_bot/ext/commands/ping.py:80
 msgid "Latency"
 msgstr "Время Ответа"
 
-#: pinger_bot/ext/commands/ping.py:82
+#: pinger_bot/ext/commands/ping.py:81
 msgid "Version"
 msgstr "Версия"
 
-#: pinger_bot/ext/commands/ping.py:83
+#: pinger_bot/ext/commands/ping.py:82
 msgid "Players"
 msgstr "Игроки"
 
-#: pinger_bot/ext/commands/ping.py:88
+#: pinger_bot/ext/commands/ping.py:87
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr "Для получения ссылки на редактирование MOTD, напишите: {}"
 
