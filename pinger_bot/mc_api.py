@@ -17,11 +17,7 @@ log = get_logger()
 
 @dataclass
 class Address:
-    """Class for containing information about server address.
-
-    Todo:
-        Add ``alias`` field.
-    """
+    """Class for containing information about server address."""
 
     host: str
     """Host where server is, like ``127.0.0.1``."""
@@ -29,8 +25,10 @@ class Address:
     """Port of the server, example ``25565`` or ``19132``."""
     input_ip: str
     """Unparsed and unmodified IP, which was passed before everything."""
+    alias: Optional[str]
+    """Alias of the server."""
     display_ip: str
-    """Display IP of the server (:py:attr:`alias`, if this unset - :py:attr:`.input_ip`)."""
+    """Display IP of the server (:py:attr:`.alias`, if this unset - :py:attr:`.input_ip`)."""
     num_ip: str
     """Number IP of the server. Always with port. Example ``127.0.0.1:25565``."""
     _server: Union[JavaServer, BedrockServer]
@@ -55,6 +53,7 @@ class Address:
                 host=server.address.host,
                 port=server.address.port,
                 input_ip=input_ip,
+                alias=input_ip,
                 display_ip=input_ip,
                 num_ip=(await cls._get_number_ip(server.address.host)) + ":" + str(server.address.port),
                 _server=server,
@@ -68,6 +67,7 @@ class Address:
             host=server.address.host,
             port=server.address.port,
             input_ip=input_ip,
+            alias=alias,
             display_ip=alias if alias is not None else input_ip,
             num_ip=num_ip,
             _server=server,
