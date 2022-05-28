@@ -11,7 +11,7 @@ from structlog.stdlib import get_logger
 from pinger_bot.bot import PingerBot
 from pinger_bot.config import gettext as _
 from pinger_bot.ext.commands import wait_please_message
-from pinger_bot.mc_api import MCServer, StatusError
+from pinger_bot.mc_api import FailedMCServer, MCServer
 
 log = get_logger()
 
@@ -66,10 +66,9 @@ async def ping(ctx: SlashContext, ip: str) -> None:
         ip: The IP address of the server.
     """
     await wait_please_message(ctx)
-    try:
-        server = await MCServer.status(ip)
-    except StatusError:
-        await ctx.respond(ctx.author.mention, embed=await get_fail_embed(ip), user_mentions=True)
+    server = await MCServer.status(ip)
+    if isinstance(server, FailedMCServer):
+        await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
     embed = Embed(

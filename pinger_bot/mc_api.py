@@ -143,10 +143,6 @@ class Players:
         return f"{self.online}/{self.max}"
 
 
-class StatusError(Exception):
-    """Raised by :py:meth:`.MCServer.status` when something went wrong."""
-
-
 @dataclass
 class MCServer:
     """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
@@ -178,7 +174,7 @@ class MCServer:
             self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{str(self.address.port)}"  # type: ignore[unreachable]
 
     @classmethod
-    async def status(cls, host: str) -> "MCServer":
+    async def status(cls, host: str) -> Union["MCServer", "FailedMCServer"]:
         """Get cross-platform status.
 
         First ping it as :py:class:`mcstatus.JavaServer`, and if it fails, ping as :py:class:`mcstatus.BedrockServer`.
@@ -187,10 +183,7 @@ class MCServer:
             host: Host where server is, like ``127.0.0.1:25565``, ``hypixel.net`` or alias.
 
         Returns:
-            Initialised :py:class:`.MCServer` object.
-
-        Raises:
-            StatusError: When **any** unexpected error was raised.
+            Initialised :py:class:`.MCServer` object or :class:`.FailedMCServer` if ping failed.
         """
         log.info(_("Trying to ping {}...").format(host))
         try:
@@ -205,14 +198,14 @@ class MCServer:
                     java_error=str(java_error),
                     bedrock_error=str(bedrock_error),
                 )
-                raise StatusError(_("Something went wrong, while we pinged the server."))
+                return await FailedMCServer.handle_failed(host)
 
     @classmethod
     async def handle_java(cls, host: str) -> "MCServer":
         """Handle java server and transform it to :py:class:`.MCServer` object.
 
         Args:
-            host: Host where server is, like ``127.0.0.1:25565``.
+            host: Host where server is, like ``127.0.0.1:25565``, ``hypixel.net`` or alias.
 
         Returns:
             Initialised :py:class:`.MCServer` object.
@@ -254,3 +247,36 @@ class MCServer:
             ),
             latency=status.latency,
         )
+
+
+@dataclass
+class FailedMCServer:
+    """Represents a server, when ping failed."""
+
+    address: Address
+    """:py:class:`.Address` of the server."""
+
+    icon: str = None  # type: ignore[assignment]
+    """Icon of the server. Default value :obj:`None`, because real default value
+    will be set in :py:meth:`.FailedMCServer.__post_init__`.
+    """
+
+    def __post_init__(self) -> None:
+        """Post init method. Just construct some fields."""
+        # it is reachable if user not defined this fields
+        if self.icon is None:
+            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{str(self.address.port)}"  # type: ignore[unreachable]
+
+    @classmethod
+    async def handle_failed(cls, host: str) -> "FailedMCServer":
+        """Handle failed ping and transform it to :py:class:`.MCServer` object.
+
+        Args:
+            host: Host where server is, like ``127.0.0.1:25565``, ``hypixel.net`` or alias.
+
+        Returns:
+            Initialised :py:class:`.MCServer` object.
+        """
+        log.debug("MCServer.handle_failed", host=host)
+        # using java=False because it is faster
+        return cls(await Address.resolve(host, java=False))

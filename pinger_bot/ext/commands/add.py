@@ -16,7 +16,7 @@ from structlog.stdlib import get_logger
 from pinger_bot.bot import PingerBot
 from pinger_bot.config import gettext as _
 from pinger_bot.ext.commands import wait_please_message
-from pinger_bot.mc_api import MCServer, StatusError
+from pinger_bot.mc_api import FailedMCServer, MCServer
 from pinger_bot.models import Server, db
 
 log = get_logger()
@@ -72,10 +72,9 @@ async def add(ctx: SlashContext, ip: str) -> None:
         ip: The IP address of the server.
     """
     await wait_please_message(ctx)
-    try:
-        server = await MCServer.status(ip)
-    except StatusError:
-        await ctx.respond(ctx.author.mention, embed=await get_fail_embed(ip), user_mentions=True)
+    server = await MCServer.status(ip)
+    if isinstance(server, FailedMCServer):
+        await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
     try:
@@ -85,7 +84,9 @@ async def add(ctx: SlashContext, ip: str) -> None:
             )
             await session.commit()
     except IntegrityError:  # server already added
-        await ctx.respond(ctx.author.mention, embed=await get_already_added_embed(ip), user_mentions=True)
+        await ctx.respond(
+            ctx.author.mention, embed=await get_already_added_embed(server.address.display_ip), user_mentions=True
+        )
         return
 
     embed = Embed(
