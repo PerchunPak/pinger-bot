@@ -1,5 +1,5 @@
 """Module for the ``add`` command."""
-from hikari import Embed
+from hikari.embeds import Embed
 from lightbulb import (
     Plugin,
     add_checks,
@@ -22,7 +22,7 @@ from pinger_bot.models import Server, db
 log = get_logger()
 
 plugin = Plugin("ping")
-""":py:obj:`lightbulb.Plugin` object."""
+""":class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
 async def get_fail_embed(ip: str) -> Embed:

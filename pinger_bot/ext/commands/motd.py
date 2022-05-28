@@ -1,5 +1,5 @@
 """Module for the ``motd`` command."""
-from hikari import Embed
+from hikari.embeds import Embed
 from lightbulb import Plugin, command, implements, option
 from lightbulb.commands import SlashCommand
 from lightbulb.context.slash import SlashContext
@@ -13,7 +13,7 @@ from pinger_bot.mc_api import MCServer, StatusError
 log = get_logger()
 
 plugin = Plugin("motd")
-""":py:obj:`lightbulb.Plugin` object."""
+""":class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
 async def get_fail_embed(ip: str) -> Embed:

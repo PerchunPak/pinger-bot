@@ -14,8 +14,10 @@ http://www.sphinx-doc.org/en/master/config
 import os
 import sys
 from datetime import date
+from os import makedirs
 from typing import Dict, List, Optional
 
+import sphobjinv
 from autoapi.mappers.python.objects import PythonModule
 from packaging.version import parse as parse_version
 from sphinx.application import Sphinx
@@ -65,6 +67,8 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
     "sphinx.ext.autosectionlabel",
+    # Used to reference for third party projects:
+    "sphinx.ext.intersphinx",
     # Used to write beautiful docstrings:
     "sphinx.ext.napoleon",
     # Used to include .md files:
@@ -150,6 +154,29 @@ napoleon_include_private_with_doc = True
 # Configuration for autoapi
 autoapi_dirs = ["../pinger_bot"]
 autoapi_template_dir = "_autoapi_templates"
+
+
+def get_patched_hikari_inv() -> str:
+    """Patching hikari's ``objects.inv`` file, with correct roles.
+
+    Returns:
+        Path to patched ``inv`` file.
+    """
+    inv = sphobjinv.Inventory(url="https://www.hikari-py.dev/objects.inv")
+    for object_ in inv.objects:
+        if object_.role == "func" or object_.role == "var":
+            object_.role = {"func": "function", "var": "variable"}[object_.role]
+    makedirs("./_build/doctrees", exist_ok=True)
+    sphobjinv.writebytes("./_build/doctrees/hikari_objects.inv", sphobjinv.compress(inv.data_file()))
+    return "./_build/doctrees/hikari_objects.inv"
+
+
+# Third-party projects documentation references:
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "hikari": ("https://www.hikari-py.dev/", get_patched_hikari_inv()),
+    "lightbulb": ("https://hikari-lightbulb.readthedocs.io/en/latest/", None),
+}
 
 
 def skip_data_from_docs(

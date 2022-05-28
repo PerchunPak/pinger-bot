@@ -2,7 +2,7 @@
 from re import IGNORECASE
 from re import sub as re_sub
 
-from hikari import Embed
+from hikari.embeds import Embed
 from lightbulb import Plugin, command, implements, option
 from lightbulb.commands import SlashCommand
 from lightbulb.context.slash import SlashContext
@@ -16,7 +16,7 @@ from pinger_bot.mc_api import MCServer, StatusError
 log = get_logger()
 
 plugin = Plugin("ping")
-""":py:obj:`lightbulb.Plugin` object."""
+""":class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
 async def get_fail_embed(ip: str) -> Embed:
@@ -43,7 +43,7 @@ async def clear_motd(motd: str) -> str:
     This removes ``&`` and ``§`` from the :py:attr:`~pinger_bot.mc_api.MCServer.motd` (plus next character).
 
     Args:
-        motd: :py:attr:`~pinger_bot.mc_api.MCServer.motd` of the server.
+        motd: :py:attr:`MOTD <pinger_bot.mc_api.MCServer.motd>` of the server.
 
     Returns:
         Clear :py:attr:`~pinger_bot.mc_api.MCServer.motd`.

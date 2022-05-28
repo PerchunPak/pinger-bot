@@ -18,7 +18,7 @@ class PingerBot(BotApp):
     """Main bot class.
 
     Args:
-        kwargs: Additional arguments which passing to :py:func:`hikari.GatewayBot.__init__`.
+        kwargs: Additional arguments which passing to :class:`~hikari.impl.bot.GatewayBot`.
     """
 
     def __init__(self, **kwargs) -> None:
@@ -33,7 +33,7 @@ class PingerBot(BotApp):
         """Main function to run bot.
 
         Args:
-            kwargs: Additional arguments which passing to :py:func:`hikari.GatewayBot.run`.
+            kwargs: Additional arguments which passing to :func:`GatewayBot.run() <hikari.impl.bot.GatewayBot.run>`.
         """
         log.info(_("Preparing and run the bot..."))
 

@@ -1,5 +1,5 @@
 """Module for handling events."""
-from hikari import StartedEvent, StoppingEvent
+from hikari.events.lifetime_events import StartedEvent, StoppingEvent
 from lightbulb import Plugin
 from lightbulb.events import SlashCommandInvocationEvent
 from structlog.stdlib import get_logger
@@ -10,7 +10,7 @@ from pinger_bot.config import gettext as _
 log = get_logger()
 
 plugin = Plugin(name="events")
-""":py:obj:`lightbulb.Plugin` object."""
+""":class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
 class Events:
