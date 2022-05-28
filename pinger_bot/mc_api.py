@@ -126,7 +126,7 @@ class Address:
             server = await session.execute(select(Server.alias).where(Server.host == host).where(Server.port == port))
         row = server.first()
 
-        return str(row.alias) if row is not None else None
+        return str(row.alias) if row is not None and row.alias is not None else None
 
 
 @dataclass
