@@ -182,13 +182,8 @@ intersphinx_mapping = {
 def skip_data_from_docs(
     app: Sphinx, what: str, name: str, obj: PythonModule, skip: Optional[bool], options: List[str]
 ) -> Optional[bool]:
-    """Skip ``log`` function everywhere, and ``_`` false-positive documented function in ``pinger_bot.ext.commands``."""
-    if any(
-        [
-            what == "data" and name.endswith(".log"),
-            name == "pinger_bot.ext.commands._",
-        ]
-    ):
+    """Skip ``log`` function everywhere."""
+    if what == "data" and name.endswith(".log"):
         skip = True
     return skip
 

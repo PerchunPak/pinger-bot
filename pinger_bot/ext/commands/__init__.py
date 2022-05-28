@@ -4,6 +4,8 @@ from lightbulb.context.slash import SlashContext
 
 from pinger_bot.config import gettext as _
 
+__all__ = ["wait_please_message"]
+
 
 async def wait_please_message(ctx: SlashContext) -> None:
     """Factory for the ``Wait Please`` embed.
