@@ -8,7 +8,7 @@ ENV PYTHONPATH '/app'
 WORKDIR /app
 
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install libpq-dev gcc g++ curl -y --no-install-recommends
+    apt-get install libpq-dev gcc g++ curl git -y --no-install-recommends
 RUN curl -sSL "https://install.python-poetry.org" | python
 ENV PATH="/root/.local/bin:${PATH}"
 
@@ -18,11 +18,11 @@ RUN poetry config virtualenvs.in-project true
 COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-dev --no-root
 
-COPY pinger_bot/ pinger_bot/
 COPY locales/ locales/
 RUN poetry run pybabel compile -d locales
 
 FROM base AS additional-steps-sqlite
+COPY pinger_bot/migrations/ pinger_bot/migrations/ pinger_bot/models.py pinger_bot/ pinger_bot/config.py pinger_bot/
 RUN poetry install --no-dev --no-root -E sqlite
 
 RUN echo "discord_token: PLACEHOLDER" >> config.yml
@@ -36,5 +36,11 @@ FROM base AS additional-steps-postgresql
 RUN poetry install --no-dev --no-root -E postgresql
 
 FROM additional-steps-${dialect} AS final
+
+# Write version for the `/version` command
+COPY .git/ .git/
+RUN git rev-parse HEAD > commit.txt && rm -rf .git/ && apt-get remove -y git
+
+COPY pinger_bot/ pinger_bot/
 
 CMD ["poetry", "run", "python", "pinger_bot"]
