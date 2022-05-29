@@ -33,7 +33,11 @@ class PingerBot(BotApp):
         log.debug("PingerBot.__init__", **kwargs)
 
         super().__init__(
-            config.discord_token, logs="DEBUG" if config.debug else "WARNING", intents=Intents.ALL, **kwargs
+            config.discord_token,
+            logs="DEBUG" if config.debug else "WARNING",
+            intents=Intents.ALL,
+            banner=None,
+            **kwargs,
         )
 
     @classmethod

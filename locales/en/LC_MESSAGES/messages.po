@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-29 22:25+0200\n"
+"POT-Creation-Date: 2022-05-29 22:29+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "`uvloop` installed, speed increased."
 msgstr ""
 
-#: pinger_bot/bot.py:46
+#: pinger_bot/bot.py:50
 msgid "Preparing and run the bot..."
 msgstr ""
 
-#: pinger_bot/bot.py:52
+#: pinger_bot/bot.py:56
 msgid "Pre-Run ended."
 msgstr ""
 
@@ -389,7 +389,4 @@ msgstr ""
 #: pinger_bot/ext/commands/ping.py:88
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr ""
-
-#~ msgid "Execute SQL statement to database."
-#~ msgstr ""
 
