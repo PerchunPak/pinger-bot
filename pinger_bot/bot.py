@@ -60,6 +60,7 @@ class PingerBot(BotApp):
         if not config.debug:
             logging.getLogger("hikari").setLevel(logging.WARNING)
             logging.getLogger("lightbulb").setLevel(logging.WARNING)
+            logging.getLogger("apscheduler").setLevel(logging.WARNING)
 
         # debug-log after configuring logger
         log.debug("PingerBot.handle_debug_options", debug=config.debug, verbose=config.verbose)

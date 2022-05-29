@@ -19,9 +19,9 @@ repository = "https://github.com/PerchunPak/pinger-bot"
 python = "^3.8,<3.11"
 
 # Our dependecies
-# TODO add APScheduler for scheduling tasks
 hikari = "~2.0.0-dev"
 hikari-lightbulb = "~2.2"
+APScheduler = "~3.9"
 
 mcstatus = "~9.0"
 SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}

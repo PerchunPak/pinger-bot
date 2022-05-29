@@ -6,6 +6,7 @@ from structlog.stdlib import get_logger
 
 from pinger_bot.bot import PingerBot
 from pinger_bot.config import gettext as _
+from pinger_bot.ext.scheduling import scheduler
 
 log = get_logger()
 
@@ -36,14 +37,16 @@ class Events:
     @staticmethod
     @plugin.listener(StartedEvent)
     async def on_started(event: StartedEvent) -> None:
-        """On-started hook. Just logs that the bot started."""
+        """On-started hook. Just logs that the bot started and run scheduler."""
         log.info(_("Bot running! For stop it, use CTRL C."))
+        scheduler.start()
 
     @staticmethod
     @plugin.listener(StoppingEvent)
     async def on_stopping(event: StoppingEvent) -> None:
-        """On-started hook. Just logs that the bot stopping."""
+        """On-started hook. Just logs that the bot stopping and stop scheduler."""
         log.info(_("Bot stopping. Bye!"))
+        scheduler.shutdown()
 
 
 def load(bot: PingerBot) -> None:

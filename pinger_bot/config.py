@@ -22,6 +22,8 @@ class Config:
     """Not so much info, that in debug."""
     db_uri: str = "sqlite+aiosqlite:///pinger_bot.db"
     """DB_URI to connect."""
+    ping_interval: int = 5
+    """Interval between pings, for collecting statistic of the server. In minutes."""
 
     @classmethod
     def setup(cls) -> "Config":
