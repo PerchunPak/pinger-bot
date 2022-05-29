@@ -18,6 +18,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.sql import func
 from structlog.stdlib import get_logger
 
 from pinger_bot.config import config
@@ -66,8 +67,8 @@ class Ping(Base):  # type: ignore[valid-type,misc]
     """Host of the server, for which ping was made. This is a foreign key constraint."""
     port = Column(ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)
     """Port of the server, for which ping was made. This is a foreign key constraint."""
-    time = Column(DateTime, nullable=False)
-    """Time of the ping."""
+    time = Column(DateTime, server_default=func.now(), nullable=False)
+    """Time of the ping. Default to current time."""
     players = Column(Integer, nullable=False)
     """Players online in moment of the ping."""
 
