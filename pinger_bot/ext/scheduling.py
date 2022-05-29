@@ -42,15 +42,19 @@ async def handle_server(db_server: Server, session: AsyncSession) -> None:
         db_server: :class:`pinger_bot.models.Server` object.
         session: :class:`sqlalchemy.ext.asyncio.AsyncSession`, so every online server will not open new DB session.
     """
-    log.debug(_("scheduling.handle_server"), server=db_server, db_session=session)
+    log.debug("scheduling.handle_server", server=db_server, db_session=session)
     server = await MCServer.status(str(db_server.host) + ":" + str(db_server.port))
-    log.debug(_("scheduling.handle_server server offline?"), offline=isinstance(server, FailedMCServer))
+    log.debug(_("Server offline?"), offline=isinstance(server, FailedMCServer))
 
     if not isinstance(server, FailedMCServer):
         session.add(Ping(host=db_server.host, port=db_server.port, players=server.players.online))
 
         if server.players.online > db_server.max:
-            log.debug(_("scheduling.handle_server update max"), current=server.players.online, old=db_server.max)
+            log.debug(
+                _("Update max players, in server {}".format(server.address.display_ip)),
+                current=server.players.online,
+                old=db_server.max,
+            )
             await session.execute(update(Server).where(Server.id == db_server.id).values(max=server.players.online))
 
 
