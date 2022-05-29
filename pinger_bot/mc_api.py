@@ -45,6 +45,7 @@ class Address:
         Returns:
             Resolved :py:class:`.Address` object.
         """
+        log.debug("Address.resolve", input_ip=input_ip, java=java)
         ip_from_alias = await cls._get_ip_from_alias(input_ip)
 
         if ip_from_alias is not None:
@@ -83,10 +84,12 @@ class Address:
         Returns:
             IP if alias was found, else None.
         """
+        log.debug("Address._get_ip_from_alias", alias=alias)
         async with db.session() as session:
             server = await session.execute(select(Server.host, Server.port).where(Server.alias == alias))
         row = server.first()
 
+        log.debug("Address._get_ip_from_alias row", row=row)
         return str(row.host + ":" + str(row.port)) if row is not None else None
 
     @staticmethod
@@ -99,10 +102,11 @@ class Address:
         Returns:
             Number IP or input IP if resolving failed.
         """
+        log.debug("Address._get_number_ip", input_ip=input_ip)
         try:
             answers = await dns_resolve(input_ip, RdataType.A)
         except DNSException:
-            log.debug(_("Cannot resolve IP {}").format(input_ip))
+            log.debug(_("Cannot resolve IP {} to number IP").format(input_ip))
             return input_ip
 
         # There should only be one answer here, though in case the server
@@ -122,10 +126,12 @@ class Address:
         Returns:
             Alias if found, else None.
         """
+        log.debug("Address._get_alias_from_ip", host=host, port=port)
         async with db.session() as session:
             server = await session.execute(select(Server.alias).where(Server.host == host).where(Server.port == port))
         row = server.first()
 
+        log.debug("Address._get_alias_from_ip row", row=row)
         return str(row.alias) if row is not None and row.alias is not None else None
 
 
@@ -185,19 +191,15 @@ class MCServer:
         Returns:
             Initialised :py:class:`.MCServer` object or :class:`.FailedMCServer` if ping failed.
         """
-        log.info(_("Trying to ping {}...").format(host))
+        log.debug("MCServer.status", host=host)
         try:
             return await cls.handle_java(host)
         except Exception as java_error:
+            log.debug("MCServer.status java_error", java_error=java_error)
             try:
                 return await cls.handle_bedrock(host)
             except Exception as bedrock_error:
-                log.debug(
-                    _("Error while pinging server"),
-                    host=host,
-                    java_error=str(java_error),
-                    bedrock_error=str(bedrock_error),
-                )
+                log.debug("MCServer.status bedrock_error", bedrock_error=bedrock_error)
                 return await FailedMCServer.handle_failed(host)
 
     @classmethod

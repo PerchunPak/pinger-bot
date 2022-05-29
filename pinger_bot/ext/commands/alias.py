@@ -105,6 +105,7 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
     server = await MCServer.status(ip)
 
     if isinstance(server, FailedMCServer):
+        log.debug(_("Failed ping for {}").format(server.address.display_ip))
         row = None
     else:
         async with db.session() as session:
@@ -114,12 +115,17 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
                 .where(Server.port == server.address.port)
             )
         row = db_server.first()
+        log.debug(_("Server {} in DB {}").format(server.address.display_ip, row))
 
     if row is None or isinstance(server, FailedMCServer):  # isinstance only for type checker, it is always will be True
+        log.debug(
+            _("Failed add alias for {}.").format(server.address.display_ip) + _("Server offline or not in database.")
+        )
         await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
     if ctx.author.id != row.owner:
+        log.debug(_("Failed add alias for {}.").format(server.address.display_ip) + _("User not owner."))
         await ctx.respond(ctx.author.mention, embed=await get_not_owner_embed(server), user_mentions=True)
         return
 
@@ -127,7 +133,9 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
         async with db.session() as session:
             await session.execute(update(Server).where(Server.id == row.id).values(alias=alias))
             await session.commit()
+        log.debug("Server {}'s alias changed to {}".format(server.address.display_ip, alias))
     except IntegrityError:
+        log.debug(_("Failed add alias for {}.").format(server.address.display_ip) + _("Alias already exists."))
         await ctx.respond(ctx.author.mention, embed=await get_alias_exists_embed(server, alias), user_mentions=True)
         return
 

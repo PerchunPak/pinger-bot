@@ -68,6 +68,7 @@ async def ping(ctx: SlashContext, ip: str) -> None:
     await wait_please_message(ctx)
     server = await MCServer.status(ip)
     if isinstance(server, FailedMCServer):
+        log.debug(_("Failed ping for {}").format(server.address.display_ip))
         await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
@@ -89,6 +90,7 @@ async def ping(ctx: SlashContext, ip: str) -> None:
         )
     )
 
+    log.debug(_(_("Ping successful for {}")).format(server.address.display_ip))
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 

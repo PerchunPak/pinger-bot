@@ -31,7 +31,7 @@ class Events:
         for key in event.context.raw_options:
             options[key] = event.context.raw_options[key]
 
-        log.debug(_("Command '{}'").format(event.context.command.name), user=str(event.context.author), **options)
+        log.info(_("Command '{}'").format(event.context.command.name), user=str(event.context.author), **options)
 
     @staticmethod
     @plugin.listener(StartedEvent)

@@ -82,10 +82,9 @@ class Ping(Base):  # type: ignore[valid-type,misc]
 class Database:
     """Some cached info about database."""
 
-    log.info(_("Starting DB engine..."))
+    log.info(_("Starting DB..."))
     engine: AsyncEngine = create_async_engine(config.db_uri, echo=config.debug)
     """Async engine of the Database."""
-    log.debug(_("Starting DB session..."))
     session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
     """Async session of the Database."""
 

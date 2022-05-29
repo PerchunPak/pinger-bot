@@ -22,7 +22,7 @@ class PingerBot(BotApp):
     """
 
     def __init__(self, **kwargs) -> None:
-        log.debug(_("Creating bot object..."))
+        log.debug("PingerBot.__init__", **kwargs)
 
         super().__init__(
             config.discord_token, logs="DEBUG" if config.debug else "WARNING", intents=Intents.ALL, **kwargs

@@ -74,6 +74,7 @@ async def add(ctx: SlashContext, ip: str) -> None:
     await wait_please_message(ctx)
     server = await MCServer.status(ip)
     if isinstance(server, FailedMCServer):
+        log.debug(_("Failed ping for {}").format(server.address.display_ip))
         await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
@@ -83,7 +84,9 @@ async def add(ctx: SlashContext, ip: str) -> None:
                 Server(host=server.address.host, port=server.address.port, max=server.players.max, owner=ctx.author.id)
             )
             await session.commit()
+        log.debug(_("Added server {}").format(server.address.display_ip))
     except IntegrityError:  # server already added
+        log.debug(_("Server {} already added").format(server.address.display_ip))
         await ctx.respond(
             ctx.author.mention, embed=await get_already_added_embed(server.address.display_ip), user_mentions=True
         )

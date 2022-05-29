@@ -48,6 +48,7 @@ async def motd(ctx: SlashContext, ip: str) -> None:
     await wait_please_message(ctx)
     server = await MCServer.status(ip)
     if isinstance(server, FailedMCServer):
+        log.debug(_("Failed ping for {}").format(server.address.display_ip))
         await ctx.respond(ctx.author.mention, embed=await get_fail_embed(server.address.display_ip), user_mentions=True)
         return
 
@@ -63,6 +64,7 @@ async def motd(ctx: SlashContext, ip: str) -> None:
     embed.add_field(name=_("Link for editing"), value="https://mctools.org/motd-creator?text=" + motd_url)
     embed.set_thumbnail(server.icon)
 
+    log.debug(_("Ping successful for {}").format(server.address.display_ip))
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
