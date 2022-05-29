@@ -18,7 +18,7 @@ log = get_logger()
 scheduler = AsyncIOScheduler()
 
 
-@scheduler.scheduled_job("interval", seconds=config.ping_interval)
+@scheduler.scheduled_job("interval", minutes=config.ping_interval)
 async def collect_info_for_statistic() -> None:
     """Collect info for statistic plot."""
     log.info(_("Collecting info for statistic plot."))
