@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from typing import Optional, Union
 
-from dns.asyncresolver import resolve as dns_resolve
+from dns.asyncresolver import Resolver
 from dns.exception import DNSException
 from dns.rdatatype import RdataType
 from mcstatus import BedrockServer, JavaServer
@@ -104,7 +104,9 @@ class Address:
         """
         log.debug("Address._get_number_ip", input_ip=input_ip)
         try:
-            answers = await dns_resolve(input_ip, RdataType.A)
+            resolver = Resolver()
+            resolver.nameservers = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1"] + resolver.nameservers
+            answers = await resolver.resolve(input_ip, RdataType.A)
         except DNSException:
             log.debug(_("Cannot resolve IP {} to number IP").format(input_ip))
             return input_ip

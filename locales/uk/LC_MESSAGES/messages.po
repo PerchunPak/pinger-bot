@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-29 10:12+0200\n"
+"POT-Creation-Date: 2022-05-29 10:35+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -27,7 +27,7 @@ msgstr "Підготовлюю та запускаю бота..."
 msgid "Pre-Run ended."
 msgstr "Підготовка закінчена."
 
-#: pinger_bot/mc_api.py:109
+#: pinger_bot/mc_api.py:111
 msgid "Cannot resolve IP {} to number IP"
 msgstr "Не можу пропарсити IP {} в цифровий IP"
 
@@ -47,11 +47,11 @@ msgstr "Бот запущений! Для його зупинки натисні
 msgid "Bot stopping. Bye!"
 msgstr "Бот зупиняється. Бувайте!"
 
-#: pinger_bot/ext/commands/__init__.py:25
+#: pinger_bot/ext/commands/__init__.py:22
 msgid "Wait please..."
 msgstr "Будь ласка почекайте..."
 
-#: pinger_bot/ext/commands/__init__.py:26
+#: pinger_bot/ext/commands/__init__.py:23
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr "Я працюю над цим, будь ласка почекайте. Я згадаю вас коли закінчу."
 
@@ -139,7 +139,7 @@ msgid "You are not owner of the server {}."
 msgstr "Ви не власник серверу {}."
 
 #: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
-#: pinger_bot/ext/commands/alias.py:149
+#: pinger_bot/ext/commands/alias.py:151
 msgid "For more information about the server, write: {}"
 msgstr "Для більшої інформації про сервер, напишіть: {}"
 
@@ -155,7 +155,7 @@ msgstr "Ви можете встановити тільки не існуючи�
 msgid "Error"
 msgstr "Помилка"
 
-#: pinger_bot/ext/commands/alias.py:81 pinger_bot/ext/commands/alias.py:136
+#: pinger_bot/ext/commands/alias.py:81 pinger_bot/ext/commands/alias.py:138
 msgid "Alias already exists."
 msgstr "Аліас вже існує."
 
@@ -175,32 +175,32 @@ msgstr "Встановіть аліас сервера."
 msgid "Server {} in DB {}"
 msgstr "Сервер {} в базі даних {}"
 
-#: pinger_bot/ext/commands/alias.py:121 pinger_bot/ext/commands/alias.py:126
-#: pinger_bot/ext/commands/alias.py:136
+#: pinger_bot/ext/commands/alias.py:122 pinger_bot/ext/commands/alias.py:128
+#: pinger_bot/ext/commands/alias.py:138
 msgid "Failed add alias for {}."
 msgstr "Не вдалося додати аліас для {}."
 
-#: pinger_bot/ext/commands/alias.py:121
+#: pinger_bot/ext/commands/alias.py:122
 msgid "Server offline or not in database."
 msgstr "Сервер офлайн, або не в базі даних."
 
-#: pinger_bot/ext/commands/alias.py:126
+#: pinger_bot/ext/commands/alias.py:128
 msgid "User not owner."
 msgstr "Користувач не власник."
 
-#: pinger_bot/ext/commands/alias.py:141
+#: pinger_bot/ext/commands/alias.py:143
 msgid "Added alias {} to server {}"
 msgstr "Додан аліас {} до сервера {}"
 
-#: pinger_bot/ext/commands/alias.py:142
+#: pinger_bot/ext/commands/alias.py:144
 msgid "Now you can use {} instead of {}"
 msgstr "Ви тепер можете використовувати {} замість {}"
 
-#: pinger_bot/ext/commands/alias.py:146
+#: pinger_bot/ext/commands/alias.py:148
 msgid "Data successfully updated"
 msgstr "Данні успішно оновлено."
 
-#: pinger_bot/ext/commands/alias.py:146
+#: pinger_bot/ext/commands/alias.py:148
 msgid "Write '/help' for list of my commands"
 msgstr "Напишіть '/help' для списку моїх команд"
 
