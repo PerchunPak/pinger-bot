@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-29 10:53+0200\n"
+"POT-Creation-Date: 2022-05-29 10:12+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Pre-Run ended."
 msgstr ""
 
-#: pinger_bot/mc_api.py:112
+#: pinger_bot/mc_api.py:109
 msgid "Cannot resolve IP {} to number IP"
 msgstr ""
 
@@ -46,11 +46,11 @@ msgstr ""
 msgid "Bot stopping. Bye!"
 msgstr ""
 
-#: pinger_bot/ext/commands/__init__.py:22
+#: pinger_bot/ext/commands/__init__.py:25
 msgid "Wait please..."
 msgstr ""
 
-#: pinger_bot/ext/commands/__init__.py:23
+#: pinger_bot/ext/commands/__init__.py:26
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr ""
 
@@ -136,7 +136,7 @@ msgid "You are not owner of the server {}."
 msgstr ""
 
 #: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
-#: pinger_bot/ext/commands/alias.py:151
+#: pinger_bot/ext/commands/alias.py:149
 msgid "For more information about the server, write: {}"
 msgstr ""
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:81 pinger_bot/ext/commands/alias.py:138
+#: pinger_bot/ext/commands/alias.py:81 pinger_bot/ext/commands/alias.py:136
 msgid "Alias already exists."
 msgstr ""
 
@@ -172,32 +172,32 @@ msgstr ""
 msgid "Server {} in DB {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:122 pinger_bot/ext/commands/alias.py:128
-#: pinger_bot/ext/commands/alias.py:138
+#: pinger_bot/ext/commands/alias.py:121 pinger_bot/ext/commands/alias.py:126
+#: pinger_bot/ext/commands/alias.py:136
 msgid "Failed add alias for {}."
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:122
+#: pinger_bot/ext/commands/alias.py:121
 msgid "Server offline or not in database."
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:128
+#: pinger_bot/ext/commands/alias.py:126
 msgid "User not owner."
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:143
+#: pinger_bot/ext/commands/alias.py:141
 msgid "Added alias {} to server {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:144
+#: pinger_bot/ext/commands/alias.py:142
 msgid "Now you can use {} instead of {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:148
+#: pinger_bot/ext/commands/alias.py:146
 msgid "Data successfully updated"
 msgstr ""
 
-#: pinger_bot/ext/commands/alias.py:148
+#: pinger_bot/ext/commands/alias.py:146
 msgid "Write '/help' for list of my commands"
 msgstr ""
 

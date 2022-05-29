@@ -1,9 +1,8 @@
 """File for the Config dataclass."""
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from gettext import translation
 from os import environ
 from pathlib import Path
-from typing import List
 
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
@@ -23,8 +22,6 @@ class Config:
     """Not so much info, that in debug."""
     db_uri: str = "sqlite+aiosqlite:///pinger_bot.db"
     """DB_URI to connect."""
-    custom_nameservers: List[str] = field(default_factory=list)
-    """List of custom nameservers. By default, use ``8.8.8.8``, ``8.8.4.4``, ``1.1.1.1``, ``1.0.0.1`` plus system's."""
 
     @classmethod
     def setup(cls) -> "Config":
@@ -35,11 +32,8 @@ class Config:
         Returns:
             :py:class:`.Config` instance.
         """
-        config = cls()
-        config._set_default_values()
-
         config_path = Path(__file__).parent.parent / "config.yml"
-        cfg = OmegaConf.structured(config)
+        cfg = OmegaConf.structured(Config)
 
         if config_path.exists():
             loaded_config = OmegaConf.load(config_path)
@@ -51,14 +45,6 @@ class Config:
         cls._handle_env_variables(cfg)
 
         return cfg  # type: ignore[no-any-return] # actually return :py:class:`.Config`
-
-    def _set_default_values(self) -> None:
-        """Set default values for mutable fields.
-
-        This includes :attr:`.Config.custom_nameservers`. See `this thread
-        <https://stackoverflow.com/questions/53632152/why-cant-dataclasses-have-mutable-defaults-in-their-class-attributes-declaratio>`_.
-        """
-        self.custom_nameservers = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1"]
 
     @staticmethod
     def _handle_env_variables(cfg: DictConfig) -> None:
