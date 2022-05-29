@@ -35,6 +35,8 @@ structlog = "21.5.0"
 ### For colors in structlog ###
 ### Only needed for Windows ###
 colorama = { version = "*", markers="platform_system == 'Windows'" }
+# Speedup for async, only for unix-like systems
+uvloop = { version = "*", markers="os_name != 'nt'" }
 
 # Docs
 sphinx                   = { version = "~4.5",  optional = true }

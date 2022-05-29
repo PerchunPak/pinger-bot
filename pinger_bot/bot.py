@@ -13,6 +13,14 @@ from pinger_bot.config import gettext as _
 
 log = get_logger()
 
+try:
+    import uvloop
+
+    uvloop.install()
+    log.info(_("`uvloop` installed, speed increased."))
+except ImportError:
+    pass
+
 
 class PingerBot(BotApp):
     """Main bot class.

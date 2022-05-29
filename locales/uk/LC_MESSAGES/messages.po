@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-29 22:09+0200\n"
+"POT-Creation-Date: 2022-05-29 22:25+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -19,11 +19,15 @@ msgstr ""
 msgid "Hello World!"
 msgstr "Привіт Світ!"
 
-#: pinger_bot/bot.py:38
+#: pinger_bot/bot.py:20
+msgid "`uvloop` installed, speed increased."
+msgstr "`uvloop` встановлено, швидкість збільшено."
+
+#: pinger_bot/bot.py:46
 msgid "Preparing and run the bot..."
 msgstr "Підготовлюю та запускаю бота..."
 
-#: pinger_bot/bot.py:44
+#: pinger_bot/bot.py:52
 msgid "Pre-Run ended."
 msgstr "Підготовка закінчена."
 
