@@ -37,6 +37,7 @@ class PingerBot(BotApp):
             logs="DEBUG" if config.debug else "WARNING",
             intents=Intents.ALL,
             banner=None,
+            help_class=None,
             **kwargs,
         )
 

@@ -145,7 +145,9 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
         color=(46, 204, 113),
     )
 
-    embed.add_field(name=_("Data successfully updated"), value=_("Write '/help' for list of my commands"), inline=True)
+    embed.add_field(
+        name=_("Data successfully updated"), value=_("See '/' preview for list of my commands"), inline=True
+    )
     embed.set_thumbnail(server.icon)
 
     embed.set_footer(_("For more information about the server, write: {}").format(f"'/statistic {alias}'"))

@@ -100,7 +100,9 @@ async def add(ctx: SlashContext, ip: str) -> None:
         color=(46, 204, 113),
     )
 
-    embed.add_field(name=_("Server successfully added."), value=_("Write `/help` for more info about commands to use."))
+    embed.add_field(
+        name=_("Server successfully added."), value=_("See `/` preview for more info about commands to use.")
+    )
     embed.set_thumbnail(server.icon)
 
     embed.set_footer(
