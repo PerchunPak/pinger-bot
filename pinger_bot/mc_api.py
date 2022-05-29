@@ -9,6 +9,7 @@ from mcstatus import BedrockServer, JavaServer
 from sqlalchemy import select
 from structlog.stdlib import get_logger
 
+from pinger_bot.config import config
 from pinger_bot.config import gettext as _
 from pinger_bot.models import Server, db
 
@@ -105,7 +106,7 @@ class Address:
         log.debug("Address._get_number_ip", input_ip=input_ip)
         try:
             resolver = Resolver()
-            resolver.nameservers = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1"] + resolver.nameservers
+            resolver.nameservers = config.custom_nameservers + resolver.nameservers
             answers = await resolver.resolve(input_ip, RdataType.A)
         except DNSException:
             log.debug(_("Cannot resolve IP {} to number IP").format(input_ip))

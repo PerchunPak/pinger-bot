@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-05-29 10:35+0200\n"
+"POT-Creation-Date: 2022-05-29 10:53+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -27,7 +27,7 @@ msgstr "Підготовлюю та запускаю бота..."
 msgid "Pre-Run ended."
 msgstr "Підготовка закінчена."
 
-#: pinger_bot/mc_api.py:111
+#: pinger_bot/mc_api.py:112
 msgid "Cannot resolve IP {} to number IP"
 msgstr "Не можу пропарсити IP {} в цифровий IP"
 
