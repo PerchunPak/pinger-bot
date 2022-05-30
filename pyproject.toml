@@ -28,6 +28,7 @@ SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}
 alembic = "~1.7"
 dnspython = "~2.2"
 omegaconf = "~2.2"
+matplotlib = "~3.5"
 
 Babel = "~2.10"
 

@@ -176,6 +176,7 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "hikari": ("https://www.hikari-py.dev/", get_patched_hikari_inv()),
     "lightbulb": ("https://hikari-lightbulb.readthedocs.io/en/latest/", None),
+    "matplotlib": ("https://matplotlib.org/stable", None),
 }
 
 
