@@ -1,5 +1,6 @@
 """DB models for the project."""
 from dataclasses import dataclass
+from datetime import datetime
 
 from sqlalchemy import (
     BigInteger,
@@ -32,23 +33,24 @@ Base = declarative_base()
 """
 
 
+# We ignore assign types because we assign column classes to built-in types. in runtime SQLAlchemy return built-in types
 class Server(Base):  # type: ignore[valid-type,misc]
     """A server model. Used to store the server, that was added to bot."""
 
     __tablename__ = "pb_servers"
 
-    id = Column(Integer, Identity(), primary_key=True)
+    id: int = Column(Integer, Identity(), primary_key=True)  # type: ignore[assignment]
     """Unique ID of the server, primary key."""
 
-    host = Column(String(256), nullable=False)
+    host: str = Column(String(256), nullable=False)  # type: ignore[assignment]
     """Hostname of the server, can be number IP or domain. Always without port."""
-    port = Column(SmallInteger, nullable=False)
+    port: int = Column(SmallInteger, nullable=False)  # type: ignore[assignment]
     """Port of the server."""
-    max = Column(SmallInteger, nullable=False)
+    max: int = Column(SmallInteger, nullable=False)  # type: ignore[assignment]
     """Max players on the server."""
-    alias = Column(String(256), unique=True)
+    alias: str = Column(String(256), unique=True)  # type: ignore[assignment]
     """Alias of the server. Can be used as IP of the server."""
-    owner = Column(BigInteger, nullable=False)
+    owner: int = Column(BigInteger, nullable=False)  # type: ignore[assignment]
     """Owner's Discord ID of the server."""
 
     __table_args__ = (UniqueConstraint("host", "port", name="ip"),)
@@ -60,16 +62,16 @@ class Ping(Base):  # type: ignore[valid-type,misc]
 
     __tablename__ = "pb_pings"
 
-    id = Column(Integer, Identity(), primary_key=True)
+    id: int = Column(Integer, Identity(), primary_key=True)  # type: ignore[assignment]
     """Unique ID of the ping, primary key."""
 
-    host = Column(ForeignKey(Server.host, name="server_host_to_ping_host"), nullable=False)
+    host: str = Column(ForeignKey(Server.host, name="server_host_to_ping_host"), nullable=False)  # type: ignore[assignment]
     """Host of the server, for which ping was made. This is a foreign key constraint."""
-    port = Column(ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)
+    port: int = Column(ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)  # type: ignore[assignment,arg-type]
     """Port of the server, for which ping was made. This is a foreign key constraint."""
-    time = Column(DateTime, server_default=func.now(), nullable=False)
+    time: datetime = Column(DateTime, server_default=func.now(), nullable=False)  # type: ignore[assignment]
     """Time of the ping. Default to current time."""
-    players = Column(Integer, nullable=False)
+    players: int = Column(Integer, nullable=False)  # type: ignore[assignment]
     """Players online in moment of the ping."""
 
     __mapper_args__ = {"eager_defaults": True}
