@@ -55,7 +55,7 @@ class Config:
         Args:
             cfg: :py:class:`.Config` instance.
         """
-        for key, value in cfg.items():
+        for key in cfg:
             if str(key).upper() in environ:
                 cfg[str(key)] = environ[str(key).upper()]
 
