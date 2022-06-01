@@ -25,7 +25,7 @@ APScheduler = "~3.9"
 
 mcstatus = "~9.0"
 SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}
-alembic = "~1.7"
+alembic = "~1.8"
 dnspython = "~2.2"
 omegaconf = "~2.2"
 matplotlib = "~3.5"
