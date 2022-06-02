@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-06-02 14:02+0200\n"
+"POT-Creation-Date: 2022-06-02 14:04+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -39,7 +39,7 @@ msgstr "пінг-понг"
 msgid "Cannot resolve IP {} to number IP"
 msgstr "Не можу пропарсити IP {} в цифровий IP"
 
-#: pinger_bot/models.py:86
+#: pinger_bot/models.py:88
 msgid "Starting DB..."
 msgstr "Запускаю базу даних..."
 
@@ -94,6 +94,7 @@ msgstr "Не можу пінганути сервер."
 
 #: pinger_bot/ext/commands/add.py:41 pinger_bot/ext/commands/alias.py:35
 #: pinger_bot/ext/commands/motd.py:32 pinger_bot/ext/commands/ping.py:35
+#: pinger_bot/ext/commands/statistic.py:42
 msgid "Maybe you set invalid IP address, or server just offline."
 msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто вимкнений."
 
@@ -107,6 +108,7 @@ msgstr "Можливо ви вказали не вірну IP адресу."
 
 #: pinger_bot/ext/commands/add.py:64 pinger_bot/ext/commands/motd.py:38
 #: pinger_bot/ext/commands/other.py:122 pinger_bot/ext/commands/ping.py:58
+#: pinger_bot/ext/commands/statistic.py:110
 msgid "The IP address of the server."
 msgstr "Айпі адреса сервера."
 
@@ -170,6 +172,7 @@ msgstr "Ви не власник серверу {}."
 
 #: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
 #: pinger_bot/ext/commands/alias.py:153 pinger_bot/ext/commands/other.py:159
+#: pinger_bot/ext/commands/statistic.py:160
 msgid "For more information about the server, write: {}"
 msgstr "Для більшої інформації про сервер, напишіть: {}"
 
@@ -373,7 +376,8 @@ msgstr "Використовує SQL твердження в базу даних
 msgid "Done!"
 msgstr "Готово!"
 
-#: pinger_bot/ext/commands/ping.py:53
+#: pinger_bot/ext/commands/ping.py:53 pinger_bot/ext/commands/statistic.py:151
+#: pinger_bot/ext/commands/statistic.py:152
 msgid "No info."
 msgstr "Немає інформації."
 
@@ -381,7 +385,7 @@ msgstr "Немає інформації."
 msgid "Ping the server and give information about it."
 msgstr "Пінгує сервер та дає інформацію про нього."
 
-#: pinger_bot/ext/commands/ping.py:77
+#: pinger_bot/ext/commands/ping.py:77 pinger_bot/ext/commands/statistic.py:144
 msgid "Number IP: {}"
 msgstr "Цифровий айпі: {}"
 
@@ -400,4 +404,54 @@ msgstr "Гравці"
 #: pinger_bot/ext/commands/ping.py:88
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr "Щоб отримати посилання на редактування MOTD, використайте: {}"
+
+#: pinger_bot/ext/commands/statistic.py:39
+#: pinger_bot/ext/commands/statistic.py:89
+#: pinger_bot/ext/commands/statistic.py:143
+msgid "{} statistic"
+msgstr "Статистика {}"
+
+#: pinger_bot/ext/commands/statistic.py:41
+msgid "Can't find the server in database."
+msgstr "Не можу знайти сервер в базі даних."
+
+#: pinger_bot/ext/commands/statistic.py:87
+msgid "Time"
+msgstr "Час"
+
+#: pinger_bot/ext/commands/statistic.py:88
+msgid "Players online"
+msgstr "Гравців онлайн"
+
+#: pinger_bot/ext/commands/statistic.py:111
+msgid "Some statistic about the server."
+msgstr "Трохи статистики про сервер."
+
+#: pinger_bot/ext/commands/statistic.py:131
+msgid "Server {} not found in database"
+msgstr "Сервер {} не знайдено в базі даних."
+
+#: pinger_bot/ext/commands/statistic.py:146
+msgid "Online"
+msgstr "Онлайн"
+
+#: pinger_bot/ext/commands/statistic.py:146
+msgid "Offline"
+msgstr "Офлайн"
+
+#: pinger_bot/ext/commands/statistic.py:154
+msgid "Current online"
+msgstr "Поточний онлайн"
+
+#: pinger_bot/ext/commands/statistic.py:155
+msgid "Yesterday online, in same time"
+msgstr "Онлайн вчора, в той же час"
+
+#: pinger_bot/ext/commands/statistic.py:156
+msgid "Max online of all time"
+msgstr "Максимальний онлайн за весь час"
+
+#: pinger_bot/ext/commands/statistic.py:164
+msgid "not enough info for a plot."
+msgstr "Не достатньо інформації для графіка."
 
