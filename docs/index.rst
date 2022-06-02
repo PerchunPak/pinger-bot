@@ -11,6 +11,12 @@
 
 .. toctree::
 	:maxdepth: 1
+	:caption: Как помочь
+
+	pages/contributing.rst
+
+.. toctree::
+	:maxdepth: 1
 	:caption: Гайды
 
 	pages/docker.rst
