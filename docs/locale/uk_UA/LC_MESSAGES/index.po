@@ -10,7 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2022-06-02 21:12+0200\n"
 "PO-Revision-Date: 2022-06-02 21:12+0200\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
-"Language: uk\n"
+"Language: uk_UA\n"
 "Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
@@ -55,7 +55,7 @@ msgid "Simple discord bot for tracking your MineCraft servers."
 msgstr "Простий Discord бот для відстеження ваших MineCraft серверів."
 
 #: ../../../README.md:34
-msgid "`Документація українською <https://pinger-bot.readthedocs.io/uk/latest>`_"
+msgid "`Документація українською <https://pinger-bot.readthedocs.io/uk_UA/latest>`_"
 msgstr "`Docs on English <https://pinger-bot.readthedocs.io/en/latest>`_"
 
 #: ../../../README.md:35
@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Вся конфігурація бота проходить в ``config.yml``\\ , або з допомогою "
 "змінних оточення. Всі можливі опції описані в `config.py <https://pinger-"
-"bot.readthedocs.io/uk/latest/autoapi/pinger_bot/config/>`_."
+"bot.readthedocs.io/uk_UA/latest/autoapi/pinger_bot/config/>`_."
 
 #: ../../../README.md:109
 msgid "Database"
@@ -191,7 +191,7 @@ msgstr "Використання в Docker"
 msgid "See `docs <https://pinger-bot.readthedocs.io/en/latest/pages/docker/>`_."
 msgstr ""
 "Дивіться `документацію <https://pinger-"
-"bot.readthedocs.io/uk/latest/pages/docker/>`_."
+"bot.readthedocs.io/uk_UA/latest/pages/docker/>`_."
 
 #: ../../../README.md:135
 msgid "Updating"

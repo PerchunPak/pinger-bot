@@ -57,8 +57,8 @@ msgstr ""
 "серверов."
 
 #: ../../../README.md:34
-msgid "`Документація українською <https://pinger-bot.readthedocs.io/uk/latest>`_"
-msgstr "`Документація українською <https://pinger-bot.readthedocs.io/uk/latest>`_"
+msgid "`Документація українською <https://pinger-bot.readthedocs.io/uk_UA/latest>`_"
+msgstr "`Документація українською <https://pinger-bot.readthedocs.io/uk_UA/latest>`_"
 
 #: ../../../README.md:35
 msgid "`Документация на русском <https://pinger-bot.readthedocs.io/ru/latest>`_"
