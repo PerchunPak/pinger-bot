@@ -2,7 +2,7 @@
 import logging
 from pathlib import Path
 
-from hikari import Intents, Activity
+from hikari import Activity, Intents
 from lightbulb import BotApp
 from structlog import configure as structlog_configure
 from structlog import make_filtering_bound_logger
