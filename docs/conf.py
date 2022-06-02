@@ -112,7 +112,10 @@ master_doc = "index"
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = "ru"
+language = os.getenv("DOCS_LANGUAGE", "en")
+
+locale_dirs = ['locale/']
+gettext_compact = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -184,7 +187,10 @@ intersphinx_mapping = {
 def skip_data_from_docs(
     app: Sphinx, what: str, name: str, obj: PythonModule, skip: Optional[bool], options: List[str]
 ) -> Optional[bool]:
-    """Skip ``log`` function everywhere."""
+    """Skip ``log`` function everywhere. And skip all if language is not English."""
+    if language != "en":
+        return True
+
     if what == "data" and name.endswith(".log"):
         skip = True
     return skip

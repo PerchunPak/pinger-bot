@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, PerchunPak
+# This file is distributed under the same license as the pinger-bot package.
+# Perchun Pak <perchunpak@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinger-bot 0.4.0\n"
+"Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
+"POT-Creation-Date: 2022-06-02 21:12+0200\n"
+"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
+"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: ../../../CHANGELOG.md:3
+msgid "Changelog"
+msgstr "Історія змін"
+
+#: ../../../CHANGELOG.md:5
+msgid "We follow `Semantic Versions <https://semver.org/>`_ style."
+msgstr "Ми слідуємо стилю `Semantic Versions <https://semver.org/>`_."
+
+#: ../../../CHANGELOG.md:8
+msgid "Version 0.4.0"
+msgstr "Версія 0.4.0"
+
+#: ../../../CHANGELOG.md:10
+msgid "(branch `master <https://github.com/PerchunPak/PingerBot/tree/master>`_\\ )"
+msgstr "(вітка `master <https://github.com/PerchunPak/PingerBot/tree/master>`_\\ )"
+
+#: ../../../CHANGELOG.md:13 ../../../CHANGELOG.md:33
+msgid "Full rewrite."
+msgstr "Повний перепис."
+
+#: ../../../CHANGELOG.md:14
+msgid "Using ``hikari`` instead of ``discord.py``."
+msgstr "Використання ``hikari`` замість ``discord.py``."
+
+#: ../../../CHANGELOG.md:15
+msgid "Using template ``fire-square-style``."
+msgstr "Використання шаблону ``fire-square-style``."
+
+#: ../../../CHANGELOG.md:18
+msgid "Version 0.3.0"
+msgstr "Версія 0.3.0"
+
+#: ../../../CHANGELOG.md:20
+msgid "(branch `newdb <https://github.com/PerchunPak/PingerBot/tree/newdb>`_\\ )"
+msgstr "(вітка `newdb <https://github.com/PerchunPak/PingerBot/tree/newdb>`_\\ )"
+
+#: ../../../CHANGELOG.md:23
+msgid "Rewite DB system from ``asyncpg`` to ``sqlalchemy``."
+msgstr "Перепис системи бази даних з ``asyncpg`` на ``sqlalchemy``."
+
+#: ../../../CHANGELOG.md:25
+msgid "Didn't left from alpha, really unstable, but had good future."
+msgstr "Не вийшло з альфи, дуже не стабільно, але мало хороше майбутнє."
+
+#: ../../../CHANGELOG.md:28
+msgid "Version 0.2.0"
+msgstr "Версія 0.2.0"
+
+#: ../../../CHANGELOG.md:30
+msgid "(branch `rewrite <https://github.com/PerchunPak/PingerBot/tree/rewrite>`_\\ )"
+msgstr "(вітка `rewrite <https://github.com/PerchunPak/PingerBot/tree/rewrite>`_\\ )"
+
+#: ../../../CHANGELOG.md:35
+msgid "In this time better, but anyway, many things not perfect."
+msgstr "В цей раз краще, але все одно, багато речей не ідеальні."
+
+#: ../../../CHANGELOG.md:38
+msgid "Version 0.1.0"
+msgstr "Версія 0.1.0"
+
+#: ../../../CHANGELOG.md:40
+msgid "(branch `main <https://github.com/PerchunPak/PingerBot/tree/main>`_\\ )"
+msgstr "(вітка `main <https://github.com/PerchunPak/PingerBot/tree/main>`_\\ )"
+
+#: ../../../CHANGELOG.md:43
+msgid "Repository initialised."
+msgstr "Репозиторій ініціалізовано."
+
+#: ../../../CHANGELOG.md:45
+msgid "First, minimal version, but it is working really bad."
+msgstr "Перша, мінімальна версія, але працює дуже погано."

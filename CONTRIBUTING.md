@@ -1,95 +1,95 @@
-# Как помочь
+# Contributing
 
 
-## Зависимости
+## Dependencies
 
-Мы используем [poetry](https://github.com/python-poetry/poetry) для управления зависимостями.
+We use [poetry](https://github.com/python-poetry/poetry) to manage dependencies.
 
-Для их установки используйте аргумент `install`:
+To install them you would need to run `install` command:
 
 ```bash
 poetry install
 ```
 
-Так же установим `pre commit hooks` в `git`:
+Also, let's install `pre commit hooks` in `git`:
 ```bash
 poetry run pre-commit install
 ```
 
-Для активации вашего `virtualenv` используйте `poetry shell`.
+To activate your `virtualenv` run `poetry shell`.
 
 
-## Одна магическая команда
+## One magic command
 
-Используйте `make test` для запуска всего что у нас есть!
+Run `make test` to run everything we have!
 
-Так же из-за конфликта между `pytest-testmon` и `pytest-cov` мы используем аргумент `--no-cov` во время `make test` и таким
-самым даем приоритет `pytest-testmon`. Если вы хотите сгенерировать отчет с помощью `pytest-cov`, используйте `make test ci=1`.
+Also, because of conflict between `pytest-testmon` and `pytest-cov` we use option `--no-cov` in `make test`, so in this way
+we give prioritize to `pytest-testmon`. If you want to generate report with `pytest-cov`, use `make test ci=1`.
 
 
-## Тестирование
+## Tests
 
-Мы используем `black`, `flake8` и `pytest` для контроля качества.
+We use `black`, `flake8` and `pytest` for quality control.
 
-Для запуска форматера:
+To run formatter:
 
 ```bash
 black .
 ```
 
-Для запуска линтера (он проверяет только doc-строки, [подробнее](http://www.pydocstyle.org/en/latest/error_codes.html)):
+To run linter (it checks only docstrings, [more info](http://www.pydocstyle.org/en/latest/error_codes.html)):
 ```bash
 flake8 .
 ```
 
-Для запуска всех тестов:
+To run all tests:
 
 ```bash
 pytest
 ```
 
-Если вы хотите настроить конфигурацию утилит, вы должны сделать это в `setup.cfg`.
-Эти шаги являются обязательными во время CI.
+If you want to customize util's parameter, you should do this in `setup.cfg`.
+These steps are mandatory during the CI.
 
 
-## Проверки типов
+## Type checks
 
-Мы используем `mypy` для запуска проверки типов в нашем коде:
+We use `mypy` to run type checks on our code:
 
 ```bash
 mypy .
 ```
 
-Этот шаг является обязательными во время CI.
+This step is mandatory during the CI.
 
-## Перевод
+## Translation
 
-Для обновления `.po` файлов запустите `make translate`, после чего вы сможете редактировать перевод в `.po` файлах по пути
-`locales/<тэг языка>/LC_MESSAGES/messages.po`. После редактирования, для компиляции можете еще раз запустить `make translate`.
+To update `.po` files run `make translate`, after that you can edit translations in `.po` files, which can be found as
+`locales/<language's tag>/LC_MESSAGES/messages.po`. After editing, for compilation you can run one more time `make translate`.
 
-Для добавления нового языка используйте `poetry run pybabel init -i locales/base.pot -l <тэг языка> -d locales`.
+To add new language, use `poetry run pybabel init -i locales/base.pot -l <language's tag> -d locales`.
 
-P.S. Тэг языка это короткое его название, например `en` или `en_EN`. Полный список вы можете посмотреть запустив
-`poetry run pybabel --list-locales`.
+P.S. Language's tag it is short name of this language, example `en` or `en_EN`. Full list of supported languages can be found
+with `poetry run pybabel --list-locales`.
 
-### Перед началом работы
+## Before submitting
 
-Перед подачей вашего кода убедитесь что:
+Before submitting your code please do the following steps:
 
-1. Запустите тесты `pytest`, чтобы убедиться что всё работает
-2. Добавьте правки
-3. Добавьте тесты для правок
-4. Отредактируйте документацию, если вы изменили что-то важное
-5. Обновите `CHANGELOG.md` с коротким описанием Ваших изменений
-6. Запустите тесты `pytest` снова, чтобы убедиться что всё работает
-7. Запустите `mypy`, чтобы убедиться в корректности типов
-8. Запустите `black`, чтобы убедиться в корректном стиле кода
-9. Запустите `doc8` и `flake8`, чтобы убедиться что документация работает
+1. Run `pytest` to make sure everything was working before
+2. Add any changes you want
+3. Add tests for the new changes
+4. Edit documentation if you have changed something significant
+5. Update `CHANGELOG.md` with a quick summary of your changes
+6. Run `pytest` again to make sure it is still working
+7. Run `mypy` to ensure that types are correct
+8. Run `black` to ensure that style is correct
+9. Run `doc8` and `flake8`, to ensure that docs are correct
 
 
-## Другая помощь
+## Other help
 
-Вы можете помочь проекту распространяя информацию о нём.
-Так же большой поддержкой будет, например, написание
-короткой статьи о том как вы используете этот проект.
-Вы также можете делаться своими практиками с нами.
+You can contribute by spreading a word about this library.
+It would also be a huge contribution to write
+a short article on how you are using this project.
+You can also share your best practices with us.

@@ -1,0 +1,210 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, PerchunPak
+# This file is distributed under the same license as the pinger-bot package.
+# Perchun Pak <perchunpak@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinger-bot 0.4.0\n"
+"Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
+"POT-Creation-Date: 2022-06-02 21:12+0200\n"
+"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
+"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Generated-By: Babel 2.10.1\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: ../../../CONTRIBUTING.md:3
+msgid "Contributing"
+msgstr "Как Помочь"
+
+#: ../../../CONTRIBUTING.md:6
+msgid "Dependencies"
+msgstr "Зависимости"
+
+#: ../../../CONTRIBUTING.md:8
+msgid ""
+"We use `poetry <https://github.com/python-poetry/poetry>`_ to manage "
+"dependencies."
+msgstr ""
+"Мы используем `poetry <https://github.com/python-poetry/poetry>`_ для "
+"управления зависимостями."
+
+#: ../../../CONTRIBUTING.md:10
+msgid "To install them you would need to run ``install`` command:"
+msgstr "Для их установки используйте команду ``install``:"
+
+#: ../../../CONTRIBUTING.md:16
+msgid "Also, let's install ``pre commit hooks`` in ``git``\\ :"
+msgstr "Так же давайте установим ``pre commit hooks`` в ``git``:"
+
+#: ../../../CONTRIBUTING.md:22
+msgid "To activate your ``virtualenv`` run ``poetry shell``."
+msgstr "Для активации вашего ``virtualenv`` используйте ``poetry shell``."
+
+#: ../../../CONTRIBUTING.md:25
+msgid "One magic command"
+msgstr "Одна магическая команда"
+
+#: ../../../CONTRIBUTING.md:27
+msgid "Run ``make test`` to run everything we have!"
+msgstr "Используйте ``make test`` для запуска всего что у нас есть!"
+
+#: ../../../CONTRIBUTING.md:29
+msgid ""
+"Also, because of conflict between ``pytest-testmon`` and ``pytest-cov`` "
+"we use option ``--no-cov`` in ``make test``\\ , so in this way we give "
+"prioritize to ``pytest-testmon``. If you want to generate report with "
+"``pytest-cov``\\ , use ``make test ci=1``."
+msgstr ""
+"Так же из-за конфликта между ``pytest-testmon`` и ``pytest-cov`` мы "
+"используем опцию ``--no-cov`` во время ``make test`` и таким самым даем "
+"приоритет ``pytest-testmon``. Если вы хотите сгенерировать отчет с "
+"помощью ``pytest-cov``\\ , используйте ``make test ci=1``."
+
+#: ../../../CONTRIBUTING.md:33
+msgid "Tests"
+msgstr "Тестирование"
+
+#: ../../../CONTRIBUTING.md:35
+msgid "We use ``black``\\ , ``flake8`` and ``pytest`` for quality control."
+msgstr ""
+"Мы используем ``black``\\ , ``flake8`` и ``pytest`` для контроля "
+"качества."
+
+#: ../../../CONTRIBUTING.md:37
+msgid "To run formatter:"
+msgstr "Для запуска форматера:"
+
+#: ../../../CONTRIBUTING.md:43
+msgid ""
+"To run linter (it checks only docstrings, `more info <http://www."
+"pydocstyle.org/en/latest/error_codes.html>`_\\ ):"
+msgstr ""
+"Для запуска линтера (он проверяет только doc-строки, `подробнее <http://"
+"www.pydocstyle.org/en/latest/error_codes.html>`_\\ ):"
+
+#: ../../../CONTRIBUTING.md:49
+msgid "To run all tests:"
+msgstr "Для запуска всех тестов:"
+
+#: ../../../CONTRIBUTING.md:55
+msgid ""
+"If you want to customize util's parameter, you should do this in ``setup."
+"cfg``. These steps are mandatory during the CI."
+msgstr ""
+"Если вы хотите настроить конфигурацию утилит, вы должны сделать это в "
+"``setup.cfg``. Эти шаги являются обязательными во время CI."
+
+#: ../../../CONTRIBUTING.md:59
+msgid "Type checks"
+msgstr "Проверки типов"
+
+#: ../../../CONTRIBUTING.md:61
+msgid "We use ``mypy`` to run type checks on our code:"
+msgstr "Мы используем ``mypy`` для запуска проверки типов в нашем коде:"
+
+#: ../../../CONTRIBUTING.md:67
+msgid "This step is mandatory during the CI."
+msgstr "Этот шаг является обязательными во время CI."
+
+#: ../../../CONTRIBUTING.md:70
+msgid "Translation"
+msgstr "Перевод"
+
+#: ../../../CONTRIBUTING.md:72
+msgid ""
+"To update ``.po`` files run ``make translate``\\ , after that you can "
+"edit translations in ``.po`` files, which can be found as ``locales/"
+"<language's tag>/LC_MESSAGES/messages.po``. After editing, for "
+"compilation you can run one more time ``make translate``."
+msgstr ""
+"Для обновления ``.po`` файлов запустите ``make translate``\\ , после "
+"чего вы сможете редактировать перевод в ``.po`` файлах по пути ``locales/"
+"<тэг языка>/LC_MESSAGES/messages.po``. После редактирования, для "
+"компиляции можете еще раз запустить ``make translate``."
+
+#: ../../../CONTRIBUTING.md:75
+msgid ""
+"To add new language, use ``poetry run pybabel init -i locales/base.pot -"
+"l <language's tag> -d locales``."
+msgstr ""
+"Для добавления нового языка используйте ``poetry run pybabel init -i "
+"locales/base.pot -l <тэг языка> -d locales``."
+
+#: ../../../CONTRIBUTING.md:77
+msgid ""
+"P.S. Language's tag it is short name of this language, example ``en`` or "
+"``en_EN``. Full list of supported languages can be found with ``poetry "
+"run pybabel --list-locales``."
+msgstr ""
+"P.S. Тэг языка это короткое его название, например ``en`` или ``en_EN``. "
+"Полный список вы можете посмотреть запустив ``poetry run pybabel --list-"
+"locales``."
+
+#: ../../../CONTRIBUTING.md:81
+msgid "Before submitting"
+msgstr "Перед началом работы"
+
+#: ../../../CONTRIBUTING.md:83
+msgid "Before submitting your code please do the following steps:"
+msgstr "Перед написанием вашего кода пожалуйста выполните эти шаги:"
+
+#: ../../../CONTRIBUTING.md:86
+msgid "Run ``pytest`` to make sure everything was working before"
+msgstr "Запустите ``pytest``, что бы убедиться что всё работает до"
+
+#: ../../../CONTRIBUTING.md:87
+msgid "Add any changes you want"
+msgstr "Добавьте любые изменения которые вы хотите"
+
+#: ../../../CONTRIBUTING.md:88
+msgid "Add tests for the new changes"
+msgstr "Добавьте тесты для изменений"
+
+#: ../../../CONTRIBUTING.md:89
+msgid "Edit documentation if you have changed something significant"
+msgstr "Отредактируйте документацию, если вы изменили что-то важное"
+
+#: ../../../CONTRIBUTING.md:90
+msgid "Update ``CHANGELOG.md`` with a quick summary of your changes"
+msgstr "Обновите ``CHANGELOG.md`` с коротким итогом ваших изменений"
+
+#: ../../../CONTRIBUTING.md:91
+msgid "Run ``pytest`` again to make sure it is still working"
+msgstr "Запустите ``pytest`` снова, чтобы убедиться что всё работает"
+
+#: ../../../CONTRIBUTING.md:92
+msgid "Run ``mypy`` to ensure that types are correct"
+msgstr "Запустите ``mypy`` чтобы убедиться в корректности типов"
+
+#: ../../../CONTRIBUTING.md:93
+msgid "Run ``black`` to ensure that style is correct"
+msgstr "Запустите ``black`` чтобы убедиться в корректном стиле кода"
+
+#: ../../../CONTRIBUTING.md:94
+msgid "Run ``doc8`` and ``flake8``\\ , to ensure that docs are correct"
+msgstr ""
+"Запустите ``doc8`` и ``flake8``\\ , чтобы убедиться что документация "
+"работает"
+
+#: ../../../CONTRIBUTING.md:97
+msgid "Other help"
+msgstr "Другая помощь"
+
+#: ../../../CONTRIBUTING.md:99
+msgid ""
+"You can contribute by spreading a word about this library. It would also "
+"be a huge contribution to write a short article on how you are using "
+"this project. You can also share your best practices with us."
+msgstr ""
+"Вы можете помочь проекту распространяя информацию о нём. Так же большой "
+"поддержкой будет, например, написание короткой статьи о том как вы "
+"используете этот проект. Вы также можете делаться своими практиками с "
+"нами."

@@ -6,103 +6,109 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Python support versions badge](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org/downloads/)
 
-Простой бот для отслеживания статуса и статистики своих MineCraft серверов.
+Simple discord bot for tracking your MineCraft servers.
 
-## Особенности
+- [Документація українською](https://pinger-bot.readthedocs.io/uk/latest)
+- [Документация на русском](https://pinger-bot.readthedocs.io/ru/latest)
 
-- Бесплатно! Мы не попросим ни копейки за использование!
-- SelfHosted - Вы сами управляете ботом от начала и до конца!
+## Features
 
-## Установка
+- Free! We don't want any money from you!
+- Self Hosted - Bot fully under your control!
+
+## Installing
 
 ```bash
 git clone https://github.com/PerchunPak/pinger-bot.git
 cd pinger-bot
 ```
 
-### Установка `poetry`
+### Installing `poetry`
 
-Затем установите `poetry` [рекомендованым путем](https://python-poetry.org/docs/master/#installation).
+Next we need install `poetry` with [recomended way](https://python-poetry.org/docs/master/#installation).
 
-Если вы на платформе Linux, используйте команду:
+If you use Linux, use command:
 
 ```bash
 curl -sSL https://install.python-poetry.org | python -
 ```
 
-Если вы на Windows, откройте PowerShell от имени администратора и используйте:
+If you use Windows, open PowerShell with admin privilages and use:
 
 ```powershell
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
 
-### Установка зависимостей
+### Installing dependencies
 
 ```bash
-poetry install
+poetry install --no-dev
 ```
 
-Так же для работы бота необходимо указать какую СУБД вы будете использовать.
-На данный момент мы поддерживаем только `SQLite`, `MySQL` и `PostgreSQL`.
-Для установки необходимой зависимости, необходимо просто использовать аргумент `-E` с названием СУБД в нижнем регистре.
+Also, for bot working, you need specify which database you will use.
+For now, we only support `SQLite`, `MySQL` and `PostgreSQL`.
+For installing required dependence, we need just use argument `-E` with lower-cased database name.
 
-Например:
+Example:
 
 ```bash
-poetry install -E mysql
+poetry install --no-dev -E mysql
 ```
 
-### Компиляция файлов перевода
+### Compiling translations
+
+This requered even if you want just use english.
 
 ```bash
 poetry run pybabel compile -d locales
 ```
 
-### Миграции базы данных
+### Database migrations
 
 ```bash
 poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
-### Конфигурация
+### Configuration
 
-Вся настройка бота происходит в файле `.env` или `settings.ini`. Все настройки описаны в файле [config.py](/pinger_bot/config.py).
+All bot configuration happends in `config.yml`, or with enviroment variables.
+All configuration settings described in [config.py](https://pinger-bot.readthedocs.io/en/latest/autoapi/pinger_bot/config/).
 
-#### База данных
+#### Database
 
-При настройке базы данных есть несколько дополнительных нюансов:
+When setting up a database, there are a few additional nuances:
 
-- Если вы используете SQLite, вам нужно указать путь к базе данных. Рекомендуется указывать абсолютный путь.
-- Чтобы узнать что указывать в поле `DB_URI`, [смотрите эту статью](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls).
+- If you want use SQLite, you need specify path to file. I recomend set absolute path.
+- What specify in field `db_uri`? [See this page](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls).
 
-### Запуск бота
+### Run the bot
 
 ```bash
-poetry run python pinger_bot/pinger_bot.py
+poetry run python pinger_bot
 ```
 
-### Если что то не понятно
+### If something is not clear
 
-Вы всегда можете написать мне!
+You can always write me!
 
-## Использование в Docker
+## Using in Docker
 
-Смотрите отдельную [страницу в документации](https://pinger-bot.readthedocs.io/ru/latest/pages/docker.html).
+See [docs](https://pinger-bot.readthedocs.io/en/latest/pages/docker/).
 
-## Обновление
+## Updating
 
-Для обновления бота, просто скачайте заново репозиторий (предварительно сохранив конфиги и базу данных), или если вы
-использовали `git` для установки запустите команду `git pull`.
+For updating, just redownload repository (do not forget save config and database),
+if you used `git` for donwloading, just run `git pull`.
 
-После чего, нужно обновить переводы и базу данных, шаги аналогичны установке бота.
+After that, you need update translations and database, commands the same as in installing section:
 
 ```bash
 poetry run pybabel compile -d locales
 poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
-## Спасибо
+## Thanks
 
-Этот проект был сгенерирован с помощью [`fire-square-style`](https://github.com/fire-square/fire-square-style).
-Текущая версия примера: [48af418aa475ecb2a51cbd9c398dfa22353f287d](https://github.com/fire-square/fire-square-style/tree/48af418aa475ecb2a51cbd9c398dfa22353f287d).
-Смотрите что [обновилось](https://github.com/fire-square/fire-square-style/compare/48af418aa475ecb2a51cbd9c398dfa22353f287d...master) с того времени.
+This project was generated with [fire-square-style](https://github.com/fire-square/fire-square-style).
+Current template version: [48af418aa475ecb2a51cbd9c398dfa22353f287d](https://github.com/fire-square/fire-square-style/tree/48af418aa475ecb2a51cbd9c398dfa22353f287d).
+See what [updated](https://github.com/fire-square/fire-square-style/compare/48af418aa475ecb2a51cbd9c398dfa22353f287d...master).

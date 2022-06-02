@@ -1231,6 +1231,23 @@ testing = ["covdefaults (>=2.2)", "coverage (>=6.3)", "diff-cover (>=6.4)", "npt
 type_comments = ["typed-ast (>=1.5.2)"]
 
 [[package]]
+name = "sphinx-intl"
+version = "2.0.1"
+description = "Sphinx utility that make it easy to translate and to apply translation."
+category = "main"
+optional = true
+python-versions = ">=3.5"
+
+[package.dependencies]
+babel = "*"
+click = "*"
+sphinx = "*"
+
+[package.extras]
+test = ["pytest", "mock"]
+transifex = ["transifex_client (>=0.11)"]
+
+[[package]]
 name = "sphinxcontrib-applehelp"
 version = "1.0.2"
 description = "sphinxcontrib-applehelp is a sphinx extension which outputs Apple help books"
@@ -1546,7 +1563,7 @@ docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
 
 [extras]
-docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-autoapi", "furo", "m2r2", "tomli", "packaging", "sphobjinv"]
+docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-autoapi", "sphinx-intl", "furo", "m2r2", "tomli", "packaging", "sphobjinv"]
 mysql = ["aiomysql"]
 postgresql = ["asyncpg"]
 sqlite = ["aiosqlite"]
@@ -1554,7 +1571,7 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "e5caa32f152890e08871474a772fd1fd6de9e7b9dd34f6183828075d226216fa"
+content-hash = "afbb53d13346da54830ee03d66293e304e851abd873f0bdb918b8df646ce6da1"
 
 [metadata.files]
 aiohttp = [
@@ -2584,6 +2601,10 @@ sphinx-autoapi = [
 sphinx-autodoc-typehints = [
     {file = "sphinx_autodoc_typehints-1.18.1-py3-none-any.whl", hash = "sha256:f8f5bb7c13a9a71537dc2be2eb3b9e28a9711e2454df63587005eacf6fbac453"},
     {file = "sphinx_autodoc_typehints-1.18.1.tar.gz", hash = "sha256:07631c5f0c6641e5ba27143494aefc657e029bed3982138d659250e617f6f929"},
+]
+sphinx-intl = [
+    {file = "sphinx-intl-2.0.1.tar.gz", hash = "sha256:b25a6ec169347909e8d983eefe2d8adecb3edc2f27760db79b965c69950638b4"},
+    {file = "sphinx_intl-2.0.1-py3.8.egg", hash = "sha256:2ff97cba0e4e43249e339a3c29dd2f5b63c25ce794050aabca320ad95f5c5b55"},
 ]
 sphinxcontrib-applehelp = [
     {file = "sphinxcontrib-applehelp-1.0.2.tar.gz", hash = "sha256:a072735ec80e7675e3f432fcae8610ecf509c5f1869d17e2eecff44389cdbc58"},

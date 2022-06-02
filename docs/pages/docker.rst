@@ -1,100 +1,100 @@
-######################
-Использование в Docker
-######################
+###############
+Using in Docker
+###############
 
 
-*********
-Установка
-*********
+**********
+Installing
+**********
 
 
-Установка из Dockerhub
-======================
+Installing from Dockerhub
+=========================
 
-По умолчанию, создается несколько контейнеров:
+By default, we create few tags:
 
-#. ``latest`` - Последний релиз проекта.
-#. ``dev`` - Самая последняя возможная версия проекта.
-   Используйте только для тестирования, всегда могут быть проблемы
-   с несовместимостью версий.
-#. ``x.y.z`` - Релиз проекта в формате `Semantic Versions <https://semver.org/>`_.
+#. ``latest`` - Latest project release.
+#. ``dev`` - Latest possible project version.
+   Use only for testing, always can have breaking changes.
+#. ``x.y.z`` - Project release in `Semantic Versions
+   <https://semver.org/>`_ style.
 
-Каждая из веток имеет так же дубликаты с суффиксами баз данных, на данный
-момент это могут быть ``sqlite``, ``mysql`` и ``postgres``.
-То есть, например, для ветки ``latest`` будет так же доступен контейнер
-``latest-sqlite``.
+Every of those tags also have duplicates with database suffixes, at now
+it is can be ``sqlite``, ``mysql`` and ``postgresql``. As example, for tag
+``latest`` also will be available tag ``latest-sqlite``.
 
-Тег без суффикса - стандартная база данных. На данный момент это ``sqlite``.
-То есть тег ``latest``, загрузит тоже самое что и при ``latest-sqlite``.
+Tag without suffix - standard database. At now, it is ``sqlite``.
+It means that tag ``latest`` give the same as ``latest-sqlite``.
 
 .. note::
-  Есть так же несколько устаревших веток, которые остаються только для истории.
-  Это
-  :ref:`main <pages/changelog:версия 0.1.0>`,
-  :ref:`rewrite <pages/changelog:версия 0.2.0>` и
-  :ref:`newdb <pages/changelog:версия 0.3.0>`.
+  There are few deprecated tags, which are still available only for history. It is
+  :ref:`main <pages/changelog:version 0.1.0>`,
+  :ref:`rewrite <pages/changelog:version 0.2.0>` and
+  :ref:`newdb <pages/changelog:version 0.3.0>`.
 
 .. warning::
-  Если вы используете базу данных не ``sqlite`` - вам нужно самостоятельно
-  применить миграции для нее. В ``sqlite`` миграции применяются при
-  компилировании образа. Смотрите :ref:`index:миграции базы данных` для
-  инструкции.
+  If you use not ``sqlite``, you need to apply database migrations manually.
+  In ``sqlite`` migrations are applied automatically while we compile image.
+  See :ref:`index:database migrations` for details.
 
 .. seealso::
-  `Нашу страницу на Dockerhub со списком доступных тегов.
+  `Our page on Dockerhub with all available tags.
   <https://hub.docker.com/r/perchunpak/pingerbot/tags>`_
 
 
-Самостоятельная компиляция
-==========================
+Self compilation
+================
 
-Вы так же можете самостоятельно скомпилировать все контейнеры из корневой
-директории проекта.
+Also, you can compile images from project's root.
 
-Для этого необходимо выполнить команду:
+To do this, you just need to run the command:
+
+.. code-block:: bash
 
   docker build -t perchunpak/pingerbot . --build-arg dialect=sqlite
 
-Где ``--build-arg dialect=sqlite`` - параметр, определяющий базу данных,
-которую вы хотите использовать. Вместо ``sqlite`` можете подставить любую
-другую, которая поддерживается.
+Where ``--build-arg dialect=sqlite`` - parameter, which defines database,
+what you want to use. Instead of ``sqlite`` you can set any supported.
 
 .. warning::
-  Если вы используете базу данных не ``sqlite`` - вам нужно самостоятельно
-  применить миграции для нее. В ``sqlite`` миграции применяются при
-  компилировании образа. Смотрите :ref:`index:миграции базы данных` для
-  инструкции.
+  If you use not ``sqlite``, you need to apply database migrations manually.
+  In ``sqlite`` migrations are applied automatically while we compile image.
+  See :ref:`index:database migrations` for details.
 
-******
-Запуск
-******
+***
+Run
+***
 
-Для запуска, в обоих случаях установки, используется одна команда:
+To run the bot, in both cases of installation, use this command:
+
+.. code-block:: bash
 
   docker run -d perchunpak/pingerbot
 
 .. note::
-  Если вы используете базу данных ``sqlite``, вы так же должны указать
-  ``-v YOUR_PATH:/app/pinger_bot.db`` (Где ``YOUR_PATH`` это путь к
-  вашему файлу базы данных, рекомендовано использовать абсолютный путь).
-  Это делается, чтобы иметь возможность сохранять базу данных.
+  If you want to use ``sqlite``, you also need to set
+  ``-v YOUR_PATH:/app/pinger_bot.db`` option (Where ``YOUR_PATH`` it is a
+  path your database file. I recommend set absolute path.)
+  This is needed to save database in case of container restart.
 
-  Параметр **нужно** указывать между флагом ``-d`` и ``perchunpak/pingerbot``.
+  This parameter **must** be set between ``-d`` flag and ``perchunpak/pingerbot``.
 
 .. warning::
-  Вы так же обязательно должны указать всю вашу конфигурацию через ``-e``
-  флаги. Эти флаги просто устанавливают переменные окружения, так что
-  интерфейс будет аналогичным с ``.env`` файлом.
+  You also need to set ``-e`` option for every configuration parameter.
+  This option just set environment variables, interface will be the same as
+  in ``config.yml``, but all parameters keys in upper case.
 
-  Они идут в формате ``-e KEY=VALUE``, где ``KEY`` это ключ к настройке
-  (например ``DISCORD_TOKEN``), а ``KEY`` это значение настройки.
+  They should be used like ``-e KEY=VALUE``, where ``KEY`` upper cased key
+  from ``config.yml`` (example ``DISCORD_TOKEN``), and ``VALUE`` is a value.
 
-  Как и ``-v`` флаг, они **обязаны** идти между флагом ``-d`` и
+  Same as ``-v`` option, they **must** be set between ``-d`` flag and
   ``perchunpak/pingerbot``.
 
 .. seealso::
-  Команду
+  Command
+
+  .. code-block:: bash
 
     docker run --help
 
-  Для большего списка аргументов и возможностей, выше только самое основное.
+  For full list of arguments and possibilities, upper I wrote only basics.

@@ -3,6 +3,9 @@ pinger_bot.db
 config.yml
 commit.txt
 
+# Ignore false-positive created files for the API translation. It is deactivated for non-English language.
+/docs/locale/**/LC_MESSAGES/api/pinger_bot/**/*.po
+
 # Created by https://www.toptal.com/developers/gitignore/api/linux,python,windows,visualstudiocode,pycharm+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,python,windows,visualstudiocode,pycharm+all
 

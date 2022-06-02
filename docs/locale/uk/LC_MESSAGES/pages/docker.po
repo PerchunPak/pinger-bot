@@ -1,0 +1,192 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, PerchunPak
+# This file is distributed under the same license as the pinger-bot package.
+# Perchun Pak <perchunpak@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinger-bot 0.4.0\n"
+"Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
+"POT-Creation-Date: 2022-06-02 21:12+0200\n"
+"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
+"Language: uk\n"
+"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+#: ../../pages/docker.rst:3
+msgid "Using in Docker"
+msgstr "Використання в Docker"
+
+#: ../../pages/docker.rst:8
+msgid "Installing"
+msgstr "Встановлення"
+
+#: ../../pages/docker.rst:12
+msgid "Installing from Dockerhub"
+msgstr "Встановлення з Dockerhub"
+
+#: ../../pages/docker.rst:14
+msgid "By default, we create few tags:"
+msgstr "За замовчуванням, ми створюємо декілька тегів:"
+
+#: ../../pages/docker.rst:16
+msgid "``latest`` - Latest project release."
+msgstr "``latest`` - Остання версія проекту."
+
+#: ../../pages/docker.rst:17
+msgid ""
+"``dev`` - Latest possible project version. Use only for testing, always "
+"can have breaking changes."
+msgstr ""
+"``dev`` - Остання можлива версія проекту. Використовуйте лише для "
+"тестування, завжди можуть бути проблеми з несумісністю версій."
+
+#: ../../pages/docker.rst:19
+msgid ""
+"``x.y.z`` - Project release in `Semantic Versions <https://semver.org/>`_"
+" style."
+msgstr "``x.y.z`` - Версія проекту в `Semantic Versions <https://semver.org/>`_."
+
+#: ../../pages/docker.rst:22
+msgid ""
+"Every of those tags also have duplicates with database suffixes, at now "
+"it is can be ``sqlite``, ``mysql`` and ``postgresql``. As example, for "
+"tag ``latest`` also will be available tag ``latest-sqlite``."
+msgstr ""
+"Кожен з цих тегів, також має дублікати с суфіксами баз даних, на даний "
+"момент це можуть бути ``sqlite``, ``mysql`` та ``postgresql``. Як "
+"приклад, для тегу ``latest`` також буде доступний тег ``latest-sqlite``."
+
+#: ../../pages/docker.rst:26
+msgid ""
+"Tag without suffix - standard database. At now, it is ``sqlite``. It "
+"means that tag ``latest`` give the same as ``latest-sqlite``."
+msgstr ""
+"Тег без суфіксу - стандартна база даних. На даний момент це ``sqlite``. "
+"Тобто це означає що тег ``latest`` видає теж саме що і ``latest-sqlite``."
+
+#: ../../pages/docker.rst:30
+msgid ""
+"There are few deprecated tags, which are still available only for "
+"history. It is :ref:`main <pages/changelog:version 0.1.0>`, :ref:`rewrite"
+" <pages/changelog:version 0.2.0>` and :ref:`newdb "
+"<pages/changelog:version 0.3.0>`."
+msgstr ""
+"Також є декілька застарілих тегів, які залишаються тільки для історії. Це"
+" :ref:`main <pages/changelog:version 0.1.0>`, :ref:`rewrite "
+"<pages/changelog:version 0.2.0>` та :ref:`newdb <pages/changelog:version "
+"0.3.0>`."
+
+#: ../../pages/docker.rst:36 ../../pages/docker.rst:60
+msgid ""
+"If you use not ``sqlite``, you need to apply database migrations "
+"manually. In ``sqlite`` migrations are applied automatically while we "
+"compile image. See :ref:`index:database migrations` for details."
+msgstr ""
+"Якщо ви не використовуєте ``sqlite``, вам також треба буде застосовувати "
+"міграції бази даних самостійно. В ``sqlite`` міграції приміняються поки "
+"ми збираємо зображення. Дивіться :ref:`index:database migrations` для "
+"більшої інформації."
+
+#: ../../pages/docker.rst:41
+msgid ""
+"`Our page on Dockerhub with all available tags. "
+"<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
+msgstr ""
+"`Наша сторінка на Dockerhub з усіма доступними тегами. "
+"<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
+
+#: ../../pages/docker.rst:46
+msgid "Self compilation"
+msgstr "Самостійна компіляція"
+
+#: ../../pages/docker.rst:48
+msgid "Also, you can compile images from project's root."
+msgstr "Також, ви можете скомпілювати зображення з кореневої папки проекту."
+
+#: ../../pages/docker.rst:50
+msgid "To do this, you just need to run the command:"
+msgstr "Для цього, просто використайте команду:"
+
+#: ../../pages/docker.rst:56
+msgid ""
+"Where ``--build-arg dialect=sqlite`` - parameter, which defines database,"
+" what you want to use. Instead of ``sqlite`` you can set any supported."
+msgstr ""
+"Де ``--build-arg dialect=sqlite`` - параметер, який визначає яку базу "
+"даних ви будете використовувати. Замість ``sqlite`` ви можете встановити "
+"любу підтримуєму."
+
+#: ../../pages/docker.rst:66
+msgid "Run"
+msgstr "Запуск"
+
+#: ../../pages/docker.rst:68
+msgid "To run the bot, in both cases of installation, use this command:"
+msgstr "Для запуску бота, в обох випадках встановлення, використайте цю команду:"
+
+#: ../../pages/docker.rst:75
+msgid ""
+"If you want to use ``sqlite``, you also need to set ``-v "
+"YOUR_PATH:/app/pinger_bot.db`` option (Where ``YOUR_PATH`` it is a path "
+"your database file. I recommend set absolute path.) This is needed to "
+"save database in case of container restart."
+msgstr ""
+"Якщо ви хочете використовувати ``sqlite``, ви також повинні встановити "
+"опцію ``-v ВАШ_ШЛЯХ:/app/pinger_bot.db`` (Де ``ВАШ_ШЛЯХ`` це ваш шлях до "
+"файлу з базою даних, рекомендовано встановлювати абсолютний шлях.) Це "
+"потрібно щоб зберігати вашу базу даних коли контейнер перезавантажиться."
+
+#: ../../pages/docker.rst:80
+msgid ""
+"This parameter **must** be set between ``-d`` flag and "
+"``perchunpak/pingerbot``."
+msgstr ""
+"Цей параметр **повинен** встановлюється між прапором ``-d`` та "
+"``perchunpak/pingerbot``."
+
+#: ../../pages/docker.rst:83
+msgid ""
+"You also need to set ``-e`` option for every configuration parameter. "
+"This option just set environment variables, interface will be the same as"
+" in ``config.yml``, but all parameters keys in upper case."
+msgstr ""
+"Вам також треба встановити опцію ``-e`` для кожного параметра "
+"конфігурації. Ця опція просто встановлює зміни оточення, так що інтерфейс"
+" буде такий самий як і в ``config.yml``, але всі ключі параметрів повинні"
+" бути у верхньому регістрі."
+
+#: ../../pages/docker.rst:87
+msgid ""
+"They should be used like ``-e KEY=VALUE``, where ``KEY`` upper cased key "
+"from ``config.yml`` (example ``DISCORD_TOKEN``), and ``VALUE`` is a "
+"value."
+msgstr ""
+"Вони повинні використовуватися як ``-e КЛЮЧ=ЗНАЧЕННЯ``, де ``КЛЮЧ`` це "
+"ключ з ``config.yml`` у верхньому регістрі (наприклад ``DISCORD_TOKEN``),"
+" і ``ЗНАЧЕННЯ`` це значення."
+
+#: ../../pages/docker.rst:90
+msgid ""
+"Same as ``-v`` option, they **must** be set between ``-d`` flag and "
+"``perchunpak/pingerbot``."
+msgstr ""
+"Так як і опція ``-v``, воно **повинно** бути між флагом ``-d`` і "
+"``perchunpak/pingerbot``."
+
+#: ../../pages/docker.rst:94
+msgid "Command"
+msgstr "Команду"
+
+#: ../../pages/docker.rst:100
+msgid "For full list of arguments and possibilities, upper I wrote only basics."
+msgstr ""
+"Для повного списку аргументів та можливостей, вище я написав тільки "
+"базове."
+

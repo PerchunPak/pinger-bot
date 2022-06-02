@@ -1,0 +1,253 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, PerchunPak
+# This file is distributed under the same license as the pinger-bot package.
+# Perchun Pak <perchunpak@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinger-bot 0.4.0\n"
+"Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
+"POT-Creation-Date: 2022-06-02 21:12+0200\n"
+"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
+"Language: uk\n"
+"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+#: ../../index.rst:6
+msgid "Guides"
+msgstr "Гайди"
+
+#: ../../index.rst:4 ../../index.rst:12
+msgid "Pages"
+msgstr "Сторінки"
+
+#: ../../index.rst:19
+msgid "API Reference"
+msgstr "API Документація"
+
+#: ../../../README.md:3
+msgid "pinger-bot"
+msgstr "pinger-bot"
+
+msgid "Build Status"
+msgstr "Статус Побудови"
+
+msgid "codecov"
+msgstr "codecov"
+
+msgid "Documentation Build Status"
+msgstr "Статус Побудови Документації"
+
+msgid "Code style: black"
+msgstr "Стиль коду: black"
+
+msgid "Python support versions badge"
+msgstr "Бейдж із підтримуваними версіями Python"
+
+#: ../../../README.md:31
+msgid "Simple discord bot for tracking your MineCraft servers."
+msgstr "Простий Discord бот для відстеження ваших MineCraft серверів."
+
+#: ../../../README.md:34
+msgid "`Документація українською <https://pinger-bot.readthedocs.io/uk/latest>`_"
+msgstr "`Docs on English <https://pinger-bot.readthedocs.io/en/latest>`_"
+
+#: ../../../README.md:35
+msgid "`Документация на русском <https://pinger-bot.readthedocs.io/ru/latest>`_"
+msgstr "`Документация на русском <https://pinger-bot.readthedocs.io/ru/latest>`_"
+
+#: ../../../README.md:38
+msgid "Features"
+msgstr "Особливості"
+
+#: ../../../README.md:41
+msgid "Free! We don't want any money from you!"
+msgstr "Безкоштовно! Ми не хочемо нічого від вас!"
+
+#: ../../../README.md:42
+msgid "Self Hosted - Bot fully under your control!"
+msgstr "Само-Хостинг - Бот повністю під вашим керуванням!"
+
+#: ../../../README.md:45
+msgid "Installing"
+msgstr "Встановлення"
+
+#: ../../../README.md:53
+msgid "Installing ``poetry``"
+msgstr "Встановлення ``poetry``"
+
+#: ../../../README.md:55
+msgid ""
+"Next we need install ``poetry`` with `recomended way <https://python-"
+"poetry.org/docs/master/#installation>`_."
+msgstr ""
+"Наступним кроком необхідно встановити ``poetry`` `рекомендованим шляхом "
+"<https://python-poetry.org/docs/master/#installation>`_."
+
+#: ../../../README.md:57
+msgid "If you use Linux, use command:"
+msgstr "Якщо ви використовуєте Linux, використайте команду:"
+
+#: ../../../README.md:63
+msgid "If you use Windows, open PowerShell with admin privilages and use:"
+msgstr ""
+"Якщо ви використовуєте Windows, відкрийте PowerShell від імені "
+"адміністратора та використайте:"
+
+#: ../../../README.md:70
+msgid "Installing dependencies"
+msgstr "Встановлення залежностей"
+
+#: ../../../README.md:76
+msgid ""
+"Also, for bot working, you need specify which database you will use. For "
+"now, we only support ``SQLite``\\ , ``MySQL`` and ``PostgreSQL``. For "
+"installing required dependence, we need just use argument ``-E`` with "
+"lower-cased database name."
+msgstr ""
+"Також, для роботи бота, вам потрібно вказати яку базу даних ви будете "
+"використовувати. Зараз ми підтримуємо тільки ``SQLite``\\ , ``MySQL`` and"
+" ``PostgreSQL``. Для встановлення необхідних залежностей, треба просто "
+"використати аргумент ``-E`` з ім'ям бази даних в нижньому регістрі."
+
+#: ../../../README.md:80
+msgid "Example:"
+msgstr "Наприклад:"
+
+#: ../../../README.md:87
+msgid "Compiling translations"
+msgstr "Компіляція перекладів"
+
+#: ../../../README.md:89
+msgid "This requered even if you want just use english."
+msgstr "Це потрібно навіть якщо ви хочете використовувати просто англійську."
+
+#: ../../../README.md:96
+msgid "Database migrations"
+msgstr "Міграції бази даних"
+
+#: ../../../README.md:103
+msgid "Configuration"
+msgstr "Конфігурація"
+
+#: ../../../README.md:105
+msgid ""
+"All bot configuration happends in ``config.yml``\\ , or with enviroment "
+"variables. All configuration settings described in `config.py <https"
+"://pinger-bot.readthedocs.io/en/latest/autoapi/pinger_bot/config/>`_."
+msgstr ""
+"Вся конфігурація бота проходить в ``config.yml``\\ , або з допомогою "
+"змінних оточення. Всі можливі опції описані в `config.py <https://pinger-"
+"bot.readthedocs.io/uk/latest/autoapi/pinger_bot/config/>`_."
+
+#: ../../../README.md:109
+msgid "Database"
+msgstr "База даних"
+
+#: ../../../README.md:111
+msgid "When setting up a database, there are a few additional nuances:"
+msgstr "Коли встановлюєте базу даних, є також декілька нюансів:"
+
+#: ../../../README.md:114
+msgid ""
+"If you want use SQLite, you need specify path to file. I recomend set "
+"absolute path."
+msgstr ""
+"Якщо ви хочете використовувати SQLite, вам потрібно вказати шлях до "
+"файлу. Рекомендовано встановлювати абсолютний шлях."
+
+#: ../../../README.md:115
+msgid ""
+"What specify in field ``db_uri``\\ ? `See this page "
+"<https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls>`_."
+msgstr ""
+"Щоб дізнатися, що треба встановлювати в поле ``db_uri`` `дивіться цю "
+"статтю <https://docs.sqlalchemy.org/en/14/core/engines.html#database-"
+"urls>`_."
+
+#: ../../../README.md:118
+msgid "Run the bot"
+msgstr "Запуск бота"
+
+#: ../../../README.md:125
+msgid "If something is not clear"
+msgstr "Якщо щось не зрозуміло"
+
+#: ../../../README.md:127
+msgid "You can always write me!"
+msgstr "Ви завжди можете написати мені!"
+
+#: ../../../README.md:130
+msgid "Using in Docker"
+msgstr "Використання в Docker"
+
+#: ../../../README.md:132
+msgid "See `docs <https://pinger-bot.readthedocs.io/en/latest/pages/docker/>`_."
+msgstr ""
+"Дивіться `документацію <https://pinger-"
+"bot.readthedocs.io/uk/latest/pages/docker/>`_."
+
+#: ../../../README.md:135
+msgid "Updating"
+msgstr "Оновлення"
+
+#: ../../../README.md:137
+msgid ""
+"For updating, just redownload repository (do not forget save config and "
+"database), if you used ``git`` for donwloading, just run ``git pull``."
+msgstr ""
+"Для оновлення, вам просто потрібно пере-скачати репозиторій (не забудьте "
+"зберегти конфіг та базу даних), якщо ви використовували ``git`` для "
+"скачування, тоді просто використайте ``git pull``."
+
+#: ../../../README.md:140
+msgid ""
+"After that, you need update translations and database, commands the same "
+"as in installing section:"
+msgstr ""
+"Після цього, треба оновити переклади і базу даних, команди аналогічні як "
+"при встановленні:"
+
+#: ../../../README.md:148
+msgid "Thanks"
+msgstr "Дякую"
+
+#: ../../../README.md:150
+msgid ""
+"This project was generated with `fire-square-style <https://github.com"
+"/fire-square/fire-square-style>`_. Current template version: "
+"`48af418aa475ecb2a51cbd9c398dfa22353f287d <https://github.com/fire-square"
+"/fire-square-style/tree/48af418aa475ecb2a51cbd9c398dfa22353f287d>`_. See "
+"what `updated <https://github.com/fire-square/fire-square-"
+"style/compare/48af418aa475ecb2a51cbd9c398dfa22353f287d...master>`_."
+msgstr ""
+"Цей проект був згенерований за допомогою `fire-square-style "
+"<https://github.com/fire-square/fire-square-style>`_. Поточна версія "
+"шаблону: `48af418aa475ecb2a51cbd9c398dfa22353f287d <https://github.com"
+"/fire-square/fire-square-"
+"style/tree/48af418aa475ecb2a51cbd9c398dfa22353f287d>`_. Дивіться що "
+"`оновилося <https://github.com/fire-square/fire-square-"
+"style/compare/48af418aa475ecb2a51cbd9c398dfa22353f287d...master>`_."
+
+#: ../../index.rst:26
+msgid "Indexes and tables"
+msgstr "Індекси та таблиці"
+
+#: ../../index.rst:28
+msgid ":ref:`genindex`"
+msgstr ":ref:`genindex`"
+
+#: ../../index.rst:29
+msgid ":ref:`modindex`"
+msgstr ":ref:`modindex`"
+
+#: ../../index.rst:30
+msgid ":ref:`search`"
+msgstr ":ref:`search`"
+

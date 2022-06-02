@@ -1,39 +1,39 @@
-# История изменений
+# Changelog
 
-Мы следуем стандартному стилю [Semantic Versions](https://semver.org/).
-
-
-## Версия 0.4.0
-
-(ветка [master](https://github.com/PerchunPak/PingerBot/tree/master))
-
-- Полная перепись бота.
-- Переход на `nextcord` вместо `discord.py`.
-- Использовали стиль `fire-square-style`.
+We follow [Semantic Versions](https://semver.org/) style.
 
 
-## Версия 0.3.0
+## Version 0.4.0
 
-(ветка [newdb](https://github.com/PerchunPak/PingerBot/tree/newdb))
+(branch [master](https://github.com/PerchunPak/PingerBot/tree/master))
 
-- Перепись базы данных с `asyncpg` на `sqlalchemy`.
-
-Из альфы не вышло, очень не стабильно, но имело большие надежды.
-
-
-## Версия 0.2.0
-
-(ветка [rewrite](https://github.com/PerchunPak/PingerBot/tree/rewrite))
-
-- Полная перепись бота.
-
-В этот раз удачнее, но все еще много чего не идеально.
+- Full rewrite.
+- Using `hikari` instead of `discord.py`.
+- Using template `fire-square-style`.
 
 
-## Версия 0.1.0
+## Version 0.3.0
 
-(ветка [main](https://github.com/PerchunPak/PingerBot/tree/main))
+(branch [newdb](https://github.com/PerchunPak/PingerBot/tree/newdb))
 
-- Репозиторий инициализирован. 
+- Rewite DB system from `asyncpg` to `sqlalchemy`.
 
-Написана минимальная версия, тем не менее она плохо работает.
+Didn't left from alpha, really unstable, but had good future.
+
+
+## Version 0.2.0
+
+(branch [rewrite](https://github.com/PerchunPak/PingerBot/tree/rewrite))
+
+- Full rewrite.
+
+In this time better, but anyway, many things not perfect.
+
+
+## Version 0.1.0
+
+(branch [main](https://github.com/PerchunPak/PingerBot/tree/main))
+
+- Repository initialised.
+
+First, minimal version, but it is working really bad.

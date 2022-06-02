@@ -1,33 +1,28 @@
 .. mdinclude:: ../README.md
 
-Страницы
---------
+Pages
+-----
 
 .. toctree::
 	:maxdepth: 1
-	:caption: История Изменений
-
-	pages/changelog.rst
-
-.. toctree::
-	:maxdepth: 1
-	:caption: Как помочь
-
-	pages/contributing.rst
-
-.. toctree::
-	:maxdepth: 1
-	:caption: Гайды
+	:caption: Guides
 
 	pages/docker.rst
 
 .. toctree::
 	:maxdepth: 1
-	:caption: API Документация
+	:caption: Pages
+
+	pages/changelog.rst
+	pages/contributing.rst
+
+.. toctree::
+	:maxdepth: 1
+	:caption: API Reference
 
 	api/index.rst
 
-Индексы и таблицы
+Indexes and tables
 ------------------
 
 * :ref:`genindex`

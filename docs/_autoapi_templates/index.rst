@@ -3,6 +3,9 @@ API Reference
 
 This page contains auto-generated API reference documentation.
 
+.. warning::
+    Currently, API Reference is only available `in English <https://pinger-bot.readthedocs.io/en/latest/>`_\ .
+
 .. toctree::
    :titlesonly:
 

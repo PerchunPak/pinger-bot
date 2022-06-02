@@ -1,0 +1,36 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2022, PerchunPak
+# This file is distributed under the same license as the pinger-bot package.
+# Perchun Pak <perchunpak@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pinger-bot 0.4.0\n"
+"Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
+"POT-Creation-Date: 2022-06-02 21:12+0200
+"
+"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
+"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: ../../api/index.rst:2
+msgid "API Reference"
+msgstr "API Документация"
+
+#: ../../api/index.rst:4
+msgid "This page contains auto-generated API reference documentation."
+msgstr "Это страница содержит автоматически сгенерированную документацию API."
+
+#: ../../api/index.rst:7
+msgid ""
+"Currently, API Reference is only available `in English <https://pinger-bot."
+"readthedocs.io/en/latest/>`_\\ ."
+msgstr ""
+"На данный момент, Документация API доступна только `на Английском <https://"
+"pinger-bot.readthedocs.io/en/latest/>`_\\ ."
