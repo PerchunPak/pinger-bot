@@ -114,7 +114,7 @@ master_doc = "index"
 # Usually you set "language" from the command line for these cases.
 language = os.getenv("DOCS_LANGUAGE", "en")
 
-locale_dirs = ['locale/']
+locale_dirs = ["locale/"]
 gettext_compact = False
 
 # List of patterns, relative to source directory, that match files and
