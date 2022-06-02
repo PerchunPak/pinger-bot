@@ -15,6 +15,12 @@
 
 	pages/docker.rst
 
+.. toctree::
+	:maxdepth: 1
+	:caption: API Документация
+
+	api/index.rst
+
 Индексы и таблицы
 ------------------
 

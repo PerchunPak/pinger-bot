@@ -154,6 +154,7 @@ napoleon_include_private_with_doc = True
 # Configuration for autoapi
 autoapi_dirs = ["../pinger_bot"]
 autoapi_template_dir = "_autoapi_templates"
+autoapi_root = "api"
 
 
 def get_patched_hikari_inv() -> str:
