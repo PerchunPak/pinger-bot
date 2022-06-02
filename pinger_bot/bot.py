@@ -2,7 +2,7 @@
 import logging
 from pathlib import Path
 
-from hikari import Intents
+from hikari import Intents, Activity
 from lightbulb import BotApp
 from structlog import configure as structlog_configure
 from structlog import make_filtering_bound_logger
@@ -59,6 +59,7 @@ class PingerBot(BotApp):
         super().run(
             self=instance,
             check_for_updates=False,
+            activity=Activity(name=_("ping-pong"), type=0),
             **kwargs,
         )
 
