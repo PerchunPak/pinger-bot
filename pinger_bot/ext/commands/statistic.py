@@ -1,31 +1,32 @@
 """Module for the ``statistic`` command."""
-from datetime import datetime, timedelta
-from io import BytesIO
-from typing import List, Optional
+import datetime
+import io
+import typing
 
-from hikari.embeds import Embed
-from lightbulb import Plugin, command, implements, option
-from lightbulb.commands import SlashCommand
-from lightbulb.context.slash import SlashContext
-from matplotlib.dates import DateFormatter
-from matplotlib.figure import Figure
-from matplotlib.pyplot import subplots
-from sqlalchemy import select
-from structlog.stdlib import get_logger
+import hikari.embeds as embeds
+import lightbulb
+import lightbulb.commands as commands
+import lightbulb.context.slash as slash
+import matplotlib.dates as dates
+import matplotlib.figure as figure
+import matplotlib.pyplot as pyplot
+import sqlalchemy
+import structlog.stdlib as structlog
 
-from pinger_bot.bot import PingerBot
-from pinger_bot.config import gettext as _
-from pinger_bot.ext.commands import wait_please_message
-from pinger_bot.mc_api import FailedMCServer, MCServer
-from pinger_bot.models import Ping, Server, db
+import pinger_bot.bot as bot
+import pinger_bot.config as config
+import pinger_bot.ext.commands as pinger_commands
+import pinger_bot.mc_api as mc_api
+import pinger_bot.models as models
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
-plugin = Plugin("statistic")
+plugin = lightbulb.Plugin("statistic")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
-async def get_not_in_db_embed(ip: str) -> Embed:
+async def get_not_in_db_embed(ip: str) -> embeds.Embed:
     """Get the embed when a server not in database.
 
     See source code for more information.
@@ -36,7 +37,7 @@ async def get_not_in_db_embed(ip: str) -> Embed:
     Returns:
         The embed where server not in database.
     """
-    embed = Embed(title=_("{} statistic").format(ip), color=(231, 76, 60))
+    embed = embeds.Embed(title=_("{} statistic").format(ip), color=(231, 76, 60))
     embed.add_field(
         name=_("Can't find the server in database."),
         value=_("Maybe you set invalid IP address, or server just offline."),
@@ -44,7 +45,7 @@ async def get_not_in_db_embed(ip: str) -> Embed:
     return embed
 
 
-async def get_yesterday_ping(pings: List[Ping]) -> Optional[Ping]:
+async def get_yesterday_ping(pings: typing.List[models.Ping]) -> typing.Optional[models.Ping]:
     """Get the ping from yesterday.
 
     Yesterday - it is period between 23-25 hours.
@@ -55,16 +56,16 @@ async def get_yesterday_ping(pings: List[Ping]) -> Optional[Ping]:
     Returns:
         :class:`~pinger_bot.models.Ping` or :obj:`None` if no yesterday ping.
     """
-    yesterday_25h = datetime.now() - timedelta(hours=25)
-    yesterday_23h = datetime.now() - timedelta(hours=23)
-    yesterday_ping: Optional[Ping] = None
+    yesterday_25h = datetime.datetime.now() - datetime.timedelta(hours=25)
+    yesterday_23h = datetime.datetime.now() - datetime.timedelta(hours=23)
+    yesterday_ping: typing.Optional[models.Ping] = None
     for ping in pings:  # search pings in range 23-25 hours ago
         if yesterday_23h > ping.time > yesterday_25h:
             yesterday_ping = ping
     return yesterday_ping
 
 
-async def create_plot(pings: List[Ping], ip: str) -> Figure:
+async def create_plot(pings: typing.List[models.Ping], ip: str) -> figure.Figure:
     """Create plot for the server.
 
     Args:
@@ -74,14 +75,14 @@ async def create_plot(pings: List[Ping], ip: str) -> Figure:
     Returns:
         :class:`~matplotlib.figure.Figure` object.
     """
-    online: List[int] = []
-    time: List[datetime] = []
+    online: typing.List[int] = []
+    time: typing.List[datetime.datetime] = []
     for ping in pings:
         online.append(ping.players)
         time.append(ping.time)
 
-    figure, axes = subplots()
-    axes.xaxis.set_major_formatter(DateFormatter("%H:%M"))
+    figure, axes = pyplot.subplots()
+    axes.xaxis.set_major_formatter(dates.DateFormatter("%H:%M"))
     axes.plot(time, online)
 
     axes.set_xlabel(_("Time"))
@@ -91,7 +92,7 @@ async def create_plot(pings: List[Ping], ip: str) -> Figure:
     return figure
 
 
-async def transform_figure_to_bytes(figure: Figure) -> BytesIO:
+async def transform_figure_to_bytes(figure: figure.Figure) -> io.BytesIO:
     """Transform :class:`~matplotlib.figure.Figure` to :class:`~io.BytesIO`.
 
     Args:
@@ -100,30 +101,32 @@ async def transform_figure_to_bytes(figure: Figure) -> BytesIO:
     Returns:
         :class:`~io.BytesIO` object.
     """
-    buffer = BytesIO()
+    buffer = io.BytesIO()
     figure.savefig(buffer, format="png")
     buffer.seek(0)
     return buffer
 
 
 @plugin.command
-@option("ip", _("The IP address of the server."), type=str)
-@command("statistic", _("Some statistic about the server."), pass_options=True)
-@implements(SlashCommand)
-async def statistic(ctx: SlashContext, ip: str) -> None:
+@lightbulb.option("ip", _("The IP address of the server."), type=str)
+@lightbulb.command("statistic", _("Some statistic about the server."), pass_options=True)
+@lightbulb.implements(commands.SlashCommand)
+async def statistic(ctx: slash.SlashContext, ip: str) -> None:
     """Some statistic about the server. It's working, even if server is offline.
 
     Args:
         ctx: The context of the command.
         ip: The IP address of the server.
     """
-    await wait_please_message(ctx)
-    server = await MCServer.status(ip)
+    await pinger_commands.wait_please_message(ctx)
+    server = await mc_api.MCServer.status(ip)
 
-    async with db.session() as session:
-        db_server: Optional[Server] = (
+    async with models.db.session() as session:
+        db_server: typing.Optional[models.Server] = (
             await session.scalars(
-                select(Server).where(Server.host == server.address.host).where(Server.port == server.address.port)
+                sqlalchemy.select(models.Server)
+                .where(models.Server.host == server.address.host)
+                .where(models.Server.port == server.address.port)
             )
         ).first()
 
@@ -135,20 +138,24 @@ async def statistic(ctx: SlashContext, ip: str) -> None:
             return
 
         pings = (
-            await session.scalars(select(Ping).where(Ping.host == db_server.host).where(Ping.port == db_server.port))
+            await session.scalars(
+                sqlalchemy.select(models.Ping)
+                .where(models.Ping.host == db_server.host)
+                .where(models.Ping.port == db_server.port)
+            )
         ).all()
     yesterday_ping = await get_yesterday_ping(pings)
 
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("{} statistic").format(server.address.display_ip),
         description=_("Number IP: {}").format(server.address.num_ip)
         + "\n\n**"
-        + (_("Online") if not isinstance(server, FailedMCServer) else _("Offline"))
+        + (_("Online") if not isinstance(server, mc_api.FailedMCServer) else _("Offline"))
         + "**",
         color=(46, 204, 113),
     )
 
-    players = server.players if not isinstance(server, FailedMCServer) else _("No info.")
+    players = server.players if not isinstance(server, mc_api.FailedMCServer) else _("No info.")
     yesterday_online = str(yesterday_ping.players) if yesterday_ping is not None else _("No info.")
 
     embed.add_field(name=_("Current online"), value=str(players), inline=True)
@@ -169,6 +176,6 @@ async def statistic(ctx: SlashContext, ip: str) -> None:
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
-def load(bot: PingerBot) -> None:
+def load(bot: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)

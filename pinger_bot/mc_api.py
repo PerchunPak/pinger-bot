@@ -1,21 +1,22 @@
 """API module with Minecraft Servers API."""
-from dataclasses import dataclass
-from typing import Optional, Union
+import dataclasses
+import typing
 
-from dns.asyncresolver import resolve as dns_resolve
-from dns.exception import DNSException
-from dns.rdatatype import RdataType
-from mcstatus import BedrockServer, JavaServer
-from sqlalchemy import select
-from structlog.stdlib import get_logger
+import dns.asyncresolver as asyncresolver
+import dns.exception as exception
+import dns.rdatatype as rdatatype
+import mcstatus
+import sqlalchemy
+import structlog.stdlib as structlog
 
-from pinger_bot.config import gettext as _
-from pinger_bot.models import Server, db
+import pinger_bot.config as config
+import pinger_bot.models as models
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
 
-@dataclass
+@dataclasses.dataclass
 class Address:
     """Class for containing information about server address."""
 
@@ -25,13 +26,13 @@ class Address:
     """Port of the server, example ``25565`` or ``19132``."""
     input_ip: str
     """Unparsed and unmodified IP, which was passed before everything."""
-    alias: Optional[str]
+    alias: typing.Optional[str]
     """Alias of the server."""
     display_ip: str
     """Display IP of the server (:py:attr:`.alias`, if this unset - :py:attr:`.input_ip`)."""
     num_ip: str
     """Number IP of the server. Always with port. Example ``127.0.0.1:25565``."""
-    _server: Union[JavaServer, BedrockServer]
+    _server: typing.Union[mcstatus.JavaServer, mcstatus.BedrockServer]
     """Private attribute with JavaServer or BedrockServer instance."""
 
     @classmethod
@@ -49,7 +50,11 @@ class Address:
         ip_from_alias = await cls._get_ip_from_alias(input_ip)
 
         if ip_from_alias is not None:
-            server = await JavaServer.async_lookup(ip_from_alias) if java else BedrockServer.lookup(ip_from_alias)
+            server = (
+                await mcstatus.JavaServer.async_lookup(ip_from_alias)
+                if java
+                else mcstatus.BedrockServer.lookup(ip_from_alias)
+            )
             return cls(
                 host=server.address.host,
                 port=server.address.port,
@@ -60,7 +65,7 @@ class Address:
                 _server=server,
             )
 
-        server = await JavaServer.async_lookup(input_ip) if java else BedrockServer.lookup(input_ip)
+        server = await mcstatus.JavaServer.async_lookup(input_ip) if java else mcstatus.BedrockServer.lookup(input_ip)
         num_ip = (await cls._get_number_ip(server.address.host)) + ":" + str(server.address.port)
         alias = await cls._get_alias_from_ip(server.address.host, server.address.port)
 
@@ -75,7 +80,7 @@ class Address:
         )
 
     @staticmethod
-    async def _get_ip_from_alias(alias: str) -> Optional[str]:
+    async def _get_ip_from_alias(alias: str) -> typing.Optional[str]:
         """Get IP from alias.
 
         Args:
@@ -85,8 +90,10 @@ class Address:
             IP if alias was found, else None.
         """
         log.debug("Address._get_ip_from_alias", alias=alias)
-        async with db.session() as session:
-            server = await session.execute(select(Server.host, Server.port).where(Server.alias == alias))
+        async with models.db.session() as session:
+            server = await session.execute(
+                sqlalchemy.select(models.Server.host, models.Server.port).where(models.Server.alias == alias)
+            )
         row = server.first()
 
         log.debug("Address._get_ip_from_alias row", row=row)
@@ -104,8 +111,8 @@ class Address:
         """
         log.debug("Address._get_number_ip", input_ip=input_ip)
         try:
-            answers = await dns_resolve(input_ip, RdataType.A)
-        except DNSException:
+            answers = await asyncresolver.resolve(input_ip, rdatatype.RdataType.A)
+        except exception.DNSException:
             log.debug(_("Cannot resolve IP {} to number IP").format(input_ip))
             return input_ip
 
@@ -116,7 +123,7 @@ class Address:
         return ip
 
     @staticmethod
-    async def _get_alias_from_ip(host: str, port: int) -> Optional[str]:
+    async def _get_alias_from_ip(host: str, port: int) -> typing.Optional[str]:
         """Get alias from IP.
 
         Args:
@@ -127,15 +134,19 @@ class Address:
             Alias if found, else None.
         """
         log.debug("Address._get_alias_from_ip", host=host, port=port)
-        async with db.session() as session:
-            server = await session.execute(select(Server.alias).where(Server.host == host).where(Server.port == port))
+        async with models.db.session() as session:
+            server = await session.execute(
+                sqlalchemy.select(models.Server.alias)
+                .where(models.Server.host == host)
+                .where(models.Server.port == port)
+            )
         row = server.first()
 
         log.debug("Address._get_alias_from_ip row", row=row)
         return str(row.alias) if row is not None and row.alias is not None else None
 
 
-@dataclass
+@dataclasses.dataclass
 class Players:
     """Dataclass for :py:attr:`.MCServer.players` field."""
 
@@ -149,7 +160,7 @@ class Players:
         return f"{self.online}/{self.max}"
 
 
-@dataclass
+@dataclasses.dataclass
 class MCServer:
     """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
 
@@ -180,7 +191,7 @@ class MCServer:
             self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{str(self.address.port)}"  # type: ignore[unreachable]
 
     @classmethod
-    async def status(cls, host: str) -> Union["MCServer", "FailedMCServer"]:
+    async def status(cls, host: str) -> typing.Union["MCServer", "FailedMCServer"]:
         """Get cross-platform status.
 
         First ping it as :py:class:`mcstatus.JavaServer`, and if it fails, ping as :py:class:`mcstatus.BedrockServer`.
@@ -251,7 +262,7 @@ class MCServer:
         )
 
 
-@dataclass
+@dataclasses.dataclass
 class FailedMCServer:
     """Represents a server, when ping failed."""
 

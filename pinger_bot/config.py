@@ -1,14 +1,14 @@
 """File for the Config dataclass."""
-from dataclasses import dataclass
-from gettext import translation
-from os import environ
-from pathlib import Path
+import dataclasses
+import gettext as gettext_orig
+import os
+import pathlib
 
-from omegaconf import OmegaConf
-from omegaconf.dictconfig import DictConfig
+import omegaconf
+import omegaconf.dictconfig as dictconfig
 
 
-@dataclass
+@dataclasses.dataclass
 class Config:
     """Main dataclass for config."""
 
@@ -34,35 +34,37 @@ class Config:
         Returns:
             :py:class:`.Config` instance.
         """
-        config_path = Path(__file__).parent.parent / "config.yml"
-        cfg = OmegaConf.structured(Config)
+        config_path = pathlib.Path(__file__).parent.parent / "config.yml"
+        cfg = omegaconf.OmegaConf.structured(Config)
 
         if config_path.exists():
-            loaded_config = OmegaConf.load(config_path)
-            cfg = OmegaConf.merge(cfg, loaded_config)
+            loaded_config = omegaconf.OmegaConf.load(config_path)
+            cfg = omegaconf.OmegaConf.merge(cfg, loaded_config)
 
         with open(config_path, "w") as config_file:
-            OmegaConf.save(cfg, config_file)
+            omegaconf.OmegaConf.save(cfg, config_file)
 
         cls._handle_env_variables(cfg)
 
         return cfg  # type: ignore[no-any-return] # actually return :py:class:`.Config`
 
     @staticmethod
-    def _handle_env_variables(cfg: DictConfig) -> None:
+    def _handle_env_variables(cfg: dictconfig.DictConfig) -> None:
         """Process all values, and redef them with values from env variables.
 
         Args:
             cfg: :py:class:`.Config` instance.
         """
         for key in cfg:
-            if str(key).upper() in environ:
-                cfg[str(key)] = environ[str(key).upper()]
+            if str(key).upper() in os.environ:
+                cfg[str(key)] = os.environ[str(key).upper()]
 
 
 config = Config.setup()
 """Initialized :py:class:`Config`."""
-translation_obj = translation("messages", str(Path(__file__).parent.parent / "locales"), languages=[config.locale])
+translation_obj = gettext_orig.translation(
+    "messages", str(pathlib.Path(__file__).parent.parent / "locales"), languages=[config.locale]
+)
 """This is setuped :py:obj:`gettext.translation` object."""
 translation_obj.install()
 gettext = translation_obj.gettext

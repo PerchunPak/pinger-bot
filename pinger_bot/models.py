@@ -1,32 +1,18 @@
 """DB models for the project."""
-from dataclasses import dataclass
-from datetime import datetime
+import dataclasses
+import datetime
 
-from sqlalchemy import (
-    BigInteger,
-    Column,
-    DateTime,
-    ForeignKey,
-    Identity,
-    Integer,
-    SmallInteger,
-    String,
-    UniqueConstraint,
-)
-from sqlalchemy.ext.asyncio import (
-    AsyncEngine,
-    AsyncSession,
-    create_async_engine,
-)
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.sql import func
-from structlog.stdlib import get_logger
+import sqlalchemy
+import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
+import sqlalchemy.orm as sqlalchemy_orm
+import sqlalchemy.sql as sql
+import structlog.stdlib as structlog
 
-from pinger_bot.config import config
-from pinger_bot.config import gettext as _
+import pinger_bot.config as config
 
-log = get_logger()
-Base = declarative_base()
+log = structlog.get_logger()
+_ = config.gettext
+Base = sqlalchemy_orm.declarative_base()
 """``Base`` object for all models.
 
 .. seealso:: `<https://docs.sqlalchemy.org/en/14/orm/mapping_api.html#sqlalchemy.orm.declarative_base>`_
@@ -39,21 +25,21 @@ class Server(Base):  # type: ignore[valid-type,misc]
 
     __tablename__ = "pb_servers"
 
-    id: int = Column(Integer, Identity(), primary_key=True)  # type: ignore[assignment]
+    id: int = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.Identity(), primary_key=True)  # type: ignore[assignment]
     """Unique ID of the server, primary key."""
 
-    host: str = Column(String(256), nullable=False)  # type: ignore[assignment]
+    host: str = sqlalchemy.Column(sqlalchemy.String(256), nullable=False)  # type: ignore[assignment]
     """Hostname of the server, can be number IP or domain. Always without port."""
-    port: int = Column(SmallInteger, nullable=False)  # type: ignore[assignment]
+    port: int = sqlalchemy.Column(sqlalchemy.SmallInteger, nullable=False)  # type: ignore[assignment]
     """Port of the server."""
-    max: int = Column(SmallInteger, nullable=False)  # type: ignore[assignment]
+    max: int = sqlalchemy.Column(sqlalchemy.SmallInteger, nullable=False)  # type: ignore[assignment]
     """Max players on the server."""
-    alias: str = Column(String(256), unique=True)  # type: ignore[assignment]
+    alias: str = sqlalchemy.Column(sqlalchemy.String(256), unique=True)  # type: ignore[assignment]
     """Alias of the server. Can be used as IP of the server."""
-    owner: int = Column(BigInteger, nullable=False)  # type: ignore[assignment]
+    owner: int = sqlalchemy.Column(sqlalchemy.BigInteger, nullable=False)  # type: ignore[assignment]
     """Owner's Discord ID of the server."""
 
-    __table_args__ = (UniqueConstraint("host", "port", name="ip"),)
+    __table_args__ = (sqlalchemy.UniqueConstraint("host", "port", name="ip"),)
     """Unique constraint for host and port."""
 
 
@@ -62,16 +48,16 @@ class Ping(Base):  # type: ignore[valid-type,misc]
 
     __tablename__ = "pb_pings"
 
-    id: int = Column(Integer, Identity(), primary_key=True)  # type: ignore[assignment]
+    id: int = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.Identity(), primary_key=True)  # type: ignore[assignment]
     """Unique ID of the ping, primary key."""
 
-    host: str = Column(ForeignKey(Server.host, name="server_host_to_ping_host"), nullable=False)  # type: ignore[assignment]
+    host: str = sqlalchemy.Column(sqlalchemy.ForeignKey(Server.host, name="server_host_to_ping_host"), nullable=False)  # type: ignore[assignment]
     """Host of the server, for which ping was made. This is a foreign key constraint."""
-    port: int = Column(ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)  # type: ignore[assignment,arg-type]
+    port: int = sqlalchemy.Column(sqlalchemy.ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)  # type: ignore[assignment,arg-type]
     """Port of the server, for which ping was made. This is a foreign key constraint."""
-    time: datetime = Column(DateTime, server_default=func.now(), nullable=False)  # type: ignore[assignment]
+    time: datetime.datetime = sqlalchemy.Column(sqlalchemy.DateTime, server_default=sql.func.now(), nullable=False)  # type: ignore[assignment]
     """Time of the ping. Default to current time."""
-    players: int = Column(Integer, nullable=False)  # type: ignore[assignment]
+    players: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)  # type: ignore[assignment]
     """Players online in moment of the ping."""
 
     __mapper_args__ = {"eager_defaults": True}
@@ -81,14 +67,16 @@ class Ping(Base):  # type: ignore[valid-type,misc]
     """
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class Database:
     """Some cached info about database."""
 
     log.info(_("Starting DB..."))
-    engine: AsyncEngine = create_async_engine(config.db_uri, echo=config.debug)
+    engine: sqlalchemy_asyncio.AsyncEngine = sqlalchemy_asyncio.create_async_engine(
+        config.config.db_uri, echo=config.config.debug
+    )
     """Async engine of the Database."""
-    session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+    session = sqlalchemy_orm.sessionmaker(engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
     """Async session of the Database."""
 
 

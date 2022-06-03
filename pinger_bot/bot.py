@@ -1,17 +1,14 @@
 """Main file to initialise bot object."""
 import logging
-from pathlib import Path
+import pathlib
 
-from hikari import Activity, Intents
-from lightbulb import BotApp
-from structlog import configure as structlog_configure
-from structlog import make_filtering_bound_logger
-from structlog.stdlib import get_logger
+import config as config
+import hikari
+import lightbulb
+import structlog
 
-from pinger_bot.config import config
-from pinger_bot.config import gettext as _
-
-log = get_logger()
+log = structlog.stdlib.get_logger()
+_ = config.gettext
 
 try:
     import uvloop
@@ -22,7 +19,7 @@ except ImportError:
     pass
 
 
-class PingerBot(BotApp):
+class PingerBot(lightbulb.BotApp):
     """Main bot class.
 
     Args:
@@ -33,9 +30,9 @@ class PingerBot(BotApp):
         log.debug("PingerBot.__init__", **kwargs)
 
         super().__init__(
-            config.discord_token,
-            logs="DEBUG" if config.debug else "WARNING",
-            intents=Intents.ALL,
+            config.config.discord_token,
+            logs="DEBUG" if config.config.debug else "WARNING",
+            intents=hikari.Intents.ALL,
             banner=None,
             help_class=None,
             **kwargs,
@@ -52,28 +49,30 @@ class PingerBot(BotApp):
 
         cls.handle_debug_options()
         instance = cls()
-        instance.load_extensions_from(Path(__file__).parent / "ext", recursive=True)
+        instance.load_extensions_from(pathlib.Path(__file__).parent / "ext", recursive=True)
 
         log.info(_("Pre-Run ended."))
 
         super().run(
             self=instance,
             check_for_updates=False,
-            activity=Activity(name=_("ping-pong"), type=0),
+            activity=hikari.Activity(name=_("ping-pong"), type=0),
             **kwargs,
         )
 
     @staticmethod
     def handle_debug_options() -> None:
         """Handle and activate some debug options."""
-        logging.basicConfig(level=logging.DEBUG if config.debug else logging.INFO)
-        structlog_configure(
-            wrapper_class=make_filtering_bound_logger(logging.DEBUG if config.verbose else logging.INFO)
+        logging.basicConfig(level=logging.DEBUG if config.config.debug else logging.INFO)
+        structlog.configure(
+            wrapper_class=structlog.make_filtering_bound_logger(
+                logging.DEBUG if config.config.verbose else logging.INFO
+            )
         )
 
-        if not config.debug:
+        if not config.config.debug:
             for dependency in ["hikari", "lightbulb", "apscheduler", "matplotlib"]:
                 logging.getLogger(dependency).setLevel(logging.WARNING)
 
         # debug-log after configuring logger
-        log.debug("PingerBot.handle_debug_options", debug=config.debug, verbose=config.verbose)
+        log.debug("PingerBot.handle_debug_options", debug=config.config.debug, verbose=config.config.verbose)

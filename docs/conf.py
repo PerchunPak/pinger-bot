@@ -187,11 +187,14 @@ intersphinx_mapping = {
 def skip_data_from_docs(
     app: Sphinx, what: str, name: str, obj: PythonModule, skip: Optional[bool], options: List[str]
 ) -> Optional[bool]:
-    """Skip ``log`` function everywhere. And skip all if language is not English."""
+    """Skip ``log`` function and ``_`` attribute everywhere. And skip all if language is not English."""
     if language != "en":
         return True
 
     if what == "data" and name.endswith(".log"):
+        skip = True
+    # this is a shortcut for ``gettext`` usually
+    if what == "data" and name.endswith("._"):
         skip = True
     return skip
 

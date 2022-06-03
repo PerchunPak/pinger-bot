@@ -1,16 +1,17 @@
 """Main CLI entrypoint."""
-from structlog.stdlib import get_logger
+import structlog.stdlib as structlog
 
-from pinger_bot.bot import PingerBot
-from pinger_bot.config import gettext as _
+import pinger_bot.bot as bot
+import pinger_bot.config as config
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
 
 def main() -> None:
     """Run the bot."""
     log.info(_("Hello World!"))
-    PingerBot.run()
+    bot.PingerBot.run()
 
 
 if __name__ == "__main__":

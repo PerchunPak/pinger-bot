@@ -1,16 +1,17 @@
 """Module for handling events."""
-from hikari.events.lifetime_events import StartedEvent, StoppingEvent
-from lightbulb import Plugin
-from lightbulb.events import SlashCommandInvocationEvent
-from structlog.stdlib import get_logger
+import hikari.events.lifetime_events as lifetime_events
+import lightbulb
+import lightbulb.events as events
+import structlog.stdlib as structlog
 
-from pinger_bot.bot import PingerBot
-from pinger_bot.config import gettext as _
-from pinger_bot.ext.scheduling import scheduler
+import pinger_bot.bot as bot
+import pinger_bot.config as config
+import pinger_bot.ext.scheduling as scheduling
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
-plugin = Plugin(name="events")
+plugin = lightbulb.Plugin(name="events")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
@@ -18,8 +19,8 @@ class Events:
     """Class for handling events."""
 
     @staticmethod
-    @plugin.listener(SlashCommandInvocationEvent)
-    async def pre_execution(event: SlashCommandInvocationEvent) -> None:
+    @plugin.listener(events.SlashCommandInvocationEvent)
+    async def pre_execution(event: events.SlashCommandInvocationEvent) -> None:
         """Pre-execution hook. Just logs the call of command.
 
         Args:
@@ -35,20 +36,20 @@ class Events:
         log.info(_("Command '{}'").format(event.context.command.name), user=str(event.context.author), **options)
 
     @staticmethod
-    @plugin.listener(StartedEvent)
-    async def on_started(event: StartedEvent) -> None:
+    @plugin.listener(lifetime_events.StartedEvent)
+    async def on_started(event: lifetime_events.StartedEvent) -> None:
         """On-started hook. Just logs that the bot started and run scheduler."""
         log.info(_("Bot running! For stop it, use CTRL C."))
-        scheduler.start()
+        scheduling.scheduler.start()
 
     @staticmethod
-    @plugin.listener(StoppingEvent)
-    async def on_stopping(event: StoppingEvent) -> None:
+    @plugin.listener(lifetime_events.StoppingEvent)
+    async def on_stopping(event: lifetime_events.StoppingEvent) -> None:
         """On-started hook. Just logs that the bot stopping and stop scheduler."""
         log.info(_("Bot stopping. Bye!"))
-        scheduler.shutdown()
+        scheduling.scheduler.shutdown()
 
 
-def load(bot: PingerBot) -> None:
+def load(bot_obj: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
-    bot.add_plugin(plugin)
+    bot_obj.add_plugin(plugin)

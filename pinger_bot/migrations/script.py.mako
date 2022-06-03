@@ -5,17 +5,17 @@ Revises: ${down_revision | comma,n}
 Create Date: ${create_date}
 
 """
-from typing import Optional
+import typing
 
-from alembic import op
+import alembic.op as op
 import sqlalchemy as sa
 ${imports if imports else ""}
 
 # revision identifiers, used by Alembic.
 revision: str = ${repr(up_revision)}
-down_revision: Optional[str] = ${repr(down_revision)}
-branch_labels: Optional[str] = ${repr(branch_labels)}
-depends_on: Optional[str] = ${repr(depends_on)}
+down_revision: typing.Optional[str] = ${repr(down_revision)}
+branch_labels: typing.Optional[str] = ${repr(branch_labels)}
+depends_on: typing.Optional[str] = ${repr(depends_on)}
 
 
 def upgrade() -> None:

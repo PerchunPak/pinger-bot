@@ -5,40 +5,34 @@
     Waiting for the `hikari-py/hikari#1148 <https://github.com/hikari-py/hikari/pull/1148>`_ to be merged,
     and lightbulb support for those features.
 """
-from json import dumps
-from pathlib import Path
-from subprocess import CalledProcessError, check_output
-from sys import version_info
+import json
+import pathlib
+import subprocess
+import sys
 
-from hikari.embeds import Embed
-from lightbulb import (
-    Plugin,
-    add_checks,
-    command,
-    implements,
-    option,
-    owner_only,
-)
-from lightbulb.commands import SlashCommand
-from lightbulb.context.slash import SlashContext
-from sqlalchemy import select, text
-from structlog.stdlib import get_logger
+import hikari.embeds as embeds
+import lightbulb
+import lightbulb.commands as commands
+import lightbulb.context.slash as slash
+import sqlalchemy
+import structlog.stdlib as structlog
 
-from pinger_bot.bot import PingerBot
-from pinger_bot.config import gettext as _
-from pinger_bot.mc_api import Address
-from pinger_bot.models import Server, db
+import pinger_bot.bot as bot
+import pinger_bot.config as config
+import pinger_bot.mc_api as mc_api
+import pinger_bot.models as models
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
-plugin = Plugin("other")
+plugin = lightbulb.Plugin("other")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
 @plugin.command
-@command("about", _("Some basic information about me."))
-@implements(SlashCommand)
-async def about(ctx: SlashContext) -> None:
+@lightbulb.command("about", _("Some basic information about me."))
+@lightbulb.implements(commands.SlashCommand)
+async def about(ctx: slash.SlashContext) -> None:
     """Some basic information about me.
 
     Args:
@@ -48,7 +42,7 @@ async def about(ctx: SlashContext) -> None:
         # This will always be ``None`` before the bot has logged in.
         return
 
-    embed = Embed(
+    embed = embeds.Embed(
         title=str(ctx.bot.application),
         description=str(ctx.bot.application.description) + f"\n\n**ID**: {ctx.bot.application.id}",
         color=(153, 170, 181),
@@ -56,7 +50,7 @@ async def about(ctx: SlashContext) -> None:
 
     embed.add_field(name=_("Owner"), value=str(ctx.bot.application.owner), inline=True)
     embed.add_field(
-        name=_("Programming language"), value=f"Python {'.'.join(map(str, version_info[:-2]))}", inline=True
+        name=_("Programming language"), value=f"Python {'.'.join(map(str, sys.version_info[:-2]))}", inline=True
     )
     embed.add_field(
         name=_("Library"),
@@ -78,9 +72,9 @@ async def about(ctx: SlashContext) -> None:
 
 
 @plugin.command
-@command("invite", _("Link for invite me."), ephemeral=True)
-@implements(SlashCommand)
-async def invite(ctx: SlashContext) -> None:
+@lightbulb.command("invite", _("Link for invite me."), ephemeral=True)
+@lightbulb.implements(commands.SlashCommand)
+async def invite(ctx: slash.SlashContext) -> None:
     """Link to invite the bot.
 
     Args:
@@ -100,7 +94,7 @@ async def invite(ctx: SlashContext) -> None:
     await ctx.respond(msg)
 
 
-async def get_who_owner_fail_embed(ip: str) -> Embed:
+async def get_who_owner_fail_embed(ip: str) -> embeds.Embed:
     """Get the embed for when the IP is not valid.
 
     See source code for more information.
@@ -111,7 +105,7 @@ async def get_who_owner_fail_embed(ip: str) -> Embed:
     Returns:
         The embed where command failed.
     """
-    embed = Embed(title=_("Owner of the server {}").format(ip), color=(231, 76, 60))
+    embed = embeds.Embed(title=_("Owner of the server {}").format(ip), color=(231, 76, 60))
     embed.add_field(
         name=_("Can't execute command."), value=_("Maybe you set invalid IP address, or server just not added.")
     )
@@ -119,10 +113,10 @@ async def get_who_owner_fail_embed(ip: str) -> Embed:
 
 
 @plugin.command
-@option("ip", _("The IP address of the server."), type=str)
-@command("who_owner", _("Show owner of the server."), pass_options=True)
-@implements(SlashCommand)
-async def who_owner(ctx: SlashContext, ip: str) -> None:
+@lightbulb.option("ip", _("The IP address of the server."), type=str)
+@lightbulb.command("who_owner", _("Show owner of the server."), pass_options=True)
+@lightbulb.implements(commands.SlashCommand)
+async def who_owner(ctx: slash.SlashContext, ip: str) -> None:
     """Show owner of the server.
 
     .. note::
@@ -133,13 +127,17 @@ async def who_owner(ctx: SlashContext, ip: str) -> None:
         ip: The IP address of the server.
     """
     if ":" in ip:
-        address = await Address.resolve(ip, java=False)
+        address = await mc_api.Address.resolve(ip, java=False)
     else:
-        address = await Address.resolve(ip, java=True)
+        address = await mc_api.Address.resolve(ip, java=True)
 
-    async with db.session() as session:
+    async with models.db.session() as session:
         server = (
-            await session.scalars(select(Server).where(Server.host == address.host).where(Server.port == address.port))
+            await session.scalars(
+                sqlalchemy.select(models.Server)
+                .where(models.Server.host == address.host)
+                .where(models.Server.port == address.port)
+            )
         ).first()
 
     if server is None:
@@ -151,7 +149,7 @@ async def who_owner(ctx: SlashContext, ip: str) -> None:
 
     owner = await ctx.app.rest.fetch_user(server.owner)
 
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("Owner of the server {}").format(address.display_ip),
         description=_("It is {}").format(owner.mention),
         color=(46, 204, 113),
@@ -161,7 +159,7 @@ async def who_owner(ctx: SlashContext, ip: str) -> None:
     await ctx.respond(embed=embed)
 
 
-async def git_not_available() -> Embed:
+async def git_not_available() -> embeds.Embed:
     """Get the embed for when the git is not available.
 
     See source code for more information.
@@ -169,7 +167,7 @@ async def git_not_available() -> Embed:
     Returns:
         The embed where command failed.
     """
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("Bot's version"),
         color=(231, 76, 60),
     )
@@ -178,26 +176,26 @@ async def git_not_available() -> Embed:
 
 
 @plugin.command
-@command("version", _("Show bot's version."))
-@implements(SlashCommand)
+@lightbulb.command("version", _("Show bot's version."))
+@lightbulb.implements(commands.SlashCommand)
 async def bot_version(ctx) -> None:
     """Show bot's version. I mean commit hash which was got with git.
 
     This also checks if ``commit.txt`` exists, which points to the commit hash in Docker.
     Please do not set this in another way.
     """
-    commit_txt = Path(__file__).parent.parent.parent.parent / "commit.txt"
+    commit_txt = pathlib.Path(__file__).parent.parent.parent.parent / "commit.txt"
     if not commit_txt.exists():
         try:
-            commit = check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
-        except (FileNotFoundError, CalledProcessError):
+            commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+        except (FileNotFoundError, subprocess.CalledProcessError):
             await ctx.respond(embed=await git_not_available())
             return
     else:
         with commit_txt.open("r") as commit_file:
             commit = commit_file.read().strip()
 
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("Bot's version"),
         color=(46, 204, 113),
     )
@@ -208,13 +206,15 @@ async def bot_version(ctx) -> None:
 
 
 @plugin.command
-@add_checks(owner_only)
-@option("sql", _("SQL statement which I pass to database."), type=str)
-@option("all", _("Do I need use `.all()` on result."), type=str, choices=[_("Yes"), _("No")], default=_("Yes"))
-@option("commit", _("Commit changes to database."), type=str, choices=[_("Yes"), _("No")], default=_("No"))
-@command("sql", _("Execute SQL statement to database. **Owner-Only**."), pass_options=True, hidden=True)
-@implements(SlashCommand)
-async def sql_cmd(ctx: SlashContext, sql: str, all: str, commit: str) -> None:
+@lightbulb.add_checks(lightbulb.owner_only)
+@lightbulb.option("sql", _("SQL statement which I pass to database."), type=str)
+@lightbulb.option(
+    "all", _("Do I need use `.all()` on result."), type=str, choices=[_("Yes"), _("No")], default=_("Yes")
+)
+@lightbulb.option("commit", _("Commit changes to database."), type=str, choices=[_("Yes"), _("No")], default=_("No"))
+@lightbulb.command("sql", _("Execute SQL statement to database. **Owner-Only**."), pass_options=True, hidden=True)
+@lightbulb.implements(commands.SlashCommand)
+async def sql_cmd(ctx: slash.SlashContext, sql: str, all: str, commit: str) -> None:
     """Execute SQL statement to database. Only for owner of the bot.
 
     Args:
@@ -231,8 +231,8 @@ async def sql_cmd(ctx: SlashContext, sql: str, all: str, commit: str) -> None:
     all = True if all == _("Yes") else False
     commit = True if commit == _("Yes") else False
 
-    async with db.session() as session:
-        result = await session.execute(text(sql))
+    async with models.db.session() as session:
+        result = await session.execute(sqlalchemy.text(sql))
         if commit:
             await session.commit()
 
@@ -240,9 +240,9 @@ async def sql_cmd(ctx: SlashContext, sql: str, all: str, commit: str) -> None:
         await ctx.respond(_("Done!"))
         return
 
-    await ctx.respond("```json\n" + dumps(list(dict(row) for row in result.all()), indent=2) + "\n```")
+    await ctx.respond("```json\n" + json.dumps(list(dict(row) for row in result.all()), indent=2) + "\n```")
 
 
-def load(bot: PingerBot) -> None:
+def load(bot: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)

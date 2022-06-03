@@ -1,25 +1,25 @@
 """Module for the ``alias`` command."""
-from hikari.embeds import Embed
-from lightbulb import Plugin, command, implements, option
-from lightbulb.commands import SlashCommand
-from lightbulb.context.slash import SlashContext
-from sqlalchemy import select, update
-from sqlalchemy.exc import IntegrityError
-from structlog.stdlib import get_logger
+import hikari.embeds as embeds
+import lightbulb
+import lightbulb.commands as commands
+import lightbulb.context.slash as slash
+import sqlalchemy
+import structlog.stdlib as structlog
 
-from pinger_bot.bot import PingerBot
-from pinger_bot.config import gettext as _
-from pinger_bot.ext.commands import wait_please_message
-from pinger_bot.mc_api import FailedMCServer, MCServer
-from pinger_bot.models import Server, db
+import pinger_bot.bot as bot
+import pinger_bot.config as config
+import pinger_bot.ext.commands as pinger_commands
+import pinger_bot.mc_api as mc_api
+import pinger_bot.models as models
 
-log = get_logger()
+log = structlog.get_logger()
+_ = config.gettext
 
-plugin = Plugin("alias")
+plugin = lightbulb.Plugin("alias")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
 
 
-async def get_fail_embed(ip: str) -> Embed:
+async def get_fail_embed(ip: str) -> embeds.Embed:
     """Get the embed for when the something fails.
 
     See source code for more information.
@@ -30,14 +30,14 @@ async def get_fail_embed(ip: str) -> Embed:
     Returns:
         The embed where ping failed.
     """
-    embed = Embed(title=_("Ping Results {}").format(ip), color=(231, 76, 60))
+    embed = embeds.Embed(title=_("Ping Results {}").format(ip), color=(231, 76, 60))
     embed.add_field(
         name=_("Can't ping the server."), value=_("Maybe you set invalid IP address, or server just offline.")
     )
     return embed
 
 
-async def get_not_owner_embed(server: MCServer) -> Embed:
+async def get_not_owner_embed(server: mc_api.MCServer) -> embeds.Embed:
     """Get the embed when user not owner of the server.
 
     Args:
@@ -46,7 +46,7 @@ async def get_not_owner_embed(server: MCServer) -> Embed:
     Returns:
         The embed where user not owner of the server.
     """
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("You are not an owner of the server"),
         description=_("Only server's owner can set/change alias."),
         color=(231, 76, 60),
@@ -63,7 +63,7 @@ async def get_not_owner_embed(server: MCServer) -> Embed:
     return embed
 
 
-async def get_alias_exists_embed(server: MCServer, input_alias: str) -> Embed:
+async def get_alias_exists_embed(server: mc_api.MCServer, input_alias: str) -> embeds.Embed:
     """Get the embed when alias already exists.
 
     Args:
@@ -73,7 +73,7 @@ async def get_alias_exists_embed(server: MCServer, input_alias: str) -> Embed:
     Returns:
         The embed where alias already exists.
     """
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("Alias {} already exists").format(input_alias),
         description=_("You can add only not existing alias."),
         color=(231, 76, 60),
@@ -89,11 +89,11 @@ async def get_alias_exists_embed(server: MCServer, input_alias: str) -> Embed:
 
 
 @plugin.command
-@option("ip", _("The IP address or alias of the server."), type=str)
-@option("alias", _("New alias of the server."), type=str)
-@command("alias", _("Set alias of the server."), pass_options=True)
-@implements(SlashCommand)
-async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
+@lightbulb.option("ip", _("The IP address or alias of the server."), type=str)
+@lightbulb.option("alias", _("New alias of the server."), type=str)
+@lightbulb.command("alias", _("Set alias of the server."), pass_options=True)
+@lightbulb.implements(commands.SlashCommand)
+async def alias_cmd(ctx: slash.SlashContext, ip: str, alias: str) -> None:
     """Ping the server and give information about it.
 
     Args:
@@ -101,23 +101,25 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
         ip: The IP address or alias of the server.
         alias: New alias of the server.
     """
-    await wait_please_message(ctx)
-    server = await MCServer.status(ip)
+    await pinger_commands.wait_please_message(ctx)
+    server = await mc_api.MCServer.status(ip)
 
-    if isinstance(server, FailedMCServer):
+    if isinstance(server, mc_api.FailedMCServer):
         log.debug(_("Failed ping for {}").format(server.address.display_ip))
         row = None
     else:
-        async with db.session() as session:
+        async with models.db.session() as session:
             db_server = await session.execute(
-                select(Server.id, Server.owner)
-                .where(Server.host == server.address.host)
-                .where(Server.port == server.address.port)
+                sqlalchemy.select(models.Server.id, models.Server.owner)
+                .where(models.Server.host == server.address.host)
+                .where(models.Server.port == server.address.port)
             )
         row = db_server.first()
         log.debug(_("Server {} in DB {}").format(server.address.display_ip, row))
 
-    if row is None or isinstance(server, FailedMCServer):  # isinstance only for type checker, it is always will be True
+    if row is None or isinstance(
+        server, mc_api.FailedMCServer
+    ):  # isinstance only for type checker, it is always will be True
         log.debug(
             _("Failed add alias for {}.").format(server.address.display_ip) + _("Server offline or not in database.")
         )
@@ -130,16 +132,18 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
         return
 
     try:
-        async with db.session() as session:
-            await session.execute(update(Server).where(Server.id == row.id).values(alias=alias))
+        async with models.db.session() as session:
+            await session.execute(
+                sqlalchemy.update(models.Server).where(models.Server.id == row.id).values(alias=alias)
+            )
             await session.commit()
         log.debug("Server {}'s alias changed to {}".format(server.address.display_ip, alias))
-    except IntegrityError:
+    except sqlalchemy.exc.IntegrityError:
         log.debug(_("Failed add alias for {}.").format(server.address.display_ip) + _("Alias already exists."))
         await ctx.respond(ctx.author.mention, embed=await get_alias_exists_embed(server, alias), user_mentions=True)
         return
 
-    embed = Embed(
+    embed = embeds.Embed(
         title=_("Added alias {} to server {}").format(alias, server.address.display_ip),
         description=_("Now you can use {} instead of {}").format(alias, server.address.display_ip),
         color=(46, 204, 113),
@@ -155,6 +159,6 @@ async def alias_cmd(ctx: SlashContext, ip: str, alias: str) -> None:
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
-def load(bot: PingerBot) -> None:
+def load(bot: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
     bot.add_plugin(plugin)

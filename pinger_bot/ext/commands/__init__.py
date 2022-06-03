@@ -1,13 +1,15 @@
 """Package for all commands."""
-from hikari import Embed, MessageFlag
-from lightbulb.context.slash import SlashContext
+import hikari
+import lightbulb.context.slash as slash
 
-from pinger_bot.config import gettext as _
+import pinger_bot.config as config
+
+_ = config.gettext
 
 __all__ = ["wait_please_message"]
 
 
-async def wait_please_message(ctx: SlashContext) -> None:
+async def wait_please_message(ctx: slash.SlashContext) -> None:
     """Factory for the ``Wait Please`` embed.
 
     See source code for more information.
@@ -18,9 +20,9 @@ async def wait_please_message(ctx: SlashContext) -> None:
     Returns:
         The ``Wait Please`` embed.
     """
-    embed = Embed(
+    embed = hikari.Embed(
         title=_("Wait please..."),
         description=_("I'm working on it, please wait. I will ping you when it's done."),
         color=(230, 126, 34),
     )
-    await ctx.respond(embed, flags=MessageFlag.EPHEMERAL)
+    await ctx.respond(embed, flags=hikari.MessageFlag.EPHEMERAL)
