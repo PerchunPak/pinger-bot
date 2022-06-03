@@ -34,7 +34,6 @@ FROM base AS additional-steps-postgresql
 RUN poetry install --no-dev --no-root -E postgresql
 
 FROM additional-steps-${dialect} AS final
-WORKDIR /app
 
 # Write version for the `/version` command
 COPY .git/ .git/
