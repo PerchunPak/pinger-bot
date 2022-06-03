@@ -495,17 +495,17 @@ speedups = ["aiodns (>=3.0,<4.0)", "cchardet (>=2.1,<3.0)", "Brotli (>=1.0,<2.0)
 
 [[package]]
 name = "hikari-lightbulb"
-version = "2.2.1"
+version = "2.2.2"
 description = "A simple to use command handler for Hikari"
 category = "main"
 optional = false
 python-versions = ">=3.8.0,<3.11"
 
 [package.dependencies]
-hikari = ">=2.0.0.dev107,<2.1.0"
+hikari = ">=2.0.0.dev108,<2.1.0"
 
 [package.extras]
-crontrigger = ["croniter (>=1.3.4,<1.4.0)", "types-croniter (>=1.0.8,<1.1.0)"]
+crontrigger = ["croniter (>=1.3.5,<1.4.0)", "types-croniter (>=1.0.10,<1.1.0)"]
 
 [[package]]
 name = "identify"
@@ -2008,8 +2008,8 @@ hikari = [
     {file = "hikari-2.0.0.dev108.tar.gz", hash = "sha256:d13cfcd0e3732185fa3048b5d9fd8b6078b5dbb0df7820ba7e3e55083bf9d4b5"},
 ]
 hikari-lightbulb = [
-    {file = "hikari-lightbulb-2.2.1.tar.gz", hash = "sha256:77c543dfec286b21ce4382bb5ede7a3106bbcab5ae43f41a1dc921b5e2e7e3af"},
-    {file = "hikari_lightbulb-2.2.1-py3-none-any.whl", hash = "sha256:2fafc1486e3bb187f7bd2c8f5fc1b7fee29ca29addcaab638ebc981cbff576a0"},
+    {file = "hikari-lightbulb-2.2.2.tar.gz", hash = "sha256:73e67ad04d26a954ccbbff6d6371c34100a5e0cec15ea4b63cc051def8ade578"},
+    {file = "hikari_lightbulb-2.2.2-py3-none-any.whl", hash = "sha256:73809b81b9734443a05194acc649f4ba0ad58c5dec95f2611df48aa969bb09c7"},
 ]
 identify = [
     {file = "identify-2.5.1-py2.py3-none-any.whl", hash = "sha256:0dca2ea3e4381c435ef9c33ba100a78a9b40c0bab11189c7cf121f75815efeaa"},
