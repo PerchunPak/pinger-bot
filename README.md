@@ -8,7 +8,7 @@
 
 Simple discord bot for tracking your MineCraft servers.
 
-- [Документація українською](https://pinger-bot.readthedocs.io/uk/latest)
+- [Документація українською](https://pinger-bot.readthedocs.io/uk_UA/latest)
 - [Документация на русском](https://pinger-bot.readthedocs.io/ru/latest)
 
 ## Features
