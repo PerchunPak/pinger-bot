@@ -2,10 +2,11 @@
 import logging
 import pathlib
 
-import config as config
 import hikari
 import lightbulb
 import structlog
+
+import pinger_bot.config as config
 
 log = structlog.stdlib.get_logger()
 _ = config.gettext
