@@ -64,16 +64,12 @@ class PingerBot(lightbulb.BotApp):
     @staticmethod
     def handle_debug_options() -> None:
         """Handle and activate some debug options."""
-        logging.basicConfig(level=logging.DEBUG if config.config.debug else logging.INFO)
+        logging.basicConfig(level=logging.DEBUG if config.config.debug else logging.WARNING)
         structlog.configure(
             wrapper_class=structlog.make_filtering_bound_logger(
                 logging.DEBUG if config.config.verbose else logging.INFO
             )
         )
-
-        if not config.config.debug:
-            for dependency in ["hikari", "lightbulb", "apscheduler", "matplotlib"]:
-                logging.getLogger(dependency).setLevel(logging.WARNING)
 
         # debug-log after configuring logger
         log.debug("PingerBot.handle_debug_options", debug=config.config.debug, verbose=config.config.verbose)
