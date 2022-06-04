@@ -64,7 +64,7 @@ class PingerBot(lightbulb.BotApp):
     @staticmethod
     def handle_debug_options() -> None:
         """Handle and activate some debug options."""
-        logging.basicConfig(level=logging.DEBUG if config.config.debug else logging.WARNING)
+        logging.basicConfig(level=logging.DEBUG if config.config.debug else logging.WARNING, force=True)
         structlog.configure(
             wrapper_class=structlog.make_filtering_bound_logger(
                 logging.DEBUG if config.config.verbose else logging.INFO
