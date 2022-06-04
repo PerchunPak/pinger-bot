@@ -1382,7 +1382,7 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy2-stubs"
-version = "0.0.2a22"
+version = "0.0.2a23"
 description = "Typing Stubs for SQLAlchemy 1.4"
 category = "dev"
 optional = false
@@ -2690,8 +2690,8 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.4.37.tar.gz", hash = "sha256:3688f92c62db6c5df268e2264891078f17ecb91e3141b400f2e28d0f75796dea"},
 ]
 sqlalchemy2-stubs = [
-    {file = "sqlalchemy2-stubs-0.0.2a22.tar.gz", hash = "sha256:31288db647bbdd411ad1e22da39a10ebe211bdcfe2efef24bcebea05abc28dd4"},
-    {file = "sqlalchemy2_stubs-0.0.2a22-py3-none-any.whl", hash = "sha256:b9b907c3555d0b11bb8d738b788be478ce3871174839171d0d49aba5d0785016"},
+    {file = "sqlalchemy2-stubs-0.0.2a23.tar.gz", hash = "sha256:a13d94e23b5b0da8ee21986ef8890788a1f2eb26c2a9f39424cc933e4e7e87ff"},
+    {file = "sqlalchemy2_stubs-0.0.2a23-py3-none-any.whl", hash = "sha256:6011d2219365d4e51f3e9d83ffeb5b904964ef1d143dc1298d8a70ce8641014d"},
 ]
 stevedore = [
     {file = "stevedore-3.5.0-py3-none-any.whl", hash = "sha256:a547de73308fd7e90075bb4d301405bebf705292fa90a90fc3bcf9133f58616c"},
