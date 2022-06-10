@@ -29,6 +29,7 @@ alembic = "~1.8"
 dnspython = "~2.2"
 omegaconf = "~2.2"
 matplotlib = "~3.5"
+requests = "*"
 
 Babel = "~2.10"
 
