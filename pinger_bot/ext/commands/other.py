@@ -14,6 +14,7 @@ import hikari.embeds as embeds
 import lightbulb
 import lightbulb.commands as commands
 import lightbulb.context.slash as slash
+import requests
 import sqlalchemy
 import structlog.stdlib as structlog
 
@@ -195,12 +196,18 @@ async def bot_version(ctx) -> None:
         with commit_txt.open("r") as commit_file:
             commit = commit_file.read().strip()
 
+    response = requests.get(
+        "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
+        headers={"Accept": "application/vnd.github.VERSION.sha"},
+    )
+    last_commit = response.text[:7] if response.status_code == 200 else _("Not available")
+
     embed = embeds.Embed(
         title=_("Bot's version"),
         color=(46, 204, 113),
     )
     embed.add_field(name=_("Commit hash"), value=commit[:7])
-    embed.set_footer(text=commit)
+    embed.set_footer(text=_("Last version: ") + last_commit)
 
     await ctx.respond(embed=embed)
 
