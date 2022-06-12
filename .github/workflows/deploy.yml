@@ -48,7 +48,6 @@ jobs:
         images: perchunpak/pingerbot
         flavor: |
           latest=false
-        # semantic versions in another workflow
         tags: |
           type=semver,pattern={{version}},enable=${{ matrix.dialect == 'sqlite' }}
           type=semver,pattern={{version}},suffix=-${{ matrix.dialect }}
