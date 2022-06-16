@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-06-16 17:04+0200\n"
+"POT-Creation-Date: 2022-06-16 17:11+0200\n"
 "PO-Revision-Date: 2022-05-14 11:53+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: en\n"
@@ -106,7 +106,7 @@ msgid "Maybe you set invalid IP address."
 msgstr ""
 
 #: pinger_bot/ext/commands/add.py:58 pinger_bot/ext/commands/motd.py:39
-#: pinger_bot/ext/commands/other.py:117 pinger_bot/ext/commands/ping.py:58
+#: pinger_bot/ext/commands/other.py:118 pinger_bot/ext/commands/ping.py:58
 #: pinger_bot/ext/commands/statistic.py:111
 msgid "The IP address of the server."
 msgstr ""
@@ -166,7 +166,7 @@ msgid "You are not owner of the server {}."
 msgstr ""
 
 #: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
-#: pinger_bot/ext/commands/alias.py:157 pinger_bot/ext/commands/other.py:158
+#: pinger_bot/ext/commands/alias.py:157 pinger_bot/ext/commands/other.py:159
 #: pinger_bot/ext/commands/statistic.py:167
 msgid "For more information about the server, write: {}"
 msgstr ""
@@ -256,124 +256,119 @@ msgstr ""
 msgid "Ping successful for {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:34
+#: pinger_bot/ext/commands/other.py:35
 msgid "Some basic information about me."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:52
+#: pinger_bot/ext/commands/other.py:53
 msgid "Owner"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:54
+#: pinger_bot/ext/commands/other.py:55
 msgid "Programming language"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:57
+#: pinger_bot/ext/commands/other.py:58
 msgid "Library"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:62
+#: pinger_bot/ext/commands/other.py:63
 msgid "License"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:66
+#: pinger_bot/ext/commands/other.py:67
 msgid "Source code"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:71
+#: pinger_bot/ext/commands/other.py:72
 msgid "Note: You can propose any changes to creator DM (Perchun_Pak#9236)"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:76
+#: pinger_bot/ext/commands/other.py:77
 msgid "Link for invite me."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:89
+#: pinger_bot/ext/commands/other.py:90
 msgid "This is my invite link, so you can ping servers too:"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:93
+#: pinger_bot/ext/commands/other.py:94
 msgid "WARNING: Link only working if you an owner of this bot."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:109 pinger_bot/ext/commands/other.py:154
+#: pinger_bot/ext/commands/other.py:110 pinger_bot/ext/commands/other.py:155
 msgid "Owner of the server {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:111
+#: pinger_bot/ext/commands/other.py:112
 msgid "Can't execute command."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:111
+#: pinger_bot/ext/commands/other.py:112
 msgid "Maybe you set invalid IP address, or server just not added."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:118
+#: pinger_bot/ext/commands/other.py:119
 msgid "Show owner of the server."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:145
+#: pinger_bot/ext/commands/other.py:146
 msgid "Failed get server '{}' from database"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:155
+#: pinger_bot/ext/commands/other.py:156
 msgid "It is {}"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:172 pinger_bot/ext/commands/other.py:206
+#: pinger_bot/ext/commands/other.py:173 pinger_bot/ext/commands/other.py:207
 msgid "Bot's version"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:175
+#: pinger_bot/ext/commands/other.py:176
 msgid "GIT not available"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:175
+#: pinger_bot/ext/commands/other.py:176
 msgid "Unfortunately, bot can't get access to GIT."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:180
+#: pinger_bot/ext/commands/other.py:181
 msgid "Show bot's version."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:203
+#: pinger_bot/ext/commands/other.py:204
 msgid "Not available"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:209
+#: pinger_bot/ext/commands/other.py:210
 msgid "Commit hash"
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:210
+#: pinger_bot/ext/commands/other.py:211
 msgid "Last version: "
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:217
+#: pinger_bot/ext/commands/other.py:218
 msgid "SQL statement which I pass to database."
 msgstr ""
 
 #: pinger_bot/ext/commands/other.py:219
-msgid "Do I need use `.all()` on result."
-msgstr ""
-
-#: pinger_bot/ext/commands/other.py:219 pinger_bot/ext/commands/other.py:221
-#: pinger_bot/ext/commands/other.py:238
-msgid "Yes"
-msgstr ""
-
-#: pinger_bot/ext/commands/other.py:219 pinger_bot/ext/commands/other.py:221
-msgid "No"
-msgstr ""
-
-#: pinger_bot/ext/commands/other.py:221
 msgid "Commit changes to database."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:222
+#: pinger_bot/ext/commands/other.py:219 pinger_bot/ext/commands/other.py:234
+msgid "Yes"
+msgstr ""
+
+#: pinger_bot/ext/commands/other.py:219
+msgid "No"
+msgstr ""
+
+#: pinger_bot/ext/commands/other.py:220
 msgid "Execute SQL statement to database. **Owner-Only**."
 msgstr ""
 
-#: pinger_bot/ext/commands/other.py:246
+#: pinger_bot/ext/commands/other.py:244
 msgid "Done!"
 msgstr ""
 

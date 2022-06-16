@@ -16,6 +16,7 @@ import lightbulb.commands as commands
 import lightbulb.context.slash as slash
 import requests
 import sqlalchemy
+import sqlalchemy.exc
 import structlog.stdlib as structlog
 
 import pinger_bot.bot as bot
@@ -215,38 +216,34 @@ async def bot_version(ctx) -> None:
 @plugin.command
 @lightbulb.add_checks(lightbulb.owner_only)
 @lightbulb.option("sql", _("SQL statement which I pass to database."), type=str)
-@lightbulb.option(
-    "all", _("Do I need use `.all()` on result."), type=str, choices=[_("Yes"), _("No")], default=_("Yes")
-)
 @lightbulb.option("commit", _("Commit changes to database."), type=str, choices=[_("Yes"), _("No")], default=_("No"))
 @lightbulb.command("sql", _("Execute SQL statement to database. **Owner-Only**."), pass_options=True, hidden=True)
 @lightbulb.implements(commands.SlashCommand)
-async def sql_cmd(ctx: slash.SlashContext, sql: str, all: str, commit: str) -> None:
+async def sql_cmd(ctx: slash.SlashContext, sql: str, commit: str) -> None:
     """Execute SQL statement to database. Only for owner of the bot.
 
     Args:
         ctx: The context of the command.
         sql: SQL statement provided by user.
-        all: Do I need use ``.all()`` on SQLAlchemy result? Type :obj:`str`
-            because we pass here translated ``Yes`` or ``No``.
         commit: Commit changes to database. Type :obj:`str`
             because we pass here translated ``Yes`` or ``No``.
 
     Returns:
         The result of the SQL statement in JSON format if ``all`` parameter is ``Yes``. Else - ``Done!`` message.
     """
-    all, commit = all == _("Yes"), commit == _("Yes")
+    commit = commit == _("Yes")
 
     async with models.db.session() as session:
         result = await session.execute(sqlalchemy.text(sql))
         if commit:
             await session.commit()
 
-    if not all:
-        await ctx.respond(_("Done!"))
-        return
+    try:
+        message = "```json\n" + json.dumps(list(dict(row) for row in result.all()), indent=2) + "\n```"
+    except sqlalchemy.exc.ResourceClosedError:
+        message = _("Done!")
 
-    await ctx.respond("```json\n" + json.dumps(list(dict(row) for row in result.all()), indent=2) + "\n```")
+    await ctx.respond(message)
 
 
 def load(bot: bot.PingerBot) -> None:
