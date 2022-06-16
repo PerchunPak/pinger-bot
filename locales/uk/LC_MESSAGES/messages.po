@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-06-10 11:22+0200\n"
+"POT-Creation-Date: 2022-06-16 17:04+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -364,7 +364,7 @@ msgid "Do I need use `.all()` on result."
 msgstr "Чи потрібно мені використовувати `.all()` на результаті."
 
 #: pinger_bot/ext/commands/other.py:219 pinger_bot/ext/commands/other.py:221
-#: pinger_bot/ext/commands/other.py:238 pinger_bot/ext/commands/other.py:239
+#: pinger_bot/ext/commands/other.py:238
 msgid "Yes"
 msgstr "Так"
 
@@ -380,7 +380,7 @@ msgstr "Зафіксувати зміни в базі даних."
 msgid "Execute SQL statement to database. **Owner-Only**."
 msgstr "Використовує SQL твердження в базу даних. **Тільки для власника**."
 
-#: pinger_bot/ext/commands/other.py:247
+#: pinger_bot/ext/commands/other.py:246
 msgid "Done!"
 msgstr "Готово!"
 

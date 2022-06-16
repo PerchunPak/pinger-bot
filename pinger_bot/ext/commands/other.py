@@ -235,8 +235,7 @@ async def sql_cmd(ctx: slash.SlashContext, sql: str, all: str, commit: str) -> N
     Returns:
         The result of the SQL statement in JSON format if ``all`` parameter is ``Yes``. Else - ``Done!`` message.
     """
-    all = all == _("Yes")
-    commit = commit == _("Yes")
+    all, commit = all == _("Yes"), commit == _("Yes")
 
     async with models.db.session() as session:
         result = await session.execute(sqlalchemy.text(sql))
