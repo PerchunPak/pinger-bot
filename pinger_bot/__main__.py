@@ -1,5 +1,4 @@
 """Main CLI entrypoint."""
-# docker fix
 import sys
 
 sys.path.append(".")
