@@ -9,7 +9,12 @@ updates:
     - dependency-name: "*"
       update-types: [ "version-update:semver-patch" ]
     # Update these dependencies with CI (poetry update)
+    - dependency-name: "requests"
     - dependency-name: "colorama"
+    - dependency-name: "uvloop"
+    - dependency-name: "aiomysql"
+    - dependency-name: "aiosqlite"
+    - dependency-name: "asyncpg"
     # Update these dependencies with fire-square-style
     - dependency-name: "python-decouple"
     - dependency-name: "structlog"
