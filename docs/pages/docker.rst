@@ -92,8 +92,8 @@ To run the bot, in both cases of installation, use this command:
 
 .. warning::
   Since version 0.4.0 the container runs in non-root mode, which means that
-  if you use the sqlite version and an external volume you have to give rights
-  to the folder. This can be done with the command ``chown -R 5000:500 <your volume folder>``.
+  if you use the sqlite tag and a ``-v`` option you have to give rights
+  to the folder. This can be done with the command ``chown -R 5000:500 <your folder>``.
 
 .. seealso::
   `podman <https://podman.io>`_ as replacement for a Docker.
