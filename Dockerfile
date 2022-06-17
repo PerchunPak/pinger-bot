@@ -1,5 +1,6 @@
 ARG dialect=sqlite
 
+
 FROM python:slim as poetry
 
 ARG dialect=sqlite
@@ -8,6 +9,7 @@ WORKDIR /root
 RUN pip install poetry
 COPY poetry.lock pyproject.toml ./
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes -E ${dialect}
+
 
 FROM python:slim as base
 
