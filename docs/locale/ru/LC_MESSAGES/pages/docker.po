@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinger-bot 0.4.0\n"
 "Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
-"POT-Creation-Date: 2022-06-02 21:12+0200\n"
-"PO-Revision-Date: 2022-06-02 21:12+0200\n"
+"POT-Creation-Date: 2022-06-17 22:51+0200\n"
+"PO-Revision-Date: 2022-06-17 22:56+0200\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 "
 "&& (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Generated-By: Babel 2.10.1\n"
-"X-Generator: Poedit 3.0.1\n"
+"Generated-By: Babel 2.10.3\n"
+"X-Generator: Poedit 3.1\n"
 
 #: ../../pages/docker.rst:3
 msgid "Using in Docker"
@@ -177,9 +177,25 @@ msgstr ""
 "pingerbot``."
 
 #: ../../pages/docker.rst:94
+msgid ""
+"Since version 0.4.0 the container runs in non-root mode, which means that if you "
+"use the sqlite tag and a ``-v`` option you have to give rights to the "
+"folder. This can be done with the command ``chown -R 5000:500 <your "
+"folder>``."
+msgstr ""
+"Начиная с версии 0.4.0 контейнер работает в без-root режиме, что означает, что "
+"если вы используете тэг sqlite и опцию ``-v``, вам необходимо предоставить "
+"права на папку. Это можно сделать с помощью команды ``chown -R 5000:500 <ваша "
+"папка>``."
+
+#: ../../pages/docker.rst:99
+msgid "`podman <https://podman.io>`_ as replacement for a Docker."
+msgstr "`podman <https://podman.io>`_ как замену для Docker."
+
+#: ../../pages/docker.rst:102
 msgid "Command"
 msgstr "Команду"
 
-#: ../../pages/docker.rst:100
+#: ../../pages/docker.rst:108
 msgid "For full list of arguments and possibilities, upper I wrote only basics."
 msgstr "Для большего списка аргументов и возможностей, выше только самое основное."
