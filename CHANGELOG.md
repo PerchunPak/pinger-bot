@@ -10,7 +10,7 @@ We follow [Semantic Versions](https://semver.org/) style.
 - Full rewrite.
 - Using `hikari` instead of `discord.py`.
 - Using template `fire-square-style`.
-- Rootless container.
+- Rootless container. [#51](https://github.com/PerchunPak/pinger-bot/pull/51)
 
 
 ## Version 0.3.0
