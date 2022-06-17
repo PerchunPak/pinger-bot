@@ -80,11 +80,11 @@ To run the bot, in both cases of installation, use this command:
   This parameter **must** be set between ``-d`` flag and ``perchunpak/pingerbot``.
 
 .. note::
-  Starting in podman is as easy as starting in docker. It comes down to replacing 
-  ``docker`` in all commands with ``podman``. The only hard part is the automatic 
-  startup, but podman provides all the necessary tools to do this, with systemd 
-  it is just 1 command to generate a unit, run 
-  ``podman generate systemd --restart-policy always --name pingerbot > /etc/systemd/system/pingerbot.service``. 
+  Starting in podman is as easy as starting in docker. It comes down to replacing
+  ``docker`` in all commands with ``podman``. The only hard part is the automatic
+  startup, but podman provides all the necessary tools to do this, with systemd
+  it is just 1 command to generate a unit, run
+  ``podman generate systemd --restart-policy always --name pingerbot > /etc/systemd/system/pingerbot.service``.
   After that, you can enable the service ``systemctl daemon-reload && systemctl enable --now pingerbot``.
 
 .. warning::
@@ -99,8 +99,8 @@ To run the bot, in both cases of installation, use this command:
   ``perchunpak/pingerbot``.
 
 .. warning::
-  Since version 0.4.0 the container runs in rootless mode, which means that 
-  if you use the sqlite version and an external volume you have to give rights 
+  Since version 0.4.0 the container runs in rootless mode, which means that
+  if you use the sqlite version and an external volume you have to give rights
   to the folder. This can be done with the command ``chown -R 5000:500 <your volume folder>``.
 
 .. seealso::
