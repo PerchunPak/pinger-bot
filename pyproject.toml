@@ -9,7 +9,7 @@ description = "Простой бот для отслеживания стату�
 version = "0.4.0.dev"
 license = "AGPL3"
 
-authors = []
+authors = ["Perchun Pak <perchunpak@gmail.com>"]
 
 readme = "README.md"
 
