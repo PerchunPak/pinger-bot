@@ -91,7 +91,7 @@ To run the bot, in both cases of installation, use this command:
   ``perchunpak/pingerbot``.
 
 .. warning::
-  Since version 0.4.0 the container runs in rootless mode, which means that
+  Since version 0.4.0 the container runs in non-root mode, which means that
   if you use the sqlite version and an external volume you have to give rights
   to the folder. This can be done with the command ``chown -R 5000:500 <your volume folder>``.
 
