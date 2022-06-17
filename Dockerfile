@@ -37,8 +37,7 @@ RUN apt-get install libmariadb-dev -y --no-install-recommends
 
 
 FROM base AS additional-steps-postgresql
-RUN apt-get install libpq-dev -y --no-install-recommends && \
-    poetry install --no-dev --no-root -E postgresql
+RUN apt-get install libpq-dev -y --no-install-recommends
 
 
 FROM base AS git
