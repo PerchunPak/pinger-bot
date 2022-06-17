@@ -33,7 +33,7 @@ RUN echo "discord_token: PLACEHOLDER" >> config.yml && \
 
 
 FROM base AS additional-steps-mysql
-RUN apt-get install libmysqlclient-dev -y --no-install-recommends
+RUN apt-get install libmariadb-dev -y --no-install-recommends
 
 
 FROM base AS additional-steps-postgresql
