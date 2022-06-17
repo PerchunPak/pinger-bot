@@ -43,6 +43,7 @@ RUN apt-get install libpq-dev -y --no-install-recommends
 
 
 FROM base AS git
+# Write version for the `/version` command
 RUN apt-get install git -y --no-install-recommends
 COPY .git .git
 RUN git rev-parse HEAD > /commit.txt
