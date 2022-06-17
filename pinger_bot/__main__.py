@@ -1,4 +1,9 @@
 """Main CLI entrypoint."""
+# docker fix
+import sys
+
+sys.path.append(".")
+
 import structlog.stdlib as structlog
 
 import pinger_bot.bot as bot

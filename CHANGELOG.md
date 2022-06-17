@@ -10,6 +10,7 @@ We follow [Semantic Versions](https://semver.org/) style.
 - Full rewrite.
 - Using `hikari` instead of `discord.py`.
 - Using template `fire-square-style`.
+- Rootless container.
 
 
 ## Version 0.3.0
