@@ -18,7 +18,6 @@ FROM python:slim as base
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH '/app/pinger'
-ENV DB_URI "sqlite+aiosqlite:////app/pinger/data/database.db"
 
 WORKDIR /app/pinger
 
@@ -32,6 +31,7 @@ COPY --chown=5000:5000 pinger_bot/ pinger_bot/
 
 
 FROM base AS additional-steps-sqlite
+ENV DB_URI "sqlite+aiosqlite:////app/pinger/data/database.db"
 RUN echo "discord_token: PLACEHOLDER" >> config.yml && \
     alembic -c pinger_bot/migrations/alembic.ini upgrade head && \
     rm config.yml
