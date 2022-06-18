@@ -6,7 +6,7 @@ FROM python:slim as poetry
 ARG dialect=sqlite
 
 WORKDIR /root
-RUN pip install poetry
+RUN pip --no-cache-dir install poetry
 COPY poetry.lock pyproject.toml ./
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes -E ${dialect}
 
@@ -23,7 +23,7 @@ RUN groupadd -g 5000 container && useradd -d /app -m -g container -u 5000 contai
 COPY --chown=5000:5000 locales/ locales/
 COPY --chown=5000:5000 --from=poetry /root/requirements.txt ./
 RUN apt-get update && \
-    pip install -r requirements.txt && \
+    pip --no-cache-dir install -r requirements.txt && \
     pybabel compile -d locales
 COPY --chown=5000:5000 pinger_bot/ pinger_bot/
 
@@ -44,7 +44,8 @@ RUN apt-get install libpq-dev -y --no-install-recommends
 
 FROM base AS git
 # Write version for the `/version` command
-RUN apt-get install git -y --no-install-recommends
+RUN apt-get update && \
+    apt-get install git -y --no-install-recommends
 COPY .git .git
 RUN git rev-parse HEAD > /commit.txt
 
