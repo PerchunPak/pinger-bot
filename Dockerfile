@@ -18,7 +18,7 @@ FROM python:slim as base
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH '/app/pinger'
-ENV DB_URI "sqlite+aiosqlite:////app/data/database.db"
+ENV DB_URI "sqlite+aiosqlite:////app/pinger/data/database.db"
 
 WORKDIR /app/pinger
 
