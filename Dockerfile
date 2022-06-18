@@ -22,12 +22,12 @@ ENV PYTHONPATH "/app/pinger"
 WORKDIR /app/pinger
 
 RUN groupadd -g 5000 container && useradd -d /app -m -g container -u 5000 container
-COPY --chown=5000:5000 locales/ locales/
-COPY --chown=5000:5000 --from=poetry /root/requirements.txt ./
+COPY locales/ locales/
+COPY --from=poetry /root/requirements.txt ./
 RUN apt-get update && \
     pip --no-cache-dir install -r requirements.txt && \
     pybabel compile -d locales
-COPY --chown=5000:5000 pinger_bot/ pinger_bot/
+COPY pinger_bot/ pinger_bot/
 
 
 FROM base AS additional-steps-sqlite
@@ -54,7 +54,7 @@ RUN git rev-parse HEAD > /commit.txt
 
 
 FROM additional-steps-${dialect} AS final
-COPY --chown=5000:5000 --from=git /commit.txt commit.txt
+COPY --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
 USER container
 
