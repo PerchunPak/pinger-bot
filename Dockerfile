@@ -32,7 +32,10 @@ COPY pinger_bot/ pinger_bot/
 
 FROM base AS additional-steps-sqlite
 ENV DB_URI "sqlite+aiosqlite:////app/pinger/data/database.db"
-RUN echo "discord_token: PLACEHOLDER" >> config.yml && \
+VOLUME /app/pinger/data
+
+RUN mkdir data && touch data/database.db && \
+    echo "discord_token: PLACEHOLDER" >> config.yml && \
     alembic -c pinger_bot/migrations/alembic.ini upgrade head && \
     rm config.yml
 
