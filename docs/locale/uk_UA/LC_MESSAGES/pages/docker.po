@@ -134,13 +134,13 @@ msgstr "Для запуску бота, в обох випадках встан�
 #: ../../pages/docker.rst:75
 msgid ""
 "If you want to use ``sqlite``, you also need to set ``-v "
-"YOUR_PATH:/app/pinger/pinger_bot.db`` option (Where ``YOUR_PATH`` it is a"
-" path your database file. I recommend set absolute path.) This is needed "
+"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a"
+" folder with your database file. I recommend set absolute path.) This is needed "
 "to save database in case of container restart."
 msgstr ""
 "Якщо ви хочете використовувати ``sqlite``, ви також повинні встановити "
-"опцію ``-v ВАШ_ШЛЯХ:/app/pinger/pinger_bot.db`` (Де ``ВАШ_ШЛЯХ`` це ваш шлях до "
-"файлу з базою даних, рекомендовано встановлювати абсолютний шлях.) Це "
+"опцію ``-v ВАША_ТЕКА:/app/data`` (Де ``ВАША_ТЕКА`` це ваша тека до "
+"теки з базою даних, рекомендовано встановлювати абсолютний шлях.) Це "
 "потрібно щоб зберігати вашу базу даних коли контейнер перезавантажиться."
 
 #: ../../pages/docker.rst:80
