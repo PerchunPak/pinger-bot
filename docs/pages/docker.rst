@@ -93,7 +93,7 @@ To run the bot, in both cases of installation, use this command:
 .. warning::
   Since version 0.4.0 the container runs in non-root mode, which means that
   if you use the sqlite tag and a ``-v`` option you have to give rights
-  to the folder. This can be done with the command ``chown -R 5000:500 <your folder>``.
+  to the folder. This can be done with the command ``chown -R 5000:5000 <your folder>``.
 
   .. note:: Doesn't applies to Windows users.
 
