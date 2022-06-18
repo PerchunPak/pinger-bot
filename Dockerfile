@@ -34,6 +34,7 @@ FROM base AS additional-steps-postgresql
 RUN poetry install --no-dev --no-root -E postgresql
 
 FROM additional-steps-${dialect} AS final
+ENV DB_URI "sqlite+aiosqlite:////app/data/database.db"
 
 # Write version for the `/version` command
 COPY .git/ .git/
