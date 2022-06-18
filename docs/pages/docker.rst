@@ -95,6 +95,8 @@ To run the bot, in both cases of installation, use this command:
   if you use the sqlite tag and a ``-v`` option you have to give rights
   to the folder. This can be done with the command ``chown -R 5000:500 <your folder>``.
 
+  .. note:: Doesn't applies to Windows users.
+
 .. seealso::
   `podman <https://podman.io>`_ as replacement for a Docker.
 
