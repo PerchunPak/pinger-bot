@@ -53,7 +53,7 @@ COPY .git .git
 RUN git rev-parse HEAD > /commit.txt
 
 
-FROM additional-steps-${dialect}
+FROM additional-steps-${dialect} AS final
 COPY --chown=5000:5000 --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
 USER container
