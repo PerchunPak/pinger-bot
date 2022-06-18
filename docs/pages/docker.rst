@@ -73,7 +73,7 @@ To run the bot, in both cases of installation, use this command:
 
 .. note::
   If you want to use ``sqlite``, you also need to set
-  ``-v YOUR_PATH:/app/pinger_bot.db`` option (Where ``YOUR_PATH`` it is a
+  ``-v YOUR_PATH:/app/pinger/pinger_bot.db`` option (Where ``YOUR_PATH`` it is a
   path your database file. I recommend set absolute path.)
   This is needed to save database in case of container restart.
 
