@@ -4,7 +4,7 @@ ARG dialect=sqlite
 FROM python:slim as poetry
 
 ARG dialect=sqlite
-ENV PATH="/root/.local/bin:${PATH}"
+ENV PATH "/root/.local/bin:${PATH}"
 
 WORKDIR /root
 RUN apt-get update && \
@@ -17,7 +17,7 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 FROM python:slim as base
 
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH '/app/pinger'
+ENV PYTHONPATH "/app/pinger"
 
 WORKDIR /app/pinger
 
@@ -58,4 +58,4 @@ COPY --chown=5000:5000 --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
 USER container
 
-CMD python3 pinger_bot/
+CMD python pinger_bot/
