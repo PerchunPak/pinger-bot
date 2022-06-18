@@ -14,7 +14,7 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 FROM python:slim as base
 
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH '/app'
+ENV PYTHONPATH '/app/pinger'
 ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app/pinger

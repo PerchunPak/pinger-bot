@@ -1,8 +1,4 @@
 """Main CLI entrypoint."""
-import sys
-
-sys.path.append(".")
-
 import structlog.stdlib as structlog
 
 import pinger_bot.bot as bot
