@@ -69,11 +69,11 @@ To run the bot, in both cases of installation, use this command:
 
 .. code-block:: bash
 
-  docker run -d perchunpak/pingerbot
+  docker run --name pingerbot -d perchunpak/pingerbot
 
 .. note::
   If you want to use ``sqlite``, you also need to set
-  ``-v YOUR_FOLDER:/app/data`` option (Where ``YOUR_FOLDER`` it is a
+  ``-v YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a
   folder with your database file. I recommend set absolute path.)
   This is needed to save database in case of container restart.
 
@@ -89,6 +89,16 @@ To run the bot, in both cases of installation, use this command:
 
   Same as ``-v`` option, they **must** be set between ``-d`` flag and
   ``perchunpak/pingerbot``.
+
+.. warning::
+  Since version 0.4.0 the container runs in non-root mode, which means that
+  if you use the sqlite tag and a ``-v`` option you have to give rights
+  to the folder. This can be done with the command ``chown -R 5000:5000 <your folder>``.
+
+  .. note:: Doesn't applies to Windows users.
+
+.. seealso::
+  `podman <https://podman.io>`_ as replacement for a Docker.
 
 .. seealso::
   Command

@@ -134,7 +134,7 @@ msgstr "Для запуску бота, в обох випадках встан�
 #: ../../pages/docker.rst:75
 msgid ""
 "If you want to use ``sqlite``, you also need to set ``-v "
-"YOUR_FOLDER:/app/data`` option (Where ``YOUR_FOLDER`` it is a"
+"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a"
 " folder with your database file. I recommend set absolute path.) This is needed "
 "to save database in case of container restart."
 msgstr ""
@@ -181,10 +181,30 @@ msgstr ""
 "``perchunpak/pingerbot``."
 
 #: ../../pages/docker.rst:94
+msgid ""
+"Since version 0.4.0 the container runs in non-root mode, which means that"
+" if you use the sqlite tag and a ``-v`` option you have to give rights to"
+" the folder. This can be done with the command ``chown -R 5000:5000 <your "
+"folder>``."
+msgstr ""
+"З версії 0.4.0 контейнер запускається в режимі без-root, що означає, що "
+"якщо ви використовуєте тег sqlite і ``-v`` опцію, вам потрібно надати "
+"права на папку. Це можна зробити за допомогою команди ``chown -R 5000:5000"
+" <ваша тека>``."
+
+#: ../../pages/docker.rst:98
+msgid "Doesn't applies to Windows users."
+msgstr "Не стосується користувачів Windows."
+
+#: ../../pages/docker.rst:101
+msgid "`podman <https://podman.io>`_ as replacement for a Docker."
+msgstr "`podman <https://podman.io>`_ як заміну для Docker."
+
+#: ../../pages/docker.rst:104
 msgid "Command"
 msgstr "Команду"
 
-#: ../../pages/docker.rst:100
+#: ../../pages/docker.rst:110
 msgid "For full list of arguments and possibilities, upper I wrote only basics."
 msgstr ""
 "Для повного списку аргументів та можливостей, вище я написав тільки "
