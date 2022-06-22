@@ -2,6 +2,8 @@
 import asyncio
 import dataclasses
 import typing
+import cachetools
+import asyncache
 
 import dns.asyncresolver as asyncresolver
 import dns.exception as exception
@@ -37,6 +39,7 @@ class Address:
     """Private attribute with JavaServer or BedrockServer instance."""
 
     @classmethod
+    @asyncache.cached(cachetools.TTLCache(128, 3600))
     async def resolve(cls, input_ip: str, *, java: bool) -> "Address":
         """Resolve IP or domain or alias to :py:class:`.Address` object.
 

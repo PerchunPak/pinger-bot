@@ -136,6 +136,17 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "asyncache"
+version = "0.1.1"
+description = "Helpers to use cachetools with async functions"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+cachetools = ">=2.1"
+
+[[package]]
 name = "asyncio-dgram"
 version = "2.1.2"
 description = "Higher level Datagram support for Asyncio"
@@ -239,6 +250,14 @@ colorama = ["colorama (>=0.4.3)"]
 d = ["aiohttp (>=3.7.4)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
+
+[[package]]
+name = "cachetools"
+version = "5.2.0"
+description = "Extensible memoizing collections and decorators"
+category = "main"
+optional = false
+python-versions = "~=3.7"
 
 [[package]]
 name = "certifi"
@@ -1587,7 +1606,7 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "19c1ddc904266e7b97eff643fbe3f8043340a6de94d05446cbcf26d09b2e8f01"
+content-hash = "e2d0f8d51ea2ea6be82cbca1cd6b3432e45d9cbf4509f103e2c72fb0c69f245a"
 
 [metadata.files]
 aiohttp = [
@@ -1699,6 +1718,9 @@ async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
 ]
+asyncache = [
+    {file = "asyncache-0.1.1.tar.gz", hash = "sha256:c741b3ccef2c5291b3da05d97bab3cc8d50f2ac8efd7fd79d47e3d7b6a3774de"},
+]
 asyncio-dgram = [
     {file = "asyncio-dgram-2.1.2.tar.gz", hash = "sha256:bc28a90bc0523009fb0da16ca983c1400ff403a315754d86e037910563697f91"},
     {file = "asyncio_dgram-2.1.2-py3-none-any.whl", hash = "sha256:9ef55fc760f93c8212709329a1e28a1cf1c1f0fc8222f1be0227c2b7606a10a2"},
@@ -1789,6 +1811,10 @@ black = [
     {file = "black-22.3.0-cp39-cp39-win_amd64.whl", hash = "sha256:9b542ced1ec0ceeff5b37d69838106a6348e60db7b8fdd245294dc1d26136265"},
     {file = "black-22.3.0-py3-none-any.whl", hash = "sha256:bc58025940a896d7e5356952228b68f793cf5fcb342be703c3a2669a1488cb72"},
     {file = "black-22.3.0.tar.gz", hash = "sha256:35020b8886c022ced9282b51b5a875b6d1ab0c387b31a065b84db7c33085ca79"},
+]
+cachetools = [
+    {file = "cachetools-5.2.0-py3-none-any.whl", hash = "sha256:f9f17d2aec496a9aa6b76f53e3b614c965223c061982d434d160f930c698a9db"},
+    {file = "cachetools-5.2.0.tar.gz", hash = "sha256:6a94c6402995a99c3970cc7e4884bb60b4a8639938157eeed436098bf9831757"},
 ]
 certifi = [
     {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
