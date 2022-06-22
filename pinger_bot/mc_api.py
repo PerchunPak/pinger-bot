@@ -2,9 +2,9 @@
 import asyncio
 import dataclasses
 import typing
-import cachetools
-import asyncache
 
+import asyncache
+import cachetools
 import dns.asyncresolver as asyncresolver
 import dns.exception as exception
 import dns.rdatatype as rdatatype
