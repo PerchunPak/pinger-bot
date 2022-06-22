@@ -1145,7 +1145,7 @@ requests = "*"
 
 [[package]]
 name = "setuptools-scm"
-version = "7.0.1"
+version = "7.0.2"
 description = "the blessed package to manage your versions by scm tags"
 category = "main"
 optional = false
@@ -1606,7 +1606,7 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "835e5d6c99e24a55d1c1f6524664c0a1f36899ee19c4e309d9b49af770403879"
+content-hash = "5331ddb7ca20d629beab63fda8abdc3c6c3f023a63d96a100f2579531d7ab67e"
 
 [metadata.files]
 aiohttp = [
@@ -2617,8 +2617,8 @@ safety = [
     {file = "safety-1.10.3.tar.gz", hash = "sha256:30e394d02a20ac49b7f65292d19d38fa927a8f9582cdfd3ad1adbbc66c641ad5"},
 ]
 setuptools-scm = [
-    {file = "setuptools_scm-7.0.1-py3-none-any.whl", hash = "sha256:23b2e561fd3db49d168f282384af4730092a8c8c6db6d3451ce93a5813c14509"},
-    {file = "setuptools_scm-7.0.1.tar.gz", hash = "sha256:d1c631fc3a4281754274155ef4a40de24b1d1c718df00ead147b08ab690615b2"},
+    {file = "setuptools_scm-7.0.2-py3-none-any.whl", hash = "sha256:ec120c99027a785c7a349667480a5b2100dfc7d5063e545c93f3735508945aef"},
+    {file = "setuptools_scm-7.0.2.tar.gz", hash = "sha256:53afbaa882f43e5ec8e14f2d93b9c268dc62eb3f6cc8b2790f8cb97903e53c02"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
