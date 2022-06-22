@@ -14,7 +14,7 @@ import hikari.embeds as embeds
 import lightbulb
 import lightbulb.commands as commands
 import lightbulb.context.slash as slash
-import requests
+import aiohttp
 import sqlalchemy
 import sqlalchemy.exc
 import structlog.stdlib as structlog
@@ -197,11 +197,12 @@ async def bot_version(ctx) -> None:
         with commit_txt.open("r") as commit_file:
             commit = commit_file.read().strip()
 
-    response = requests.get(
-        "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
-        headers={"Accept": "application/vnd.github.VERSION.sha"},
-    )
-    last_commit = response.text[:7] if response.status_code == 200 else _("Not available")
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
+            headers={"Accept": "application/vnd.github.VERSION.sha"},
+        ) as response:
+            last_commit = (await response.text())[:7] if response.ok else _("Not available")
 
     embed = embeds.Embed(
         title=_("Bot's version"),

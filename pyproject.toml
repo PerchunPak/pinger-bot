@@ -29,7 +29,7 @@ alembic = "~1.8"
 dnspython = "~2.2"
 omegaconf = "~2.2"
 matplotlib = "~3.5"
-requests = "*"
+aiohttp = "~3.8"
 
 # caching utils
 cachetools = "~5.2"
