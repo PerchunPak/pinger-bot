@@ -69,8 +69,7 @@ class Address:
         server = await mcstatus.JavaServer.async_lookup(input_ip) if java else mcstatus.BedrockServer.lookup(input_ip)
 
         num_ip_without_port, alias = await asyncio.gather(
-            cls._get_number_ip(server.address.host),
-            cls._get_alias_from_ip(server.address.host, server.address.port)
+            cls._get_number_ip(server.address.host), cls._get_alias_from_ip(server.address.host, server.address.port)
         )
 
         return cls(
