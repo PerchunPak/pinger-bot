@@ -1,4 +1,5 @@
 """API module with Minecraft Servers API."""
+import asyncio
 import dataclasses
 import typing
 
@@ -66,8 +67,11 @@ class Address:
             )
 
         server = await mcstatus.JavaServer.async_lookup(input_ip) if java else mcstatus.BedrockServer.lookup(input_ip)
-        num_ip = (await cls._get_number_ip(server.address.host)) + ":" + str(server.address.port)
-        alias = await cls._get_alias_from_ip(server.address.host, server.address.port)
+
+        num_ip_without_port, alias = await asyncio.gather(
+            cls._get_number_ip(server.address.host),
+            cls._get_alias_from_ip(server.address.host, server.address.port)
+        )
 
         return cls(
             host=server.address.host,
@@ -75,7 +79,7 @@ class Address:
             input_ip=input_ip,
             alias=alias,
             display_ip=alias if alias is not None else input_ip,
-            num_ip=num_ip,
+            num_ip=num_ip_without_port + ":" + str(server.address.port),
             _server=server,
         )
 
@@ -203,15 +207,47 @@ class MCServer:
             Initialised :py:class:`.MCServer` object or :class:`.FailedMCServer` if ping failed.
         """
         log.debug("MCServer.status", host=host)
-        try:
-            return await cls.handle_java(host)
-        except Exception as java_error:
-            log.debug("MCServer.status java_error", java_error=java_error)
-            try:
-                return await cls.handle_bedrock(host)
-            except Exception as bedrock_error:
-                log.debug("MCServer.status bedrock_error", bedrock_error=bedrock_error)
-                return await FailedMCServer.handle_failed(host)
+        done, pending = await asyncio.wait(
+            {
+                asyncio.create_task(cls.handle_java(host), name="MCServer.handle_java"),
+                asyncio.create_task(cls.handle_bedrock(host), name="MCServer.handle_bedrock"),
+            },
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        success_task = await cls._handle_exceptions(done.pop(), pending)
+
+        if success_task is None:
+            return await FailedMCServer.handle_failed(host)
+
+        return success_task.result()  # type: ignore[no-any-return]
+
+    @staticmethod
+    async def _handle_exceptions(
+        task: asyncio.Task, pending: typing.Set[asyncio.Task]  # type: ignore[type-arg]
+    ) -> typing.Optional[asyncio.Task]:  # type: ignore[type-arg]
+        """Handle exceptions in :py:meth:`.MCServer.status` method.
+
+        This also cancels all pending tasks, if found correct one.
+
+        Args:
+            task: First (and the only one) task from ``done`` set.
+            pending: All pending tasks, which will be recursively handled.
+
+        Returns:
+            Value from ``task`` parameter, or one of the success tasks from ``pending`` set.
+        """
+        if task.exception() is not None:
+            log.debug(task.get_name(), error=task.exception())
+            if len(pending) == 0:
+                return None
+
+            return await MCServer._handle_exceptions(
+                tuple((await asyncio.wait({pending.pop()}))[0])[0], pending
+            )  # first done task
+
+        for pending_task in pending:
+            pending_task.cancel()
+        return task
 
     @classmethod
     async def handle_java(cls, host: str) -> "MCServer":
