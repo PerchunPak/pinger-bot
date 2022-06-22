@@ -10,11 +10,11 @@ import pathlib
 import subprocess
 import sys
 
+import aiohttp
 import hikari.embeds as embeds
 import lightbulb
 import lightbulb.commands as commands
 import lightbulb.context.slash as slash
-import aiohttp
 import sqlalchemy
 import sqlalchemy.exc
 import structlog.stdlib as structlog
