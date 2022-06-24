@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-06-16 17:11+0200\n"
+"POT-Creation-Date: 2022-06-24 13:31+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.10.3\n"
 
 #: pinger_bot/__main__.py:13
 msgid "Hello World!"
@@ -35,7 +35,7 @@ msgstr "Підготовка закінчена."
 msgid "ping-pong"
 msgstr "пінг-понг"
 
-#: pinger_bot/mc_api.py:116
+#: pinger_bot/mc_api.py:122
 msgid "Cannot resolve IP {} to number IP"
 msgstr "Не можу пропарсити IP {} в цифровий IP"
 
@@ -107,7 +107,7 @@ msgid "Maybe you set invalid IP address."
 msgstr "Можливо ви вказали не вірну IP адресу."
 
 #: pinger_bot/ext/commands/add.py:58 pinger_bot/ext/commands/motd.py:39
-#: pinger_bot/ext/commands/other.py:118 pinger_bot/ext/commands/ping.py:58
+#: pinger_bot/ext/commands/other.py:120 pinger_bot/ext/commands/ping.py:58
 #: pinger_bot/ext/commands/statistic.py:111
 msgid "The IP address of the server."
 msgstr "Айпі адреса сервера."
@@ -171,7 +171,7 @@ msgid "You are not owner of the server {}."
 msgstr "Ви не власник серверу {}."
 
 #: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
-#: pinger_bot/ext/commands/alias.py:157 pinger_bot/ext/commands/other.py:159
+#: pinger_bot/ext/commands/alias.py:157 pinger_bot/ext/commands/other.py:161
 #: pinger_bot/ext/commands/statistic.py:167
 msgid "For more information about the server, write: {}"
 msgstr "Для більшої інформації про сервер, напишіть: {}"
@@ -261,121 +261,121 @@ msgstr "Посилання для редагування"
 msgid "Ping successful for {}"
 msgstr "Пінг вдався для {}"
 
-#: pinger_bot/ext/commands/other.py:35
+#: pinger_bot/ext/commands/other.py:37
 msgid "Some basic information about me."
 msgstr "Трохи базової інформації про мене."
 
-#: pinger_bot/ext/commands/other.py:53
+#: pinger_bot/ext/commands/other.py:55
 msgid "Owner"
 msgstr "Власник"
 
-#: pinger_bot/ext/commands/other.py:55
+#: pinger_bot/ext/commands/other.py:57
 msgid "Programming language"
 msgstr "Мова програмування"
 
-#: pinger_bot/ext/commands/other.py:58
+#: pinger_bot/ext/commands/other.py:60
 msgid "Library"
 msgstr "Бібліотека"
 
-#: pinger_bot/ext/commands/other.py:63
+#: pinger_bot/ext/commands/other.py:65
 msgid "License"
 msgstr "Ліцензія"
 
-#: pinger_bot/ext/commands/other.py:67
+#: pinger_bot/ext/commands/other.py:69
 msgid "Source code"
 msgstr "Джерельний код"
 
-#: pinger_bot/ext/commands/other.py:72
+#: pinger_bot/ext/commands/other.py:74
 msgid "Note: You can propose any changes to creator DM (Perchun_Pak#9236)"
 msgstr ""
 "Примітка: Ви можете пропонувати любі зміни розробнику в ПП "
 "(Perchun_Pak#9236)"
 
-#: pinger_bot/ext/commands/other.py:77
+#: pinger_bot/ext/commands/other.py:79
 msgid "Link for invite me."
 msgstr "Посилання на запрошення."
 
-#: pinger_bot/ext/commands/other.py:90
+#: pinger_bot/ext/commands/other.py:92
 msgid "This is my invite link, so you can ping servers too:"
 msgstr "Це моє посилання на запрошення, так що ви можете пінгувати сервери також:"
 
-#: pinger_bot/ext/commands/other.py:94
+#: pinger_bot/ext/commands/other.py:96
 msgid "WARNING: Link only working if you an owner of this bot."
 msgstr "УВАГА: Посилання працює тільки якщо ви власник цього бота."
 
-#: pinger_bot/ext/commands/other.py:110 pinger_bot/ext/commands/other.py:155
+#: pinger_bot/ext/commands/other.py:112 pinger_bot/ext/commands/other.py:157
 msgid "Owner of the server {}"
 msgstr "Власник серверу {}"
 
-#: pinger_bot/ext/commands/other.py:112
+#: pinger_bot/ext/commands/other.py:114
 msgid "Can't execute command."
 msgstr "Не вдається виконати команду."
 
-#: pinger_bot/ext/commands/other.py:112
+#: pinger_bot/ext/commands/other.py:114
 msgid "Maybe you set invalid IP address, or server just not added."
 msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто не був доданий."
 
-#: pinger_bot/ext/commands/other.py:119
+#: pinger_bot/ext/commands/other.py:121
 msgid "Show owner of the server."
 msgstr "Ви не власник цього серверу."
 
-#: pinger_bot/ext/commands/other.py:146
+#: pinger_bot/ext/commands/other.py:148
 msgid "Failed get server '{}' from database"
 msgstr "Не вдалося отримати сервер '{}' з бази даних."
 
-#: pinger_bot/ext/commands/other.py:156
+#: pinger_bot/ext/commands/other.py:158
 msgid "It is {}"
 msgstr "Це {}"
 
-#: pinger_bot/ext/commands/other.py:173 pinger_bot/ext/commands/other.py:207
+#: pinger_bot/ext/commands/other.py:175 pinger_bot/ext/commands/other.py:222
 msgid "Bot's version"
 msgstr "Версія бота"
 
-#: pinger_bot/ext/commands/other.py:176
+#: pinger_bot/ext/commands/other.py:178
 msgid "GIT not available"
 msgstr "GIT недоступний"
 
-#: pinger_bot/ext/commands/other.py:176
+#: pinger_bot/ext/commands/other.py:178
 msgid "Unfortunately, bot can't get access to GIT."
 msgstr "На жаль, бот не може отримати доступ до GIT."
 
-#: pinger_bot/ext/commands/other.py:181
-msgid "Show bot's version."
-msgstr "Показує версію бота."
-
-#: pinger_bot/ext/commands/other.py:204
+#: pinger_bot/ext/commands/other.py:196
 msgid "Not available"
 msgstr "Недоступно"
 
-#: pinger_bot/ext/commands/other.py:210
+#: pinger_bot/ext/commands/other.py:200
+msgid "Show bot's version."
+msgstr "Показує версію бота."
+
+#: pinger_bot/ext/commands/other.py:225
 msgid "Commit hash"
 msgstr "Хеш коміта"
 
-#: pinger_bot/ext/commands/other.py:211
+#: pinger_bot/ext/commands/other.py:226
 msgid "Last version: "
 msgstr "Остання версія: "
 
-#: pinger_bot/ext/commands/other.py:218
+#: pinger_bot/ext/commands/other.py:233
 msgid "SQL statement which I pass to database."
 msgstr "SQL твердження яке я передаю в базу даних."
 
-#: pinger_bot/ext/commands/other.py:219
+#: pinger_bot/ext/commands/other.py:234
 msgid "Commit changes to database."
 msgstr "Зафіксувати зміни в базі даних."
 
-#: pinger_bot/ext/commands/other.py:219 pinger_bot/ext/commands/other.py:234
+#: pinger_bot/ext/commands/other.py:234 pinger_bot/ext/commands/other.py:249
 msgid "Yes"
 msgstr "Так"
 
-#: pinger_bot/ext/commands/other.py:219
+#: pinger_bot/ext/commands/other.py:234
 msgid "No"
 msgstr "Ні"
 
-#: pinger_bot/ext/commands/other.py:220
+#: pinger_bot/ext/commands/other.py:235
 msgid "Execute SQL statement to database. **Owner-Only**."
 msgstr "Використовує SQL твердження в базу даних. **Тільки для власника**."
 
-#: pinger_bot/ext/commands/other.py:244
+#: pinger_bot/ext/commands/other.py:259
 msgid "Done!"
 msgstr "Готово!"
 

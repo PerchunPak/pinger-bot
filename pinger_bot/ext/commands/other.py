@@ -11,6 +11,8 @@ import subprocess
 import sys
 
 import aiohttp
+import asyncache
+import cachetools
 import hikari.embeds as embeds
 import lightbulb
 import lightbulb.commands as commands
@@ -177,6 +179,23 @@ async def git_not_available() -> embeds.Embed:
     return embed
 
 
+@asyncache.cached(cachetools.TTLCache(1024, 3600))
+async def get_bot_latest_version() -> str:
+    """Get latest commit on ``master`` branch and cache it.
+
+    Cache resets every hour, or every 1024 usages.
+
+    Returns:
+        Full SHA256 of last commit or translated ``Not available``.
+    """
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
+            headers={"Accept": "application/vnd.github.VERSION.sha"},
+        ) as response:
+            return (await response.text())[:7] if response.ok else _("Not available")
+
+
 @plugin.command
 @lightbulb.command("version", _("Show bot's version."))
 @lightbulb.implements(commands.SlashCommand)
@@ -197,12 +216,7 @@ async def bot_version(ctx) -> None:
         with commit_txt.open("r") as commit_file:
             commit = commit_file.read().strip()
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(
-            "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
-            headers={"Accept": "application/vnd.github.VERSION.sha"},
-        ) as response:
-            last_commit = (await response.text())[:7] if response.ok else _("Not available")
+    last_commit = await get_bot_latest_version()
 
     embed = embeds.Embed(
         title=_("Bot's version"),
