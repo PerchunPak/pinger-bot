@@ -186,7 +186,7 @@ async def get_bot_latest_version() -> str:
     Cache resets every hour, or every 1024 usages.
 
     Returns:
-        Full SHA256 of last commit or translated ``Not available``.
+        Short SHA256 of last commit or translated ``Not available``.
     """
     async with aiohttp.ClientSession() as session:
         async with session.get(
