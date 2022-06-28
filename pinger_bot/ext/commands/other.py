@@ -2,8 +2,8 @@
 
 .. warning::
     This includes some owner-only commands, which will be shown as global.
-    Waiting for the `hikari-py/hikari#1148 <https://github.com/hikari-py/hikari/pull/1148>`_ to be merged,
-    and lightbulb support for those features.
+    Waiting for the `lightbulb support <https://github.com/tandemdude/hikari-lightbulb/pull/259>`_
+    for supporting hiding commands from global list (Application Permissions v2).
 """
 import json
 import pathlib
