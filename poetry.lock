@@ -735,7 +735,7 @@ python-versions = "*"
 
 [[package]]
 name = "mcstatus"
-version = "9.0.4"
+version = "9.2.0"
 description = "A library to query Minecraft Servers for their status and capabilities."
 category = "main"
 optional = false
@@ -1606,7 +1606,7 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "5331ddb7ca20d629beab63fda8abdc3c6c3f023a63d96a100f2579531d7ab67e"
+content-hash = "eafcd50491f90d6bcc09795ac4cc7c2590bf038cc0f9e0245b1f805be05ec4c3"
 
 [metadata.files]
 aiohttp = [
@@ -2291,8 +2291,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 mcstatus = [
-    {file = "mcstatus-9.0.4-py3-none-any.whl", hash = "sha256:3b0ca927b36980336d3dd4c1a0362eba566b503d3cf07038d5180903c5dec030"},
-    {file = "mcstatus-9.0.4.tar.gz", hash = "sha256:5219c39a21fcce36d2bc1a20feaef27027a715f9729ec55dd31d903812297964"},
+    {file = "mcstatus-9.2.0-py3-none-any.whl", hash = "sha256:16b1e117d0b74e2d056b80e177f112ee5cb4b8d25dc1da45aa5b3e714010ea1f"},
+    {file = "mcstatus-9.2.0.tar.gz", hash = "sha256:bbb79380a8e21fcc6188ed022f2c516ab59cf5a825a2eab95ed9b29ffede098f"},
 ]
 mistune = [
     {file = "mistune-0.8.4-py2.py3-none-any.whl", hash = "sha256:88a1051873018da288eee8538d476dffe1262495144b33ecb586c4ab266bb8d4"},
