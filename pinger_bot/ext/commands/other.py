@@ -2,8 +2,8 @@
 
 .. warning::
     This includes some owner-only commands, which will be shown as global.
-    Waiting for the `lightbulb support <https://github.com/tandemdude/hikari-lightbulb/pull/259>`_
-    for supporting hiding commands from global list (Application Permissions v2).
+    We can't limit it to specific user ID (because of Discord's limits),
+    so they will leave for better time.
 """
 import json
 import pathlib
