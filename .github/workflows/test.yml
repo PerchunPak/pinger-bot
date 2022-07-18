@@ -70,28 +70,52 @@ jobs:
         poetry env use "3.10"
         poetry install
 
-    - name: Configure git
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Github Action"
-
     - name: Apply codestyle
       run: |
         make style
-        git commit -am "Apply codestyle :pencil2: [skip ci]" || true
+
+        curl https://api.github.com/graphql \
+             -fs -H "Authorization: bearer ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Accept: application/vnd.github.v4.idl" -X POST \
+             --data @- <<GRAPHQL
+        {
+          "query": "mutation (\$input: CreateCommitOnBranchInput!) {
+            createCommitOnBranch(input: \$input) { commit { url } } }",
+          "variables": {
+            "input": {
+              "branch": {
+                "repositoryNameWithOwner": "PerchunPak/pinger-bot",
+                "branchName": "${{ github.head_ref || github.ref_name }}"
+              },
+              "message": { "headline": "Apply codestyle :pencil2:" },
+              "fileChanges": `python .github/commit_and_push.py`,
+              "expectedHeadOid": "`git rev-parse HEAD`"
+        }}}
+        GRAPHQL
 
     - name: Update poetry.lock
       continue-on-error: true
       run: |
         poetry update --lock
-        git commit -am "Update poetry.lock :chart_with_upwards_trend:" || true
 
-    - name: Push changes
-      continue-on-error: true
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref || github.ref_name }}
+        curl https://api.github.com/graphql \
+             -fs -H "Authorization: bearer ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Accept: application/vnd.github.v4.idl" -X POST \
+             --data @- <<GRAPHQL
+        {
+          "query": "mutation (\$input: CreateCommitOnBranchInput!) {
+            createCommitOnBranch(input: \$input) { commit { url } } }",
+          "variables": {
+            "input": {
+              "branch": {
+                "repositoryNameWithOwner": "PerchunPak/pinger-bot",
+                "branchName": "${{ github.head_ref || github.ref_name }}"
+              },
+              "message": { "headline": "Update poetry.lock :chart_with_upwards_trend:" },
+              "fileChanges": `python .github/commit_and_push.py`,
+              "expectedHeadOid": "`git rev-parse HEAD`"
+        }}}
+        GRAPHQL
 
   docker:
     runs-on: ubuntu-latest

@@ -63,21 +63,24 @@ asyncpg   = { version = "*",               optional = true }
 [tool.poetry.dev-dependencies]
 black = "~22"
 isort = "~5.10"
-pycln = "~1.3"
+pycln = "~2.0"
 doc8 = "~0.11"
-pre-commit = "~2.19"
+pre-commit = "~2.20"
 mypy = "0.961"
 flake8 = "~4"
 flake8-docstrings = "~1"
 pydocstyle = ">=4.0.0"
 
-safety = "~1.10"
+safety = "~2.1"
 
 pytest = "~7.1"
 pytest-cov = "~3.0"
-pytest-mock = "~3.7"
+pytest-mock = "~3.8"
 pytest-testmon = "~1.3"
 pytest-randomly = "~3.12"
+Faker = "~13.15"
+
+GitPython = "~3.1"
 
 SQLAlchemy = {version = "~1.4", extras = ["mypy"]}
 

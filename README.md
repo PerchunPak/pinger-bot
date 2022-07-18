@@ -1,5 +1,7 @@
 # pinger-bot
 
+[![Support Ukraine](https://badgen.net/badge/support/UKRAINE/?color=0057B8&labelColor=FFD700)](https://www.gov.uk/government/news/ukraine-what-you-can-do-to-help)
+
 [![Build Status](https://github.com/PerchunPak/pinger-bot/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/PerchunPak/pinger-bot/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/PerchunPak/pinger-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/PerchunPak/pinger-bot)
 [![Documentation Build Status](https://readthedocs.org/projects/pinger-bot/badge/?version=latest)](https://pinger-bot.readthedocs.io/)
@@ -110,5 +112,5 @@ poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ## Thanks
 
 This project was generated with [fire-square-style](https://github.com/fire-square/fire-square-style).
-Current template version: [fc37baf525159c465d78dc13971f97e2ff906ec7](https://github.com/fire-square/fire-square-style/tree/fc37baf525159c465d78dc13971f97e2ff906ec7).
-See what [updated](https://github.com/fire-square/fire-square-style/compare/fc37baf525159c465d78dc13971f97e2ff906ec7...master).
+Current template version: [d49a78275f9cbd5bfd7bd4e93ac582078a396d9b](https://github.com/fire-square/fire-square-style/tree/d49a78275f9cbd5bfd7bd4e93ac582078a396d9b).
+See what [updated](https://github.com/fire-square/fire-square-style/compare/d49a78275f9cbd5bfd7bd4e93ac582078a396d9b...master).
