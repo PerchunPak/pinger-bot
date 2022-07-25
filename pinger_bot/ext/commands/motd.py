@@ -1,4 +1,6 @@
 """Module for the ``motd`` command."""
+import urllib.parse
+
 import hikari.embeds as embeds
 import lightbulb
 import lightbulb.commands as commands
@@ -59,10 +61,11 @@ async def motd(ctx: slash.SlashContext, ip: str) -> None:
         color=(46, 204, 113),
     )
 
-    motd_url = server.motd.replace(" ", "+").replace("\n", "%0A")
-
     embed.add_field(name=_("MOTD"), value=server.motd)
-    embed.add_field(name=_("Link for editing"), value="https://mctools.org/motd-creator?text=" + motd_url)
+    embed.add_field(
+        name=_("Link for editing"),
+        value="https://mctools.org/motd-creator?text=" + urllib.parse.quote_plus(server.motd),
+    )
     embed.set_thumbnail(server.icon)
 
     log.debug(_("Ping successful for {}").format(server.address.display_ip))
