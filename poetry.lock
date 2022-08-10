@@ -768,7 +768,7 @@ python-versions = "*"
 
 [[package]]
 name = "mcstatus"
-version = "9.0.4"
+version = "9.3.0"
 description = "A library to query Minecraft Servers for their status and capabilities."
 category = "main"
 optional = false
@@ -1415,8 +1415,8 @@ optional = true
 python-versions = ">=3.5"
 
 [package.extras]
-lint = ["flake8", "mypy", "docutils-stubs"]
 test = ["pytest"]
+lint = ["docutils-stubs", "mypy", "flake8"]
 
 [[package]]
 name = "sphobjinv"
@@ -1671,7 +1671,7 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "3087c963148c44bfc40098bc14b716cdb716f35e01b0837c99ff6d95cb56914e"
+content-hash = "16c7d5b0d1dd1ec9244a3592227b52ee8664b6f303cd14c067834da03a5749f2"
 
 [metadata.files]
 aiohttp = [
@@ -2367,8 +2367,8 @@ mccabe = [
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
 mcstatus = [
-    {file = "mcstatus-9.0.4-py3-none-any.whl", hash = "sha256:3b0ca927b36980336d3dd4c1a0362eba566b503d3cf07038d5180903c5dec030"},
-    {file = "mcstatus-9.0.4.tar.gz", hash = "sha256:5219c39a21fcce36d2bc1a20feaef27027a715f9729ec55dd31d903812297964"},
+    {file = "mcstatus-9.3.0-py3-none-any.whl", hash = "sha256:828118dc67688ccf462bfb0d74f3a7bc7703c483db71d89dd720f89093abaf9c"},
+    {file = "mcstatus-9.3.0.tar.gz", hash = "sha256:de9f5422c4abd0cdf3f841634184dff8f61dff1c8f384aeeccdf3bceee4c2a8d"},
 ]
 mistune = [
     {file = "mistune-0.8.4-py2.py3-none-any.whl", hash = "sha256:88a1051873018da288eee8538d476dffe1262495144b33ecb586c4ab266bb8d4"},
