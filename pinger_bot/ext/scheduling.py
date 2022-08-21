@@ -25,11 +25,7 @@ async def collect_info_for_statistic() -> None:
     async with models.db.session() as session:
         servers = (await session.scalars(sqlalchemy.select(models.Server))).all()
 
-        await asyncio.gather(*(handle_server(server, session) for server in servers))
-
-        log.debug(_("Deleting old pings."))
-        yesterday = datetime.datetime.now() - datetime.timedelta(days=1, hours=2)
-        await session.execute(sqlalchemy.delete(models.Ping).where(models.Ping.time < yesterday))
+        await asyncio.gather(*(handle_server(server, session) for server in servers), delete_old_pings(session))
 
         await session.commit()
     log.debug(_("Collecting info ended!"))
@@ -60,6 +56,17 @@ async def handle_server(db_server: models.Server, session: sqlalchemy_asyncio.As
                 .where(models.Server.id == db_server.id)
                 .values(max=server.players.online)
             )
+
+
+async def delete_old_pings(session: sqlalchemy_asyncio.AsyncSession) -> None:
+    """Delete old pings, this means older than ~26 hours.
+
+    Args:
+        session: :class:`sqlalchemy.ext.asyncio.AsyncSession`, so we don't need to open it again.
+    """
+    log.debug(_("Deleting old pings."))
+    yesterday = datetime.datetime.now() - datetime.timedelta(days=1, hours=2)
+    await session.execute(sqlalchemy.delete(models.Ping).where(models.Ping.time < yesterday))
 
 
 def load(bot_obj: bot.PingerBot) -> None:
