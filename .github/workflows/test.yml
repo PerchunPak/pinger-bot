@@ -66,11 +66,11 @@ jobs:
     - name: Run checks
       run: |
         make test ci=1 dburi=`\
-        if "${{ matrix.db }}" == "sqlite"; then \
+        if [[ "${{ matrix.db }}" == "sqlite" ]]; then \
           echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
-        elif "${{ matrix.db }}" == "mysql"; then \
+        elif [[ "${{ matrix.db }}" == "mysql" ]]; then \
           echo "mysql+aiomysql://root:root@localhost/root"; \
-        elif "${{ matrix.db }}" == "postgresql"; then \
+        elif [[ "${{ matrix.db }}" == "postgresql" ]]; then \
           echo "postgresql+asyncpg://postgres:postgres@localhost/postgres"; \
         fi`
 
