@@ -103,6 +103,10 @@ jobs:
         poetry env use "3.10"
         poetry install
 
+    - name: Compile translations
+      run: |
+        poetry run pybabel compile -d ./locales
+
     - name: Apply codestyle
       run: |
         make style
