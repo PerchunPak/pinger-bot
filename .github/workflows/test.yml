@@ -107,6 +107,8 @@ jobs:
       run: |
         make style
 
+    - name: Commit changes
+      run: |
         poetry run python .github/commit_and_push.py \
           --token ${{ secrets.GITHUB_TOKEN }} \
           {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
