@@ -47,7 +47,7 @@ async def handle_server(db_server: models.Server, session: sqlalchemy_asyncio.As
 
         if server.players.online > db_server.max:
             log.debug(
-                _("Update max players, in server {}".format(server.address.display_ip)),
+                _("Update max players, in server {}").format(server.address.display_ip),
                 current=server.players.online,
                 old=db_server.max,
             )
