@@ -1,6 +1,7 @@
 """DB models for the project."""
 import dataclasses
 import datetime
+import typing
 
 import sqlalchemy
 import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
@@ -34,7 +35,7 @@ class Server(Base):  # type: ignore[valid-type,misc]
     """Port of the server."""
     max: int = sqlalchemy.Column(sqlalchemy.SmallInteger, nullable=False)  # type: ignore[assignment]
     """Max players on the server."""
-    alias: str = sqlalchemy.Column(sqlalchemy.String(256), unique=True)  # type: ignore[assignment]
+    alias: typing.Optional[str] = sqlalchemy.Column(sqlalchemy.String(256), unique=True)  # type: ignore[assignment]
     """Alias of the server. Can be used as IP of the server."""
     owner: int = sqlalchemy.Column(sqlalchemy.BigInteger, nullable=False)  # type: ignore[assignment]
     """Owner's Discord ID of the server."""
@@ -76,7 +77,9 @@ class Database:
         config.config.db_uri, echo=config.config.debug
     )
     """Async engine of the Database."""
-    session = sqlalchemy_orm.sessionmaker(engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
+    session: typing.Callable[[], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]] = sqlalchemy_orm.sessionmaker(
+        engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession
+    )
     """Async session of the Database."""
 
 
