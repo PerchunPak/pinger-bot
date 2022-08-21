@@ -11,10 +11,10 @@ style:
 
 .PHONY: unit
 unit:
-ifeq ($(ci),1)
-		poetry run pytest --no-testmon $(if $(dburi),-- dburi $(dburi),)  # don't add --dburi if it's unset
+ifeq ($(ci),1)  # don't add --dburi if it's unset
+	poetry run pytest --no-testmon $(if $(dburi), --dburi $(dburi),)
 else
-	poetry run pytest --no-cov
+	poetry run pytest --no-cov $(if $(dburi), --dburi $(dburi),)
 endif
 
 .PHONY: package
