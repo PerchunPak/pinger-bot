@@ -63,6 +63,10 @@ jobs:
         poetry env use "${{ matrix.python-version }}"
         poetry install -E ${{ matrix.db }}
 
+    - name: Compile translations
+      run: |
+        poetry run pybabel compile -d ./locales
+
     - name: Run checks
       run: |
         make test ci=1 dburi=`\
@@ -102,10 +106,6 @@ jobs:
       run: |
         poetry env use "3.10"
         poetry install
-
-    - name: Compile translations
-      run: |
-        poetry run pybabel compile -d ./locales
 
     - name: Apply codestyle
       run: |
