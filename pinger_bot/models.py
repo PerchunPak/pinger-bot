@@ -21,6 +21,7 @@ Base = sqlalchemy_orm.declarative_base()
 
 
 # We ignore assign types because we assign column classes to built-in types. in runtime SQLAlchemy return built-in types
+@dataclasses.dataclass
 class Server(Base):  # type: ignore[valid-type,misc]
     """A server model. Used to store the server, that was added to bot."""
 
@@ -44,6 +45,7 @@ class Server(Base):  # type: ignore[valid-type,misc]
     """Unique constraint for host and port."""
 
 
+@dataclasses.dataclass
 class Ping(Base):  # type: ignore[valid-type,misc]
     """Represents a single ping record in DB."""
 
@@ -72,14 +74,17 @@ class Ping(Base):  # type: ignore[valid-type,misc]
 class Database:
     """Some cached info about database."""
 
+    # NOTE: if you will change something here, you should duplicate changes to `tests.conftest.py`
+    #       this is because python cache class if we call it with the same arguments (why...)
+
     log.info(_("Starting DB..."))
     engine: sqlalchemy_asyncio.AsyncEngine = sqlalchemy_asyncio.create_async_engine(
         config.config.db_uri, echo=config.config.debug
     )
     """Async engine of the Database."""
-    session: typing.Callable[[], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]] = sqlalchemy_orm.sessionmaker(
-        engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession
-    )
+    session: typing.Callable[
+        [], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]
+    ] = sqlalchemy_orm.sessionmaker(engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
     """Async session of the Database."""
 
 

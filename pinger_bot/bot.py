@@ -11,12 +11,12 @@ import pinger_bot.config as config
 log = structlog.stdlib.get_logger()
 _ = config.gettext
 
-try:
+try:  # pragma: no cover
     import uvloop
 
     uvloop.install()
     log.info(_("`uvloop` installed, speed increased."))
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
 
 

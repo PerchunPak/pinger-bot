@@ -16,6 +16,31 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10']
+        db: ["sqlite", "mysql", "postgresql"]
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mysql:
+        image: mysql
+        env:
+          MYSQL_DATABASE: root
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
     - uses: actions/checkout@v3
@@ -36,10 +61,18 @@ jobs:
     - name: Install dependencies
       run: |
         poetry env use "${{ matrix.python-version }}"
-        poetry install
+        poetry install -E ${{ matrix.db }}
 
     - name: Run checks
-      run: make test ci=1
+      run: |
+        make test ci=1 dburi=`\
+        if ${{ matrix.db }} == "sqlite"; then \
+          echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
+        elif ${{ matrix.db }} == "mysql"; then \
+          echo "mysql+aiomysql://root:root@localhost/root"; \
+        elif ${{ matrix.db }} == "postgresql"; then \
+          echo "postgresql+asyncpg://postgres:postgres@localhost/postgres"; \
+        fi`
 
     # Upload coverage to codecov: https://codecov.io/
     - name: Upload coverage to Codecov

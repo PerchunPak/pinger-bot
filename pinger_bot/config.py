@@ -7,6 +7,9 @@ import pathlib
 import omegaconf
 import omegaconf.dictconfig as dictconfig
 
+BASE_DIR = pathlib.Path(__file__).parent.parent
+"""Base directory of the project."""
+
 
 @dataclasses.dataclass
 class Config:
@@ -34,7 +37,7 @@ class Config:
         Returns:
             :py:class:`.Config` instance.
         """
-        config_path = pathlib.Path(__file__).parent.parent / "config.yml"
+        config_path = BASE_DIR / "config.yml"
         cfg = omegaconf.OmegaConf.structured(Config)
 
         if config_path.exists():

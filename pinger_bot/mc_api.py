@@ -18,6 +18,9 @@ import pinger_bot.models as models
 log = structlog.get_logger()
 _ = config.gettext
 
+_Address_resolve_cache: cachetools.TTLCache = cachetools.TTLCache(128, 3600)  # type: ignore[type-arg]
+"""Helper for tests, this used when you need to remove the cache."""
+
 
 @dataclasses.dataclass
 class Address:
@@ -39,7 +42,7 @@ class Address:
     """Private attribute with JavaServer or BedrockServer instance."""
 
     @classmethod
-    @asyncache.cached(cachetools.TTLCache(128, 3600))
+    @asyncache.cached(_Address_resolve_cache)
     async def resolve(cls, input_ip: str, *, java: bool) -> "Address":
         """Resolve IP or domain or alias to :py:class:`.Address` object.
 

@@ -76,9 +76,13 @@ safety = "~2.1"
 pytest = "~7.1"
 pytest-cov = "~3.0"
 pytest-mock = "~3.8"
+pytest-asyncio = "~0.18"
 pytest-testmon = "~1.3"
 pytest-randomly = "~3.12"
+
 Faker = "~13.15"
+factory-boy = "~3.2"
+freezegun = "^1.2.1"
 
 GitPython = "~3.1"
 

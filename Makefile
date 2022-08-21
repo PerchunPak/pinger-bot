@@ -12,7 +12,7 @@ style:
 .PHONY: unit
 unit:
 ifeq ($(ci),1)
-	poetry run pytest --no-testmon
+		poetry run pytest --no-testmon $(if $(dburi),-- dburi $(dburi),)  # don't add --dburi if it's unset
 else
 	poetry run pytest --no-cov
 endif
