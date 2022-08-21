@@ -209,14 +209,17 @@ class MCServer:
             Initialised :py:class:`.MCServer` object or :class:`.FailedMCServer` if ping failed.
         """
         log.debug("MCServer.status", host=host)
-        done, pending = await asyncio.wait(
-            {
-                asyncio.create_task(cls.handle_java(host), name="MCServer.handle_java"),
-                asyncio.create_task(cls.handle_bedrock(host), name="MCServer.handle_bedrock"),
-            },
-            return_when=asyncio.FIRST_COMPLETED,
+        success_task = await cls._handle_exceptions(
+            *(
+                await asyncio.wait(
+                    {
+                        asyncio.create_task(cls.handle_java(host), name="MCServer.handle_java"),
+                        asyncio.create_task(cls.handle_bedrock(host), name="MCServer.handle_bedrock"),
+                    },
+                    return_when=asyncio.FIRST_COMPLETED,
+                )
+            )
         )
-        success_task = await cls._handle_exceptions(done.pop(), pending)
 
         if success_task is None:
             return await FailedMCServer.handle_failed(host)
@@ -224,32 +227,40 @@ class MCServer:
         return success_task.result()  # type: ignore[no-any-return]
 
     @staticmethod
-    async def _handle_exceptions(
-        task: asyncio.Task, pending: typing.Set[asyncio.Task]  # type: ignore[type-arg]
+    async def _handle_exceptions(  # type: ignore[return]
+        done: typing.Set[asyncio.Task], pending: typing.Set[asyncio.Task]  # type: ignore[type-arg]
     ) -> typing.Optional[asyncio.Task]:  # type: ignore[type-arg]
         """Handle exceptions in :py:meth:`.MCServer.status` method.
 
         This also cancels all pending tasks, if found correct one.
 
         Args:
-            task: First (and the only one) task from ``done`` set.
+            done: Direct ``done`` set from :func:`asyncio.wait` method.
             pending: All pending tasks, which will be recursively handled.
 
         Returns:
             Value from ``task`` parameter, or one of the success tasks from ``pending`` set.
+
+        Raises:
+            ValueError: If ``done`` set is empty.
         """
-        if task.exception() is not None:
-            log.debug(task.get_name(), error=task.exception())
-            if len(pending) == 0:
-                return None
+        if len(done) == 0:
+            raise ValueError("No tasks was given to `done` set.")
 
-            return await MCServer._handle_exceptions(
-                tuple((await asyncio.wait({pending.pop()}))[0])[0], pending
-            )  # first done task
+        for i, task in enumerate(done):
+            if task.exception() is not None:
+                log.debug(task.get_name(), error=task.exception())
+                if len(pending) == 0:
+                    continue
 
-        for pending_task in pending:
-            pending_task.cancel()
-        return task
+                if i == len(done) - 1:  # firstly check all items from `done` set, and then handle pending set
+                    return await MCServer._handle_exceptions(
+                        *(await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED))
+                    )
+            else:
+                for pending_task in pending:
+                    pending_task.cancel()
+                return task
 
     @classmethod
     async def handle_java(cls, host: str) -> "MCServer":
