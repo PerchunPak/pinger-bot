@@ -12,7 +12,7 @@ import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
 import pinger_bot.mc_api as mc_api
 import pinger_bot.models as models
 
-Model: typing.TypeAlias = typing.Union[models.Server, models.Ping]
+Model = typing.Union[models.Server, models.Ping]
 faker = faker_package.Faker()
 
 
