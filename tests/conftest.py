@@ -15,7 +15,6 @@ import sqlalchemy.orm
 import structlog
 
 import pinger_bot.config as config
-import pinger_bot.models as models
 import tests.custom_fakes as custom_fakes  # we need to import it somewhere
 import tests.factories as factories
 
@@ -51,6 +50,7 @@ def configure_database(
     """Configure database, so it will not overwrite production's one. This also requires disabling logging."""
     with omegaconf.open_dict(config.config):  # type: ignore # false-positive because we overwrite type in Config.setup
         config.config.db_uri = pytestconfig.getoption("dburi").format(tempdir=tmp_path_factory.mktemp("database"))
+    import pinger_bot.models as models
 
     alembic_cfg = alembic.config.Config("pinger_bot/migrations/alembic.ini")
     alembic_cfg.set_section_option("logger_alembic", "level", "ERROR")
