@@ -194,7 +194,7 @@ class MCServer:
         """
         # it is reachable if user not defined this fields
         if self.icon is None:
-            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{str(self.address.port)}"  # type: ignore[unreachable]
+            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"  # type: ignore[unreachable]
 
     @classmethod
     async def status(cls, host: str) -> typing.Union["MCServer", "FailedMCServer"]:
