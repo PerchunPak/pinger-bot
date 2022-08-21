@@ -107,48 +107,24 @@ jobs:
       run: |
         make style
 
-        curl https://api.github.com/graphql \
-             -fs -H "Authorization: bearer ${{ secrets.GITHUB_TOKEN }}" \
-             -H "Accept: application/vnd.github.v4.idl" -X POST \
-             --data @- <<GRAPHQL
-        {
-          "query": "mutation (\$input: CreateCommitOnBranchInput!) {
-            createCommitOnBranch(input: \$input) { commit { url } } }",
-          "variables": {
-            "input": {
-              "branch": {
-                "repositoryNameWithOwner": "PerchunPak/pinger-bot",
-                "branchName": "${{ github.head_ref || github.ref_name }}"
-              },
-              "message": { "headline": "Apply codestyle :pencil2:" },
-              "fileChanges": `python .github/commit_and_push.py`,
-              "expectedHeadOid": "`git rev-parse HEAD`"
-        }}}
-        GRAPHQL
+        poetry run python .github/commit_and_push.py \
+          --token ${{ secrets.GITHUB_TOKEN }} \
+          {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
+          ${{ github.head_ref || github.ref_name }} \
+          "Apply codestyle :pencil2:"
 
     - name: Update poetry.lock
       continue-on-error: true
       run: |
         poetry update --lock
 
-        curl https://api.github.com/graphql \
-             -fs -H "Authorization: bearer ${{ secrets.GITHUB_TOKEN }}" \
-             -H "Accept: application/vnd.github.v4.idl" -X POST \
-             --data @- <<GRAPHQL
-        {
-          "query": "mutation (\$input: CreateCommitOnBranchInput!) {
-            createCommitOnBranch(input: \$input) { commit { url } } }",
-          "variables": {
-            "input": {
-              "branch": {
-                "repositoryNameWithOwner": "PerchunPak/pinger-bot",
-                "branchName": "${{ github.head_ref || github.ref_name }}"
-              },
-              "message": { "headline": "Update poetry.lock :chart_with_upwards_trend:" },
-              "fileChanges": `python .github/commit_and_push.py`,
-              "expectedHeadOid": "`git rev-parse HEAD`"
-        }}}
-        GRAPHQL
+    - name: Commit changes
+      run: |
+        poetry run python .github/commit_and_push.py \
+          --token ${{ secrets.GITHUB_TOKEN }} \
+          {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
+          ${{ github.head_ref || github.ref_name }} \
+          "Update poetry.lock :chart_with_upwards_trend:"
 
   docker:
     runs-on: ubuntu-latest

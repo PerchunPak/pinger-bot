@@ -1,42 +1,42 @@
-name: Сообщение об ошибке
-description: Что то работает не правильно?
+name: Bug Report
+description: Something work wrong?
 labels: "needs triage,bug"
 
 body:
   - type: textarea
     id: description
     attributes:
-      label: Описание
+      label: Description
       description: >-
-        Понятное и чистое описание того что представляет из себя баг.
+        A detailed and clear description of what the bug is.
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: Что ожидалось?
+      label: What expected?
       description: >-
-        Понятное и чистое описание того что вы ожидали чтобы произошло.
+        A detailed and clear description of what you expected to happen.
 
   - type: input
     id: commit_repo
     attributes:
-      label: Версия репозитория
+      label: Repository's commit
       placeholder: cd pinger-bot; git rev-parse HEAD
     validations:
       required: true
   - type: input
     id: python_version
     attributes:
-      label: Версия Python
+      label: Python version
       placeholder: python -V
     validations:
       required: true
   - type: input
     id: poetry_version
     attributes:
-      label: Версия poetry
+      label: poetry version
       placeholder: poetry version
     validations:
       required: true
@@ -50,26 +50,26 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: Как повторить
-      description: Пожалуйста напишите подробные шаги для повторения ошибки.
+      label: How to reproduce
+      description: Please write detailed steps to reproduce the error.
       placeholder: |
-        1. Измените строку ...
-        2. Потом запустите ...
-        3. И ошибка произойдет.
+        1. Change line ...
+        2. Then run ...
+        3. And error happens.
     validations:
       required: true
 
   - type: textarea
     id: logs
     attributes:
-      label: Логи
-      description: Укажите все содержимое консоли когда произошла ошибка.
+      label: Logs
+      description: Provide all logs when error happens.
       render: sh-session
 
   - type: checkboxes
     id: checkboxes
     attributes:
-      label: Это не дубликат
+      label: This isn't a duplicate
       options:
-        - label: В репозитории и в интернете нет дубликата этой ошибки.
+        - label: In repository and Internet there is no duplicate of this error.
           required: true

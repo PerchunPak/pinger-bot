@@ -1,11 +1,11 @@
 <!--
-    Спасибо за вклад в наш проект!
+    Thank you for your contributing!
 -->
 
-# Важный check-list
+# Important Check-List
 
-- [ ] Я написал подробное описание моих изменений.
-- [ ] Я написал подробную причину моих изменений.
-- [ ] Я точно прочитал и использовал все пункты [этого списка](https://github.com/PerchunPak/pinger-bot/blob/master/CONTRIBUTING.md#перед-началом-работы).
-- [ ] Я записал изменение в `CHANGELOG.md` и добавил номер PR туда.
-- [ ] Изменения успешно проходят все этапы `make test`.
+- [ ] I wrote detailed description of my changes.
+- [ ] I wrote detailed reason of my changes.
+- [ ] I sure, that I used all from [this list](https://github.com/PerchunPak/pinger-bot/blob/master/CONTRIBUTING.md#before-submitting).
+- [ ] I wrote short summary of my changes in `CHANGELOG.md` and add PR number to it.
+- [ ] My changes successfully passing all steps from `make test`.
