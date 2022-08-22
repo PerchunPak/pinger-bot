@@ -1,6 +1,7 @@
 """DB models for the project."""
 import dataclasses
 import datetime
+import functools
 import typing
 
 import sqlalchemy
@@ -70,22 +71,19 @@ class Ping(Base):  # type: ignore[valid-type,misc]
     """
 
 
-@dataclasses.dataclass(frozen=True)
 class Database:
     """Some cached info about database."""
 
-    # NOTE: if you will change something here, you should duplicate changes to `tests.conftest.py`
-    #       this is because python cache class if we call it with the same arguments (why...)
+    @functools.cached_property
+    def engine(self) -> sqlalchemy_asyncio.AsyncEngine:
+        """Async engine of the Database."""
+        log.info(_("Starting DB..."))
+        return sqlalchemy_asyncio.create_async_engine(config.config.db_uri, echo=config.config.debug)
 
-    log.info(_("Starting DB..."))
-    engine: sqlalchemy_asyncio.AsyncEngine = sqlalchemy_asyncio.create_async_engine(
-        config.config.db_uri, echo=config.config.debug
-    )
-    """Async engine of the Database."""
-    session: typing.Callable[
-        [], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]
-    ] = sqlalchemy_orm.sessionmaker(engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
-    """Async session of the Database."""
+    @functools.cached_property
+    def session(self) -> typing.Callable[[], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]]:
+        """Async session of the Database."""
+        return sqlalchemy_orm.sessionmaker(self.engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
 
 
 db = Database()

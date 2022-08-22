@@ -20,7 +20,8 @@ class TestCollectInfoForStatistic:
         self, mocker: pytest_mock.MockerFixture, faker: faker_package.Faker
     ) -> None:
         """Tests that all expected functions was called in correct order."""
-        mocker.patch.object(models, "db", models.Database(mocker.async_stub(), mocker.stub()))
+        mocker.patch.object(models.db, "engine", mocker.async_stub())
+        mocker.patch.object(models.db, "session", mocker.stub())
 
         session: unittest.mock.AsyncMock = mocker.patch.object(
             models.db.session.return_value, "__aenter__", create=True  # type: ignore[attr-defined] # something strange by mypy
