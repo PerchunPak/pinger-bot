@@ -45,12 +45,10 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def patch_config(
-    faker: faker.Faker, tmp_path_factory: tmpdir.TempPathFactory, pytestconfig: _pytest.config.Config
-) -> None:
+def patch_config(tmp_path_factory: tmpdir.TempPathFactory, pytestconfig: _pytest.config.Config) -> None:
     """Patch the config, to work with tests."""
     with omegaconf.open_dict(config.config):  # type: ignore # false-positive because we overwrite type in Config.setup
-        config.config.discord_token = faker.pystr(max_chars=59)
+        config.config.discord_token = "some random string"  # don't use faker because of scope mismatch
         config.config.db_uri = pytestconfig.getoption("dburi").format(tempdir=tmp_path_factory.mktemp("database"))
 
 
