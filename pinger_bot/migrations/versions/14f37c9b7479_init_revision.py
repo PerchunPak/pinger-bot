@@ -39,8 +39,7 @@ def upgrade() -> None:
         sa.Column("port", sa.SmallInteger(), nullable=False),
         sa.Column("time", sa.DateTime(), nullable=False),
         sa.Column("players", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["host"], ["pb_servers.host"], name="server_host_to_ping_host"),
-        sa.ForeignKeyConstraint(["port"], ["pb_servers.port"], name="server_port_to_ping_port"),
+        sa.ForeignKeyConstraint(["host", "port"], ["pb_servers.host", "pb_servers.port"], name="server_to_host"),
         sa.PrimaryKeyConstraint("id", name="pings_id_pk"),
     )
     # ### end Alembic commands ###
