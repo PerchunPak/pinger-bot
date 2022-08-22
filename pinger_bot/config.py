@@ -13,7 +13,10 @@ BASE_DIR = pathlib.Path(__file__).parent.parent
 
 @dataclasses.dataclass
 class Config:
-    """Main dataclass for config."""
+    """Main dataclass for config.
+
+    .. note:: If you will add more variables with value ``???``, do not forget them mock in tests!
+    """
 
     discord_token: str = "???"
     """Your Discord bot token."""

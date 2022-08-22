@@ -45,13 +45,21 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def configure_database(
-    tmp_path_factory: tmpdir.TempPathFactory, disable_logging: None, pytestconfig: _pytest.config.Config
+def patch_config(
+    faker: faker.Faker, tmp_path_factory: tmpdir.TempPathFactory, pytestconfig: _pytest.config.Config
 ) -> None:
-    """Configure database, so it will not overwrite production's one. This also requires disabling logging."""
+    """Patch the config, to work with tests."""
     with omegaconf.open_dict(config.config):  # type: ignore # false-positive because we overwrite type in Config.setup
+        config.config.discord_token = faker.pystr(max_chars=59)
         config.config.db_uri = pytestconfig.getoption("dburi").format(tempdir=tmp_path_factory.mktemp("database"))
 
+
+@pytest.fixture(scope="session", autouse=True)
+def configure_database(disable_logging: None, patch_config: None) -> None:
+    """Configure database, so it will not overwrite production's one.
+
+    This also requires disabling logging and patching the config.
+    """
     alembic_cfg = alembic.config.Config("pinger_bot/migrations/alembic.ini")
     alembic_cfg.set_section_option("logger_alembic", "level", "ERROR")
     alembic.command.upgrade(alembic_cfg, "head")
