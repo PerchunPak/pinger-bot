@@ -55,9 +55,9 @@ class Ping(Base):  # type: ignore[valid-type,misc]
     id: int = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.Identity(), primary_key=True)  # type: ignore[assignment]
     """Unique ID of the ping, primary key."""
 
-    host: str = sqlalchemy.Column(sqlalchemy.ForeignKey(Server.host, name="server_host_to_ping_host"), nullable=False)  # type: ignore[assignment]
+    host: str = sqlalchemy.Column(sqlalchemy.String(256), nullable=False)  # type: ignore[assignment]
     """Host of the server, for which ping was made. This is a foreign key constraint."""
-    port: int = sqlalchemy.Column(sqlalchemy.ForeignKey(Server.port, name="server_port_to_ping_port"), nullable=False)  # type: ignore[assignment,arg-type]
+    port: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)  # type: ignore[assignment]
     """Port of the server, for which ping was made. This is a foreign key constraint."""
     time: datetime.datetime = sqlalchemy.Column(sqlalchemy.DateTime, server_default=sql.func.now(), nullable=False)  # type: ignore[assignment]
     """Time of the ping. Default to current time."""
@@ -69,6 +69,13 @@ class Ping(Base):  # type: ignore[valid-type,misc]
 
     .. seealso:: `<https://docs.sqlalchemy.org/en/14/orm/extensions/asyncio.html#synopsis-orm>`_
     """
+    __table_args__ = (
+        sqlalchemy.ForeignKeyConstraint(
+            ["host", "port"], ["pb_servers.host", "pb_servers.port"], name="ping_to_server"
+        ),
+    )
+    """Define Foreign Key Constraint to associate :attr:`pb_pings.host <.Ping.host>` and :attr:`pb_pings.port <.Server.port>` \
+    to :attr:`pb_pings.host <.Ping.host>` and :attr:`pb_pings.port <.Server.port>`."""
 
 
 class Database:
