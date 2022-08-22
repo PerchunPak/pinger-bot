@@ -33,9 +33,9 @@ class Server(Base):  # type: ignore[valid-type,misc]
 
     host: str = sqlalchemy.Column(sqlalchemy.String(256), nullable=False)  # type: ignore[assignment]
     """Hostname of the server, can be number IP or domain. Always without port."""
-    port: int = sqlalchemy.Column(sqlalchemy.SmallInteger, nullable=False)  # type: ignore[assignment]
+    port: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)  # type: ignore[assignment]
     """Port of the server."""
-    max: int = sqlalchemy.Column(sqlalchemy.SmallInteger, nullable=False)  # type: ignore[assignment]
+    max: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)  # type: ignore[assignment]
     """Max players on the server."""
     alias: typing.Optional[str] = sqlalchemy.Column(sqlalchemy.String(256), unique=True)  # type: ignore[assignment]
     """Alias of the server. Can be used as IP of the server."""
