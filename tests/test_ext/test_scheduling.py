@@ -141,11 +141,9 @@ class TestDeleteOldPings:
             with freezegun.freeze_time(now):
                 for delay in range(20):
                     time = now - datetime.timedelta(days=1, hours=delay)
-                    ping = factories.DBPingFactory.build(time=time)
-                    session.add(
-                        factories.DBServerFactory.build(host=ping.host, port=ping.port)
-                    )  # to follow Foreign Key
-                    session.add(ping)
+
+                    server = await factories.DBServerFactory()
+                    await factories.DBPingFactory(host=server.host, port=server.port, time=time)
 
                 await scheduling.delete_old_pings(session)
 
