@@ -34,7 +34,7 @@ jobs:
         env:
           MYSQL_DATABASE: root
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_HOST: 127.0.0.1
+          MYSQL_HOST: 0.0.0.0
         ports:
           - 3306:3306
         options: >-
@@ -74,7 +74,7 @@ jobs:
         if [[ "${{ matrix.db }}" == "sqlite" ]]; then \
           echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
         elif [[ "${{ matrix.db }}" == "mysql" ]]; then \
-          echo "mysql+aiomysql://root:root@127.0.0.1:3306/root"; \
+          echo "mysql+aiomysql://root:root@0.0.0.0:3306/root"; \
         elif [[ "${{ matrix.db }}" == "postgresql" ]]; then \
           echo "postgresql+asyncpg://postgres:postgres@localhost/postgres"; \
         fi`
