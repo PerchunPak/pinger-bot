@@ -73,7 +73,7 @@ jobs:
         if [[ "${{ matrix.db }}" == "sqlite" ]]; then \
           echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
         elif [[ "${{ matrix.db }}" == "mysql" ]]; then \
-          echo "mysql+aiomysql://root:root@localhost/root"; \
+          echo "mysql+aiomysql://root:root@127.0.0.1/root"; \
         elif [[ "${{ matrix.db }}" == "postgresql" ]]; then \
           echo "postgresql+asyncpg://postgres:postgres@localhost/postgres"; \
         fi`
