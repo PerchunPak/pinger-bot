@@ -150,7 +150,7 @@ class TestDeleteOldPings:
                 await scheduling.delete_old_pings(session)
 
                 pings = (await session.scalars(sqlalchemy.select(models.Ping.time))).all()
-                assert len(pings) == 3, now
+                assert len(pings) == 3
 
                 for ping in pings:
                     first = now - datetime.timedelta(days=1, hours=2)
