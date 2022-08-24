@@ -1,6 +1,7 @@
 """Some configuration fixtures for tests."""
 import asyncio
 import logging
+import typing
 
 import _pytest.config
 import _pytest.stash
@@ -52,11 +53,26 @@ def patch_config(tmp_path_factory: tmpdir.TempPathFactory, pytestconfig: _pytest
         config.config.db_uri = pytestconfig.getoption("dburi").format(tempdir=tmp_path_factory.mktemp("database"))
 
 
+async def _clear_db(session: sqlalchemy_asyncio.AsyncSession) -> None:
+    await session.execute(sqlalchemy.delete(models.Ping))
+    await session.execute(sqlalchemy.delete(models.Server))
+    await session.commit()
+
+
 @pytest.fixture(scope="session", autouse=True)
-def configure_database(disable_logging: None, patch_config: None) -> None:
+async def clear_db(patch_config: None) -> typing.AsyncIterator[None]:
+    """Clear database from all information."""
+    async with models.db.session() as session:
+        await _clear_db(session)
+        yield
+        await _clear_db(session)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def configure_database(disable_logging: None, patch_config: None, clear_db: None) -> None:
     """Configure database, so it will not overwrite production's one.
 
-    This also requires disabling logging and patching the config.
+    This also requires disabling logging, patching the config and clear database.
     """
     alembic_cfg = alembic.config.Config("pinger_bot/migrations/alembic.ini")
     alembic_cfg.set_section_option("logger_alembic", "level", "ERROR")
