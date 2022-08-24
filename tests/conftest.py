@@ -60,7 +60,7 @@ async def _clear_db(session: sqlalchemy_asyncio.AsyncSession) -> None:
 
 
 @pytest.fixture(scope="session", autouse=True)
-async def clear_db(patch_config: None) -> typing.AsyncIterator[None]:
+async def clear_db(patch_config: None, configure_database: None) -> typing.AsyncIterator[None]:
     """Clear database from all information."""
     async with models.db.session() as session:
         await _clear_db(session)
@@ -69,10 +69,10 @@ async def clear_db(patch_config: None) -> typing.AsyncIterator[None]:
 
 
 @pytest.fixture(scope="session", autouse=True)
-def configure_database(disable_logging: None, patch_config: None, clear_db: None) -> None:
+def configure_database(disable_logging: None, patch_config: None) -> None:
     """Configure database, so it will not overwrite production's one.
 
-    This also requires disabling logging, patching the config and clear database.
+    This also requires disabling logging and patching the config.
     """
     alembic_cfg = alembic.config.Config("pinger_bot/migrations/alembic.ini")
     alembic_cfg.set_section_option("logger_alembic", "level", "ERROR")
