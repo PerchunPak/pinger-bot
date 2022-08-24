@@ -34,6 +34,7 @@ jobs:
         env:
           MYSQL_DATABASE: root
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_HOST: 127.0.0.1
         ports:
           - 3306:3306
         options: >-
