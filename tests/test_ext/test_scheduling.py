@@ -142,8 +142,10 @@ class TestDeleteOldPings:
                 for delay in range(20):
                     time = now - datetime.timedelta(days=1, hours=delay)
 
-                    server = await factories.DBServerFactory()
-                    await factories.DBPingFactory(host=server.host, port=server.port, time=time)
+                    server = factories.DBServerFactory.build()
+                    session.add(server)
+                    await session.commit()
+                    session.add(factories.DBPingFactory.build(host=server.host, port=server.port, time=time))
 
                 await scheduling.delete_old_pings(session)
 
