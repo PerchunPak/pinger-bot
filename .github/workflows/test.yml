@@ -33,8 +33,7 @@ jobs:
         image: mysql
         env:
           MYSQL_DATABASE: root
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_HOST: 0.0.0.0
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
         options: >-
@@ -74,7 +73,7 @@ jobs:
         if [[ "${{ matrix.db }}" == "sqlite" ]]; then \
           echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
         elif [[ "${{ matrix.db }}" == "mysql" ]]; then \
-          echo "mysql+aiomysql://root:root@0.0.0.0:3306/root"; \
+          echo "mysql+aiomysql://root@localhost/root"; \
         elif [[ "${{ matrix.db }}" == "postgresql" ]]; then \
           echo "postgresql+asyncpg://postgres:postgres@localhost/postgres"; \
         fi`
@@ -116,7 +115,7 @@ jobs:
       run: |
         poetry run python .github/commit_and_push.py \
           --token ${{ secrets.GITHUB_TOKEN }} \
-          {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
+          PerchunPak/pinger-bot \
           ${{ github.head_ref || github.ref_name }} \
           "Apply codestyle :pencil2:"
 
@@ -129,7 +128,7 @@ jobs:
       run: |
         poetry run python .github/commit_and_push.py \
           --token ${{ secrets.GITHUB_TOKEN }} \
-          {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
+          PerchunPak/pinger-bot \
           ${{ github.head_ref || github.ref_name }} \
           "Update poetry.lock :chart_with_upwards_trend:"
 
