@@ -39,6 +39,7 @@ def upgrade() -> None:
         sa.Column("port", sa.SmallInteger(), nullable=False),
         sa.Column("time", sa.DateTime(), nullable=False),
         sa.Column("players", sa.Integer(), nullable=False),
+        # keep in sync this ForeignKey with one in `461c3a5c3ebe`, there this ForeignKey is recreated
         sa.ForeignKeyConstraint(["host", "port"], ["pb_servers.host", "pb_servers.port"], name="ping_to_server"),
         sa.PrimaryKeyConstraint("id", name="pings_id_pk"),
     )

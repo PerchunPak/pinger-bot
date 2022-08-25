@@ -19,6 +19,16 @@ depends_on: typing.Optional[str] = None
 
 def upgrade() -> None:
     """Upgrade actions that must be performed when upgrading the database to this revision."""
+    with op.batch_alter_table("pb_pings", schema=None) as batch_op:
+        # recreate ForeignKey, so it will not trigger MySQL on different types inside ForeignKey
+        batch_op.drop_constraint("ping_to_server", type_="foreignkey")
+        batch_op.alter_column(
+            "port",
+            type_=sa.Integer(),
+            existing_type=sa.SmallInteger(),
+            existing_nullable=False,
+        )
+
     with op.batch_alter_table("pb_servers", schema=None) as batch_op:
         batch_op.alter_column(
             "port",
@@ -34,16 +44,20 @@ def upgrade() -> None:
         )
 
     with op.batch_alter_table("pb_pings", schema=None) as batch_op:
-        batch_op.alter_column(
-            "port",
-            type_=sa.Integer(),
-            existing_type=sa.SmallInteger(),
-            existing_nullable=False,
-        )
+        batch_op.create_foreign_key("ping_to_server", "pb_servers", ["host", "port"], ["host", "port"])
 
 
 def downgrade() -> None:
     """Downgrade actions that must be performed when downgrading the database from this revision."""
+    with op.batch_alter_table("pb_pings", schema=None) as batch_op:
+        op.drop_constraint("ping_to_server", type_="foreignkey")
+        batch_op.alter_column(
+            "port",
+            type_=sa.SmallInteger(),
+            existing_type=sa.Integer(),
+            existing_nullable=False,
+        )
+
     with op.batch_alter_table("pb_servers", schema=None) as batch_op:
         batch_op.alter_column(
             "port",
@@ -59,9 +73,4 @@ def downgrade() -> None:
         )
 
     with op.batch_alter_table("pb_pings", schema=None) as batch_op:
-        batch_op.alter_column(
-            "port",
-            type_=sa.SmallInteger(),
-            existing_type=sa.Integer(),
-            existing_nullable=False,
-        )
+        batch_op.create_foreign_key("ping_to_server", "pb_servers", ["host", "port"], ["host", "port"])
