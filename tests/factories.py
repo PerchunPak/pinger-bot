@@ -56,7 +56,7 @@ class DBServerFactory(AsyncSQLAlchemyModelFactory):
     class Meta:  # noqa: D106
         model = models.Server
 
-    id: int = factory.Sequence(lambda n: n)
+    id: int = factory.Sequence(lambda n: n + 1)
     host: str = factory.fuzzy.FuzzyAttribute(lambda: faker.unique.domain_name(levels=3))
     port: int = factory.fuzzy.FuzzyAttribute(faker.unique.port_number)
     max: int = factory.fuzzy.FuzzyAttribute(faker.pyint)
@@ -72,7 +72,7 @@ class DBPingFactory(AsyncSQLAlchemyModelFactory):
     class Meta:  # noqa: D106
         model = models.Ping
 
-    id: int = factory.Sequence(lambda n: n)
+    id: int = factory.Sequence(lambda n: n + 1)
     host: str = factory.fuzzy.FuzzyAttribute(lambda: faker.unique.domain_name(levels=3))
     port: int = factory.fuzzy.FuzzyAttribute(faker.unique.port_number)
     time: datetime.datetime = factory.fuzzy.FuzzyAttribute(faker.date_time)
