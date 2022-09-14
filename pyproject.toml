@@ -61,6 +61,9 @@ safety = "~2.1"
 
 pre-commit = "~2.20"
 
+# stubs
+SQLAlchemy = {version = "*", extras = ["mypy"]}
+
 
 [tool.poetry.group.tests.dependencies]
 pytest = "~7.1"
