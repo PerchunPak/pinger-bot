@@ -75,13 +75,6 @@ factory-boy = "~3.2"
 freezegun = "~1.2"
 
 
-[tool.poetry.group.github_hooks]
-optional = true
-
-[tool.poetry.group.github_hooks.dependencies]
-GitPython = "~3.1"
-
-
 [tool.poetry.group.docs.dependencies]
 sphinx = "~5.1"
 sphinx-autodoc-typehints = "~1.19"
@@ -92,6 +85,13 @@ m2r2 = "~0.3"
 tomli = "~2.0"
 packaging = "21.3"
 sphobjinv = "~2.2"
+
+
+[tool.poetry.group.github_hooks]
+optional = true
+
+[tool.poetry.group.github_hooks.dependencies]
+GitPython = "~3.1"
 
 
 [tool.poetry.extras]
