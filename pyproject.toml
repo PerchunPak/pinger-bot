@@ -48,15 +48,7 @@ aiosqlite = { version = "*", optional = true }
 asyncpg   = { version = "*", optional = true }
 
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "~2.20"
-
-
-[tool.poetry.group.package.dependencies]
-safety = "~2.1"
-
-
-[tool.poetry.group.style.dependencies]
+[tool.poetry.group.make.dependencies]
 black = "~22"
 isort = "~5.10"
 pycln = "~2.1"
@@ -65,6 +57,9 @@ mypy = "0.971"
 flake8 = "~5"
 flake8-docstrings = "~1"
 pydocstyle = ">=4.0.0"
+safety = "~2.1"
+
+pre-commit = "~2.20"
 
 
 [tool.poetry.group.tests.dependencies]
