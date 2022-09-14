@@ -9,12 +9,19 @@ import typing
 import unittest.mock
 
 import faker as faker_package
-import git
 import pytest
 import pytest_mock
 
-sys.path.append(".github")
-import commit_and_push
+try:
+    import git
+
+    sys.path.append(".github")
+    import commit_and_push
+except ModuleNotFoundError:
+    pytestmark = pytest.mark.skip("You didn't install `github_hooks` group, this test depends on this group.")
+
+    git = unittest.mock.MagicMock()
+    commit_and_push = unittest.mock.MagicMock()
 
 
 @pytest.fixture(name="repo", scope="session", autouse=True)
