@@ -1,19 +1,17 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry]
 name = "pinger-bot"
-description = "Простой бот для отслеживания статуса и статистики своих MineCraft серверов."
+description = "Simple discord bot for tracking your MineCraft servers."
 version = "0.4.0.dev"
 license = "AGPL3"
-
 authors = ["Perchun Pak <perchunpak@gmail.com>"]
-
 readme = "README.md"
-
 repository = "https://github.com/PerchunPak/pinger-bot"
+
 
 [tool.poetry.dependencies]
 python = "^3.8,<3.11"
@@ -44,35 +42,32 @@ colorama = { version = "*", markers="platform_system == 'Windows'" }
 # Speedup for async, only for unix-like systems
 uvloop = { version = "*", markers="os_name != 'nt'" }
 
-# Docs
-sphinx                   = { version = "~5.1",  optional = true }
-sphinx-autodoc-typehints = { version = "~1.19", optional = true }
-sphinx-autoapi           = { version = "~1.9",  optional = true }
-sphinx-intl              = { version = "~2.0",  optional = true }
-furo                     = { version = "*",     optional = true }
-m2r2                     = { version = "~0.3",  optional = true }
-tomli                    = { version = "~2.0",  optional = true }
-packaging                = { version = "21.3",  optional = true }
-sphobjinv                = { version = "~2.2",  optional = true }
-
 # SQLAlchemy
-aiomysql  = { version = "*",               optional = true }
-aiosqlite = { version = "*",               optional = true }
-asyncpg   = { version = "*",               optional = true }
+aiomysql  = { version = "*", optional = true }
+aiosqlite = { version = "*", optional = true }
+asyncpg   = { version = "*", optional = true }
 
-[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "~2.20"
+
+
+[tool.poetry.group.package.dependencies]
+safety = "~2.1"
+
+
+[tool.poetry.group.style.dependencies]
 black = "~22"
 isort = "~5.10"
 pycln = "~2.1"
 doc8 = "~1.0"
-pre-commit = "~2.20"
 mypy = "0.971"
 flake8 = "~5"
 flake8-docstrings = "~1"
 pydocstyle = ">=4.0.0"
 
-safety = "~2.1"
 
+[tool.poetry.group.tests.dependencies]
 pytest = "~7.1"
 pytest-cov = "~3.0"
 pytest-mock = "~3.8"
@@ -82,19 +77,33 @@ pytest-randomly = "~3.12"
 
 Faker = "~14.2"
 factory-boy = "~3.2"
-freezegun = "^1.2.1"
+freezegun = "~1.2"
 
+
+[tool.poetry.group.github_hooks]
+optional = true
+
+[tool.poetry.group.github_hooks.dependencies]
 GitPython = "~3.1"
 
-SQLAlchemy = {version = "~1.4", extras = ["mypy"]}
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "~5.1"
+sphinx-autodoc-typehints = "~1.19"
+sphinx-autoapi = "~1.9"
+sphinx-intl = "~2.0"
+furo = "*"
+m2r2 = "~0.3"
+tomli = "~2.0"
+packaging = "21.3"
+sphobjinv = "~2.2"
+
 
 [tool.poetry.extras]
-docs = ["sphinx", "sphinx-autodoc-typehints", "sphinx-autoapi", "sphinx-intl","furo", "m2r2", "tomli", "packaging", "sphobjinv"]
-
-# SQLAlchemy
 mysql = ["aiomysql"]
 sqlite = ["aiosqlite"]
 postgresql = ["asyncpg"]
+
 
 [tool.black]
 line-length = 120
