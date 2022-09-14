@@ -232,7 +232,7 @@ def diff_item(faker: faker_package.Faker) -> typing.Callable[[typing.Optional[st
             self.a_path = faker.file_path()
             self.b_path = faker.file_path()
 
-    return DiffItem
+    return DiffItem  # type: ignore[return-value]
 
 
 def test_calculate_file_changes_return_file_changes(
