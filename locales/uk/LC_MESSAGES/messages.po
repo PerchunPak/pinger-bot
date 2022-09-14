@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-07-25 15:11+0200\n"
+"POT-Creation-Date: 2022-09-14 13:02+0200\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -35,11 +35,11 @@ msgstr "Підготовка закінчена."
 msgid "ping-pong"
 msgstr "пінг-понг"
 
-#: pinger_bot/mc_api.py:122
+#: pinger_bot/mc_api.py:125
 msgid "Cannot resolve IP {} to number IP"
 msgstr "Не можу пропарсити IP {} в цифровий IP"
 
-#: pinger_bot/models.py:74
+#: pinger_bot/models.py:87
 msgid "Starting DB..."
 msgstr "Запускаю базу даних..."
 
@@ -59,21 +59,21 @@ msgstr "Бот зупиняється. Бувайте!"
 msgid "Collecting info for statistic plot."
 msgstr "Збираю інформація для будівлі графіка статистики."
 
-#: pinger_bot/ext/scheduling.py:30
-msgid "Deleting old pings."
-msgstr "Видаляю старі пінги."
-
-#: pinger_bot/ext/scheduling.py:35
+#: pinger_bot/ext/scheduling.py:31
 msgid "Collecting info ended!"
 msgstr "Збирання інформації закінчено!"
 
-#: pinger_bot/ext/scheduling.py:47
+#: pinger_bot/ext/scheduling.py:43
 msgid "Server offline?"
 msgstr "Сервер офлайн?"
 
-#: pinger_bot/ext/scheduling.py:54
+#: pinger_bot/ext/scheduling.py:50
 msgid "Update max players, in server {}"
 msgstr "Оновлення рекорда онлайна в сервері {}"
+
+#: pinger_bot/ext/scheduling.py:67
+msgid "Deleting old pings."
+msgstr "Видаляю старі пінги."
 
 #: pinger_bot/ext/commands/__init__.py:24
 msgid "Wait please..."

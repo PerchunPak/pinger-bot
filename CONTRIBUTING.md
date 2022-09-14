@@ -1,95 +1,134 @@
 # Contributing
 
+This file is describing our code style and some other documentation about contributions. You must read it before your
+first contribution.
 
-## Dependencies
+Also note that this all is just recommendations, you can use anything in some cases, if it will be better than solution
+that we propose here. However, we will prefer these recommendations when we will review your contribution.
 
-We use [poetry](https://github.com/python-poetry/poetry) to manage dependencies.
+## `make test`
 
-To install them you would need to run `install` command:
+This "magic" command collects almost all of our CI. If you're on Windows, try [Chocolatey](https://chocolatey.org) to
+run `make`.
 
-```bash
-poetry install
+Also, because of conflict between `pytest-testmon` and `pytest-cov` we use option `--no-cov` in `pytest`, so in this
+way we give prioritize to `pytest-testmon`. If you want to generate a report with `pytest-cov`, use `make test ci=1`.
+
+## Code Style
+
+We use `black` for almost all style control. We're also trying to use formatters instead of linters, where it is
+possible.
+
+Furthermore, we also have some rules that `black` doesn't cover. It includes:
+
+### Imports
+
+We have `isort` and `pycln` for imports control. The first used for sorting imports, and second, to remove unused
+imports. All other rules are not covered by linters/formatters etc. You should check those yourself.
+
+You should use `import ... as ...` whenever it's possible, but sometimes `from ... import ...` style more useful.
+For example:
+
+```py
+from dataclasses import dataclass
 ```
 
-Also, let's install `pre commit hooks` in `git`:
-```bash
-poetry run pre-commit install
+If you're using only one variable from module, you should use `from ... import ...`. But if you're using many variables
+from module, better would be `import ... as ...`:
+
+```py
+# bad
+from typing import Union, Optional, TypedDict, TypeAlias, TYPE_CHECKING, Dict, List  # etc
+# good
+import typing
 ```
 
-To activate your `virtualenv` run `poetry shell`.
+But wait, where there is `as` actually? You must not use `as` when alias will be the same as actual name because in that
+way type checker add import statement to auto-generated `__all__` variable.
 
+You should also don't use `as` when everything that changes are dots replaced by `_`. This is just useless.
 
-## One magic command
-
-Run `make test` to run everything we have!
-
-Also, because of conflict between `pytest-testmon` and `pytest-cov` we use option `--no-cov` in `make test`, so in this way
-we give prioritize to `pytest-testmon`. If you want to generate report with `pytest-cov`, use `make test ci=1`.
-
-
-## Tests
-
-We use `black`, `flake8` and `pytest` for quality control.
-
-To run formatter:
-
-```bash
-black .
+```py
+# bad
+import some.more as some_more
+# good
+import some.more
 ```
 
-To run linter (it checks only docstrings, [more info](http://www.pydocstyle.org/en/latest/error_codes.html)):
-```bash
-flake8 .
+And finally, when you should use `as`:
+
+```py
+import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
+import my_project.config as config
+import my_project.models as models
 ```
 
-To run all tests:
+Also, you must specify `__all__` variable in all `__init__.py` files with any code (not one docstring). Reason of this
+limitation is that `pycln` and docs can't know exactly, do you want to add imports as alias, or this import is for using
+in code which in this file. `pycln` will ignore these imports, and docs will duplicate documentation for anything that you
+will import.
 
-```bash
-pytest
+### Docstrings
+
+We're using `flake8` for checking docstrings presence and their quality. They later in API documentation. You must write
+docstrings everywhere, except `__init__` methods (not the same as `__init__.py` files) because those will not go to
+documentation.
+
+I also recommend reading [Google styleguide about docstrings](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings)
+because we're using Google style in docstrings.
+
+#### Markup
+
+Because of Sphinx's limitations, we must use ReST markup in docstrings. This allows us to use cross-references to other
+functions or even projects.
+
+Read more about [ReST markup](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html)
+and [Sphinx's cross-references](https://docs.readthedocs.io/en/stable/guides/cross-referencing-with-sphinx.html).
+
+#### `__init__.py` docstrings
+
+They describe a package (folder) with modules (`.py` files).
+
+#### Module, function, class, method based docstrings
+
+It is a short description of an item. They must follow
+[Google styleguide about docstrings](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings).
+
+#### Variable-based docstrings 
+
+They must follow in format:
+
+```py
+some_variable = "abc"
+"""This ``some`` variable used in :class:`.SomeClass`."""
 ```
 
-If you want to customize util's parameter, you should do this in `setup.cfg`.
-These steps are mandatory during the CI.
+This applies for the module level, and class attributes in
+[dataclasses](https://docs.python.org/3/library/dataclasses.html)/classes generated by [attrs](https://pypi.org/project/attrs/).
+This won't work in `__init__` methods because they don't actually go to documentation. Attributes should be documented
+in class-based docstring, in `Attributes` section.
 
+At now, linter doesn't detect them. Better sometimes check that all in API documentation actually documented.
 
-## Type checks
+## Translations
 
-We use `mypy` to run type checks on our code:
+If you don't know languages which we support - left translation on us.
 
-```bash
-mypy .
-```
+To update `.po` files run `make translate`, after that, you can edit translations in `.po` files, which can be found as
+`locales/<language's tag>/LC_MESSAGES/messages.po`. After editing, for compilation, you can run one more time
+`make translate`.
 
-This step is mandatory during the CI.
+To add new language, use `pybabel init -i locales/base.pot -l <language's tag> -d locales`.
 
-## Translation
+P.S. Language's tag it is short name of this language, example `en` or `en_EN`. A full list of supported languages can
+be found with `pybabel --list-locales`.
 
-To update `.po` files run `make translate`, after that you can edit translations in `.po` files, which can be found as
-`locales/<language's tag>/LC_MESSAGES/messages.po`. After editing, for compilation you can run one more time `make translate`.
+## Documentation
 
-To add new language, use `poetry run pybabel init -i locales/base.pot -l <language's tag> -d locales`.
+We use Sphinx for documentation and [docstrings](#Docstrings) for API documentation. At now, there is no actual styles
+here, except `doc8`.
 
-P.S. Language's tag it is short name of this language, example `en` or `en_EN`. Full list of supported languages can be found
-with `poetry run pybabel --list-locales`.
+## Other Help
 
-## Before submitting
-
-Before submitting your code please do the following steps:
-
-1. Run `pytest` to make sure everything was working before
-2. Add any changes you want
-3. Add tests for the new changes
-4. Edit documentation if you have changed something significant
-5. Update `CHANGELOG.md` with a quick summary of your changes
-6. Run `pytest` again to make sure it is still working
-7. Run `mypy` to ensure that types are correct
-8. Run `black` to ensure that style is correct
-9. Run `doc8` and `flake8`, to ensure that docs are correct
-
-
-## Other help
-
-You can contribute by spreading a word about this library.
-It would also be a huge contribution to write
-a short article on how you are using this project.
-You can also share your best practices with us.
+You can contribute by spreading a word about this library. It would also be a huge contribution to write a short article
+on how you are using this project. You can also share your best practices with us.
