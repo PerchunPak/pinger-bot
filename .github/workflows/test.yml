@@ -61,7 +61,7 @@ jobs:
     - name: Install dependencies
       run: |
         poetry env use "${{ matrix.python-version }}"
-        poetry install -E ${{ matrix.db }} --without docs
+        poetry install -E ${{ matrix.db }} --without docs --with github_hooks
 
     - name: Compile translations
       run: |
