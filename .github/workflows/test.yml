@@ -61,7 +61,7 @@ jobs:
     - name: Install dependencies
       run: |
         poetry env use "${{ matrix.python-version }}"
-        poetry install -E ${{ matrix.db }}
+        poetry install -E ${{ matrix.db }} --without docs,make
 
     - name: Compile translations
       run: |
@@ -105,7 +105,7 @@ jobs:
     - name: Install dependencies
       run: |
         poetry env use "3.10"
-        poetry install
+        poetry install --only main,make,github_hooks
 
     - name: Apply codestyle
       run: |

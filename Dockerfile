@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get install curl -y --no-install-recommends && \
     curl -sSL https://install.python-poetry.org | python -
 COPY poetry.lock pyproject.toml ./
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes -E ${dialect}
+RUN poetry export --no-interaction -o requirements.txt --without-hashes -E ${dialect} --only main
 
 
 FROM python:slim as base

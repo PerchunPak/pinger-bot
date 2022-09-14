@@ -44,7 +44,7 @@ If you use Windows, open PowerShell with admin privilages and use:
 ### Installing dependencies
 
 ```bash
-poetry install --no-dev
+poetry install --only main
 ```
 
 Also, for bot working, you need specify which database you will use.
@@ -54,7 +54,7 @@ For installing required dependence, we need just use argument `-E` with lower-ca
 Example:
 
 ```bash
-poetry install --no-dev -E mysql
+poetry install --only main -E mysql
 ```
 
 ### Compiling translations
