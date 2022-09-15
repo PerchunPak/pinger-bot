@@ -49,8 +49,6 @@ from functools import cached_property
 And can you use `as`? You must not use `as` when alias will be the same as actual name because in that way type checker
 add import statement to auto-generated `__all__` variable.
 
-You should also don't use `as` when everything that changes are dots replaced by `_`. This is just useless.
-
 ```py
 # some/file.py
 from some import more as more
