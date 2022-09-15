@@ -7,18 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinger-bot 0.4.0\n"
 "Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
-"POT-Creation-Date: 2022-09-14 13:04+0200\n"
-"PO-Revision-Date: 2022-09-14 13:04+0200\n"
+"POT-Creation-Date: 2022-09-15 16:38+0100\n"
+"PO-Revision-Date: 2022-09-15 16:38+0100\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
-"Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk_UA\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"Generated-By: Babel 2.10.1\n"
-"X-Generator: Poedit 3.0.1\n"
+"Generated-By: Babel 2.10.3\n"
 
 #: ../../../CONTRIBUTING.md:3
 msgid "Contributing"
@@ -41,7 +40,7 @@ msgid ""
 msgstr ""
 "Також зверніть увагу, що це все лише рекомендації, ви можете "
 "використовувати будь-що в окремих випадках, якщо це буде краще, ніж "
-"рішення, яке ми тут пропонуємо. Однак, ми віддамо перевагу саме цим "
+"рішення, які ми тут пропонуємо. Однак, ми віддамо перевагу саме цим "
 "рекомендаціям, коли будемо розглядати ваш внесок."
 
 #: ../../../CONTRIBUTING.md:12
@@ -53,9 +52,9 @@ msgid ""
 "This \"magic\" command collects almost all of our CI. If you're on "
 "Windows, try `Chocolatey <https://chocolatey.org>`_ to run ``make``."
 msgstr ""
-"Цією \"чарівною\" командою збираються майже всі наші КІ. Якщо ви на "
-"Windows, спробуйте `Chocolatey <https://chocolatey.org>`_ запустити "
-"`make``."
+"Цією \"чарівною\" командою збираються майже всі наші CI. Якщо ви на "
+"Windows, спробуйте `Chocolatey <https://chocolatey.org>`_\\ , щоб "
+"запустити ``make``."
 
 #: ../../../CONTRIBUTING.md:17
 msgid ""
@@ -66,14 +65,29 @@ msgid ""
 msgstr ""
 "Також через конфлікт між ``pytest-testmon`` і ``pytest-cov`` ми "
 "використовуємо опцію ``--no-cov`` у ``pytest``\\ , таким чином ми даємо "
-"пріоритет ``pytest-testmon``. Якщо ви хочете згенерувати доклад з "
+"пріоритет ``pytest-testmon``. Якщо ви хочете згенерувати доповідь за "
 "допомогою ``pytest-cov``\\ , використайте ``make test ci=1``."
 
 #: ../../../CONTRIBUTING.md:21
+msgid "``pre-commit``"
+msgstr "``pre-commit``"
+
+#: ../../../CONTRIBUTING.md:23
+msgid ""
+"Furthermore, you can bind ``make test`` (plus some additional useful "
+"checks) to run on every commit, so you will always sure that CI will "
+"never fail. Just run ``pre-commit install``."
+msgstr ""
+"Крім того, ви можете прив'язати ``make test`` (плюс деякі додаткові "
+"корисні перевірки) до запуску при кожному коміті, так що ви завжди будете"
+" впевнені, що CI ніколи не провалиться. Просто запустіть ``pre-commit "
+"install``."
+
+#: ../../../CONTRIBUTING.md:27
 msgid "Code Style"
 msgstr "Стиль Коду"
 
-#: ../../../CONTRIBUTING.md:23
+#: ../../../CONTRIBUTING.md:29
 msgid ""
 "We use ``black`` for almost all style control. We're also trying to use "
 "formatters instead of linters, where it is possible."
@@ -81,7 +95,7 @@ msgstr ""
 "Ми використовуємо ``black`` майже для всього контролю стилів. Ми також "
 "намагаємося використовувати форматери замість літерів, де це можливо."
 
-#: ../../../CONTRIBUTING.md:26
+#: ../../../CONTRIBUTING.md:32
 msgid ""
 "Furthermore, we also have some rules that ``black`` doesn't cover. It "
 "includes:"
@@ -89,64 +103,75 @@ msgstr ""
 "Крім того, у нас також є правила, які ``black`` не покриває. До них "
 "відносяться:"
 
-#: ../../../CONTRIBUTING.md:29
+#: ../../../CONTRIBUTING.md:35
 msgid "Imports"
 msgstr "Імпорти"
 
-#: ../../../CONTRIBUTING.md:31
+#: ../../../CONTRIBUTING.md:37
 msgid ""
 "We have ``isort`` and ``pycln`` for imports control. The first used for "
 "sorting imports, and second, to remove unused imports. All other rules "
 "are not covered by linters/formatters etc. You should check those "
 "yourself."
 msgstr ""
-"Для контролю імпорту у нас є ``isort`` та ``pycln``. Перший "
+"Для контролю імпортів у нас є ``isort`` та ``pycln``. Перший "
 "використовується для сортування імпортів, а другий - для видалення "
 "імпортів, що не використовуються. Всі інші правила не покриваються "
 "лінтерами/форматерами тощо. Ви повинні перевіряти їх самостійно."
 
-#: ../../../CONTRIBUTING.md:34
+#: ../../../CONTRIBUTING.md:40
 msgid ""
-"You should use ``import ... as ...`` whenever it's possible, but "
-"sometimes ``from ... import ...`` style more useful. For example:"
+"You should use ``import module`` and ``from package import module`` "
+"whenever it's possible, but sometimes ``from module import ...`` way is "
+"more useful. For example:"
 msgstr ""
-"Вам слід використовувати ``import ... as ...``, коли це можливо, але "
-"іноді більш корисним є стиль ``from ... import ...``. Наприклад:"
+"Вам слід використовувати ``import module`` і ``from package import "
+"module``, коли це можливо, але іноді більш корисним є шлях ``from module "
+"import ...``. Наприклад:"
 
-#: ../../../CONTRIBUTING.md:41
+#: ../../../CONTRIBUTING.md:47
 msgid ""
-"If you're using only one variable from module, you should use ``from ... "
-"import ...``. But if you're using many variables from module, better "
-"would be ``import ... as ...``\\ :"
+"If you're using only one variable from a module, and it's readable "
+"without its parent name, you should use ``from module import ...``. But "
+"if you're using many variables from module, better would be ``import "
+"module``\\ /\\ ``from package import module``\\ :"
 msgstr ""
-"Якщо ви використовуєте тільки одну змінну з модуля, то слід "
-"використовувати ``from ... import ...``. Якщо ж використовується багато "
-"змінних з модуля, то краще використовувати ``import ... as ...``\\ :"
+"Якщо ви використовуєте тільки одну змінну з модуля, і добре зрозуміло її "
+"сенс без імені цього модуля, то слід використовувати ``from module import"
+" ...``. Але якщо ви використовуєте багато змінних з модуля, то краще буде"
+" ``import module``\\ /\\ ``from package import module``\\ :"
 
-#: ../../../CONTRIBUTING.md:51
+#: ../../../CONTRIBUTING.md:55
 msgid ""
-"But wait, where there is ``as`` actually? You must not use ``as`` when "
-"alias will be the same as actual name because in that way type checker "
-"add import statement to auto-generated ``__all__`` variable."
+"And can you use ``as``\\ ? You must not use ``as`` when alias will be the"
+" same as actual name because in that way type checker add import "
+"statement to auto-generated ``__all__`` variable."
 msgstr ""
-"Але зачекайте, а де тут власне ``as``? Не можна використовувати ``as``, "
+"І чи можете ви використовувати ``as``? Не можна використовувати ``as``, "
 "коли псевдонім буде збігатися з реальним ім'ям, тому що в цьому випадку "
-"перевірка типу додасть оператор імпорту до автоматично згенерованої "
+"перевірка типів додасть оператор імпорту до автоматично згенерованої "
 "змінної ``__all__``."
 
-#: ../../../CONTRIBUTING.md:54
+#: ../../../CONTRIBUTING.md:67
 msgid ""
-"You should also don't use ``as`` when everything that changes are dots "
-"replaced by ``_``. This is just useless."
+"You maybe notice that ``import module`` and ``from package import "
+"module`` are written with ``/``\\ , this is because you must use first "
+"one, if no package exist. But if there is a package - you must use ``from"
+" package import module``. Look at these examples:"
 msgstr ""
-"Так само не варто вживати ``як``, коли все, що змінюється, - це крапки, "
-"які замінюються на ``_``. Це просто безглуздо."
+"Ви могли помітити, що ``import module`` і ``from package import module`` "
+"написані через ``/``\\ . Це тому, що ви повинні використовувати перший "
+"підхід, якщо немає пакета (package). Але якщо пакет є - потрібно "
+"використовувати ``from package import module``. Подивіться на ці "
+"приклади:"
 
-#: ../../../CONTRIBUTING.md:63
-msgid "And finally, when you should use ``as``\\ :"
-msgstr "І, нарешті, коли слід вживати ``as``:"
+#: ../../../CONTRIBUTING.md:77
+msgid "Notice that there aren't any relative imports, you can't use it here."
+msgstr ""
+"Зверніть увагу, що тут немає ніякого відносного імпорту, ви не можете "
+"його використовувати у нас."
 
-#: ../../../CONTRIBUTING.md:71
+#: ../../../CONTRIBUTING.md:79
 msgid ""
 "Also, you must specify ``__all__`` variable in all ``__init__.py`` files "
 "with any code (not one docstring). Reason of this limitation is that "
@@ -163,11 +188,11 @@ msgstr ""
 " цей імпорт, а документація продублює документацію для всього, що ви "
 "імпортуєте."
 
-#: ../../../CONTRIBUTING.md:77
+#: ../../../CONTRIBUTING.md:85
 msgid "Docstrings"
 msgstr "Док-рядки"
 
-#: ../../../CONTRIBUTING.md:79
+#: ../../../CONTRIBUTING.md:87
 msgid ""
 "We're using ``flake8`` for checking docstrings presence and their "
 "quality. They later in API documentation. You must write docstrings "
@@ -175,11 +200,11 @@ msgid ""
 "files) because those will not go to documentation."
 msgstr ""
 "Ми використовуємо ``flake8`` для перевірки наявності та якості рядків "
-"документів. Вони пізніше в документації API. Ви повинні писати рядки "
-"документації всюди, крім методів ``__init__`` (не те саме, що "
+"документів. Вони пізніше з'являться в документації API. Ви повинні писати"
+" док-рядки всюди, крім методів ``__init__`` (не те саме, що "
 "``__init__.py`` файли), тому що вони не потраплять до документації."
 
-#: ../../../CONTRIBUTING.md:83
+#: ../../../CONTRIBUTING.md:91
 msgid ""
 "I also recommend reading `Google styleguide about docstrings "
 "<https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-"
@@ -189,11 +214,11 @@ msgstr ""
 "<https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-"
 "docstrings>`_\\ , оскільки ми використовуємо стиль Google у док-рядках."
 
-#: ../../../CONTRIBUTING.md:87
+#: ../../../CONTRIBUTING.md:95
 msgid "Markup"
 msgstr "Розмітка"
 
-#: ../../../CONTRIBUTING.md:89
+#: ../../../CONTRIBUTING.md:97
 msgid ""
 "Because of Sphinx's limitations, we must use ReST markup in docstrings. "
 "This allows us to use cross-references to other functions or even "
@@ -201,9 +226,9 @@ msgid ""
 msgstr ""
 "Через обмеження Sphinx ми вимушені використовувати розмітку ReST у "
 "doc-рядках. Це дозволяє нам використовувати перехресні посилання на інші "
-"функції або навіть проекти."
+"функції або навіть проєкти."
 
-#: ../../../CONTRIBUTING.md:92
+#: ../../../CONTRIBUTING.md:100
 msgid ""
 "Read more about `ReST markup <https://www.sphinx-"
 "doc.org/en/master/usage/restructuredtext/basics.html>`_ and `Sphinx's "
@@ -215,21 +240,21 @@ msgstr ""
 "посилання у Sphinx <https://docs.readthedocs.io/en/stable/guides/cross-"
 "referencing-with-sphinx.html>`_."
 
-#: ../../../CONTRIBUTING.md:96
+#: ../../../CONTRIBUTING.md:104
 msgid "``__init__.py`` docstrings"
-msgstr "Док-рядки в ``__init­­__.py``"
+msgstr "Док-рядки у ``__init__.py``"
 
-#: ../../../CONTRIBUTING.md:98
+#: ../../../CONTRIBUTING.md:106
 msgid "They describe a package (folder) with modules (\\ ``.py`` files)."
 msgstr ""
-"Вони описують пакет (папку, package) з модулями (\\ ``.py`` файлами, "
+"Вони описують пакет (теку, package) з модулями (\\ ``.py`` файлами, "
 "modules)."
 
-#: ../../../CONTRIBUTING.md:101
+#: ../../../CONTRIBUTING.md:109
 msgid "Module, function, class, method based docstrings"
 msgstr "Док-рядки у модулі, функції, класі та методі"
 
-#: ../../../CONTRIBUTING.md:103
+#: ../../../CONTRIBUTING.md:111
 msgid ""
 "It is a short description of an item. They must follow `Google styleguide"
 " about docstrings <https://google.github.io/styleguide/pyguide.html#s3.8"
@@ -240,15 +265,15 @@ msgstr ""
 "<https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-"
 "docstrings>`_."
 
-#: ../../../CONTRIBUTING.md:107
+#: ../../../CONTRIBUTING.md:115
 msgid "Variable-based docstrings"
-msgstr "Док-рядки в змінних"
+msgstr "Док-рядки у змінних"
 
-#: ../../../CONTRIBUTING.md:109
+#: ../../../CONTRIBUTING.md:117
 msgid "They must follow in format:"
 msgstr "Вони повинні бути у форматі:"
 
-#: ../../../CONTRIBUTING.md:116
+#: ../../../CONTRIBUTING.md:124
 msgid ""
 "This applies for the module level, and class attributes in `dataclasses "
 "<https://docs.python.org/3/library/dataclasses.html>`_\\ /classes "
@@ -262,45 +287,136 @@ msgstr ""
 "створених за допомогою `attrs <https://pypi.org/project/attrs/>`_. Це не "
 "буде працювати в методах ``__init__``, оскільки вони насправді не "
 "попадають в документацію. Атрибути повинні бути задокументовані у "
-"док-рядках классів, у розділі ``Attributes``."
+"док-рядках класів, у розділі ``Attributes``."
 
-#: ../../../CONTRIBUTING.md:121
+#: ../../../CONTRIBUTING.md:129
 msgid ""
 "At now, linter doesn't detect them. Better sometimes check that all in "
 "API documentation actually documented."
 msgstr ""
-"Наразі лінтер їх не виявляє. Краще іноді перевіряти, чи все в "
+"Наразі лінтер це не перевіряє. Краще іноді дивитися, чи все у "
 "документації до API дійсно задокументовано."
 
-#: ../../../CONTRIBUTING.md:124
+#: ../../../CONTRIBUTING.md:132
+msgid "``pyproject.toml``"
+msgstr "``pyproject.toml``"
+
+#: ../../../CONTRIBUTING.md:134
+msgid ""
+"In this file, we configure **only** ``poetry`` (except for ``black``\\ , "
+"it supports only ``pyproject.toml`` file for configuration)."
+msgstr ""
+"У цьому файлі ми налаштовуємо **лише** ``poetry`` (окрім ``black``, він "
+"підтримує для налаштування лише файл ``pyproject.toml``)."
+
+#: ../../../CONTRIBUTING.md:138
+msgid "Groups"
+msgstr "Групи"
+
+#: ../../../CONTRIBUTING.md:140
+msgid ""
+"Since ``poetry`` 1.2 a new feature appeared - groups. It allows "
+"downloading only those groups of packages, which you will need. We have "
+"four groups - ``make``\\ , ``tests``\\ , ``docs`` and ``github_hooks``. "
+"Every of them answers about their function with name."
+msgstr ""
+"Починаючи з ``poetry`` 1.2 з'явилася нова функція - групи. Вона дозволяє "
+"завантажувати тільки ті групи пакунків, які вам знадобляться. У нас є "
+"чотири групи - ``make``\\ , ``tests``\\ , ``docs`` і ``github_hooks``. "
+"Кожна з них відповідає своєю назвою про своє призначення."
+
+#: ../../../CONTRIBUTING.md:145
+msgid "``make``\\ : All required dependencies for `make test <#make-test>`_."
+msgstr "``make``\\ : Всі необхідні залежності для `make test <#make-test>`_."
+
+#: ../../../CONTRIBUTING.md:146
+msgid "``tests``\\ : All required dependencies for tests."
+msgstr "``tests``\\ : Всі необхідні залежності для тестів."
+
+#: ../../../CONTRIBUTING.md:147
+msgid "``docs``\\ : All required dependencies for building documentation."
+msgstr "``docs``\\ : Всі необхідні залежності для будування документації."
+
+#: ../../../CONTRIBUTING.md:148
+msgid "``github_hooks``\\ : All required dependencies for GitHub hooks."
+msgstr "``github_hooks``\\ : Всі необхідні залежності для GitHub hooks."
+
+#: ../../../CONTRIBUTING.md:150
+msgid ""
+"Please see `Managing dependencies in poetry <https://python-"
+"poetry.org/docs/master/managing-dependencies/>`_."
+msgstr ""
+"Будь ласка подивіться `Керування залежностями у poetry <https://python-"
+"poetry.org/docs/master/managing-dependencies/>`_."
+
+#: ../../../CONTRIBUTING.md:153
+msgid "Versions"
+msgstr "Версії"
+
+#: ../../../CONTRIBUTING.md:155
+msgid ""
+"All versions must follow in format ``X.Y.z`` (absolute version) or (\\ "
+"``~X.Y``\\ ). Last one will compile in ``>=X.Y.0,<X.Y+1.0``. So for "
+"example we have last version for abstract dependency ``1.2.3``\\ , we "
+"specify its version to ``~1.2``\\ , so it will compile to "
+"``>=1.2.0,<1.3.0`` (any patch version for ``1.2`` is accepted, but not "
+"``1.3``\\ +). If ``1.3.0`` will be released - dependabot will create PR "
+"for it."
+msgstr ""
+"Всі версії повинні слідувати у форматі ``X.Y.z`` (абсолютна версія) або "
+"(\\ ``~X.Y``\\ ). Останній варіант буде компілюватися у вигляді "
+"``>=X.Y.0,<X.Y+1.0``. Наприклад, ми маємо останню версію для абстрактної "
+"залежності ``1.2.3``\\ , ми повинні вказати версію ``~1.2``\\ , тоді вона"
+" скомпілюється у ``>=1.2.0,<1.3.0`` (приймається будь-яка версія латки "
+"(patch) для ``1.2``, але не ``1.3``\\ +). Якщо буде випущено ``1.3.0`` - "
+"dependabot створить для цього PR."
+
+#: ../../../CONTRIBUTING.md:160
+msgid ""
+"Read more `about Semantic Versions <https://semver.org/>`_ and "
+"`Dependency specification in poetry <https://python-"
+"poetry.org/docs/master/dependency-specification/>`_."
+msgstr ""
+"Детальніше `про Semantic Versions <https://semver.org/>`_ та "
+"`специфікацію залежностей у poetry <https://python-poetry.org/docs/master"
+"/dependency-specification/>`_."
+
+{% if cookiecutter.other_languages_support == 'y' -%}
+#: ../../../CONTRIBUTING.md:163
 msgid "Translations"
 msgstr "Переклади"
 
-#: ../../../CONTRIBUTING.md:126
+#: ../../../CONTRIBUTING.md:165
 msgid "If you don't know languages which we support - left translation on us."
 msgstr "Якщо ви не володієте мовами, які ми підтримуємо - залиште переклад на нас."
 
-#: ../../../CONTRIBUTING.md:128
+#: ../../../CONTRIBUTING.md:167
 msgid ""
 "To update ``.po`` files run ``make translate``\\ , after that, you can "
 "edit translations in ``.po`` files, which can be found as "
-"``locales/<language's tag>/LC_MESSAGES/messages.po``. After editing, for "
-"compilation, you can run one more time ``make translate``."
+"``locales/<language's tag>/LC_MESSAGES/messages.po`` or "
+"``locale/<language's tag>/LC_MESSAGES/`` in docs. After editing, for "
+"compilation, you can run one more time ``make translate`` (or ``make "
+"html`` in docs)."
 msgstr ""
 "Для оновлення ``.po`` файлів використайте ``make translate``\\ , після "
 "цього ви можете редагувати ``.po`` файли, які можуть бути знайдені як "
-"``locales/<тег мови>/LC_MESSAGES/messages.po``. Після редагування, для "
-"компіляції ви можете запустити ще один раз ``make translate``."
+"``locales/<тег мови>/LC_MESSAGES/messages.po`` або ``locale/<тег "
+"мови>/LC_MESSAGES/`` у документації. Після редагування, для компіляції ви"
+" можете запустити ще один раз ``make translate`` (або ``make html`` у "
+"документації)."
 
-#: ../../../CONTRIBUTING.md:132
+#: ../../../CONTRIBUTING.md:171
 msgid ""
 "To add new language, use ``pybabel init -i locales/base.pot -l "
-"<language's tag> -d locales``."
+"<language's tag> -d locales`` or ``sphinx-intl update -l <language's "
+"tag>`` for docs."
 msgstr ""
 "Для додавання нової мови, використайте ``pybabel init -i locales/base.pot"
-" -l <тег мови> -d locales``."
+" -l <тег мови> -d locales`` або ``sphinx-intl update -l <тег мови>`` для "
+"документації."
 
-#: ../../../CONTRIBUTING.md:134
+#: ../../../CONTRIBUTING.md:174
 msgid ""
 "P.S. Language's tag it is short name of this language, example ``en`` or "
 "``en_EN``. A full list of supported languages can be found with ``pybabel"
@@ -309,25 +425,25 @@ msgstr ""
 "P.S. Тег мови це коротке ім'я цієї мови, наприклад ``en`` або ``en_EN``. "
 "Повний список мов які підтримуються може бути знайдений за допомогою "
 "``pybabel --list-locales``."
-
-#: ../../../CONTRIBUTING.md:138
+{% endif %}
+#: ../../../CONTRIBUTING.md:178
 msgid "Documentation"
 msgstr "Документація"
 
-#: ../../../CONTRIBUTING.md:140
+#: ../../../CONTRIBUTING.md:180
 msgid ""
-"We use Sphinx for documentation and `docstrings <#Docstrings>`_ for API "
+"We use Sphinx for documentation and `docstrings <#docstrings>`_ for API "
 "documentation. At now, there is no actual styles here, except ``doc8``."
 msgstr ""
-"Ми використовуємо Sphinx для документації та `док-рядки <#Док-рядки>`_ "
+"Ми використовуємо Sphinx для документації та `док-рядки <#docstrings>`_ "
 "для документації API. Наразі тут немає ніяких правил та перевірок, окрім "
 "``doc8``."
 
-#: ../../../CONTRIBUTING.md:144
+#: ../../../CONTRIBUTING.md:184
 msgid "Other Help"
 msgstr "Інша допомога"
 
-#: ../../../CONTRIBUTING.md:146
+#: ../../../CONTRIBUTING.md:186
 msgid ""
 "You can contribute by spreading a word about this library. It would also "
 "be a huge contribution to write a short article on how you are using this"
@@ -335,4 +451,4 @@ msgid ""
 msgstr ""
 "Ви можете допомогти розповсюдженням слова про цю бібліотеку. Також було б"
 " великою допомогою написати маленьку статтю як ви використовуєте цей "
-"проект. Ви також можете поділитися кращими практиками з нами."
+"проєкт. Ви також можете поділитися кращими практиками з нами."

@@ -112,5 +112,5 @@ poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ## Thanks
 
 This project was generated with [fire-square-style](https://github.com/fire-square/fire-square-style).
-Current template version: [8b0441153db39c5e33c0ce2582b5c975039bc6f7](https://github.com/fire-square/fire-square-style/tree/8b0441153db39c5e33c0ce2582b5c975039bc6f7).
-See what [updated](https://github.com/fire-square/fire-square-style/compare/8b0441153db39c5e33c0ce2582b5c975039bc6f7...master).
+Current template version: [0216e16b936827cd7e4dc94f387516afcc480060](https://github.com/fire-square/fire-square-style/tree/0216e16b936827cd7e4dc94f387516afcc480060).
+See what [updated](https://github.com/fire-square/fire-square-style/compare/0216e16b936827cd7e4dc94f387516afcc480060...master).

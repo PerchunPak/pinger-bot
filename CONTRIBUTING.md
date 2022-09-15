@@ -14,6 +14,11 @@ run `make`.
 Also, because of conflict between `pytest-testmon` and `pytest-cov` we use option `--no-cov` in `pytest`, so in this
 way we give prioritize to `pytest-testmon`. If you want to generate a report with `pytest-cov`, use `make test ci=1`.
 
+## `pre-commit`
+
+Furthermore, you can bind `make test` (plus some additional useful checks) to run on every commit, so you will always
+sure that CI will never fail. Just run `pre-commit install`.
+
 ## Code Style
 
 We use `black` for almost all style control. We're also trying to use formatters instead of linters, where it is
@@ -26,47 +31,50 @@ Furthermore, we also have some rules that `black` doesn't cover. It includes:
 We have `isort` and `pycln` for imports control. The first used for sorting imports, and second, to remove unused
 imports. All other rules are not covered by linters/formatters etc. You should check those yourself.
 
-You should use `import ... as ...` whenever it's possible, but sometimes `from ... import ...` style more useful.
-For example:
+You should use `import module` and `from package import module` whenever it's possible, but sometimes
+`from module import ...` way is more useful. For example:
 
 ```py
 from dataclasses import dataclass
 ```
 
-If you're using only one variable from module, you should use `from ... import ...`. But if you're using many variables
-from module, better would be `import ... as ...`:
+If you're using only one variable from a module, and it's readable without its parent name, you should use
+`from module import ...`. But if you're using many variables from module, better would be
+`import module`/`from package import module`:
 
 ```py
-# bad
-from typing import Union, Optional, TypedDict, TypeAlias, TYPE_CHECKING, Dict, List  # etc
-# good
-import typing
+from functools import cached_property
 ```
 
-But wait, where there is `as` actually? You must not use `as` when alias will be the same as actual name because in that
-way type checker add import statement to auto-generated `__all__` variable.
+And can you use `as`? You must not use `as` when alias will be the same as actual name because in that way type checker
+add import statement to auto-generated `__all__` variable.
 
 You should also don't use `as` when everything that changes are dots replaced by `_`. This is just useless.
 
 ```py
-# bad
-import some.more as some_more
-# good
-import some.more
+# some/file.py
+from some import more as more
+# some/main.py
+from some import file
+file.more(...)  # no error!
 ```
 
-And finally, when you should use `as`:
+You maybe notice that `import module` and `from package import module` are written with `/`, this is because you must
+use first one, if no package exist. But if there is a package - you must use `from package import module`. Look at
+these examples:
 
 ```py
-import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
-import my_project.config as config
-import my_project.models as models
+import os
+from my_project import config
+from my_project import models
 ```
+
+Notice that there aren't any relative imports, you can't use it here.
 
 Also, you must specify `__all__` variable in all `__init__.py` files with any code (not one docstring). Reason of this
 limitation is that `pycln` and docs can't know exactly, do you want to add imports as alias, or this import is for using
-in code which in this file. `pycln` will ignore these imports, and docs will duplicate documentation for anything that you
-will import.
+in code which in this file. `pycln` will ignore these imports, and docs will duplicate documentation for anything that
+you will import.
 
 ### Docstrings
 
@@ -110,22 +118,50 @@ in class-based docstring, in `Attributes` section.
 
 At now, linter doesn't detect them. Better sometimes check that all in API documentation actually documented.
 
+## `pyproject.toml`
+
+In this file, we configure **only** `poetry` (except for `black`, it supports only `pyproject.toml` file for
+configuration).
+
+### Groups
+
+Since `poetry` 1.2 a new feature appeared - groups. It allows downloading only those groups of packages, which you will
+need. We have four groups - `make`, `tests`, `docs` and `github_hooks`. Every of them answers about their function with
+name.
+
+- `make`: All required dependencies for [make test](#make-test).
+- `tests`: All required dependencies for tests.
+- `docs`: All required dependencies for building documentation.
+- `github_hooks`: All required dependencies for GitHub hooks.
+
+Please see [Managing dependencies in poetry](https://python-poetry.org/docs/master/managing-dependencies/).
+
+### Versions
+
+All versions must follow in format `X.Y.z` (absolute version) or (`~X.Y`). Last one will compile in `>=X.Y.0,<X.Y+1.0`.
+So for example we have last version for abstract dependency `1.2.3`, we specify its version to `~1.2`, so it will
+compile to `>=1.2.0,<1.3.0` (any patch version for `1.2` is accepted, but not `1.3`+). If `1.3.0` will be released -
+dependabot will create PR for it.
+
+Read more [about Semantic Versions](https://semver.org/) and [Dependency specification in poetry](https://python-poetry.org/docs/master/dependency-specification/).
+
 ## Translations
 
 If you don't know languages which we support - left translation on us.
 
 To update `.po` files run `make translate`, after that, you can edit translations in `.po` files, which can be found as
-`locales/<language's tag>/LC_MESSAGES/messages.po`. After editing, for compilation, you can run one more time
-`make translate`.
+`locales/<language's tag>/LC_MESSAGES/messages.po` or `locale/<language's tag>/LC_MESSAGES/` in docs. After editing, for
+compilation, you can run one more time `make translate` (or `make html` in docs).
 
-To add new language, use `pybabel init -i locales/base.pot -l <language's tag> -d locales`.
+To add new language, use `pybabel init -i locales/base.pot -l <language's tag> -d locales` or
+`sphinx-intl update -l <language's tag>` for docs.
 
 P.S. Language's tag it is short name of this language, example `en` or `en_EN`. A full list of supported languages can
 be found with `pybabel --list-locales`.
 
 ## Documentation
 
-We use Sphinx for documentation and [docstrings](#Docstrings) for API documentation. At now, there is no actual styles
+We use Sphinx for documentation and [docstrings](#docstrings) for API documentation. At now, there is no actual styles
 here, except `doc8`.
 
 ## Other Help
