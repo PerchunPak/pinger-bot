@@ -2,6 +2,7 @@
 import asyncio
 import dataclasses
 import typing
+from abc import ABC
 
 import asyncache
 import cachetools
@@ -169,19 +170,11 @@ class Players:
 
 
 @dataclasses.dataclass
-class MCServer:
-    """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
+class BaseMCServer(ABC):
+    """Base class for :class:`.MCServer` and :class:`.FailedMCServer`."""
 
     address: Address
     """:py:class:`.Address` of the server."""
-    motd: str
-    """MOTD of the server."""
-    version: str
-    """Name of the version, example ``1.18`` or ``1.7``."""
-    players: Players
-    """:py:class:`.Players` object."""
-    latency: float
-    """Time of response from server, in milliseconds."""
 
     @property
     def icon(self) -> str:
@@ -191,6 +184,29 @@ class MCServer:
             Icon of the server.
         """
         return f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"
+
+    def __new__(cls, *args, **kwargs):
+        """Prevents initialisation of this class.
+
+        Only initialisation of children classes are allowed.
+        """
+        if cls is BaseMCServer:
+            raise TypeError(f"Can't instantiate abstract class {cls.__name__} directly")
+        return super().__new__(cls)
+
+
+@dataclasses.dataclass
+class MCServer(BaseMCServer):
+    """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
+
+    motd: str
+    """MOTD of the server."""
+    version: str
+    """Name of the version, example ``1.18`` or ``1.7``."""
+    players: Players
+    """:py:class:`.Players` object."""
+    latency: float
+    """Time of response from server, in milliseconds."""
 
     @classmethod
     async def status(cls, host: str) -> typing.Union["MCServer", "FailedMCServer"]:
@@ -308,20 +324,8 @@ class MCServer:
 
 
 @dataclasses.dataclass
-class FailedMCServer:
+class FailedMCServer(BaseMCServer):
     """Represents a server, when ping failed."""
-
-    address: Address
-    """:py:class:`.Address` of the server."""
-
-    @property
-    def icon(self) -> str:
-        """Icon of the server.
-
-        Returns:
-            Icon of the server.
-        """
-        return f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"
 
     @classmethod
     async def handle_failed(cls, host: str) -> "FailedMCServer":

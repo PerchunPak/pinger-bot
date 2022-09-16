@@ -129,6 +129,37 @@ class TestPlayers:
         assert str(mc_api.Players(int1, int2)) == f"{int1}/{int2}"
 
 
+class TestBaseMCServer:
+    """Tests for the :class:`~pinger_bot.mc_api.BaseMCServer` class."""
+
+    @pytest.fixture()
+    def inheritance_class(self) -> typing.Type[mc_api.BaseMCServer]:
+        """Inheritance a class from :class:`~pinger_bot.mc_api.BaseMCServer` and return it."""
+
+        class SomeThing(mc_api.BaseMCServer):
+            ...
+
+        return SomeThing
+
+    def test_cant_initialise(self) -> None:
+        """Tests that you can't initialise :class:`~pinger_bot.mc_api.BaseMCServer`."""
+        with pytest.raises(TypeError):
+            mc_api.BaseMCServer(factories.AddressFactory())
+
+    def test_icon_property_gives_correct_value_and_dynamic(
+        self, inheritance_class: typing.Type[mc_api.BaseMCServer]
+    ) -> None:
+        """Tests that :func:`~pinger_bot.mc_api.BaseMCServer.icon` gives correct value.
+
+        And changes it, if change ``address``.
+        """
+        server = inheritance_class(factories.AddressFactory())
+        assert server.icon == f"https://api.mcsrvstat.us/icon/{server.address.host}:{server.address.port}"
+
+        server.address = factories.AddressFactory()
+        assert server.icon == f"https://api.mcsrvstat.us/icon/{server.address.host}:{server.address.port}"
+
+
 class TestMCServerAndFailedMCServer:
     """Tests for the :class:`~pinger_bot.mc_api.MCServer` and :class:`~pinger_bot.mc_api.FailedMCServer` classes."""
 
@@ -318,16 +349,6 @@ class TestMCServerAndFailedMCServer:
 
         address._server = mcstatus.BedrockServer(address.host)
         assert await mc_api.MCServer.handle_bedrock(ip) == expected_bedrock
-
-    @pytest.mark.parametrize(
-        "instance", (mc_api.FailedMCServer(factories.AddressFactory()), factories.MCServerFactory())
-    )
-    def test_icon_property_generate_correct_url(
-        self, instance: typing.Union[mc_api.FailedMCServer, mc_api.MCServer]
-    ) -> None:
-        """Test that the :func:`~pinger_bot.mc_api.MCServer.__post_init__` and \
-        :func:`~pinger_bot.mc_api.FailedMCServer.__post_init__` generate the right url."""
-        assert instance.icon == f"https://api.mcsrvstat.us/icon/{instance.address.host}:{instance.address.port}"
 
     async def test_handle_exceptions_raising_on_empty_done_set(self, faker: faker_package.Faker) -> None:
         """Test that :func:`~pinger_bot.mc_api.MCServer._handle_exceptions` raises an exception if the done set is empty."""
