@@ -142,16 +142,6 @@ class MCServerFactory(factory.Factory):
     version: str = factory.fuzzy.FuzzyAttribute(faker.sem_version)
     players: mc_api.Players = factory.SubFactory(MCPlayersFactory)
     latency: float = factory.fuzzy.FuzzyAttribute(faker.pyfloat)
-    icon: str = None  # type: ignore[assignment] # will be set in post hook
-
-    @factory.post_generation
-    def _set_default_values(self, *args, **kwargs):
-        """Set some additional default values.
-
-        ``mypy`` thinks that it's unreachable, because of type ignores.
-        """
-        if self.icon is None:
-            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"  # type: ignore[unreachable]
 
     @classmethod
     def from_mcstatus_status(
@@ -211,9 +201,6 @@ class FailedMCServerFactory(factory.Factory):
         model = mc_api.FailedMCServer
 
     address: mc_api.Address = factory.SubFactory(AddressFactory)
-    icon: typing.Optional[str] = factory.LazyAttribute(
-        lambda self: f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"
-    )
 
 
 class MCStatusJavaResponseFactory(factory.Factory):

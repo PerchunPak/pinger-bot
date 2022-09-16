@@ -132,19 +132,6 @@ class TestPlayers:
 class TestMCServerAndFailedMCServer:
     """Tests for the :class:`~pinger_bot.mc_api.MCServer` and :class:`~pinger_bot.mc_api.FailedMCServer` classes."""
 
-    @pytest.mark.parametrize("factory", (factories.MCServerFactory, factories.FailedMCServerFactory))
-    def test_post_init_do_not_redef_icon_value(
-        self,
-        faker: faker_package.Faker,
-        factory: typing.Type[typing.Union[factories.MCServerFactory, factories.FailedMCServerFactory]],
-    ) -> None:
-        """Test that the :func:`~pinger_bot.mc_api.MCServer.__post_init__` and \
-        :func:`~pinger_bot.mc_api.FailedMCServer.__post_init__` does not redefine the ``icon`` attribute."""
-        icon = faker.image_url(64, 64)
-        instance = factory(icon=icon)
-
-        assert instance.icon == icon
-
     async def test_mcserver_status_calling_all_methods(
         self, mocker: pytest_mock.MockerFixture, faker: faker_package.Faker
     ) -> None:
@@ -325,7 +312,6 @@ class TestMCServerAndFailedMCServer:
             java_server
         ), factories.BedrockServerFactory.from_mcstatus_status(bedrock_server)
         expected_java.address, expected_bedrock.address = address, address
-        expected_java.icon = expected_bedrock.icon = f"https://api.mcsrvstat.us/icon/{address.host}:{address.port}"
 
         address._server = mcstatus.JavaServer(address.host)
         assert await mc_api.MCServer.handle_java(ip) == expected_java
@@ -336,7 +322,7 @@ class TestMCServerAndFailedMCServer:
     @pytest.mark.parametrize(
         "instance", (mc_api.FailedMCServer(factories.AddressFactory()), factories.MCServerFactory())
     )
-    def test_post_init_generate_correct_url(
+    def test_icon_property_generate_correct_url(
         self, instance: typing.Union[mc_api.FailedMCServer, mc_api.MCServer]
     ) -> None:
         """Test that the :func:`~pinger_bot.mc_api.MCServer.__post_init__` and \

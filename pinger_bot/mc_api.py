@@ -183,20 +183,14 @@ class MCServer:
     latency: float
     """Time of response from server, in milliseconds."""
 
-    icon: str = None  # type: ignore[assignment]
-    """Icon of the server. Default value :py:obj:`None`, because real default value
-    will be set in :py:meth:`.MCServer.__post_init__`.
-    """
+    @property
+    def icon(self) -> str:
+        """Icon of the server.
 
-    def __post_init__(self) -> None:
-        """Post init method.
-
-        Examples:
-            See examples in :py:meth:`.MCServer.handle_java` or :py:meth:`.MCServer.handle_bedrock` methods.
+        Returns:
+            Icon of the server.
         """
-        # it is reachable if user not defined this fields
-        if self.icon is None:
-            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"  # type: ignore[unreachable]
+        return f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"
 
     @classmethod
     async def status(cls, host: str) -> typing.Union["MCServer", "FailedMCServer"]:
@@ -320,16 +314,14 @@ class FailedMCServer:
     address: Address
     """:py:class:`.Address` of the server."""
 
-    icon: str = None  # type: ignore[assignment]
-    """Icon of the server. Default value :obj:`None`, because real default value
-    will be set in :py:meth:`.FailedMCServer.__post_init__`.
-    """
+    @property
+    def icon(self) -> str:
+        """Icon of the server.
 
-    def __post_init__(self) -> None:
-        """Post init method. Just construct some fields."""
-        # it is reachable if user not defined this fields
-        if self.icon is None:
-            self.icon = f"https://api.mcsrvstat.us/icon/{self.address.host}:{str(self.address.port)}"  # type: ignore[unreachable]
+        Returns:
+            Icon of the server.
+        """
+        return f"https://api.mcsrvstat.us/icon/{self.address.host}:{self.address.port}"
 
     @classmethod
     async def handle_failed(cls, host: str) -> "FailedMCServer":
