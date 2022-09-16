@@ -4,7 +4,9 @@ import io
 import typing
 
 import lightbulb
-import matplotlib
+import matplotlib.dates
+import matplotlib.figure
+import matplotlib.pyplot
 import sqlalchemy
 from hikari import embeds
 from lightbulb import commands
