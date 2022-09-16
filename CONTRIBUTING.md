@@ -46,17 +46,6 @@ If you're using only one variable from a module, and it's readable without its p
 from functools import cached_property
 ```
 
-And can you use `as`? You must not use `as` when alias will be the same as actual name because in that way type checker
-add import statement to auto-generated `__all__` variable.
-
-```py
-# some/file.py
-from some import more as more
-# some/main.py
-from some import file
-file.more(...)  # no error!
-```
-
 You maybe notice that `import module` and `from package import module` are written with `/`, this is because you must
 use first one, if no package exist. But if there is a package - you must use `from package import module`. Look at
 these examples:
@@ -67,7 +56,7 @@ from my_project import config
 from my_project import models
 ```
 
-Notice that there aren't any relative imports, you can't use it here.
+Notice that there aren't any relative imports, you can't use it here. However, you can use `as`.
 
 Also, you must specify `__all__` variable in all `__init__.py` files with any code (not one docstring). Reason of this
 limitation is that `pycln` and docs can't know exactly, do you want to add imports as alias, or this import is for using
