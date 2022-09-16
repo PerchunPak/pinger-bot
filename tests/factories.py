@@ -7,10 +7,9 @@ import factory.fuzzy
 import faker as faker_package
 import mcstatus.bedrock_status
 import mcstatus.pinger
-import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
+from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
-import pinger_bot.mc_api as mc_api
-import pinger_bot.models as models
+from pinger_bot import mc_api, models
 
 Model = typing.Union[models.Server, models.Ping]
 faker = faker_package.Faker()

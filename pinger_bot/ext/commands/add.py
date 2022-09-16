@@ -1,19 +1,16 @@
 """Module for the ``add`` command."""
-import hikari.embeds as embeds
 import lightbulb
-import lightbulb.commands as commands
-import lightbulb.context.slash as slash
 import sqlalchemy.exc
-import structlog.stdlib as structlog
+from hikari import embeds
+from lightbulb import commands
+from lightbulb.context import slash
+from structlog import stdlib as structlog
 
-import pinger_bot.bot as bot
-import pinger_bot.config as config
-import pinger_bot.ext.commands as pinger_commands
-import pinger_bot.mc_api as mc_api
-import pinger_bot.models as models
+from pinger_bot import bot, mc_api, models
+from pinger_bot.config import gettext as _
+from pinger_bot.ext import commands as pinger_commands
 
 log = structlog.get_logger()
-_ = config.gettext
 
 plugin = lightbulb.Plugin("ping")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""

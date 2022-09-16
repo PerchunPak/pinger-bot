@@ -3,24 +3,19 @@ import datetime
 import io
 import typing
 
-import hikari.embeds as embeds
 import lightbulb
-import lightbulb.commands as commands
-import lightbulb.context.slash as slash
-import matplotlib.dates as dates
-import matplotlib.figure as figure
-import matplotlib.pyplot as pyplot
+import matplotlib
 import sqlalchemy
-import structlog.stdlib as structlog
+from hikari import embeds
+from lightbulb import commands
+from lightbulb.context import slash
+from structlog import stdlib as structlog
 
-import pinger_bot.bot as bot
-import pinger_bot.config as config
-import pinger_bot.ext.commands as pinger_commands
-import pinger_bot.mc_api as mc_api
-import pinger_bot.models as models
+from pinger_bot import bot, mc_api, models
+from pinger_bot.config import gettext as _
+from pinger_bot.ext import commands as pinger_commands
 
 log = structlog.get_logger()
-_ = config.gettext
 
 plugin = lightbulb.Plugin("statistic")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""
@@ -65,7 +60,7 @@ async def get_yesterday_ping(pings: typing.List[models.Ping]) -> typing.Optional
     return yesterday_ping
 
 
-async def create_plot(pings: typing.List[models.Ping], ip: str) -> figure.Figure:
+async def create_plot(pings: typing.List[models.Ping], ip: str) -> matplotlib.figure.Figure:
     """Create plot for the server.
 
     Args:
@@ -81,8 +76,8 @@ async def create_plot(pings: typing.List[models.Ping], ip: str) -> figure.Figure
         online.append(ping.players)
         time.append(ping.time)
 
-    figure, axes = pyplot.subplots()
-    axes.xaxis.set_major_formatter(dates.DateFormatter("%H:%M"))
+    figure, axes = matplotlib.pyplot.subplots()
+    axes.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%H:%M"))
     axes.plot(time, online)
 
     axes.set_xlabel(_("Time"))
@@ -92,7 +87,7 @@ async def create_plot(pings: typing.List[models.Ping], ip: str) -> figure.Figure
     return figure
 
 
-async def transform_figure_to_bytes(figure: figure.Figure) -> io.BytesIO:
+async def transform_figure_to_bytes(figure: matplotlib.figure.Figure) -> io.BytesIO:
     """Transform :class:`~matplotlib.figure.Figure` to :class:`~io.BytesIO`.
 
     Args:

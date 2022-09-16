@@ -5,20 +5,19 @@ import typing
 
 import _pytest.config
 import _pytest.stash
-import _pytest.tmpdir as tmpdir
 import alembic.command
 import alembic.config
 import faker.config
 import omegaconf
 import pytest
-import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
 import sqlalchemy.orm
 import structlog
+from _pytest import tmpdir
+from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
-import pinger_bot.config as config
-import pinger_bot.models as models
-import tests.custom_fakes as custom_fakes  # we need to import it somewhere
-import tests.factories as factories
+from pinger_bot import config, models
+from tests import custom_fakes  # we need to import it somewhere
+from tests import factories
 
 
 @pytest.fixture(scope="session")

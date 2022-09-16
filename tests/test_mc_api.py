@@ -2,17 +2,18 @@
 import asyncio
 import typing
 
+import dns.asyncresolver
 import dns.exception
-import dns.rdatatype as rdatatype
 import faker as faker_package
 import mcstatus
 import mcstatus.bedrock_status
 import mcstatus.pinger
 import pytest
 import pytest_mock
+from dns.rdatatype import RdataType as DNSRdataType
 
-import pinger_bot.mc_api as mc_api
-import tests.factories as factories
+from pinger_bot import mc_api
+from tests import factories
 
 
 class TestAddress:
@@ -103,14 +104,14 @@ class TestAddress:
 
         mocked = mocker.patch("dns.asyncresolver.resolve", return_value=random_list)
         assert await mc_api.Address._get_number_ip(domain) == ip
-        mocked.assert_called_once_with(domain, rdatatype.RdataType.A)
+        mocked.assert_called_once_with(domain, DNSRdataType.A)
 
     async def test_get_number_ip_raising(self, mocker: pytest_mock.MockerFixture, faker: faker_package.Faker) -> None:
         """Test :func:`~pinger_bot.mc_api.Address._get_number_ip`'s result, when there is an exception while querying to DNS."""
         mocked = mocker.patch("dns.asyncresolver.resolve", side_effect=dns.exception.DNSException)
         word = faker.word()
         assert await mc_api.Address._get_number_ip(word) == word
-        mocked.assert_called_once_with(word, rdatatype.RdataType.A)
+        mocked.assert_called_once_with(word, DNSRdataType.A)
 
     @pytest.mark.parametrize("alias", (True, False))
     async def test_get_alias_from_ip(self, faker: faker_package.Faker, alias: bool) -> None:

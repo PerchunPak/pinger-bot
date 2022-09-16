@@ -5,18 +5,17 @@ import typing
 
 import asyncache
 import cachetools
-import dns.asyncresolver as asyncresolver
-import dns.exception as exception
-import dns.rdatatype as rdatatype
+import dns.asyncresolver
+import dns.exception
 import mcstatus
 import sqlalchemy
-import structlog.stdlib as structlog
+from dns.rdatatype import RdataType as DNSRdataType
+from structlog import stdlib as structlog
 
-import pinger_bot.config as config
-import pinger_bot.models as models
+from pinger_bot import models
+from pinger_bot.config import gettext as _
 
 log = structlog.get_logger()
-_ = config.gettext
 
 _Address_resolve_cache: cachetools.TTLCache = cachetools.TTLCache(128, 3600)  # type: ignore[type-arg]
 """Helper for tests, this used when you need to remove the cache."""
@@ -120,8 +119,8 @@ class Address:
         """
         log.debug("Address._get_number_ip", input_ip=input_ip)
         try:
-            answers = await asyncresolver.resolve(input_ip, rdatatype.RdataType.A)
-        except exception.DNSException:
+            answers = await dns.asyncresolver.resolve(input_ip, DNSRdataType.A)
+        except dns.exception.DNSException:
             log.debug(_("Cannot resolve IP {} to number IP").format(input_ip))
             return input_ip
 

@@ -1,10 +1,8 @@
 """Package for all commands."""
 import hikari
-import lightbulb.context.slash as slash
+from lightbulb.context import slash
 
-import pinger_bot.config as config
-
-_ = config.gettext
+from pinger_bot.config import gettext as _
 
 __all__ = ["wait_please_message"]
 

@@ -1,11 +1,10 @@
 """Main CLI entrypoint."""
-import structlog.stdlib as structlog
+from structlog import stdlib as structlog
 
-import pinger_bot.bot as bot
-import pinger_bot.config as config
+from pinger_bot import bot
+from pinger_bot.config import gettext as _
 
 log = structlog.get_logger()
-_ = config.gettext
 
 
 def main() -> None:

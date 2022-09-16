@@ -5,16 +5,16 @@ import functools
 import typing
 
 import sqlalchemy
-import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
-import sqlalchemy.orm as sqlalchemy_orm
-import sqlalchemy.sql as sql
-import structlog.stdlib as structlog
+import sqlalchemy.orm
+from sqlalchemy import sql
+from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
+from structlog import stdlib as structlog
 
-import pinger_bot.config as config
+from pinger_bot import config
+from pinger_bot.config import gettext as _
 
 log = structlog.get_logger()
-_ = config.gettext
-Base = sqlalchemy_orm.declarative_base()
+Base = sqlalchemy.orm.declarative_base()
 """``Base`` object for all models.
 
 .. seealso:: `<https://docs.sqlalchemy.org/en/14/orm/mapping_api.html#sqlalchemy.orm.declarative_base>`_
@@ -90,7 +90,7 @@ class Database:
     @functools.cached_property
     def session(self) -> typing.Callable[[], typing.AsyncContextManager[sqlalchemy_asyncio.AsyncSession]]:
         """Async session of the Database."""
-        return sqlalchemy_orm.sessionmaker(self.engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
+        return sqlalchemy.orm.sessionmaker(self.engine, expire_on_commit=False, class_=sqlalchemy_asyncio.AsyncSession)
 
 
 db = Database()

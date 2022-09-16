@@ -1,15 +1,14 @@
 """Some tests for the :mod:`pinger_bot.bot` module."""
 import logging
 import typing
-import unittest.mock as mock
+from unittest import mock
 
 import faker as faker_package
 import omegaconf
 import pytest
 import pytest_mock
 
-import pinger_bot.bot as bot
-import pinger_bot.config as config
+from pinger_bot import bot, config
 
 
 class TestPingerBot:

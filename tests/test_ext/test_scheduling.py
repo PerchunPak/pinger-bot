@@ -7,10 +7,9 @@ import freezegun
 import pytest_mock
 import sqlalchemy
 
-import pinger_bot.ext.scheduling as scheduling
-import pinger_bot.mc_api as mc_api
-import pinger_bot.models as models
-import tests.factories as factories
+from pinger_bot import mc_api, models
+from pinger_bot.ext import scheduling
+from tests import factories
 
 
 class TestCollectInfoForStatistic:

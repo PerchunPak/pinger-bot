@@ -6,7 +6,7 @@ import faker as faker_package
 import pytest
 import pytest_mock
 
-import pinger_bot.config as config
+from pinger_bot import config
 
 
 class TestConfig:

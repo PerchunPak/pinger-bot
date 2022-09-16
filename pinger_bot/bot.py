@@ -4,12 +4,12 @@ import pathlib
 
 import hikari
 import lightbulb
-import structlog
+import structlog.stdlib
 
-import pinger_bot.config as config
+from pinger_bot import config
+from pinger_bot.config import gettext as _
 
 log = structlog.stdlib.get_logger()
-_ = config.gettext
 
 try:  # pragma: no cover
     import uvloop

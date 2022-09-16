@@ -5,7 +5,7 @@ import pathlib
 import pytest
 import pytest_mock
 
-import pinger_bot.config as config
+from pinger_bot import config
 
 IGNORED_MODULES = {config.BASE_DIR / "pinger_bot" / "ext" / "scheduling.py"}
 

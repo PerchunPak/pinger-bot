@@ -1,7 +1,7 @@
 """Module with custom providers for ``faker``."""
 import factory
 import faker.config
-import faker.providers as providers
+from faker import providers
 
 
 class Provider(providers.BaseProvider):

@@ -1,15 +1,14 @@
 """Module for handling events."""
-import hikari.events.lifetime_events as lifetime_events
 import lightbulb
-import lightbulb.events as events
-import structlog.stdlib as structlog
+from hikari.events import lifetime_events
+from lightbulb import events
+from structlog import stdlib as structlog
 
-import pinger_bot.bot as bot
-import pinger_bot.config as config
-import pinger_bot.ext.scheduling as scheduling
+from pinger_bot import bot
+from pinger_bot.config import gettext as _
+from pinger_bot.ext import scheduling
 
 log = structlog.get_logger()
-_ = config.gettext
 
 plugin = lightbulb.Plugin(name="events")
 """:class:`lightbulb.Plugin <lightbulb.plugins.Plugin>` object."""

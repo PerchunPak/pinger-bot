@@ -1,7 +1,7 @@
 """Some tests for the :mod:`pinger_bot.__main__` module."""
 import pytest_mock
 
-import pinger_bot.__main__ as __main__
+from pinger_bot import __main__
 
 
 def test_running_the_bot(mocker: pytest_mock.MockerFixture) -> None:

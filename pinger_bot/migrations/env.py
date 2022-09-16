@@ -1,10 +1,10 @@
 """Additional configuration for the alembic environment."""
 import asyncio
-from logging.config import fileConfig
+import logging.config
 
 import alembic
 import sqlalchemy
-import sqlalchemy.ext.asyncio as sqlalchemy_asyncio
+from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -13,7 +13,7 @@ config = alembic.context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+    logging.config.fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
