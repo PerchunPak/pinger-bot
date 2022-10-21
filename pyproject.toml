@@ -21,7 +21,7 @@ hikari = "~2.0.0-dev"
 hikari-lightbulb = "~2.2"
 APScheduler = "~3.9"
 
-mcstatus = "~9.4"
+mcstatus = "~10.0"
 SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}
 alembic = "~1.8"
 dnspython = "~2.2"
