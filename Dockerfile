@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get install curl -y --no-install-recommends && \
     curl -sSL https://install.python-poetry.org | python -
 COPY poetry.lock pyproject.toml ./
-RUN poetry export --no-interaction -o requirements.txt --without-hashes -E ${dialect} --only main
+RUN poetry export --no-interaction -o requirements.txt --without-hashes -E ${dialect} --only main,docker
 
 
 FROM python:slim as base
@@ -66,4 +66,4 @@ COPY --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
 USER container
 
-ENTRYPOINT ["python", "pinger_bot"]
+CMD ["dumb-init", "python", "pinger_bot"]

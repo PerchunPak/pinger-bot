@@ -97,6 +97,13 @@ optional = true
 GitPython = "~3.1"
 
 
+[tool.poetry.group.docker]
+optional = true
+
+[tool.poetry.group.docker.dependencies]
+dumb-init = "~1.2"
+
+
 [tool.poetry.extras]
 mysql = ["aiomysql"]
 sqlite = ["aiosqlite"]
