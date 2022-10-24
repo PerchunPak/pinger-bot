@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinger-bot 0.4.0\n"
 "Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
-"POT-Creation-Date: 2022-06-18 16:42+0200\n"
+"POT-Creation-Date: 2022-10-24 20:00+0200\n"
 "PO-Revision-Date: 2022-06-17 22:56+0200\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: ru\n"
@@ -32,8 +32,8 @@ msgid "Installing from Dockerhub"
 msgstr "Установка из Dockerhub"
 
 #: ../../pages/docker.rst:14
-msgid "By default, we create few tags:"
-msgstr "По умолчанию, создается несколько тегов:"
+msgid "We have few tags:"
+msgstr "У нас есть несколько тегов:"
 
 #: ../../pages/docker.rst:16
 msgid "``latest`` - Latest project release."
@@ -41,8 +41,8 @@ msgstr "``latest`` - Последний релиз проекта."
 
 #: ../../pages/docker.rst:17
 msgid ""
-"``dev`` - Latest possible project version. Use only for testing, always "
-"can have breaking changes."
+"``dev`` - Latest possible project version. Use this only for testing, it "
+"always can have breaking changes."
 msgstr ""
 "``dev`` - Самая последняя возможная версия проекта. Используйте только "
 "для тестирования, всегда могут быть проблемы с несовместимостью версий."
@@ -58,24 +58,24 @@ msgstr ""
 #: ../../pages/docker.rst:22
 msgid ""
 "Every of those tags also have duplicates with database suffixes, at now "
-"it is can be ``sqlite``, ``mysql`` and ``postgresql``. As example, for "
-"tag ``latest`` also will be available tag ``latest-sqlite``."
+"it can be ``sqlite``, ``mysql`` or ``postgresql``. As example, for tag "
+"``latest`` there also will be available tag ``latest-sqlite``."
 msgstr ""
 "Каждая из веток имеет так же дубликаты с суффиксами баз данных, на данный"
-" момент это могут быть ``sqlite``, ``mysql`` и ``postgresql``. То есть, "
-"например, для ветки ``latest`` будет так же доступен контейнер ``latest-"
+" момент это могут быть ``sqlite``, ``mysql`` или ``postgresql``. То есть,"
+" например, для ветки ``latest`` будет так же доступен контейнер ``latest-"
 "sqlite``."
 
 #: ../../pages/docker.rst:26
 msgid ""
 "Tag without suffix - standard database. At now, it is ``sqlite``. It "
-"means that tag ``latest`` give the same as ``latest-sqlite``."
+"means that tag ``latest`` is the same as ``latest-sqlite``."
 msgstr ""
 "Тег без суффикса - стандартная база данных. На данный момент это "
-"``sqlite``. То есть тег ``latest``, загрузит тоже самое что и при "
-"``latest-sqlite``."
+"``sqlite``. То есть тег ``latest`` это тоже самое что и ``latest-"
+"sqlite``."
 
-#: ../../pages/docker.rst:30
+#: ../../pages/docker.rst:29
 msgid ""
 "There are few deprecated tags, which are still available only for "
 "history. It is :ref:`main <pages/changelog:version 0.1.0>`, :ref:`rewrite"
@@ -87,18 +87,19 @@ msgstr ""
 "<pages/changelog:version 0.2.0>` и :ref:`newdb <pages/changelog:version "
 "0.3.0>`."
 
-#: ../../pages/docker.rst:36 ../../pages/docker.rst:60
+#: ../../pages/docker.rst:35 ../../pages/docker.rst:58
 msgid ""
-"If you use not ``sqlite``, you need to apply database migrations "
-"manually. In ``sqlite`` migrations are applied automatically while we "
-"compile image. See :ref:`index:database migrations` for details."
+"If you use non-\\ ``sqlite`` database, you need to apply database "
+"migrations manually. In ``sqlite``, migrations are applied automatically "
+"while we compile the image. See :ref:`index:database migrations` for "
+"details."
 msgstr ""
 "Если вы используете базу данных не ``sqlite`` - вам нужно самостоятельно "
 "применить миграции для нее. В ``sqlite`` миграции применяются при "
 "компилировании изображения. Смотрите :ref:`index:database migrations` для"
 " инструкции."
 
-#: ../../pages/docker.rst:41
+#: ../../pages/docker.rst:40
 msgid ""
 "`Our page on Dockerhub with all available tags. "
 "<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
@@ -106,21 +107,20 @@ msgstr ""
 "`Нашу страницу на Dockerhub со списком доступных тегов. "
 "<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
 
-#: ../../pages/docker.rst:46
+#: ../../pages/docker.rst:45
 msgid "Self compilation"
 msgstr "Самостоятельная компиляция"
 
-#: ../../pages/docker.rst:48
-msgid "Also, you can compile images from project's root."
+#: ../../pages/docker.rst:47
+msgid ""
+"You can compile images from project's root. To make this, you just need "
+"to run the command:"
 msgstr ""
 "Вы так же можете самостоятельно скомпилировать все изображения из "
-"корневой директории проекта."
+"корневой директории проекта. Для этого просто необходимо использовать "
+"команду:"
 
-#: ../../pages/docker.rst:50
-msgid "To do this, you just need to run the command:"
-msgstr "Для этого просто необходимо использовать команду:"
-
-#: ../../pages/docker.rst:56
+#: ../../pages/docker.rst:54
 msgid ""
 "Where ``--build-arg dialect=sqlite`` - parameter, which defines database,"
 " what you want to use. Instead of ``sqlite`` you can set any supported."
@@ -129,38 +129,31 @@ msgstr ""
 "которую вы хотите использовать. Вместо ``sqlite`` можете подставить любую"
 " другую, которая поддерживается."
 
-#: ../../pages/docker.rst:66
+#: ../../pages/docker.rst:64
 msgid "Run"
 msgstr "Запуск"
 
-#: ../../pages/docker.rst:68
+#: ../../pages/docker.rst:66
 msgid "To run the bot, in both cases of installation, use this command:"
 msgstr "Для запуска, в обоих случаях установки, используется одна команда:"
 
-#: ../../pages/docker.rst:75
+#: ../../pages/docker.rst:72
 msgid ""
 "If you want to use ``sqlite``, you also need to set ``-v "
-"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a"
-" folder with your database file. I recommend set absolute path.) This is needed "
-"to save database in case of container restart."
+"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a "
+"folder with your database file. I recommend to set absolute path.) This "
+"is needed to save database in case of container restart. This parameter "
+"**must** be set between ``-d`` flag and ``perchunpak/pingerbot``."
 msgstr ""
 "Если вы используете базу данных ``sqlite``, вы так же должны указать ``-v"
-" ВАША_ПАПКА:/app/pinger/pinger_bot.db`` (Где ``ВАША_ПАПКА`` это папка с вашей "
-"файлом базы данных, рекомендовано использовать абсолютный путь). Это "
-"делается, чтобы иметь возможность сохранять базу данных в случае рестарта"
-" контейнера."
+" ВАША_ПАПКА:/app/pinger/pinger_bot.db`` (Где ``ВАША_ПАПКА`` это папка с "
+"вашей файлом базы данных, рекомендовано использовать абсолютный путь). "
+"Это делается, чтобы иметь возможность сохранять базу данных в случае "
+"рестарта контейнера."
 
-#: ../../pages/docker.rst:80
+#: ../../pages/docker.rst:78
 msgid ""
-"This parameter **must** be set between ``-d`` flag and "
-"``perchunpak/pingerbot``."
-msgstr ""
-"Параметр **нужно** указывать между флагом ``-d`` и "
-"``perchunpak/pingerbot``."
-
-#: ../../pages/docker.rst:83
-msgid ""
-"You also need to set ``-e`` option for every configuration parameter. "
+"You also have to set ``-e`` option for every configuration parameter. "
 "This option just set environment variables, interface will be the same as"
 " in ``config.yml``, but all parameters keys in upper case."
 msgstr ""
@@ -169,7 +162,7 @@ msgstr ""
 "интерфейс будет аналогичным с ``config.yml``, но все ключи в верхнем "
 "регистре."
 
-#: ../../pages/docker.rst:87
+#: ../../pages/docker.rst:82
 msgid ""
 "They should be used like ``-e KEY=VALUE``, where ``KEY`` upper cased key "
 "from ``config.yml`` (example ``DISCORD_TOKEN``), and ``VALUE`` is a "
@@ -179,7 +172,7 @@ msgstr ""
 "верхнем регистре из ``config.yml`` (например ``DISCORD_TOKEN``), а "
 "``KEY`` это значение настройки."
 
-#: ../../pages/docker.rst:90
+#: ../../pages/docker.rst:85
 msgid ""
 "Same as ``-v`` option, they **must** be set between ``-d`` flag and "
 "``perchunpak/pingerbot``."
@@ -187,31 +180,31 @@ msgstr ""
 "Как и ``-v`` флаг, они **обязаны** идти между флагом ``-d`` и "
 "``perchunpak/pingerbot``."
 
-#: ../../pages/docker.rst:94
+#: ../../pages/docker.rst:88
 msgid ""
 "Since version 0.4.0 the container runs in non-root mode, which means that"
-" if you use the sqlite tag and a ``-v`` option you have to give rights to"
-" the folder. This can be done with the command ``chown -R 5000:5000 <your "
-"folder>``."
+" if you use the sqlite tag and a ``-v`` option, you have to give rights "
+"to the folder. This can be done with the command ``chown -R 5000:5000 "
+"<your folder>``."
 msgstr ""
 "Начиная с версии 0.4.0 контейнер работает в без-root режиме, что "
 "означает, что если вы используете тэг sqlite и опцию ``-v``, вам "
 "необходимо предоставить права на папку. Это можно сделать с помощью "
 "команды ``chown -R 5000:5000 <ваша папка>``."
 
-#: ../../pages/docker.rst:98
-msgid "Doesn't applies to Windows users."
+#: ../../pages/docker.rst:93
+msgid "This doesn't apply to Windows users."
 msgstr "Не касается пользователей Windows."
 
-#: ../../pages/docker.rst:101
+#: ../../pages/docker.rst:96
 msgid "`podman <https://podman.io>`_ as replacement for a Docker."
 msgstr "`podman <https://podman.io>`_ как замену для Docker."
 
-#: ../../pages/docker.rst:104
+#: ../../pages/docker.rst:99
 msgid "Command"
 msgstr "Команду"
 
-#: ../../pages/docker.rst:110
-msgid "For full list of arguments and possibilities, upper I wrote only basics."
+#: ../../pages/docker.rst:105
+msgid "For full list of arguments and possibilities, upper are only basics."
 msgstr "Для большего списка аргументов и возможностей, выше только самое основное."
 

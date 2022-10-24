@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinger-bot 0.4.0\n"
 "Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
-"POT-Creation-Date: 2022-09-14 13:04+0200\n"
-"PO-Revision-Date: 2022-09-14 13:04+0200\n"
+"POT-Creation-Date: 2022-10-24 20:00+0200\n"
+"PO-Revision-Date: 2022-10-24 19:51+0200\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk_UA\n"
 "Language-Team: Perchun Pak <perchunpak@gmail.com>\n"
@@ -143,11 +143,19 @@ msgstr "Це потрібно навіть якщо ви хочете викор
 msgid "Database migrations"
 msgstr "Міграції бази даних"
 
-#: ../../../README.md:109
+#: ../../../README.md:104
+msgid ""
+"Those will create database for you. You do not need to create any tables "
+"by hand, just run this command:"
+msgstr ""
+"Вони зроблять базу даних для вас. Вам не потрібно робити жодної таблиці "
+"руками, просто запустіть цю команду:"
+
+#: ../../../README.md:111
 msgid "Configuration"
 msgstr "Конфігурація"
 
-#: ../../../README.md:111
+#: ../../../README.md:113
 msgid ""
 "All bot configuration happends in ``config.yml``\\ , or with enviroment "
 "variables. All configuration settings described in `config.py <https"
@@ -157,15 +165,15 @@ msgstr ""
 "змінних оточення. Всі можливі опції описані в `config.py <https://pinger-"
 "bot.readthedocs.io/uk_UA/latest/autoapi/pinger_bot/config/>`_."
 
-#: ../../../README.md:115
+#: ../../../README.md:117
 msgid "Database"
 msgstr "База даних"
 
-#: ../../../README.md:117
+#: ../../../README.md:119
 msgid "When setting up a database, there are a few additional nuances:"
 msgstr "Коли встановлюєте базу даних, є також декілька нюансів:"
 
-#: ../../../README.md:120
+#: ../../../README.md:122
 msgid ""
 "If you want use SQLite, you need specify path to file. I recomend set "
 "absolute path."
@@ -173,7 +181,7 @@ msgstr ""
 "Якщо ви хочете використовувати SQLite, вам потрібно вказати шлях до "
 "файлу. Рекомендовано встановлювати абсолютний шлях."
 
-#: ../../../README.md:121
+#: ../../../README.md:123
 msgid ""
 "What specify in field ``db_uri``\\ ? `See this page "
 "<https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls>`_."
@@ -182,33 +190,33 @@ msgstr ""
 "статтю <https://docs.sqlalchemy.org/en/14/core/engines.html#database-"
 "urls>`_."
 
-#: ../../../README.md:124
+#: ../../../README.md:126
 msgid "Run the bot"
 msgstr "Запуск бота"
 
-#: ../../../README.md:131
+#: ../../../README.md:133
 msgid "If something is not clear"
 msgstr "Якщо щось не зрозуміло"
 
-#: ../../../README.md:133
+#: ../../../README.md:135
 msgid "You can always write me!"
 msgstr "Ви завжди можете написати мені!"
 
-#: ../../../README.md:136
+#: ../../../README.md:138
 msgid "Using in Docker"
 msgstr "Використання в Docker"
 
-#: ../../../README.md:138
+#: ../../../README.md:140
 msgid "See `docs <https://pinger-bot.readthedocs.io/en/latest/pages/docker/>`_."
 msgstr ""
 "Дивіться `документацію <https://pinger-"
 "bot.readthedocs.io/uk_UA/latest/pages/docker/>`_."
 
-#: ../../../README.md:141
+#: ../../../README.md:143
 msgid "Updating"
 msgstr "Оновлення"
 
-#: ../../../README.md:143
+#: ../../../README.md:145
 msgid ""
 "For updating, just redownload repository (do not forget save config and "
 "database), if you used ``git`` for donwloading, just run ``git pull``."
@@ -217,7 +225,7 @@ msgstr ""
 "зберегти конфіг та базу даних), якщо ви використовували ``git`` для "
 "скачування, тоді просто використайте ``git pull``."
 
-#: ../../../README.md:146
+#: ../../../README.md:148
 msgid ""
 "After that, you need update translations and database, commands the same "
 "as in installing section:"
@@ -225,11 +233,11 @@ msgstr ""
 "Після цього, треба оновити переклади і базу даних, команди аналогічні як "
 "при встановленні:"
 
-#: ../../../README.md:154
+#: ../../../README.md:156
 msgid "Thanks"
 msgstr "Дякую"
 
-#: ../../../README.md:156
+#: ../../../README.md:158
 msgid ""
 "This project was generated with `fire-square-style <https://github.com"
 "/fire-square/fire-square-style>`_. Current template version: "

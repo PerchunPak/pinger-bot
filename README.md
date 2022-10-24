@@ -67,6 +67,8 @@ poetry run pybabel compile -d locales
 
 ### Database migrations
 
+Those will create database for you. You do not need to create any tables by hand, just run this command:
+
 ```bash
 poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```

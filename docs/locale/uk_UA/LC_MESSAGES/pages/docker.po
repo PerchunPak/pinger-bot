@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pinger-bot 0.4.0\n"
 "Report-Msgid-Bugs-To: GitHub Bug Tracker\n"
-"POT-Creation-Date: 2022-06-18 16:42+0200\n"
+"POT-Creation-Date: 2022-10-24 20:00+0200\n"
 "PO-Revision-Date: 2022-06-17 23:05+0200\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk_UA\n"
@@ -32,8 +32,8 @@ msgid "Installing from Dockerhub"
 msgstr "Встановлення з Dockerhub"
 
 #: ../../pages/docker.rst:14
-msgid "By default, we create few tags:"
-msgstr "За замовчуванням, ми створюємо декілька тегів:"
+msgid "We have few tags:"
+msgstr "У нас є декілька тегів:"
 
 #: ../../pages/docker.rst:16
 msgid "``latest`` - Latest project release."
@@ -41,8 +41,8 @@ msgstr "``latest`` - Остання версія проекту."
 
 #: ../../pages/docker.rst:17
 msgid ""
-"``dev`` - Latest possible project version. Use only for testing, always "
-"can have breaking changes."
+"``dev`` - Latest possible project version. Use this only for testing, it "
+"always can have breaking changes."
 msgstr ""
 "``dev`` - Остання можлива версія проекту. Використовуйте лише для "
 "тестування, завжди можуть бути проблеми з несумісністю версій."
@@ -56,22 +56,22 @@ msgstr "``x.y.z`` - Версія проекту в `Semantic Versions <https://s
 #: ../../pages/docker.rst:22
 msgid ""
 "Every of those tags also have duplicates with database suffixes, at now "
-"it is can be ``sqlite``, ``mysql`` and ``postgresql``. As example, for "
-"tag ``latest`` also will be available tag ``latest-sqlite``."
+"it can be ``sqlite``, ``mysql`` or ``postgresql``. As example, for tag "
+"``latest`` there also will be available tag ``latest-sqlite``."
 msgstr ""
 "Кожен з цих тегів, також має дублікати с суфіксами баз даних, на даний "
-"момент це можуть бути ``sqlite``, ``mysql`` та ``postgresql``. Як "
+"момент це можуть бути ``sqlite``, ``mysql`` або ``postgresql``. Як "
 "приклад, для тегу ``latest`` також буде доступний тег ``latest-sqlite``."
 
 #: ../../pages/docker.rst:26
 msgid ""
 "Tag without suffix - standard database. At now, it is ``sqlite``. It "
-"means that tag ``latest`` give the same as ``latest-sqlite``."
+"means that tag ``latest`` is the same as ``latest-sqlite``."
 msgstr ""
 "Тег без суфіксу - стандартна база даних. На даний момент це ``sqlite``. "
-"Тобто це означає що тег ``latest`` видає теж саме що і ``latest-sqlite``."
+"Тобто це означає що тег ``latest`` це теж саме що і ``latest-sqlite``."
 
-#: ../../pages/docker.rst:30
+#: ../../pages/docker.rst:29
 msgid ""
 "There are few deprecated tags, which are still available only for "
 "history. It is :ref:`main <pages/changelog:version 0.1.0>`, :ref:`rewrite"
@@ -83,18 +83,19 @@ msgstr ""
 "<pages/changelog:version 0.2.0>` та :ref:`newdb <pages/changelog:version "
 "0.3.0>`."
 
-#: ../../pages/docker.rst:36 ../../pages/docker.rst:60
+#: ../../pages/docker.rst:35 ../../pages/docker.rst:58
 msgid ""
-"If you use not ``sqlite``, you need to apply database migrations "
-"manually. In ``sqlite`` migrations are applied automatically while we "
-"compile image. See :ref:`index:database migrations` for details."
+"If you use non-\\ ``sqlite`` database, you need to apply database "
+"migrations manually. In ``sqlite``, migrations are applied automatically "
+"while we compile the image. See :ref:`index:database migrations` for "
+"details."
 msgstr ""
 "Якщо ви не використовуєте ``sqlite``, вам також треба буде застосовувати "
 "міграції бази даних самостійно. В ``sqlite`` міграції приміняються поки "
 "ми збираємо зображення. Дивіться :ref:`index:database migrations` для "
 "більшої інформації."
 
-#: ../../pages/docker.rst:41
+#: ../../pages/docker.rst:40
 msgid ""
 "`Our page on Dockerhub with all available tags. "
 "<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
@@ -102,58 +103,51 @@ msgstr ""
 "`Наша сторінка на Dockerhub з усіма доступними тегами. "
 "<https://hub.docker.com/r/perchunpak/pingerbot/tags>`_"
 
-#: ../../pages/docker.rst:46
+#: ../../pages/docker.rst:45
 msgid "Self compilation"
 msgstr "Самостійна компіляція"
 
-#: ../../pages/docker.rst:48
-msgid "Also, you can compile images from project's root."
-msgstr "Також, ви можете скомпілювати зображення з кореневої папки проекту."
+#: ../../pages/docker.rst:47
+msgid ""
+"You can compile images from project's root. To make this, you just need "
+"to run the command:"
+msgstr ""
+"Також, ви можете скомпілювати зображення з кореневої теки проекту. Для "
+"цього, просто використайте команду:"
 
-#: ../../pages/docker.rst:50
-msgid "To do this, you just need to run the command:"
-msgstr "Для цього, просто використайте команду:"
-
-#: ../../pages/docker.rst:56
+#: ../../pages/docker.rst:54
 msgid ""
 "Where ``--build-arg dialect=sqlite`` - parameter, which defines database,"
 " what you want to use. Instead of ``sqlite`` you can set any supported."
 msgstr ""
 "Де ``--build-arg dialect=sqlite`` - параметер, який визначає яку базу "
 "даних ви будете використовувати. Замість ``sqlite`` ви можете встановити "
-"любу підтримуєму."
+"що завгодно, що ми підтримуємо."
 
-#: ../../pages/docker.rst:66
+#: ../../pages/docker.rst:64
 msgid "Run"
 msgstr "Запуск"
 
-#: ../../pages/docker.rst:68
+#: ../../pages/docker.rst:66
 msgid "To run the bot, in both cases of installation, use this command:"
 msgstr "Для запуску бота, в обох випадках встановлення, використайте цю команду:"
 
-#: ../../pages/docker.rst:75
+#: ../../pages/docker.rst:72
 msgid ""
 "If you want to use ``sqlite``, you also need to set ``-v "
-"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a"
-" folder with your database file. I recommend set absolute path.) This is needed "
-"to save database in case of container restart."
+"YOUR_FOLDER:/app/pinger/data`` option (Where ``YOUR_FOLDER`` it is a "
+"folder with your database file. I recommend to set absolute path.) This "
+"is needed to save database in case of container restart. This parameter "
+"**must** be set between ``-d`` flag and ``perchunpak/pingerbot``."
 msgstr ""
 "Якщо ви хочете використовувати ``sqlite``, ви також повинні встановити "
-"опцію ``-v ВАША_ТЕКА:/app/data`` (Де ``ВАША_ТЕКА`` це ваша тека до "
-"теки з базою даних, рекомендовано встановлювати абсолютний шлях.) Це "
-"потрібно щоб зберігати вашу базу даних коли контейнер перезавантажиться."
+"опцію ``-v ВАША_ТЕКА:/app/data`` (Де ``ВАША_ТЕКА`` це ваша тека до теки з"
+" базою даних, рекомендовано встановлювати абсолютний шлях.) Це потрібно "
+"щоб зберігати вашу базу даних коли контейнер перезавантажиться."
 
-#: ../../pages/docker.rst:80
+#: ../../pages/docker.rst:78
 msgid ""
-"This parameter **must** be set between ``-d`` flag and "
-"``perchunpak/pingerbot``."
-msgstr ""
-"Цей параметр **повинен** встановлюється між прапором ``-d`` та "
-"``perchunpak/pingerbot``."
-
-#: ../../pages/docker.rst:83
-msgid ""
-"You also need to set ``-e`` option for every configuration parameter. "
+"You also have to set ``-e`` option for every configuration parameter. "
 "This option just set environment variables, interface will be the same as"
 " in ``config.yml``, but all parameters keys in upper case."
 msgstr ""
@@ -162,7 +156,7 @@ msgstr ""
 " буде такий самий як і в ``config.yml``, але всі ключі параметрів повинні"
 " бути у верхньому регістрі."
 
-#: ../../pages/docker.rst:87
+#: ../../pages/docker.rst:82
 msgid ""
 "They should be used like ``-e KEY=VALUE``, where ``KEY`` upper cased key "
 "from ``config.yml`` (example ``DISCORD_TOKEN``), and ``VALUE`` is a "
@@ -172,7 +166,7 @@ msgstr ""
 "ключ з ``config.yml`` у верхньому регістрі (наприклад ``DISCORD_TOKEN``),"
 " і ``ЗНАЧЕННЯ`` це значення."
 
-#: ../../pages/docker.rst:90
+#: ../../pages/docker.rst:85
 msgid ""
 "Same as ``-v`` option, they **must** be set between ``-d`` flag and "
 "``perchunpak/pingerbot``."
@@ -180,33 +174,31 @@ msgstr ""
 "Так як і опція ``-v``, воно **повинно** бути між флагом ``-d`` і "
 "``perchunpak/pingerbot``."
 
-#: ../../pages/docker.rst:94
+#: ../../pages/docker.rst:88
 msgid ""
 "Since version 0.4.0 the container runs in non-root mode, which means that"
-" if you use the sqlite tag and a ``-v`` option you have to give rights to"
-" the folder. This can be done with the command ``chown -R 5000:5000 <your "
-"folder>``."
+" if you use the sqlite tag and a ``-v`` option, you have to give rights "
+"to the folder. This can be done with the command ``chown -R 5000:5000 "
+"<your folder>``."
 msgstr ""
 "З версії 0.4.0 контейнер запускається в режимі без-root, що означає, що "
 "якщо ви використовуєте тег sqlite і ``-v`` опцію, вам потрібно надати "
-"права на папку. Це можна зробити за допомогою команди ``chown -R 5000:5000"
-" <ваша тека>``."
+"права на папку. Це можна зробити за допомогою команди ``chown -R "
+"5000:5000 <ваша тека>``."
 
-#: ../../pages/docker.rst:98
-msgid "Doesn't applies to Windows users."
+#: ../../pages/docker.rst:93
+msgid "This doesn't apply to Windows users."
 msgstr "Не стосується користувачів Windows."
 
-#: ../../pages/docker.rst:101
+#: ../../pages/docker.rst:96
 msgid "`podman <https://podman.io>`_ as replacement for a Docker."
 msgstr "`podman <https://podman.io>`_ як заміну для Docker."
 
-#: ../../pages/docker.rst:104
+#: ../../pages/docker.rst:99
 msgid "Command"
 msgstr "Команду"
 
-#: ../../pages/docker.rst:110
-msgid "For full list of arguments and possibilities, upper I wrote only basics."
-msgstr ""
-"Для повного списку аргументів та можливостей, вище я написав тільки "
-"базове."
+#: ../../pages/docker.rst:105
+msgid "For full list of arguments and possibilities, upper are only basics."
+msgstr "Для повного списку аргументів та можливостей, вище тільки саміоснови."
 
