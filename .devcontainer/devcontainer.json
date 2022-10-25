@@ -1,0 +1,13 @@
+{
+  "name": "Python 3.10",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance"
+  ],
+  "postCreateCommand": "poetry install -E sqlite && poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head",
+  "remoteUser": "vscode"
+}
