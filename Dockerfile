@@ -1,7 +1,7 @@
 ARG dialect=sqlite
 
 
-FROM python:slim as poetry
+FROM python:3.10-slim as poetry
 
 ARG dialect=sqlite
 ENV PATH "/root/.local/bin:${PATH}"
@@ -15,7 +15,7 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry export --no-interaction -o requirements.txt --without-hashes -E ${dialect} --only main,docker
 
 
-FROM python:slim as base
+FROM python:3.10-slim as base
 
 ENV PYTHONPATH "/app/pinger"
 
