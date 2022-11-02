@@ -33,7 +33,7 @@ aiohttp = "~3.8"
 cachetools = "~5.2"
 asyncache = "0.1.1"
 
-Babel = "~2.10"
+Babel = "~2.11"
 
 structlog = "22.1.0"
 ### For colors in structlog ###
