@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-09-14 13:02+0200\n"
+"POT-Creation-Date: 2022-11-02 14:02+0100\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -13,9 +13,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.11.0\n"
 
-#: pinger_bot/__main__.py:13
+#: pinger_bot/__main__.py:12
 msgid "Hello World!"
 msgstr "Привіт Світ!"
 
@@ -43,418 +43,418 @@ msgstr "Не можу пропарсити IP {} в цифровий IP"
 msgid "Starting DB..."
 msgstr "Запускаю базу даних..."
 
-#: pinger_bot/ext/events.py:36
+#: pinger_bot/ext/events.py:35
 msgid "Command '{}'"
 msgstr "Команда '{}'"
 
-#: pinger_bot/ext/events.py:42
+#: pinger_bot/ext/events.py:41
 msgid "Bot running! For stop it, use CTRL C."
 msgstr "Бот запущений! Для його зупинки натисніть CTRL C."
 
-#: pinger_bot/ext/events.py:49
+#: pinger_bot/ext/events.py:48
 msgid "Bot stopping. Bye!"
 msgstr "Бот зупиняється. Бувайте!"
 
-#: pinger_bot/ext/scheduling.py:24
+#: pinger_bot/ext/scheduling.py:20
 msgid "Collecting info for statistic plot."
 msgstr "Збираю інформація для будівлі графіка статистики."
 
-#: pinger_bot/ext/scheduling.py:31
+#: pinger_bot/ext/scheduling.py:27
 msgid "Collecting info ended!"
 msgstr "Збирання інформації закінчено!"
 
-#: pinger_bot/ext/scheduling.py:43
+#: pinger_bot/ext/scheduling.py:39
 msgid "Server offline?"
 msgstr "Сервер офлайн?"
 
-#: pinger_bot/ext/scheduling.py:50
+#: pinger_bot/ext/scheduling.py:46
 msgid "Update max players, in server {}"
 msgstr "Оновлення рекорда онлайна в сервері {}"
 
-#: pinger_bot/ext/scheduling.py:67
+#: pinger_bot/ext/scheduling.py:63
 msgid "Deleting old pings."
 msgstr "Видаляю старі пінги."
 
-#: pinger_bot/ext/commands/__init__.py:24
+#: pinger_bot/ext/commands/__init__.py:22
 msgid "Wait please..."
 msgstr "Будь ласка почекайте..."
 
-#: pinger_bot/ext/commands/__init__.py:25
+#: pinger_bot/ext/commands/__init__.py:23
 msgid "I'm working on it, please wait. I will ping you when it's done."
 msgstr "Я працюю над цим, будь ласка почекайте. Я згадаю вас коли закінчу."
 
-#: pinger_bot/ext/commands/add.py:33 pinger_bot/ext/commands/add.py:51
+#: pinger_bot/ext/commands/add.py:30 pinger_bot/ext/commands/add.py:48
 msgid "Cannot add server {}"
 msgstr "Не можу додати сервер {}"
 
-#: pinger_bot/ext/commands/add.py:35 pinger_bot/ext/commands/alias.py:35
-#: pinger_bot/ext/commands/motd.py:35 pinger_bot/ext/commands/ping.py:35
+#: pinger_bot/ext/commands/add.py:32 pinger_bot/ext/commands/alias.py:32
+#: pinger_bot/ext/commands/motd.py:33 pinger_bot/ext/commands/ping.py:33
 msgid "Can't ping the server."
 msgstr "Не можу пінганути сервер."
 
-#: pinger_bot/ext/commands/add.py:35 pinger_bot/ext/commands/alias.py:35
-#: pinger_bot/ext/commands/motd.py:35 pinger_bot/ext/commands/ping.py:35
-#: pinger_bot/ext/commands/statistic.py:43
+#: pinger_bot/ext/commands/add.py:32 pinger_bot/ext/commands/alias.py:32
+#: pinger_bot/ext/commands/motd.py:33 pinger_bot/ext/commands/ping.py:33
+#: pinger_bot/ext/commands/statistic.py:40
 msgid "Maybe you set invalid IP address, or server just offline."
 msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто вимкнений."
 
-#: pinger_bot/ext/commands/add.py:52
+#: pinger_bot/ext/commands/add.py:49
 msgid "Server was already added."
 msgstr "Сервер вже було додано."
 
-#: pinger_bot/ext/commands/add.py:52
+#: pinger_bot/ext/commands/add.py:49
 msgid "Maybe you set invalid IP address."
 msgstr "Можливо ви вказали не вірну IP адресу."
 
-#: pinger_bot/ext/commands/add.py:58 pinger_bot/ext/commands/motd.py:41
-#: pinger_bot/ext/commands/other.py:120 pinger_bot/ext/commands/ping.py:58
-#: pinger_bot/ext/commands/statistic.py:111
+#: pinger_bot/ext/commands/add.py:55 pinger_bot/ext/commands/motd.py:39
+#: pinger_bot/ext/commands/other.py:117 pinger_bot/ext/commands/ping.py:56
+#: pinger_bot/ext/commands/statistic.py:108
 msgid "The IP address of the server."
 msgstr "Айпі адреса сервера."
 
-#: pinger_bot/ext/commands/add.py:59
+#: pinger_bot/ext/commands/add.py:56
 msgid "Add server to database."
 msgstr "Додати сервер в базу даних."
 
-#: pinger_bot/ext/commands/add.py:71 pinger_bot/ext/commands/alias.py:108
-#: pinger_bot/ext/commands/motd.py:54 pinger_bot/ext/commands/ping.py:71
+#: pinger_bot/ext/commands/add.py:68 pinger_bot/ext/commands/alias.py:105
+#: pinger_bot/ext/commands/motd.py:52 pinger_bot/ext/commands/ping.py:69
 msgid "Failed ping for {}"
 msgstr "Не вдалося пінганути {}"
 
-#: pinger_bot/ext/commands/add.py:83 pinger_bot/ext/commands/add.py:92
+#: pinger_bot/ext/commands/add.py:80 pinger_bot/ext/commands/add.py:89
 msgid "Added server {}"
 msgstr "Додан сервер {}"
 
-#: pinger_bot/ext/commands/add.py:85
+#: pinger_bot/ext/commands/add.py:82
 msgid "Server {} already added"
 msgstr "Сервер {} вже було додано."
 
-#: pinger_bot/ext/commands/add.py:93
+#: pinger_bot/ext/commands/add.py:90
 msgid "Name of the server in database: {}"
 msgstr "Им'я сервера в базі даних: {}"
 
-#: pinger_bot/ext/commands/add.py:100
+#: pinger_bot/ext/commands/add.py:97
 msgid "Server successfully added."
 msgstr "Сервер успішно додано."
 
-#: pinger_bot/ext/commands/add.py:100
+#: pinger_bot/ext/commands/add.py:97
 msgid "See `/` preview for more info about commands to use."
 msgstr ""
 "Дивіться `/` прев'ю для більшої інформації про команди, та їх "
 "використання."
 
-#: pinger_bot/ext/commands/add.py:105
+#: pinger_bot/ext/commands/add.py:102
 msgid "Now you can use `/statistic {0}`, or a `/alias {0} (your alias)` command."
 msgstr ""
 "Тепер ви можете використовувати `/statistic {0}`, або `/alias {0} (ваш "
 "аліас)` команду"
 
-#: pinger_bot/ext/commands/alias.py:33 pinger_bot/ext/commands/ping.py:33
-#: pinger_bot/ext/commands/ping.py:76
+#: pinger_bot/ext/commands/alias.py:30 pinger_bot/ext/commands/ping.py:31
+#: pinger_bot/ext/commands/ping.py:74
 msgid "Ping Results {}"
 msgstr "Результати Пінгу {}"
 
-#: pinger_bot/ext/commands/alias.py:50
+#: pinger_bot/ext/commands/alias.py:47
 msgid "You are not an owner of the server"
 msgstr "Ви не власник цього серверу"
 
-#: pinger_bot/ext/commands/alias.py:51
+#: pinger_bot/ext/commands/alias.py:48
 msgid "Only server's owner can set/change alias."
 msgstr "Тільки власник серверу може встановлювати/змінювати аліас."
 
-#: pinger_bot/ext/commands/alias.py:55
+#: pinger_bot/ext/commands/alias.py:52
 msgid "Can't set alias."
 msgstr "Не можу встановити аліас."
 
-#: pinger_bot/ext/commands/alias.py:56
+#: pinger_bot/ext/commands/alias.py:53
 msgid "You are not owner of the server {}."
 msgstr "Ви не власник серверу {}."
 
-#: pinger_bot/ext/commands/alias.py:61 pinger_bot/ext/commands/alias.py:85
-#: pinger_bot/ext/commands/alias.py:157 pinger_bot/ext/commands/other.py:161
-#: pinger_bot/ext/commands/statistic.py:167
+#: pinger_bot/ext/commands/alias.py:58 pinger_bot/ext/commands/alias.py:82
+#: pinger_bot/ext/commands/alias.py:154 pinger_bot/ext/commands/other.py:158
+#: pinger_bot/ext/commands/statistic.py:164
 msgid "For more information about the server, write: {}"
 msgstr "Для більшої інформації про сервер, напишіть: {}"
 
-#: pinger_bot/ext/commands/alias.py:77
+#: pinger_bot/ext/commands/alias.py:74
 msgid "Alias {} already exists"
 msgstr "Аліас {} вже існує"
 
-#: pinger_bot/ext/commands/alias.py:78
+#: pinger_bot/ext/commands/alias.py:75
 msgid "You can add only not existing alias."
 msgstr "Ви можете встановити тільки не існуючий аліас."
 
-#: pinger_bot/ext/commands/alias.py:81
+#: pinger_bot/ext/commands/alias.py:78
 msgid "Error"
 msgstr "Помилка"
 
-#: pinger_bot/ext/commands/alias.py:81 pinger_bot/ext/commands/alias.py:142
+#: pinger_bot/ext/commands/alias.py:78 pinger_bot/ext/commands/alias.py:139
 msgid "Alias already exists."
 msgstr "Аліас вже існує."
 
-#: pinger_bot/ext/commands/alias.py:92
+#: pinger_bot/ext/commands/alias.py:89
 msgid "The IP address or alias of the server."
 msgstr "Айпі адреса або аліас серверу."
 
-#: pinger_bot/ext/commands/alias.py:93
+#: pinger_bot/ext/commands/alias.py:90
 msgid "New alias of the server."
 msgstr "Новий аліас серверу."
 
-#: pinger_bot/ext/commands/alias.py:94
+#: pinger_bot/ext/commands/alias.py:91
 msgid "Set alias of the server."
 msgstr "Встановіть аліас сервера."
 
-#: pinger_bot/ext/commands/alias.py:118
+#: pinger_bot/ext/commands/alias.py:115
 msgid "Server {} in DB {}"
 msgstr "Сервер {} в базі даних {}"
 
-#: pinger_bot/ext/commands/alias.py:124 pinger_bot/ext/commands/alias.py:130
-#: pinger_bot/ext/commands/alias.py:142
+#: pinger_bot/ext/commands/alias.py:121 pinger_bot/ext/commands/alias.py:127
+#: pinger_bot/ext/commands/alias.py:139
 msgid "Failed add alias for {}."
 msgstr "Не вдалося додати аліас для {}."
 
-#: pinger_bot/ext/commands/alias.py:124
+#: pinger_bot/ext/commands/alias.py:121
 msgid "Server offline or not in database."
 msgstr "Сервер офлайн, або не в базі даних."
 
-#: pinger_bot/ext/commands/alias.py:130
+#: pinger_bot/ext/commands/alias.py:127
 msgid "User not owner."
 msgstr "Користувач не власник."
 
-#: pinger_bot/ext/commands/alias.py:147
+#: pinger_bot/ext/commands/alias.py:144
 msgid "Added alias {} to server {}"
 msgstr "Додан аліас {} до сервера {}"
 
-#: pinger_bot/ext/commands/alias.py:148
+#: pinger_bot/ext/commands/alias.py:145
 msgid "Now you can use {} instead of {}"
 msgstr "Ви тепер можете використовувати {} замість {}"
 
-#: pinger_bot/ext/commands/alias.py:153
+#: pinger_bot/ext/commands/alias.py:150
 msgid "Data successfully updated"
 msgstr "Данні успішно оновлено."
 
-#: pinger_bot/ext/commands/alias.py:153
+#: pinger_bot/ext/commands/alias.py:150
 msgid "See '/' preview for list of my commands"
 msgstr "Дивіться `/` прев'ю для списку моїх команд"
 
-#: pinger_bot/ext/commands/motd.py:33 pinger_bot/ext/commands/motd.py:59
+#: pinger_bot/ext/commands/motd.py:31 pinger_bot/ext/commands/motd.py:57
 msgid "Detailed MOTD of the {}"
 msgstr "Детальне MOTD сервера {}"
 
-#: pinger_bot/ext/commands/motd.py:42
+#: pinger_bot/ext/commands/motd.py:40
 msgid "Get link for editing the server MOTD."
 msgstr "Дає посилання на редагування MOTD сервера."
 
-#: pinger_bot/ext/commands/motd.py:60
+#: pinger_bot/ext/commands/motd.py:58
 msgid "This command give ability to edit the MOTD of the server."
 msgstr "Ця команда дає можливість редагувати MOTD сервера."
 
-#: pinger_bot/ext/commands/motd.py:64 pinger_bot/ext/commands/ping.py:84
+#: pinger_bot/ext/commands/motd.py:62 pinger_bot/ext/commands/ping.py:82
 msgid "MOTD"
 msgstr "MOTD"
 
-#: pinger_bot/ext/commands/motd.py:66
+#: pinger_bot/ext/commands/motd.py:64
 msgid "Link for editing"
 msgstr "Посилання для редагування"
 
-#: pinger_bot/ext/commands/motd.py:71 pinger_bot/ext/commands/ping.py:93
+#: pinger_bot/ext/commands/motd.py:69 pinger_bot/ext/commands/ping.py:91
 msgid "Ping successful for {}"
 msgstr "Пінг вдався для {}"
 
-#: pinger_bot/ext/commands/other.py:37
+#: pinger_bot/ext/commands/other.py:34
 msgid "Some basic information about me."
 msgstr "Трохи базової інформації про мене."
 
-#: pinger_bot/ext/commands/other.py:55
+#: pinger_bot/ext/commands/other.py:52
 msgid "Owner"
 msgstr "Власник"
 
-#: pinger_bot/ext/commands/other.py:57
+#: pinger_bot/ext/commands/other.py:54
 msgid "Programming language"
 msgstr "Мова програмування"
 
-#: pinger_bot/ext/commands/other.py:60
+#: pinger_bot/ext/commands/other.py:57
 msgid "Library"
 msgstr "Бібліотека"
 
-#: pinger_bot/ext/commands/other.py:65
+#: pinger_bot/ext/commands/other.py:62
 msgid "License"
 msgstr "Ліцензія"
 
-#: pinger_bot/ext/commands/other.py:69
+#: pinger_bot/ext/commands/other.py:66
 msgid "Source code"
 msgstr "Джерельний код"
 
-#: pinger_bot/ext/commands/other.py:74
+#: pinger_bot/ext/commands/other.py:71
 msgid "Note: You can propose any changes to creator DM (Perchun_Pak#9236)"
 msgstr ""
 "Примітка: Ви можете пропонувати любі зміни розробнику в ПП "
 "(Perchun_Pak#9236)"
 
-#: pinger_bot/ext/commands/other.py:79
+#: pinger_bot/ext/commands/other.py:76
 msgid "Link for invite me."
 msgstr "Посилання на запрошення."
 
-#: pinger_bot/ext/commands/other.py:92
+#: pinger_bot/ext/commands/other.py:89
 msgid "This is my invite link, so you can ping servers too:"
 msgstr "Це моє посилання на запрошення, так що ви можете пінгувати сервери також:"
 
-#: pinger_bot/ext/commands/other.py:96
+#: pinger_bot/ext/commands/other.py:93
 msgid "WARNING: Link only working if you an owner of this bot."
 msgstr "УВАГА: Посилання працює тільки якщо ви власник цього бота."
 
-#: pinger_bot/ext/commands/other.py:112 pinger_bot/ext/commands/other.py:157
+#: pinger_bot/ext/commands/other.py:109 pinger_bot/ext/commands/other.py:154
 msgid "Owner of the server {}"
 msgstr "Власник серверу {}"
 
-#: pinger_bot/ext/commands/other.py:114
+#: pinger_bot/ext/commands/other.py:111
 msgid "Can't execute command."
 msgstr "Не вдається виконати команду."
 
-#: pinger_bot/ext/commands/other.py:114
+#: pinger_bot/ext/commands/other.py:111
 msgid "Maybe you set invalid IP address, or server just not added."
 msgstr "Можливо ви вказали не вірну IP адресу, або сервер просто не був доданий."
 
-#: pinger_bot/ext/commands/other.py:121
+#: pinger_bot/ext/commands/other.py:118
 msgid "Show owner of the server."
 msgstr "Ви не власник цього серверу."
 
-#: pinger_bot/ext/commands/other.py:148
+#: pinger_bot/ext/commands/other.py:145
 msgid "Failed get server '{}' from database"
 msgstr "Не вдалося отримати сервер '{}' з бази даних."
 
-#: pinger_bot/ext/commands/other.py:158
+#: pinger_bot/ext/commands/other.py:155
 msgid "It is {}"
 msgstr "Це {}"
 
-#: pinger_bot/ext/commands/other.py:175 pinger_bot/ext/commands/other.py:222
+#: pinger_bot/ext/commands/other.py:172 pinger_bot/ext/commands/other.py:219
 msgid "Bot's version"
 msgstr "Версія бота"
 
-#: pinger_bot/ext/commands/other.py:178
+#: pinger_bot/ext/commands/other.py:175
 msgid "GIT not available"
 msgstr "GIT недоступний"
 
-#: pinger_bot/ext/commands/other.py:178
+#: pinger_bot/ext/commands/other.py:175
 msgid "Unfortunately, bot can't get access to GIT."
 msgstr "На жаль, бот не може отримати доступ до GIT."
 
-#: pinger_bot/ext/commands/other.py:196
+#: pinger_bot/ext/commands/other.py:193
 msgid "Not available"
 msgstr "Недоступно"
 
-#: pinger_bot/ext/commands/other.py:200
+#: pinger_bot/ext/commands/other.py:197
 msgid "Show bot's version."
 msgstr "Показує версію бота."
 
-#: pinger_bot/ext/commands/other.py:225
+#: pinger_bot/ext/commands/other.py:222
 msgid "Commit hash"
 msgstr "Хеш коміта"
 
-#: pinger_bot/ext/commands/other.py:226
+#: pinger_bot/ext/commands/other.py:223
 msgid "Last version: "
 msgstr "Остання версія: "
 
-#: pinger_bot/ext/commands/other.py:233
+#: pinger_bot/ext/commands/other.py:230
 msgid "SQL statement which I pass to database."
 msgstr "SQL твердження яке я передаю в базу даних."
 
-#: pinger_bot/ext/commands/other.py:234
+#: pinger_bot/ext/commands/other.py:231
 msgid "Commit changes to database."
 msgstr "Зафіксувати зміни в базі даних."
 
-#: pinger_bot/ext/commands/other.py:234 pinger_bot/ext/commands/other.py:249
+#: pinger_bot/ext/commands/other.py:231 pinger_bot/ext/commands/other.py:246
 msgid "Yes"
 msgstr "Так"
 
-#: pinger_bot/ext/commands/other.py:234
+#: pinger_bot/ext/commands/other.py:231
 msgid "No"
 msgstr "Ні"
 
-#: pinger_bot/ext/commands/other.py:235
+#: pinger_bot/ext/commands/other.py:232
 msgid "Execute SQL statement to database. **Owner-Only**."
 msgstr "Використовує SQL твердження в базу даних. **Тільки для власника**."
 
-#: pinger_bot/ext/commands/other.py:259
+#: pinger_bot/ext/commands/other.py:256
 msgid "Done!"
 msgstr "Готово!"
 
-#: pinger_bot/ext/commands/ping.py:53 pinger_bot/ext/commands/statistic.py:158
-#: pinger_bot/ext/commands/statistic.py:159
+#: pinger_bot/ext/commands/ping.py:51 pinger_bot/ext/commands/statistic.py:155
+#: pinger_bot/ext/commands/statistic.py:156
 msgid "No info."
 msgstr "Немає інформації."
 
-#: pinger_bot/ext/commands/ping.py:59
+#: pinger_bot/ext/commands/ping.py:57
 msgid "Ping the server and give information about it."
 msgstr "Пінгує сервер та дає інформацію про нього."
 
-#: pinger_bot/ext/commands/ping.py:77 pinger_bot/ext/commands/statistic.py:151
+#: pinger_bot/ext/commands/ping.py:75 pinger_bot/ext/commands/statistic.py:148
 msgid "Number IP: {}"
 msgstr "Цифровий айпі: {}"
 
-#: pinger_bot/ext/commands/ping.py:81
+#: pinger_bot/ext/commands/ping.py:79
 msgid "Latency"
 msgstr "Час Відповіді"
 
-#: pinger_bot/ext/commands/ping.py:82
+#: pinger_bot/ext/commands/ping.py:80
 msgid "Version"
 msgstr "Версія"
 
-#: pinger_bot/ext/commands/ping.py:83
+#: pinger_bot/ext/commands/ping.py:81
 msgid "Players"
 msgstr "Гравці"
 
-#: pinger_bot/ext/commands/ping.py:88
+#: pinger_bot/ext/commands/ping.py:86
 msgid "If you want to get link for editing the server MOTD, use this command: {}"
 msgstr "Щоб отримати посилання на редактування MOTD, використайте: {}"
 
-#: pinger_bot/ext/commands/statistic.py:40
-#: pinger_bot/ext/commands/statistic.py:90
-#: pinger_bot/ext/commands/statistic.py:150
+#: pinger_bot/ext/commands/statistic.py:37
+#: pinger_bot/ext/commands/statistic.py:87
+#: pinger_bot/ext/commands/statistic.py:147
 msgid "{} statistic"
 msgstr "Статистика {}"
 
-#: pinger_bot/ext/commands/statistic.py:42
+#: pinger_bot/ext/commands/statistic.py:39
 msgid "Can't find the server in database."
 msgstr "Не можу знайти сервер в базі даних."
 
-#: pinger_bot/ext/commands/statistic.py:88
+#: pinger_bot/ext/commands/statistic.py:85
 msgid "Time"
 msgstr "Час"
 
-#: pinger_bot/ext/commands/statistic.py:89
+#: pinger_bot/ext/commands/statistic.py:86
 msgid "Players online"
 msgstr "Гравців онлайн"
 
-#: pinger_bot/ext/commands/statistic.py:112
+#: pinger_bot/ext/commands/statistic.py:109
 msgid "Some statistic about the server."
 msgstr "Трохи статистики про сервер."
 
-#: pinger_bot/ext/commands/statistic.py:134
+#: pinger_bot/ext/commands/statistic.py:131
 msgid "Server {} not found in database"
 msgstr "Сервер {} не знайдено в базі даних."
 
-#: pinger_bot/ext/commands/statistic.py:153
+#: pinger_bot/ext/commands/statistic.py:150
 msgid "Online"
 msgstr "Онлайн"
 
-#: pinger_bot/ext/commands/statistic.py:153
+#: pinger_bot/ext/commands/statistic.py:150
 msgid "Offline"
 msgstr "Офлайн"
 
-#: pinger_bot/ext/commands/statistic.py:161
+#: pinger_bot/ext/commands/statistic.py:158
 msgid "Current online"
 msgstr "Поточний онлайн"
 
-#: pinger_bot/ext/commands/statistic.py:162
+#: pinger_bot/ext/commands/statistic.py:159
 msgid "Yesterday online, in same time"
 msgstr "Онлайн вчора, в той же час"
 
-#: pinger_bot/ext/commands/statistic.py:163
+#: pinger_bot/ext/commands/statistic.py:160
 msgid "Max online of all time"
 msgstr "Максимальний онлайн за весь час"
 
-#: pinger_bot/ext/commands/statistic.py:171
+#: pinger_bot/ext/commands/statistic.py:168
 msgid "not enough info for a plot."
 msgstr "Не достатньо інформації для графіка."
 
