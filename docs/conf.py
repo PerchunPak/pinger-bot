@@ -19,7 +19,11 @@ from typing import Dict, List, Optional
 from autoapi.mappers.python.objects import PythonModule
 from packaging.version import parse as parse_version
 from sphinx.application import Sphinx
-from tomli import load as toml_parse
+
+try:
+    from tomllib import load as toml_parse
+except ModuleNotFoundError:  # python <3.11
+    from tomli import load as toml_parse
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -94,9 +98,6 @@ set_type_checking_flag = True
 # Automatically generate section labels:
 autosectionlabel_prefix_document = True
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
-
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 
@@ -143,14 +144,11 @@ html_theme_options = {
     "navigation_with_keys": True,
 }
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
-
 # -- Extension configuration -------------------------------------------------
 
 napoleon_include_private_with_doc = True
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_references = True
 
 # Configuration for autoapi
 autoapi_dirs = ["../pinger_bot"]
