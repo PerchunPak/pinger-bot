@@ -14,7 +14,7 @@ repository = "https://github.com/PerchunPak/pinger-bot"
 
 
 [tool.poetry.dependencies]
-python = "^3.8,<3.11"
+python = "^3.8,<=3.11"
 
 # Our dependecies
 hikari = "~2.0.0-dev"
@@ -111,4 +111,4 @@ postgresql = ["asyncpg"]
 
 [tool.black]
 line-length = 120
-target-version = ['py310']
+target-version = ['py311']

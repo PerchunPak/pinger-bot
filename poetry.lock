@@ -126,7 +126,10 @@ python-versions = ">=3.7.2"
 [package.dependencies]
 lazy-object-proxy = ">=1.4.0"
 typing-extensions = {version = ">=3.10", markers = "python_version < \"3.10\""}
-wrapt = {version = ">=1.11,<2", markers = "python_version < \"3.11\""}
+wrapt = [
+    {version = ">=1.11,<2", markers = "python_version < \"3.11\""},
+    {version = ">=1.14,<2", markers = "python_version >= \"3.11\""},
+]
 
 [[package]]
 name = "async-timeout"
@@ -606,17 +609,17 @@ speedups = ["aiohttp[speedups] (>=3.8,<4.0)", "ciso8601 (>=2.2,<3.0)"]
 
 [[package]]
 name = "hikari-lightbulb"
-version = "2.2.4"
+version = "2.2.5"
 description = "A simple to use command handler for Hikari"
 category = "main"
 optional = false
-python-versions = ">=3.8.0,<3.11"
+python-versions = ">=3.8.0,<3.12"
 
 [package.dependencies]
-hikari = ">=2.0.0.dev109,<2.1.0"
+hikari = ">=2.0.0.dev111,<2.1.0"
 
 [package.extras]
-crontrigger = ["croniter (>=1.3.5,<1.4.0)", "types-croniter (>=1.3.0,<1.4.0)"]
+crontrigger = ["croniter (>=1.3.7,<1.4.0)", "types-croniter (>=1.3.2,<1.4.0)"]
 
 [[package]]
 name = "identify"
@@ -1728,8 +1731,8 @@ sqlite = ["aiosqlite"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8,<3.11"
-content-hash = "475ee6c067c7689ff32aa63c321427b8c36292a3f542eaa9b3ce2adffaf6f55b"
+python-versions = "^3.8,<=3.11"
+content-hash = "5c73bf00e7bdc2ee59db7007cfdcbe9be5a6dc7cde0285e669442ff5569b5ddc"
 
 [metadata.files]
 aiohttp = [
@@ -2303,8 +2306,8 @@ hikari = [
     {file = "hikari-2.0.0.dev111.tar.gz", hash = "sha256:1c1cb0827725f85a6f61ad6ed75bb4342aad6f046d26a811e4dbeb12a0ef544d"},
 ]
 hikari-lightbulb = [
-    {file = "hikari-lightbulb-2.2.4.tar.gz", hash = "sha256:3e216c8332748c12d0f82df11d14a45b0cea476d1bfea7a2e917411aeba78ed0"},
-    {file = "hikari_lightbulb-2.2.4-py3-none-any.whl", hash = "sha256:4783c7087f0c32a842f6bffc695568c3436584cd872383d1a43555b7f766ddd7"},
+    {file = "hikari-lightbulb-2.2.5.tar.gz", hash = "sha256:4679dbaf3612e98ab6579e04a07b5812e571df9c3a32fb4d6df659ca1b03c11f"},
+    {file = "hikari_lightbulb-2.2.5-py3-none-any.whl", hash = "sha256:030458b7b010e401e9fe1872b5983169215641220a8acd5a348ef14a24f76ae4"},
 ]
 identify = [
     {file = "identify-2.5.8-py2.py3-none-any.whl", hash = "sha256:48b7925fe122720088aeb7a6c34f17b27e706b72c61070f27fe3789094233440"},

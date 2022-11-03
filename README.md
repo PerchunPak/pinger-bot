@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/PerchunPak/pinger-bot/branch/master/graph/badge.svg)](https://codecov.io/gh/PerchunPak/pinger-bot)
 [![Documentation Build Status](https://readthedocs.org/projects/pinger-bot/badge/?version=latest)](https://pinger-bot.readthedocs.io/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Python support versions badge](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org/downloads/)
+[![Python support versions badge](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org/downloads/)
 
 Simple discord bot for tracking your MineCraft servers.
 
