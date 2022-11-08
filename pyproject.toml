@@ -31,7 +31,7 @@ aiohttp = "~3.8"
 
 # caching utils
 cachetools = "~5.2"
-asyncache = "0.1.1"
+asyncache = "0.3.0"
 
 Babel = "~2.11"
 
