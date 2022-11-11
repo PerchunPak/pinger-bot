@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/python:3.11
 
 USER vscode
+ENV PATH "/home/vscode/.local/bin:${PATH}"
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo apt-get update && \
