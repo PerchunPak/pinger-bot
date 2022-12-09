@@ -18,7 +18,7 @@ python = "^3.8,<=3.11"
 
 # Our dependecies
 hikari = "~2.0.0-dev"
-hikari-lightbulb = "~2.2"
+hikari-lightbulb = "~2.3"
 APScheduler = "~3.9"
 
 mcstatus = "~10.0"
