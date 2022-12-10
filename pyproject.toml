@@ -14,7 +14,7 @@ repository = "https://github.com/PerchunPak/pinger-bot"
 
 
 [tool.poetry.dependencies]
-python = "^3.8,<=3.11"
+python = "^3.8,<3.12"
 
 # Our dependecies
 hikari = "~2.0.0-dev"
