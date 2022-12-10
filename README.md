@@ -27,7 +27,7 @@ cd pinger-bot
 
 ### Installing `poetry`
 
-Next we need install `poetry` with [recomended way](https://python-poetry.org/docs/master/#installation).
+Next we need install `poetry` with [recommended way](https://python-poetry.org/docs/master/#installation).
 
 If you use Linux, use command:
 
@@ -57,12 +57,12 @@ Example:
 poetry install --only main -E mysql
 ```
 
-### Compiling translations
+#### Compiling translations
 
 This requered even if you want just use english.
 
 ```bash
-poetry run pybabel compile -d locales
+pybabel compile -d locales
 ```
 
 ### Database migrations
@@ -70,7 +70,7 @@ poetry run pybabel compile -d locales
 Those will create database for you. You do not need to create any tables by hand, just run this command:
 
 ```bash
-poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
+alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
 ### Configuration
@@ -88,7 +88,7 @@ When setting up a database, there are a few additional nuances:
 ### Run the bot
 
 ```bash
-poetry run python pinger_bot
+python pinger_bot
 ```
 
 ### If something is not clear
@@ -107,12 +107,12 @@ if you used `git` for donwloading, just run `git pull`.
 After that, you need update translations and database, commands the same as in installing section:
 
 ```bash
-poetry run pybabel compile -d locales
-poetry run alembic -c pinger_bot/migrations/alembic.ini upgrade head
+pybabel compile -d locales
+alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ```
 
 ## Thanks
 
-This project was generated with [fire-square-style](https://github.com/fire-square/fire-square-style).
-Current template version: [ecced586eefabeda396c4f052ae0e1b49bdcbcd4](https://github.com/fire-square/fire-square-style/tree/ecced586eefabeda396c4f052ae0e1b49bdcbcd4).
-See what [updated](https://github.com/fire-square/fire-square-style/compare/ecced586eefabeda396c4f052ae0e1b49bdcbcd4...master).
+This project was generated with [python-template](https://github.com/PerchunPak/python-template).
+Current template version: [ecced586eefabeda396c4f052ae0e1b49bdcbcd4](https://github.com/PerchunPak/python-template/tree/ecced586eefabeda396c4f052ae0e1b49bdcbcd4).
+See what [updated](https://github.com/PerchunPak/python-template/compare/ecced586eefabeda396c4f052ae0e1b49bdcbcd4...master).

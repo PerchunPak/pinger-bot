@@ -15,7 +15,7 @@ updates:
     - dependency-name: "aiomysql"
     - dependency-name: "aiosqlite"
     - dependency-name: "asyncpg"
-    # Update these dependencies with fire-square-style
+    # Update these dependencies with python-template
     - dependency-name: "python-decouple"
     - dependency-name: "structlog"
     ### Docs section ###

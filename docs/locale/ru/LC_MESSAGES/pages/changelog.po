@@ -46,8 +46,8 @@ msgid "Using ``hikari`` instead of ``discord.py``."
 msgstr "Переход на ``hikari`` вместо ``discord.py``."
 
 #: ../../../CHANGELOG.md:15
-msgid "Using template ``fire-square-style``."
-msgstr "Использовали стиль ``fire-square-style``."
+msgid "Using template ``python-template``."
+msgstr "Использовали стиль ``python-template``."
 
 #: ../../../CHANGELOG.md:16
 msgid ""

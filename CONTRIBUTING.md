@@ -6,6 +6,10 @@ first contribution.
 Also note that this all is just recommendations, you can use anything in some cases, if it will be better than solution
 that we propose here. However, we will prefer these recommendations when we will review your contribution.
 
+## Language
+
+All contributions, all code, all comments, all commits and everything else **must** be in English. 
+
 ## `make test`
 
 This "magic" command collects almost all of our CI. If you're on Windows, try [Chocolatey](https://chocolatey.org) to

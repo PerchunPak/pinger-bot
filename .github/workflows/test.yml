@@ -72,7 +72,7 @@ jobs:
         # see https://github.com/tk-woven/mypy-install-types-mre
         mkdir .mypy_cache
 
-        make test ci=1 dburi=`\
+        poetry run make test ci=1 dburi=`\
         if [[ "${{ matrix.db }}" == "sqlite" ]]; then \
           echo "sqlite+aiosqlite:///{tempdir}/db.sqlite3"; \
         elif [[ "${{ matrix.db }}" == "mysql" ]]; then \
@@ -112,7 +112,7 @@ jobs:
 
     - name: Apply codestyle
       run: |
-        make style
+        poetry run make style
 
     - name: Commit changes
       run: |

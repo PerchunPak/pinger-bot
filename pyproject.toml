@@ -1,5 +1,5 @@
 [build-system]
-requires = ["poetry-core>=1.2.0"]
+requires = ["poetry-core>=1.3.0"]
 build-backend = "poetry.core.masonry.api"
 
 
@@ -35,7 +35,7 @@ asyncache = "0.3.0"
 
 Babel = "~2.11"
 
-structlog = "22.1.0"
+structlog = "22.3.0"
 ### For colors in structlog ###
 ### Only needed for Windows ###
 colorama = { version = "*", markers="platform_system == 'Windows'" }
@@ -53,9 +53,10 @@ black = "~22"
 isort = "~5.10"
 pycln = "~2.1"
 doc8 = "~1.0"
-mypy = "*"  # dependabot can't update non semver dependencies with our config, see e9376da in fire-square-style
+mypy = "*"  # dependabot can't update non semver dependencies with our config, see e9376da in python-template
 flake8 = "~5"
 flake8-docstrings = "~1"
+flake8-ensure-ascii = "~1.0"
 pydocstyle = ">=4.0.0"
 safety = "~2.3"
 
