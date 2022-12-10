@@ -21,6 +21,7 @@ class TestPingerBot:
         :func:`lightbulb.BotApp.__init__`."""
         mocked = mocker.patch("lightbulb.BotApp.__init__")
         kwargs = faker.pydict()
+        kwargs.pop("event", None)  # see https://github.com/hynek/structlog/issues/372
 
         bot.PingerBot(**kwargs)
 
