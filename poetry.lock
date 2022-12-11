@@ -267,20 +267,18 @@ files = [
 
 [[package]]
 name = "asyncache"
-version = "0.3.0"
+version = "0.3.1"
 description = "Helpers to use cachetools with async code."
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "asyncache-0.3.0-py3-none-any.whl", hash = "sha256:2d489b4f610a9a0c68a483abe55f3cb373aac7ad3fdbb6b5731f5424adfb31e9"},
-    {file = "asyncache-0.3.0.tar.gz", hash = "sha256:4c45ccdb1cea3f0fc22e14742d265a49df7308000f883e77900dc678258e7cd0"},
+    {file = "asyncache-0.3.1-py3-none-any.whl", hash = "sha256:ef20a1024d265090dd1e0785c961cf98b9c32cc7d9478973dcf25ac1b80011f5"},
+    {file = "asyncache-0.3.1.tar.gz", hash = "sha256:9a1e60a75668e794657489bdea6540ee7e3259c483517b934670db7600bf5035"},
 ]
 
 [package.dependencies]
 cachetools = ">=5.2.0,<6.0.0"
-mypy = ">=0.982,<0.983"
-types-cachetools = ">=5.2.1,<6.0.0"
 
 [[package]]
 name = "asyncio-dgram"
@@ -1786,7 +1784,7 @@ files = [
 name = "mypy"
 version = "0.982"
 description = "Optional static typing for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1830,7 +1828,7 @@ reports = ["lxml"]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -2968,18 +2966,6 @@ doc = ["cairosvg (>=2.5.2,<3.0.0)", "mdx-include (>=1.4.1,<2.0.0)", "mkdocs (>=1
 test = ["black (>=22.3.0,<23.0.0)", "coverage (>=6.2,<7.0)", "isort (>=5.0.6,<6.0.0)", "mypy (==0.910)", "pytest (>=4.4.0,<8.0.0)", "pytest-cov (>=2.10.0,<5.0.0)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=1.32.0,<4.0.0)", "rich (>=10.11.0,<13.0.0)", "shellingham (>=1.3.0,<2.0.0)"]
 
 [[package]]
-name = "types-cachetools"
-version = "5.2.1"
-description = "Typing stubs for cachetools"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "types-cachetools-5.2.1.tar.gz", hash = "sha256:069cfc825697cd51445c1feabbe4edc1fae2b2315870e7a9a179a7c4a5851bee"},
-    {file = "types_cachetools-5.2.1-py3-none-any.whl", hash = "sha256:b496b7e364ba050c4eaadcc6582f2c9fbb04f8ee7141eb3b311a8589dbd4506a"},
-]
-
-[[package]]
 name = "typing-extensions"
 version = "4.4.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -3321,4 +3307,4 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8,<3.12"
-content-hash = "979c0c7e9085bb910ab1debb9edae5931b1dd7ff28be83cea50f1f89ae0a4620"
+content-hash = "0c2e770b7852a81823f4f3f2ff9dcbc0cbcb76cd1276f176f03f5c75385f3874"
