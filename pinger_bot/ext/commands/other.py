@@ -68,7 +68,7 @@ async def about(ctx: slash.SlashContext) -> None:
     if ctx.bot.application.icon_url is not None:
         embed.set_thumbnail(ctx.bot.application.icon_url)
 
-    embed.set_footer(text=_("Note: You can propose any changes to creator DM (Perchun_Pak#9236)"))
+    embed.set_footer(text=_("Note: You can propose any changes to creator DM (Perchun_Pak#3530)"))
     await ctx.respond(embed=embed)
 
 
