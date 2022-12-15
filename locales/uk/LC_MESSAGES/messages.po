@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: See in pyproject.toml\n"
 "Report-Msgid-Bugs-To: GitHub bug tracker\n"
-"POT-Creation-Date: 2022-11-02 14:02+0100\n"
+"POT-Creation-Date: 2022-12-15 16:11+0100\n"
 "PO-Revision-Date: 2022-05-14 12:02+0000\n"
 "Last-Translator: Perchun Pak <perchunpak@gmail.com>\n"
 "Language: uk\n"
@@ -286,10 +286,10 @@ msgid "Source code"
 msgstr "Джерельний код"
 
 #: pinger_bot/ext/commands/other.py:71
-msgid "Note: You can propose any changes to creator DM (Perchun_Pak#9236)"
+msgid "Note: You can propose any changes to creator DM (Perchun_Pak#3530)"
 msgstr ""
 "Примітка: Ви можете пропонувати любі зміни розробнику в ПП "
-"(Perchun_Pak#9236)"
+"(Perchun_Pak#3530)"
 
 #: pinger_bot/ext/commands/other.py:76
 msgid "Link for invite me."
