@@ -122,6 +122,12 @@ jobs:
       run: |
         poetry run make style
 
+    - name: Temporarily disable "include administrators" branch protection
+      uses: benjefferies/branch-protection-bot@master
+      with:
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        branch: master
+
     - name: Commit changes
       run: |
         poetry run python .github/commit_and_push.py \
@@ -142,6 +148,15 @@ jobs:
           PerchunPak/pinger-bot \
           ${{ github.head_ref || github.ref_name }} \
           "Update poetry.lock :chart_with_upwards_trend:"
+
+    - name: Enable "include administrators" branch protection
+      uses: benjefferies/branch-protection-bot@master
+      if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
+      with:
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        owner: PerchunPak
+        repo: pinger-bot
+        branch: master
 
   docker:
     runs-on: ubuntu-latest
