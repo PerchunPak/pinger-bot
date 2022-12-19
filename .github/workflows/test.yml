@@ -92,6 +92,8 @@ jobs:
       run: |
         curl https://deepsource.io/cli | sh
         ./bin/deepsource report --analyzer test-coverage --key python --value-file coverage.xml
+      env:
+        DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
 
   post-test:
     runs-on: ubuntu-latest
