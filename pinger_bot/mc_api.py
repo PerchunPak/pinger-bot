@@ -48,7 +48,7 @@ class Address:
 
         Args:
             input_ip: IP or domain or alias to resolve.
-            java: If True, then :py:class:`mcstatus.JavaServer` will be used. Else - :py:class:`mcstatus.BedrockServer` server.
+            java: If True, then :class:`mcstatus.JavaServer` will be used. Else - :class:`mcstatus.BedrockServer`.
 
         Returns:
             Resolved :py:class:`.Address` object.
@@ -312,7 +312,9 @@ class MCServer(BaseMCServer):
         """
         log.debug("MCServer.handle_bedrock", host=host)
         address = await Address.resolve(host, java=False)
-        status = await address._server.async_status()
+        # we access this private attribute, because it's expected behaviour to use
+        # `mcstatus`' object exactly here. it must not be used anywhere else.
+        status = await address._server.async_status()  # skipcq: PYL-W0212 # accessing private attribute
         return cls(
             address=address,
             motd=status.motd,

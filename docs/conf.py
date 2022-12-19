@@ -13,8 +13,8 @@ http://www.sphinx-doc.org/en/master/config
 
 import os
 import sys
+import typing as t
 from datetime import date
-from typing import Dict, List, Optional
 
 from autoapi.mappers.python.objects import PythonModule
 from packaging.version import parse as parse_version
@@ -36,9 +36,10 @@ def setup(sphinx: Sphinx) -> None:
 # -- Project information -----------------------------------------------------
 
 
-def _get_project_meta() -> Dict[str, str]:
+def _get_project_meta() -> t.Dict[str, str]:
+    """Get project meta from ``pyproject.toml``."""
     with open("../pyproject.toml", "rb") as pyproject:
-        return toml_parse(pyproject)["tool"]["poetry"]  # type: ignore[no-any-return]
+        return t.cast(t.Dict[str, str], toml_parse(pyproject)["tool"]["poetry"])
 
 
 pkg_meta = _get_project_meta()
@@ -166,8 +167,13 @@ intersphinx_mapping = {
 
 
 def skip_data_from_docs(
-    app: Sphinx, what: str, name: str, obj: PythonModule, skip: Optional[bool], options: List[str]
-) -> Optional[bool]:
+    app: Sphinx,
+    what: str,
+    name: str,
+    obj: PythonModule,
+    skip: t.Optional[bool],
+    options: t.List[str],  # skipcq: PYL-W0613
+) -> t.Optional[bool]:
     """Skip ``log`` function and ``_`` attribute everywhere. And skip all if language is not English."""
     if language != "en":
         return True

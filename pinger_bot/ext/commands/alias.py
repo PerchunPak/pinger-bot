@@ -134,7 +134,7 @@ async def alias_cmd(ctx: slash.SlashContext, ip: str, alias: str) -> None:
                 sqlalchemy.update(models.Server).where(models.Server.id == row.id).values(alias=alias)
             )
             await session.commit()
-        log.debug("Server {}'s alias changed to {}".format(server.address.display_ip, alias))
+        log.debug(_("Server {}'s alias changed to {}").format(server.address.display_ip, alias))
     except sqlalchemy.exc.IntegrityError:
         log.debug(_("Failed add alias for {}.").format(server.address.display_ip) + _("Alias already exists."))
         await ctx.respond(ctx.author.mention, embed=await get_alias_exists_embed(server, alias), user_mentions=True)
@@ -156,6 +156,6 @@ async def alias_cmd(ctx: slash.SlashContext, ip: str, alias: str) -> None:
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
-def load(bot: bot.PingerBot) -> None:
+def load(bot_instance: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
-    bot.add_plugin(plugin)
+    bot_instance.add_plugin(plugin)

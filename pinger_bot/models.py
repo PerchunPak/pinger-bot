@@ -74,8 +74,9 @@ class Ping(Base):  # type: ignore[valid-type,misc]
             ["host", "port"], ["pb_servers.host", "pb_servers.port"], name="ping_to_server"
         ),
     )
-    """Define Foreign Key Constraint to associate :attr:`pb_pings.host <.Ping.host>` and :attr:`pb_pings.port <.Server.port>` \
-    to :attr:`pb_pings.host <.Ping.host>` and :attr:`pb_pings.port <.Server.port>`."""
+    """Define Foreign Key Constraint to associate :attr:`pb_pings.host <.Ping.host>` and \
+    :attr:`pb_pings.port <.Server.port>` to :attr:`pb_pings.host <.Ping.host>` and \
+    :attr:`pb_pings.port <.Server.port>`."""
 
 
 class Database:

@@ -36,14 +36,14 @@ class Events:
 
     @staticmethod
     @plugin.listener(lifetime_events.StartedEvent)
-    async def on_started(event: lifetime_events.StartedEvent) -> None:
+    async def on_started(__: lifetime_events.StartedEvent) -> None:
         """On-started hook. Just logs that the bot started and run scheduler."""
         log.info(_("Bot running! For stop it, use CTRL C."))
         scheduling.scheduler.start()
 
     @staticmethod
     @plugin.listener(lifetime_events.StoppingEvent)
-    async def on_stopping(event: lifetime_events.StoppingEvent) -> None:
+    async def on_stopping(__: lifetime_events.StoppingEvent) -> None:
         """On-started hook. Just logs that the bot stopping and stop scheduler."""
         log.info(_("Bot stopping. Bye!"))
         scheduling.scheduler.shutdown()

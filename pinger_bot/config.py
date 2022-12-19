@@ -21,7 +21,10 @@ class Config:
     discord_token: str = "???"
     """Your Discord bot token."""
     locale: str = "ru"
-    """Bot's language, on which it speak. At now only supporting ``en`` (English), ``uk`` (Ukrainian) and ``ru`` (Russian)."""
+    """Bot's language, on which it speak.
+
+    At now we only support ``en`` (English), ``uk`` (Ukrainian) and ``ru`` (Russian).
+    """
     debug: bool = False
     """Debug mode. Produce a lot of spam."""
     verbose: bool = debug

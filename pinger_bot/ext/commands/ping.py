@@ -76,7 +76,7 @@ async def ping(ctx: slash.SlashContext, ip: str) -> None:
         color=(46, 204, 113),
     )
 
-    embed.add_field(name=_("Latency"), value=str("{:.2f}".format(server.latency)) + "мс", inline=True)
+    embed.add_field(name=_("Latency"), value=str(f"{server.latency:.2f}") + "мс", inline=True)
     embed.add_field(name=_("Version"), value=server.version, inline=True)
     embed.add_field(name=_("Players"), value=str(server.players), inline=True)
     embed.add_field(name=_("MOTD"), value=await clear_motd(server.motd))
@@ -92,6 +92,6 @@ async def ping(ctx: slash.SlashContext, ip: str) -> None:
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
-def load(bot: bot.PingerBot) -> None:
+def load(bot_instance: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
-    bot.add_plugin(plugin)
+    bot_instance.add_plugin(plugin)

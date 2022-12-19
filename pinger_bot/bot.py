@@ -40,7 +40,7 @@ class PingerBot(lightbulb.BotApp):
         )
 
     @classmethod
-    def run(cls, **kwargs) -> None:
+    def run(cls, **kwargs) -> None:  # skipcq: PYL-W0221
         """Main function to run bot.
 
         Args:
@@ -54,8 +54,8 @@ class PingerBot(lightbulb.BotApp):
 
         log.info(_("Pre-Run ended."))
 
-        super().run(
-            self=instance,  # skipcq: PYL-E1124
+        super().run(  # skipcq: PYL-E1124
+            self=instance,
             check_for_updates=False,
             activity=hikari.Activity(name=_("ping-pong"), type=0),
             **kwargs,

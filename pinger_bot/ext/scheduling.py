@@ -65,6 +65,6 @@ async def delete_old_pings(session: sqlalchemy_asyncio.AsyncSession) -> None:
     await session.execute(sqlalchemy.delete(models.Ping).where(models.Ping.time < yesterday))
 
 
-def load(bot_obj: bot.PingerBot) -> None:
+def load(__: bot.PingerBot) -> None:
     """Placeholder for the :external+lightbulb:std:doc:`lightbulb's plugin system <guides/plugins>`, \
     so this file will be loaded."""

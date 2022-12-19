@@ -173,6 +173,6 @@ async def statistic(ctx: slash.SlashContext, ip: str) -> None:
     await ctx.respond(ctx.author.mention, embed=embed, user_mentions=True)
 
 
-def load(bot: bot.PingerBot) -> None:
+def load(bot_instance: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
-    bot.add_plugin(plugin)
+    bot_instance.add_plugin(plugin)

@@ -6,6 +6,9 @@ import alembic
 import sqlalchemy
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
+from pinger_bot.config import config as pinger_bot_config
+from pinger_bot.models import Base
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = alembic.context.config
@@ -13,12 +16,10 @@ config = alembic.context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
-    logging.config.fileConfig(config.config_file_name)
+    logging.config.fileConfig(config.config_file_name)  # skipcq: PY-A6006
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from pinger_bot.models import Base
-
 target_metadata = Base.metadata  # type: ignore[attr-defined]
 
 # other values from the config, defined by the needs of env.py,
@@ -27,8 +28,6 @@ target_metadata = Base.metadata  # type: ignore[attr-defined]
 # ... etc.
 
 # get sqlalchemy URL from config
-from pinger_bot.config import config as pinger_bot_config
-
 config.set_main_option("sqlalchemy.url", pinger_bot_config.db_uri)
 
 

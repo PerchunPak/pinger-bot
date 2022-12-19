@@ -185,12 +185,11 @@ async def get_bot_latest_version() -> str:
     Returns:
         Short SHA256 of last commit or translated ``Not available``.
     """
-    async with aiohttp.ClientSession() as session:
-        async with session.get(
-            "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
-            headers={"Accept": "application/vnd.github.VERSION.sha"},
-        ) as response:
-            return (await response.text())[:7] if response.ok else _("Not available")
+    async with aiohttp.ClientSession() as session, session.get(
+        "https://api.github.com/repos/PerchunPak/pinger-bot/commits/master",
+        headers={"Accept": "application/vnd.github.VERSION.sha"},
+    ) as response:
+        return (await response.text())[:7] if response.ok else _("Not available")
 
 
 @plugin.command
@@ -205,7 +204,7 @@ async def bot_version(ctx) -> None:
     commit_txt = pathlib.Path(__file__).parent.parent.parent.parent / "commit.txt"
     if not commit_txt.exists():
         try:
-            commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
+            commit = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()  # skipcq: BAN-B607
         except (FileNotFoundError, subprocess.CalledProcessError):
             await ctx.respond(embed=await git_not_available())
             return
@@ -258,6 +257,6 @@ async def sql_cmd(ctx: slash.SlashContext, sql: str, commit: str) -> None:
     await ctx.respond(message)
 
 
-def load(bot: bot.PingerBot) -> None:
+def load(bot_instance: bot.PingerBot) -> None:
     """Load the :py:data:`plugin`."""
-    bot.add_plugin(plugin)
+    bot_instance.add_plugin(plugin)
