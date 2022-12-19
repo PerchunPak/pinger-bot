@@ -55,7 +55,7 @@ class PingerBot(lightbulb.BotApp):
         log.info(_("Pre-Run ended."))
 
         super().run(
-            self=instance,
+            self=instance,  # skipcq: PYL-E1124
             check_for_updates=False,
             activity=hikari.Activity(name=_("ping-pong"), type=0),
             **kwargs,

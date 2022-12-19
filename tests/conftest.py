@@ -7,16 +7,18 @@ import _pytest.config
 import _pytest.stash
 import alembic.command
 import alembic.config
-import faker.config
+import faker
 import omegaconf
 import pytest
-import sqlalchemy.orm
+import sqlalchemy
 import structlog
 from _pytest import tmpdir
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 from pinger_bot import config, models
-from tests import custom_fakes  # we need to import it somewhere
+from tests import (
+    custom_fakes,  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
+)
 from tests import factories
 
 
@@ -102,8 +104,8 @@ def patch_unique_in_factories(
     pytestconfig: _pytest.config.Config, _faker_unique_key: _pytest.stash.StashKey[dict], _faker_sentinel: object  # type: ignore[type-arg]
 ) -> None:
     """Patch the unique in factories, so they will be shared across all tests."""
-    factories.faker.unique._seen = pytestconfig.stash[_faker_unique_key]
-    factories.faker.unique._sentinel = _faker_sentinel
+    factories.faker.unique._seen = pytestconfig.stash[_faker_unique_key]  # skipcq: PYL-W0212 # private attribute
+    factories.faker.unique._sentinel = _faker_sentinel  # skipcq: PYL-W0212 # private attribute
 
 
 @pytest.fixture()  # type: ignore[no-redef] # already defined by an import
@@ -111,6 +113,6 @@ def faker(
     faker: faker.Faker, pytestconfig: _pytest.config.Config, _faker_unique_key: _pytest.stash.StashKey[dict], _faker_sentinel: object  # type: ignore[type-arg]
 ) -> faker.Faker:
     """A part of patch from :func:`.patch_unique_in_factories`."""
-    faker.unique._seen = pytestconfig.stash[_faker_unique_key]
-    faker.unique._sentinel = _faker_sentinel
+    faker.unique._seen = pytestconfig.stash[_faker_unique_key]  # skipcq: PYL-W0212 # private attribute
+    faker.unique._sentinel = _faker_sentinel  # skipcq: PYL-W0212 # private attribute
     return faker

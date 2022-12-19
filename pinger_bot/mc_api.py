@@ -286,7 +286,9 @@ class MCServer(BaseMCServer):
         """
         log.debug("MCServer.handle_java", host=host)
         address = await Address.resolve(host, java=True)
-        status = await address._server.async_status()
+        # we access this private attribute, because it's expected behaviour to use
+        # `mcstatus`' object exactly here. it must not be used anywhere else.
+        status = await address._server.async_status()  # skipcq: PYL-W0212 # accessing private attribute
         return cls(
             address=address,
             motd=status.description,

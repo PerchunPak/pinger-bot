@@ -89,7 +89,7 @@ class AddressFactory(factory.Factory):
     input_ip: str = None  # type: ignore[assignment] # will be set in post hook
     alias: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(faker.unique.word)
     display_ip: str = None  # type: ignore[assignment] # will be set in post hook
-    num_ip: str = factory.fuzzy.FuzzyAttribute(lambda: faker.unique.ipv4())
+    num_ip: str = factory.fuzzy.FuzzyAttribute(faker.unique.ipv4)
     _server: typing.Union[mcstatus.JavaServer, mcstatus.BedrockServer] = factory.LazyFunction(
         lambda: None
     )  # will be actually set in post hook
@@ -163,17 +163,16 @@ class MCServerFactory(factory.Factory):
                 ),
                 latency=status.latency,
             )
-        else:
-            return cls(
-                address=AddressFactory(),
-                motd=status.motd,
-                version=status.version.version,
-                players=mc_api.Players(
-                    online=status.players_online,
-                    max=status.players_max,
-                ),
-                latency=status.latency,
-            )
+        return cls(
+            address=AddressFactory(),
+            motd=status.motd,
+            version=status.version.version,
+            players=mc_api.Players(
+                online=status.players_online,
+                max=status.players_max,
+            ),
+            latency=status.latency,
+        )
 
 
 class JavaServerFactory(MCServerFactory):

@@ -2,7 +2,6 @@
 import asyncio
 import typing
 
-import dns.asyncresolver
 import dns.exception
 import faker as faker_package
 import mcstatus

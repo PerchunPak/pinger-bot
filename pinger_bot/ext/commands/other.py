@@ -251,7 +251,7 @@ async def sql_cmd(ctx: slash.SlashContext, sql: str, commit: str) -> None:
             await session.commit()
 
     try:
-        message = "```json\n" + json.dumps(list(dict(row) for row in result.all()), indent=2) + "\n```"
+        message = "```json\n" + json.dumps([dict(row) for row in result.all()], indent=2) + "\n```"
     except sqlalchemy.exc.ResourceClosedError:
         message = _("Done!")
 
