@@ -57,6 +57,7 @@ FROM base AS additional-steps-postgresql
 RUN apt-get update && \
     apt-get install libpq-dev -y --no-install-recommends
 
+
 FROM base AS git
 # Write version for the `/version` command
 # (`apt-get update` because without it `package not found`, even if this update already was in `base` step)
