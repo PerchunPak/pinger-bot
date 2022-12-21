@@ -10,8 +10,9 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /root
 # see DOK-DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# skipcq: DOK-DL3008
 RUN apt-get update && \
-    apt-get install curl -y --no-install-recommends && \  # skipcq: DOK-DL3008 # \
+    apt-get install curl -y --no-install-recommends && \
     curl -sSL https://install.python-poetry.org | python -
 COPY poetry.lock pyproject.toml ./
 RUN poetry export --no-interaction -o requirements.txt --without-hashes -E ${dialect} --only main,docker
@@ -26,7 +27,8 @@ WORKDIR /app/pinger
 RUN groupadd -g 5000 container && useradd -d /app -m -g container -u 5000 container
 COPY locales/ locales/
 COPY --from=poetry /root/requirements.txt ./
-RUN pip install --no-cache-dir -U pip && \  # skipcq: DOK-DL3013 # \
+# skipcq: DOK-DL3013
+RUN pip install --no-cache-dir -U pip && \
     pip --no-cache-dir install -r requirements.txt && \
     pybabel compile -d locales
 COPY pinger_bot/ pinger_bot/
@@ -44,25 +46,29 @@ VOLUME /app/pinger/data
 
 FROM base AS additional-steps-mysql
 # (`apt-get update` because without it `package not found`, even if this update already was in `base` step)
+# skipcq: DOK-DL3008
 RUN apt-get update && \
-    apt-get install libmariadb-dev -y --no-install-recommends  # skipcq: DOK-DL3008 # \
+    apt-get install libmariadb-dev -y --no-install-recommends
 
 
 FROM base AS additional-steps-postgresql
 # (`apt-get update` because without it `package not found`, even if this update already was in `base` step)
+# skipcq: DOK-DL3008
 RUN apt-get update && \
-    apt-get install libpq-dev -y --no-install-recommends  # skipcq: DOK-DL3008 # \
+    apt-get install libpq-dev -y --no-install-recommends
 
 
 FROM base AS git
 # Write version for the `/version` command
 # (`apt-get update` because without it `package not found`, even if this update already was in `base` step)
+# skipcq: DOK-DL3008
 RUN apt-get update && \
-    apt-get install git -y --no-install-recommends  # skipcq: DOK-DL3008 # \
+    apt-get install git -y --no-install-recommends
 COPY .git .git
 RUN git rev-parse HEAD > /commit.txt
 
 
+# skipcq: DOK-DL3006
 FROM additional-steps-${dialect} AS final
 COPY --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
