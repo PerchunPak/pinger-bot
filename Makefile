@@ -7,6 +7,7 @@ style:
 	pycln .
 	mypy --install-types --non-interactive .
 	flake8 .
+	cruft check
 	doc8 -q docs
 
 .PHONY: unit

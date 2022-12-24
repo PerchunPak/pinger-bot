@@ -23,6 +23,13 @@ way we give prioritize to `pytest-testmon`. If you want to generate a report wit
 Furthermore, you can bind `make test` (plus some additional useful checks) to run on every commit, so you will always
 sure that CI will never fail. Just run `pre-commit install`.
 
+## Commit naming style
+
+Every commit must have **one** small change. We also use the [Tim Pope commit message template](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+for commits' messages.
+
+If you worry about clean `git log` - just don't. We use squash strategy for merging PRs.
+
 ## Code Style
 
 We use `black` for almost all style control. We're also trying to use formatters instead of linters, where it is

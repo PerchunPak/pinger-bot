@@ -37,6 +37,8 @@ updates:
     - dependency-name: "flake8-docstrings"
     - dependency-name: "pydocstyle"
     - dependency-name: "safety"
+    - dependency-name: "cruft"
+    - dependency-name: "lice"
     - dependency-name: "pytest"
     - dependency-name: "pytest-cov"
     - dependency-name: "pytest-mock"
