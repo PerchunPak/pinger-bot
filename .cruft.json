@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/PerchunPak/python-template",
+  "commit": "04dec512c5e18a1d9eba3d94ec705f58c3048240",
+  "context": {
+    "cookiecutter": {
+      "project_name": "pinger-bot",
+      "organization": "PerchunPak",
+      "project_description": "Simple discord bot for tracking your MineCraft servers.",
+      "other_languages_support": "y",
+      "ukrainian_language_support": "y",
+      "russian_language_support": "y",
+      "license": "AGPL3",
+      "_copy_without_render": [
+        ".venv",
+        "docs/_build",
+        "docs/_autoapi_templates/python",
+        ".github/workflows"
+      ],
+      "_template": "https://github.com/PerchunPak/python-template"
+    }
+  },
+  "directory": null
+}
