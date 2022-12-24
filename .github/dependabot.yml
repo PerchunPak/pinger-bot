@@ -16,7 +16,7 @@ updates:
     - dependency-name: "aiosqlite"
     - dependency-name: "asyncpg"
     # Update these dependencies with python-template
-    - dependency-name: "python-decouple"
+    - dependency-name: "omegaconf"
     - dependency-name: "structlog"
     ### Docs section ###
     - dependency-name: "sphinx"

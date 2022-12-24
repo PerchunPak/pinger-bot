@@ -94,7 +94,9 @@ packaging = "22.0"
 optional = true
 
 [tool.poetry.group.github_hooks.dependencies]
+requests = "~2.28"
 GitPython = "~3.1"
+cruft = "~2.11"
 
 
 [tool.poetry.group.docker]

@@ -76,7 +76,7 @@ alembic -c pinger_bot/migrations/alembic.ini upgrade head
 
 ### Configuration
 
-All bot configuration happends in `config.yml`, or with enviroment variables.
+All bot configuration happens in `config.yml`, or with enviroment variables.
 All configuration settings described in [config.py](https://pinger-bot.readthedocs.io/en/latest/autoapi/pinger_bot/config/).
 
 #### Database
@@ -115,5 +115,3 @@ alembic -c pinger_bot/migrations/alembic.ini upgrade head
 ## Thanks
 
 This project was generated with [python-template](https://github.com/PerchunPak/python-template).
-Current template version: [ecced586eefabeda396c4f052ae0e1b49bdcbcd4](https://github.com/PerchunPak/python-template/tree/ecced586eefabeda396c4f052ae0e1b49bdcbcd4).
-See what [updated](https://github.com/PerchunPak/python-template/compare/ecced586eefabeda396c4f052ae0e1b49bdcbcd4...master).

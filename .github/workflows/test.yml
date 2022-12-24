@@ -144,6 +144,18 @@ jobs:
           ${{ github.head_ref || github.ref_name }} \
           "Update poetry.lock :chart_with_upwards_trend:"
 
+    - name: Update template
+      run: |
+        poetry run cruft update
+
+    - name: Commit changes
+      run: |
+        poetry run python .github/commit_and_push.py \
+          --token ${{ secrets.GITHUB_TOKEN }} \
+          {{ cookiecutter.organization }}/{{ cookiecutter.project_name }} \
+          ${{ github.head_ref || github.ref_name }} \
+          "Update template :arrow_up:"
+
   docker:
     runs-on: ubuntu-latest
     needs: 'test'
