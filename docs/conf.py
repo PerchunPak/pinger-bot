@@ -167,10 +167,10 @@ intersphinx_mapping = {
 
 
 def skip_data_from_docs(
-    app: Sphinx,
+    app: Sphinx,  # skipcq: PYL-W0613
     what: str,
     name: str,
-    obj: PythonModule,
+    obj: PythonModule,  # skipcq: PYL-W0613
     skip: t.Optional[bool],
     options: t.List[str],  # skipcq: PYL-W0613
 ) -> t.Optional[bool]:
