@@ -87,15 +87,6 @@ jobs:
       with:
         file: ./coverage.xml
 
-    # Upload coverage to DeepSource: https://deepsource.io/
-    - name: Upload coverage to DeepSource
-      if: matrix.python-version == '3.11'
-      run: |
-        curl https://deepsource.io/cli | sh
-        ./bin/deepsource report --analyzer test-coverage --key python --value-file coverage.xml
-      env:
-        DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-
   post-test:
     runs-on: ubuntu-latest
     needs: 'test'
