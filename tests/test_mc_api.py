@@ -278,7 +278,7 @@ class TestMCServerAndFailedMCServer:
         await mc_api.MCServer._handle_exceptions(
             *(
                 await asyncio.wait(
-                    {
+                    {  # skipcq: PTC-W0050
                         asyncio.create_task(something_long()),
                         asyncio.create_task(raise_something()),
                         asyncio.create_task(raise_something()),
