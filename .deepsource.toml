@@ -16,10 +16,6 @@ enabled = true
   type_checker = "mypy"
 
 [[analyzers]]
-name = "test-coverage"
-enabled = true
-
-[[analyzers]]
 name = "docker"
 enabled = true
 
