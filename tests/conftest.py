@@ -16,7 +16,9 @@ from _pytest import tmpdir
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 from pinger_bot import config, models
-from tests import custom_fakes  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
+from tests import (
+    custom_fakes,  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
+)
 from tests import factories
 
 
