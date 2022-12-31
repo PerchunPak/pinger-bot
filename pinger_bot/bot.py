@@ -44,7 +44,7 @@ class PingerBot(lightbulb.BotApp):
         """Main function to run bot.
 
         Args:
-            kwargs: Additional arguments which passing to :func:`GatewayBot.run() <hikari.impl.bot.GatewayBot.run>`.
+            kwargs: Additional arguments which passing to :meth:`GatewayBot.run() <hikari.impl.bot.GatewayBot.run>`.
         """
         log.info(_("Preparing and run the bot..."))
 

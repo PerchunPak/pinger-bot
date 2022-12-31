@@ -160,7 +160,7 @@ autoapi_root = "api"
 # Third-party projects documentation references:
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "hikari": ("https://www.hikari-py.dev/", None),
+    "hikari": ("https://docs.hikari-py.dev/en/latest/", None),
     "lightbulb": ("https://hikari-lightbulb.readthedocs.io/en/latest/", None),
     "matplotlib": ("https://matplotlib.org/stable", None),
 }
