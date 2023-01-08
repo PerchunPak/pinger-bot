@@ -59,8 +59,7 @@ flake8-docstrings = "~1"
 flake8-ensure-ascii = "~1.0"
 pydocstyle = ">=4.0.0"
 safety = "~2.3"
-# workaround before https://github.com/cruft/cruft/pull/197 will be merged
-cruft = { git = "https://github.com/OverkillGuy/cruft", branch = "fix-extension-context" }
+cruft = "~2.12"
 lice = "~0.6"  # for generating template
 
 pre-commit = "~2.20"
