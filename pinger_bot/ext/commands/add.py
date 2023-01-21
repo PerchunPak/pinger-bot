@@ -51,7 +51,6 @@ async def get_already_added_embed(ip: str) -> embeds.Embed:
 
 
 @plugin.command
-@lightbulb.add_checks(lightbulb.owner_only)
 @lightbulb.option("ip", _("The IP address of the server."), type=str)
 @lightbulb.command("add", _("Add server to database."), pass_options=True)
 @lightbulb.implements(commands.SlashCommand)
