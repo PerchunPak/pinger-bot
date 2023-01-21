@@ -60,9 +60,9 @@ msgid "Python support versions badge"
 msgstr "Бейдж с поддерживаемыми версиями Python"
 
 #: ../../../README.md:37
-msgid "Simple discord bot for tracking your MineCraft servers."
+msgid "Simple discord bot for tracking your Minecraft servers."
 msgstr ""
-"Простой бот для отслеживания статуса и статистики своих MineCraft "
+"Простой бот для отслеживания статуса и статистики своих Minecraft "
 "серверов."
 
 #: ../../../README.md:40

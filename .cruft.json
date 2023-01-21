@@ -5,7 +5,7 @@
     "cookiecutter": {
       "project_name": "pinger-bot",
       "organization": "PerchunPak",
-      "project_description": "Simple discord bot for tracking your MineCraft servers.",
+      "project_description": "Simple discord bot for tracking your Minecraft servers.",
       "other_languages_support": "y",
       "ukrainian_language_support": "y",
       "russian_language_support": "y",

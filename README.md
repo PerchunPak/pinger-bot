@@ -9,7 +9,7 @@
 [![Python support versions badge](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue)](https://www.python.org/downloads/)
 [![DeepSource](https://deepsource.io/gh/PerchunPak/pinger-bot.svg/?label=active+issues&show_trend=true&token=Tast9YwlUsJbok_-qTQLL0vX)](https://deepsource.io/gh/PerchunPak/pinger-bot/?ref=repository-badge)
 
-Simple discord bot for tracking your MineCraft servers.
+Simple discord bot for tracking your Minecraft servers.
 
 - [Документація українською](https://pinger-bot.readthedocs.io/uk_UA/latest)
 - [Документация на русском](https://pinger-bot.readthedocs.io/ru/latest)

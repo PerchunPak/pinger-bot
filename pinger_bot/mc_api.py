@@ -197,7 +197,7 @@ class BaseMCServer(ABC):
 
 @dataclasses.dataclass
 class MCServer(BaseMCServer):
-    """Represents an MineCraft Server, doesn't depends on platform (Java or Bedrock)."""
+    """Represents an Minecraft Server, doesn't depends on platform (Java or Bedrock)."""
 
     motd: str
     """MOTD of the server."""
