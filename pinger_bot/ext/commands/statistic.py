@@ -157,7 +157,15 @@ async def statistic(ctx: slash.SlashContext, ip: str) -> None:
 
     embed.add_field(name=_("Current online"), value=str(players), inline=True)
     embed.add_field(name=_("Yesterday online, in same time"), value=yesterday_online, inline=True)
-    embed.add_field(name=_("Max online of all time"), value=str(db_server.max), inline=True)
+    embed.add_field(
+        name=_("Max online of all time"),
+        value=str(
+            db_server.max
+            if isinstance(server, mc_api.FailedMCServer)
+            else (server.players.online if server.players.online > db_server.max else db_server.max)
+        ),
+        inline=True,
+    )
     embed.set_thumbnail(server.icon)
 
     embed.set_footer(
