@@ -73,7 +73,7 @@ async def add(ctx: slash.SlashContext, ip: str) -> None:
         async with models.db.session() as session:
             session.add(
                 models.Server(
-                    host=server.address.host, port=server.address.port, max=server.players.max, owner=ctx.author.id
+                    host=server.address.host, port=server.address.port, max=server.players.online, owner=ctx.author.id
                 )
             )
             await session.commit()
