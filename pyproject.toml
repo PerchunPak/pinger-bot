@@ -30,7 +30,7 @@ matplotlib = "~3.6"
 aiohttp = "~3.8"
 
 # caching utils
-cachetools = "~5.2"
+cachetools = "~5.3"
 asyncache = "~0.3"
 
 Babel = "~2.11"
