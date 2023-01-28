@@ -17,7 +17,22 @@ Simple discord bot for tracking your Minecraft servers.
 ## Features
 
 - Free! We don't want any money from you!
-- Self Hosted - Bot fully under your control!
+- Can be self Hosted - the bot is fully under your control!
+- You can use it without any hosting!
+- Can grab MOTD from any server in one command!
+- Supports both Java and Bedrock servers!
+- Can be easily localized to your language!
+
+## Try it out!
+
+Check the [invite link](https://discordapp.com/oauth2/authorize?client_id=820582186222616577&permissions=2147485696&scope=bot%20applications.commands)
+to invite the bot to your server.
+
+## Screenshots
+
+![/ping](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/ping.png)
+![/alias](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/alias.png)
+![/statistic](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/statistic.png)
 
 ## Installing
 
