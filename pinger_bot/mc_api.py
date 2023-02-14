@@ -56,12 +56,13 @@ class Address:
         log.debug("Address.resolve", input_ip=input_ip, java=java)
         ip_from_alias = await cls._get_ip_from_alias(input_ip)
 
+        server: typing.Union[mcstatus.JavaServer, mcstatus.BedrockServer] = (
+            await mcstatus.JavaServer.async_lookup(ip_from_alias if ip_from_alias is not None else input_ip)
+            if java
+            else mcstatus.BedrockServer.lookup(ip_from_alias if ip_from_alias is not None else input_ip)
+        )
+
         if ip_from_alias is not None:
-            server = (
-                await mcstatus.JavaServer.async_lookup(ip_from_alias)
-                if java
-                else mcstatus.BedrockServer.lookup(ip_from_alias)
-            )
             return cls(
                 host=server.address.host,
                 port=server.address.port,
@@ -71,8 +72,6 @@ class Address:
                 num_ip=(await cls._get_number_ip(server.address.host)) + ":" + str(server.address.port),
                 _server=server,
             )
-
-        server = await mcstatus.JavaServer.async_lookup(input_ip) if java else mcstatus.BedrockServer.lookup(input_ip)
 
         num_ip_without_port, alias = await asyncio.gather(
             cls._get_number_ip(server.address.host), cls._get_alias_from_ip(server.address.host, server.address.port)
