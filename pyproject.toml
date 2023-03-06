@@ -85,7 +85,7 @@ freezegun = "~1.2"
 sphinx = "~5.3"
 sphinx-autodoc-typehints = "~1.19"
 sphinx-autoapi = "~2.0"
-sphinx-intl = "~2.0"
+sphinx-intl = "~2.1"
 furo = "*"
 m2r2 = "~0.3"
 tomli = { version = "~2.0", markers = "python_version < '3.11'" }
