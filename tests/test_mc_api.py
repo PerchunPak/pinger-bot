@@ -325,17 +325,13 @@ class TestMCServerAndFailedMCServer:
         ip = f"{address.host}:{address.port}"
 
         mocker.patch("pinger_bot.mc_api.Address.resolve", return_value=address)
-        java_server: mcstatus.pinger.PingResponse = await (
-            mocker.patch(
-                "mcstatus.JavaServer.async_status",
-                return_value=factories.MCStatusJavaResponseFactory(),
-            )
+        java_server: mcstatus.pinger.PingResponse = await mocker.patch(
+            "mcstatus.JavaServer.async_status",
+            return_value=factories.MCStatusJavaResponseFactory(),
         )()
-        bedrock_server: mcstatus.bedrock_status.BedrockStatusResponse = await (
-            mocker.patch(
-                "mcstatus.BedrockServer.async_status",
-                return_value=factories.MCStatusBedrockResponseFactory(),
-            )
+        bedrock_server: mcstatus.bedrock_status.BedrockStatusResponse = await mocker.patch(
+            "mcstatus.BedrockServer.async_status",
+            return_value=factories.MCStatusBedrockResponseFactory(),
         )()
 
         expected_java, expected_bedrock = factories.JavaServerFactory.from_mcstatus_status(
