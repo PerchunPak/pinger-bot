@@ -8,43 +8,42 @@ updates:
   ignore:
     - dependency-name: "*"
       update-types: [ "version-update:semver-patch" ]
-    # Update these dependencies with CI (poetry update)
-    - dependency-name: "requests"
-    - dependency-name: "colorama"
-    - dependency-name: "uvloop"
-    - dependency-name: "aiomysql"
-    - dependency-name: "aiosqlite"
-    - dependency-name: "asyncpg"
-    # Update these dependencies with python-template
+    # Update these dependencies with python-template or `poetry update`
     - dependency-name: "omegaconf"
     - dependency-name: "structlog"
-    ### Docs section ###
-    - dependency-name: "sphinx"
-    - dependency-name: "sphinx-autodoc-typehints"
-    - dependency-name: "sphinxcontrib-apidoc"
-    - dependency-name: "furo"
-    - dependency-name: "m2r2"
-    - dependency-name: "tomli"
-    ### Dev section ###
+    - dependency-name: "colorama"
+    # Make group
     - dependency-name: "black"
-    - dependency-name: "click"
     - dependency-name: "isort"
     - dependency-name: "pycln"
     - dependency-name: "doc8"
-    - dependency-name: "pre-commit"
     - dependency-name: "mypy"
     - dependency-name: "flake8"
     - dependency-name: "flake8-docstrings"
+    - dependency-name: "flake8-ensure-ascii"
     - dependency-name: "pydocstyle"
     - dependency-name: "safety"
     - dependency-name: "cruft"
     - dependency-name: "lice"
+    - dependency-name: "pre-commit"
+    # Tests group
     - dependency-name: "pytest"
     - dependency-name: "pytest-cov"
     - dependency-name: "pytest-mock"
     - dependency-name: "pytest-testmon"
     - dependency-name: "pytest-randomly"
     - dependency-name: "Faker"
+    # Docs group
+    - dependency-name: "sphinx"
+    - dependency-name: "sphinx-autodoc-typehints"
+    - dependency-name: "sphinx-autoapi"
+    - dependency-name: "sphinx-intl"
+    - dependency-name: "furo"
+    - dependency-name: "m2r2"
+    - dependency-name: "tomli"
+    - dependency-name: "packaging"
+    # GitHub Hooks group
+    - dependency-name: "requests"
     - dependency-name: "GitPython"
 
 - package-ecosystem: github-actions

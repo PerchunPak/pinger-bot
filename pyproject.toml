@@ -49,11 +49,11 @@ asyncpg   = { version = "*", optional = true }
 
 
 [tool.poetry.group.make.dependencies]
-black = "~22"
-isort = "~5.10"
+black = "~23"
+isort = "~5.12"
 pycln = "~2.1"
-doc8 = "~1.0"
-mypy = "*"  # dependabot can't update non semver dependencies with our config, see e9376da in python-template
+doc8 = "~1.1"
+mypy = "~1.0"
 flake8 = "~6"
 flake8-docstrings = "~1"
 flake8-ensure-ascii = "~1.0"
@@ -62,7 +62,7 @@ safety = "~2.3"
 cruft = "~2.12"
 lice = "~0.6"  # for generating template
 
-pre-commit = "~2.20"
+pre-commit = "~3.1"
 
 # stubs
 SQLAlchemy = {version = "*", extras = ["mypy"]}
@@ -76,14 +76,14 @@ pytest-asyncio = "~0.20"
 pytest-testmon = "~1.4"
 pytest-randomly = "~3.12"
 
-Faker = "~15.3"
+Faker = "~17.6"
 factory-boy = "~3.2"
 freezegun = "~1.2"
 
 
 [tool.poetry.group.docs.dependencies]
-sphinx = "~5.3"
-sphinx-autodoc-typehints = "~1.19"
+sphinx = "~6.1"
+sphinx-autodoc-typehints = "~1.22"
 sphinx-autoapi = "~2.0"
 sphinx-intl = "~2.1"
 furo = "*"
