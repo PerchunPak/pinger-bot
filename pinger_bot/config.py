@@ -3,6 +3,7 @@ import dataclasses
 import gettext as gettext_orig
 import os
 import pathlib
+import typing as t
 
 import omegaconf
 from omegaconf import dictconfig
@@ -33,6 +34,8 @@ class Config:
     """DB_URI to connect."""
     ping_interval: int = 5
     """Interval between pings, for collecting statistic of the server. In minutes."""
+    honeybadger_token: t.Optional[str] = None
+    """Token for Honeybadger.io. If you don't have it, just leave it as ``None``."""
 
     @classmethod
     def setup(cls) -> "Config":

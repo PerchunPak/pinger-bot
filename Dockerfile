@@ -70,8 +70,11 @@ RUN git rev-parse HEAD > /commit.txt
 
 # skipcq: DOK-DL3006
 FROM additional-steps-${dialect} AS final
+
 COPY --from=git /commit.txt commit.txt
 RUN chown -R 5000:5000 /app
 USER container
+
+ENV PROD 1
 
 CMD ["dumb-init", "python", "pinger_bot"]

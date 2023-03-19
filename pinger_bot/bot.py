@@ -1,10 +1,12 @@
 """Main file to initialise bot object."""
 import logging
+import os
 import pathlib
 
 import hikari
 import lightbulb
 import structlog.stdlib
+from honeybadger import honeybadger
 
 from pinger_bot import config
 from pinger_bot.config import gettext as _
@@ -49,6 +51,7 @@ class PingerBot(lightbulb.BotApp):
         log.info(_("Preparing and run the bot..."))
 
         cls.handle_debug_options()
+        cls.start_honeybadger()
         instance = cls()
         instance.load_extensions_from(pathlib.Path(__file__).parent / "ext", recursive=True)
 
@@ -73,3 +76,20 @@ class PingerBot(lightbulb.BotApp):
 
         # debug-log after configuring logger
         log.debug("PingerBot.handle_debug_options", debug=config.config.debug, verbose=config.config.verbose)
+
+    @staticmethod
+    def start_honeybadger() -> None:
+        """Start honeybadger.io listening."""
+        is_production = bool(os.environ.get("PROD"))
+
+        log.debug(
+            "PingerBot.start_honeybadger",
+            honeybadger_token_is_none=config.config.honeybadger_token is None,
+            is_production=is_production,
+        )
+
+        if config.config.honeybadger_token is not None:
+            honeybadger.configure(
+                api_key=config.config.honeybadger_token,
+                environment="production" if is_production else "development",
+            )
