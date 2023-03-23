@@ -74,10 +74,10 @@ pytest = "~7.2"
 pytest-cov = "~4.0"
 pytest-mock = "~3.10"
 pytest-asyncio = "~0.21"
-pytest-testmon = "~1.4"
+pytest-testmon = "~2.0"
 pytest-randomly = "~3.12"
 
-Faker = "~17.6"
+Faker = "~18.3"
 factory-boy = "~3.2"
 freezegun = "~1.2"
 
