@@ -167,31 +167,38 @@ class TestMCServerAndFailedMCServer:
     ) -> None:
         """Test that the :func:`~pinger_bot.mc_api.MCServer.status` calls all the required methods."""
         domain = faker.domain_name(3)
-        mocked_java = mocker.patch("pinger_bot.mc_api.MCServer.handle_java", side_effect=NotImplementedError)
-        mocked_bedrock = mocker.patch("pinger_bot.mc_api.MCServer.handle_bedrock", side_effect=NotImplementedError)
+        mocked_handler = mocker.patch("pinger_bot.mc_api.MCServer.handle_response", side_effect=NotImplementedError)
         mocked_failed = mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed")
 
         await mc_api.MCServer.status(domain)
 
-        mocked_java.assert_called_once_with(domain)
-        mocked_bedrock.assert_called_once_with(domain)
+        mocked_handler.assert_has_calls(
+            [
+                mocker.call(domain, java=True),
+                mocker.call(domain, java=False),
+            ]
+        )
+        assert mocked_handler.call_count == 2
         mocked_failed.assert_called_once_with(domain)
 
-    @pytest.mark.parametrize(
-        "method_to_mock", ("pinger_bot.mc_api.MCServer.handle_java", "pinger_bot.mc_api.MCServer.handle_bedrock")
-    )
     async def test_mcserver_status_not_call_failed_if_success(
-        self, mocker: pytest_mock.MockerFixture, faker: faker_package.Faker, method_to_mock: str
+        self, mocker: pytest_mock.MockerFixture, faker: faker_package.Faker
     ) -> None:
         """Test that the :func:`~pinger_bot.mc_api.MCServer.status` does not call the \
-        :func:`~pinger_bot.mc_api.FailedMCServer.handle_failed` if the method to mock don't raise an exception."""
+        :func:`~pinger_bot.mc_api.FailedMCServer.handle_failed` if the handler won't raise an exception."""
         domain = faker.domain_name(3)
-        mocked = mocker.patch(method_to_mock)
+        mocked_handler = mocker.patch("pinger_bot.mc_api.MCServer.handle_response")
         mocked_failed = mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed")
 
         await mc_api.MCServer.status(domain)
 
-        mocked.assert_called_once_with(domain)
+        mocked_handler.assert_has_calls(
+            [
+                mocker.call(domain, java=True),
+                mocker.call(domain, java=False),
+            ]
+        )
+        assert mocked_handler.call_count == 2
         mocked_failed.assert_not_called()
 
     @pytest.mark.parametrize("iteration", (1, 2, 3))
@@ -207,22 +214,27 @@ class TestMCServerAndFailedMCServer:
         """
         domain = faker.domain_name(3)
         java, bedrock, failed = faker.unique.word(), faker.unique.word(), faker.unique.word()
-        mocked_java = mocker.patch(
-            "pinger_bot.mc_api.MCServer.handle_java",
-            side_effect=NotImplementedError if iteration in (1, 3) else lambda __: java,  # type: ignore[misc] # Cannot infer type of lambda
-        )
-        mocked_bedrock = mocker.patch(
-            "pinger_bot.mc_api.MCServer.handle_bedrock",
-            side_effect=NotImplementedError if iteration in (2, 3) else lambda __: bedrock,  # type: ignore[misc] # Cannot infer type of lambda
-        )
+
+        def do_side_effect(*_, **kwargs: bool) -> str:
+            if iteration in ((1, 3) if kwargs["java"] else (2, 3)):
+                raise NotImplementedError
+            else:
+                return typing.cast(str, java if kwargs["java"] else bedrock)
+
+        mocked_handler = mocker.patch("pinger_bot.mc_api.MCServer.handle_response", side_effect=do_side_effect)
         mocked_failed = mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed", return_value=failed)
 
         assert await mc_api.MCServer.status(domain) == (
             java if iteration == 2 else bedrock if iteration == 1 else failed
         )
 
-        mocked_java.assert_called_once()
-        mocked_bedrock.assert_called_once()
+        mocked_handler.assert_has_calls(
+            [
+                mocker.call(domain, java=True),
+                mocker.call(domain, java=False),
+            ]
+        )
+        assert mocked_handler.call_count == 2
 
         if iteration == 3:
             mocked_failed.assert_called_once()
@@ -243,17 +255,14 @@ class TestMCServerAndFailedMCServer:
         """  # noqa: D417
         done, domain = faker.word(), faker.domain_name(3)
 
-        async def something_long(*_, **__) -> str:
-            await asyncio.sleep(0.1)
-            return typing.cast(str, done)
+        async def do_side_effect(*_, java: bool) -> str:
+            if (mock_java and java) or (not mock_java and not java):
+                raise NotImplementedError
+            else:
+                await asyncio.sleep(0.1)
+                return typing.cast(str, done)
 
-        mocker.patch(
-            "pinger_bot.mc_api.MCServer.handle_java", side_effect=something_long if mock_java else NotImplementedError
-        )
-        mocker.patch(
-            "pinger_bot.mc_api.MCServer.handle_bedrock",
-            side_effect=NotImplementedError if mock_java else something_long,
-        )
+        mocker.patch("pinger_bot.mc_api.MCServer.handle_response", side_effect=do_side_effect)
         mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed")
 
         assert await mc_api.MCServer.status(domain) == done
@@ -291,18 +300,19 @@ class TestMCServerAndFailedMCServer:
         assert mocked.call_count == 2
 
     @pytest.mark.parametrize(
-        "method,expected",
+        "method,java_parameter,expected",
         (
-            (mc_api.MCServer.handle_java, True),
-            (mc_api.MCServer.handle_bedrock, False),
-            (mc_api.FailedMCServer.handle_failed, False),
+            (mc_api.MCServer.handle_response, True, True),
+            (mc_api.MCServer.handle_response, False, False),
+            (mc_api.FailedMCServer.handle_failed, None, False),
         ),
     )
     async def test_handle_methods_call_right_java_parameter(
         self,
         mocker: pytest_mock.MockerFixture,
         faker: faker_package.Faker,
-        method: typing.Callable[[str], typing.Coroutine[None, None, None]],
+        method: typing.Callable[[str, bool], typing.Coroutine[None, None, None]],
+        java_parameter: typing.Optional[bool],
         expected: bool,
     ) -> None:
         """Test that the :func:`~pinger_bot.mc_api.MCServer.handle_java`, :func:`~pinger_bot.mc_api.MCServer.handle_bedrock` and \
@@ -311,8 +321,12 @@ class TestMCServerAndFailedMCServer:
         domain = faker.domain_name(3)
         mocked = mocker.patch("pinger_bot.mc_api.Address.resolve", side_effect=NotImplementedError)
 
+        kwargs = {}
+        if java_parameter is not None:
+            kwargs["java"] = java_parameter
+
         try:
-            await method(domain)
+            await method(domain, **kwargs)  # type: ignore[call-arg] # Unexpected keyword argument
         except NotImplementedError:
             pass
 
@@ -340,10 +354,10 @@ class TestMCServerAndFailedMCServer:
         expected_java.address, expected_bedrock.address = address, address
 
         address._server = mcstatus.JavaServer(address.host)
-        assert await mc_api.MCServer.handle_java(ip) == expected_java
+        assert await mc_api.MCServer.handle_response(ip, java=True) == expected_java
 
         address._server = mcstatus.BedrockServer(address.host)
-        assert await mc_api.MCServer.handle_bedrock(ip) == expected_bedrock
+        assert await mc_api.MCServer.handle_response(ip, java=False) == expected_bedrock
 
     async def test_handle_exceptions_raising_on_empty_done_set(self, faker: faker_package.Faker) -> None:
         """Test that :func:`~pinger_bot.mc_api.MCServer._handle_exceptions` raises an exception if the done set is empty."""

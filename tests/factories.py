@@ -5,8 +5,7 @@ import warnings
 
 import factory.fuzzy
 import faker as faker_package
-import mcstatus.bedrock_status
-import mcstatus.pinger
+import mcstatus.status_response
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 from pinger_bot import mc_api, models
@@ -145,31 +144,23 @@ class MCServerFactory(factory.Factory):
 
     @classmethod
     def from_mcstatus_status(
-        cls, status: typing.Union[mcstatus.pinger.PingResponse, mcstatus.bedrock_status.BedrockStatusResponse]
+        cls,
+        status: typing.Union[
+            mcstatus.status_response.JavaStatusResponse, mcstatus.status_response.BedrockStatusResponse
+        ],
     ) -> mc_api.MCServer:
         """Generate :class:`pinger_bot.mc_api.MCServer` from ``mcstatus``' classes.
 
         Args:
             status: ``mcstatus``' status class.
         """
-        if isinstance(status, mcstatus.pinger.PingResponse):
-            return cls(
-                address=AddressFactory(),
-                motd=status.description,
-                version=status.version.name,
-                players=mc_api.Players(
-                    online=status.players.online,
-                    max=status.players.max,
-                ),
-                latency=status.latency,
-            )
         return cls(
             address=AddressFactory(),
             motd=status.motd,
-            version=status.version.version,
+            version=status.version.name,
             players=mc_api.Players(
-                online=status.players_online,
-                max=status.players_max,
+                online=status.players.online,
+                max=status.players.max,
             ),
             latency=status.latency,
         )
@@ -202,59 +193,59 @@ class FailedMCServerFactory(factory.Factory):
     address: mc_api.Address = factory.SubFactory(AddressFactory)
 
 
-class MCStatusJavaResponseFactory(factory.Factory):
-    """Factory for :class:`mcstatus.pinger.PingResponse`, its java server's response class."""
+# mcstatus part
 
+
+class MCStatusBasePlayersFactory(MCPlayersFactory):  # noqa: D101
     class Meta:  # noqa: D106
-        model = mcstatus.pinger.PingResponse
+        model = mcstatus.status_response.BaseStatusPlayers
 
-    players: mc_api.Players = factory.SubFactory(MCPlayersFactory)
-    version: str = factory.fuzzy.FuzzyAttribute(faker.sem_version)
-    version_protocol: int = factory.fuzzy.FuzzyAttribute(lambda: faker.pyint(max_value=999))
+
+class MCStatusBaseVersionFactory(factory.Factory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.BaseStatusVersion
+
+    name: str = factory.fuzzy.FuzzyAttribute(faker.sem_version)
+    protocol: int = factory.fuzzy.FuzzyAttribute(faker.pyint)
+
+
+class MCStatusBaseResponseFactory(factory.Factory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.BaseStatusResponse
+
+    players: mcstatus.status_response.BaseStatusPlayers = factory.SubFactory(MCStatusBasePlayersFactory)
+    version: mcstatus.status_response.BaseStatusVersion = factory.SubFactory(MCStatusBaseVersionFactory)
     motd: str = factory.fuzzy.FuzzyAttribute(lambda: faker.sentence(nb_words=10))
-    icon: str = factory.fuzzy.FuzzyAttribute(lambda: faker.pystr(max_chars=255))
+    latency: float = factory.fuzzy.FuzzyAttribute(faker.pyfloat)
+
+
+class MCStatusJavaPlayerFactory(factory.Factory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.JavaStatusPlayer
+
+    name: str = factory.fuzzy.FuzzyAttribute(faker.name)
+    uuid: str = factory.fuzzy.FuzzyAttribute(faker.uuid4)
 
     @staticmethod
-    def _create(model_class: typing.Type[mcstatus.pinger.PingResponse], **kwargs) -> mcstatus.pinger.PingResponse:
-        players, version, version_protocol, motd, icon = (
-            typing.cast(mc_api.Players, kwargs.pop("players")),
-            typing.cast(str, kwargs.pop("version")),
-            typing.cast(int, kwargs.pop("version_protocol")),
-            typing.cast(str, kwargs.pop("motd")),
-            typing.cast(str, kwargs.pop("icon")),
+    def _create(
+        model_class: typing.Type[mcstatus.status_response.JavaStatusPlayer], **kwargs
+    ) -> mcstatus.status_response.JavaStatusPlayer:
+        name, uuid = (
+            typing.cast(str, kwargs.pop("name")),
+            typing.cast(str, kwargs.pop("uuid")),
         )
+
         if kwargs != {}:
             raise ValueError(f"Unexpected kwargs: {kwargs}")
 
-        return mcstatus.pinger.PingResponse(
-            {
-                "players": {"online": players.online, "max": players.max},
-                "version": {"name": version, "protocol": version_protocol},
-                "description": motd,
-                "favicon": icon,
-            }
-        )
-
-    @classmethod
-    def _build(cls, *args, **kwargs):
-        return cls._create(*args, **kwargs)
+        return model_class(name=name, id=uuid)
 
 
-class MCStatusBedrockResponseFactory(factory.Factory):
-    """Factory for :class:`mcstatus.bedrock_status.BedrockStatusResponse`."""
-
+class MCStatusJavaPlayersFactory(MCPlayersFactory):  # noqa: D101
     class Meta:  # noqa: D106
-        model = mcstatus.bedrock_status.BedrockStatusResponse
+        model = mcstatus.status_response.JavaStatusPlayers
 
-    protocol: int = factory.fuzzy.FuzzyAttribute(lambda: faker.pyint(max_value=999))
-    brand: str = factory.fuzzy.FuzzyAttribute(faker.word)
-    version: str = factory.fuzzy.FuzzyAttribute(faker.sem_version)
-    latency: float = factory.fuzzy.FuzzyAttribute(faker.pyfloat)
-    players_online: int = None  # type: ignore[assignment] # will be set in post hook
-    players_max: int = factory.fuzzy.FuzzyAttribute(faker.pyint)
-    motd: str = factory.fuzzy.FuzzyAttribute(lambda: faker.sentence(nb_words=10))
-    map_: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(faker.word)
-    gamemode: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(faker.word)
+    sample: typing.Optional[typing.List[mcstatus.status_response.JavaStatusPlayer]] = None
 
     @factory.post_generation
     def _set_default_values(self, *args, **kwargs):
@@ -262,5 +253,46 @@ class MCStatusBedrockResponseFactory(factory.Factory):
 
         ``mypy`` thinks that it's unreachable, because of type ignores.
         """
-        if self.players_online is None:
-            self.players_online = faker.pyint(max_value=self.players_max)  # type: ignore[unreachable]
+        if self.sample is None:
+            self.sample = faker.optional(
+                lambda: list(MCStatusJavaPlayerFactory.create_batch(faker.pyint(max_value=10)))
+            )
+
+
+class MCStatusJavaVersionFactory(MCStatusBaseVersionFactory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.JavaStatusVersion
+
+
+class MCStatusJavaResponseFactory(MCStatusBaseResponseFactory):  # noqa: D101
+    """Factory for :class:`mcstatus.pinger.PingResponse`, its java server's response class."""
+
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.JavaStatusResponse
+
+    raw: typing.Dict[str, typing.Any] = factory.fuzzy.FuzzyAttribute(faker.pydict)  # type: ignore[misc] # Explicit Any
+    players: mcstatus.status_response.JavaStatusPlayers = factory.SubFactory(MCStatusJavaPlayersFactory)
+    version: mcstatus.status_response.JavaStatusVersion = factory.SubFactory(MCStatusJavaVersionFactory)
+    icon: str = factory.fuzzy.FuzzyAttribute(lambda: faker.pystr(max_chars=255))
+
+
+class MCStatusBedrockPlayersFactory(MCPlayersFactory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.BedrockStatusPlayers
+
+
+class MCStatusBedrockVersionFactory(MCStatusBaseVersionFactory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.BedrockStatusVersion
+
+    brand: str = factory.fuzzy.FuzzyAttribute(lambda: faker.random_element(elements=["MCPE", "MCEE"]))
+
+
+class MCStatusBedrockResponseFactory(MCStatusBaseResponseFactory):  # noqa: D101
+    class Meta:  # noqa: D106
+        model = mcstatus.status_response.BedrockStatusResponse
+
+    players: MCStatusBedrockPlayersFactory = factory.SubFactory(MCStatusBedrockPlayersFactory)
+    version: MCStatusBedrockVersionFactory = factory.SubFactory(MCStatusBedrockVersionFactory)
+    map_name: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional(faker.word))
+    gamemode: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional(faker.word))

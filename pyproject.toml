@@ -21,10 +21,10 @@ hikari = "~2.0.0-dev"
 hikari-lightbulb = "~2.3"
 APScheduler = "~3.10"
 
-mcstatus = "~10.0"
+mcstatus = "11.0.0a1"
 SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}
 alembic = "~1.10"
-dnspython = "~2.2"
+dnspython = "~2.3"
 omegaconf = "~2.3"
 matplotlib = "~3.7"
 aiohttp = "~3.8"
@@ -78,6 +78,7 @@ pytest-testmon = "~2.0"
 pytest-randomly = "~3.12"
 
 Faker = "~18.3"
+optional-faker = "^1.0.0.post2"
 factory-boy = "~3.2"
 freezegun = "~1.2"
 

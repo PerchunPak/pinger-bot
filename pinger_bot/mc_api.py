@@ -224,8 +224,12 @@ class MCServer(BaseMCServer):
             *(
                 await asyncio.wait(
                     {
-                        asyncio.create_task(cls.handle_java(host), name="MCServer.handle_java"),
-                        asyncio.create_task(cls.handle_bedrock(host), name="MCServer.handle_bedrock"),
+                        asyncio.create_task(
+                            cls.handle_response(host, java=True), name="MCServer.handle_response(java=True)"
+                        ),
+                        asyncio.create_task(
+                            cls.handle_response(host, java=False), name="MCServer.handle_response(java=False)"
+                        ),
                     },
                     return_when=asyncio.FIRST_COMPLETED,
                 )
@@ -274,17 +278,18 @@ class MCServer(BaseMCServer):
                 return task
 
     @classmethod
-    async def handle_java(cls, host: str) -> "MCServer":
+    async def handle_response(cls, host: str, *, java: bool) -> "MCServer":
         """Handle java server and transform it to :py:class:`.MCServer` object.
 
         Args:
             host: Host where server is, like ``127.0.0.1:25565``, ``hypixel.net`` or alias.
+            java: If server is Java or Bedrock.
 
         Returns:
             Initialised :py:class:`.MCServer` object.
         """
-        log.debug("MCServer.handle_java", host=host)
-        address = await Address.resolve(host, java=True)
+        log.debug("MCServer.handle_response", host=host, java=java)
+        address = await Address.resolve(host, java=java)
         # we access this private attribute, because it's expected behaviour to use
         # `mcstatus`' object exactly here. it must not be used anywhere else.
         status = await address._server.async_status()  # skipcq: PYL-W0212 # accessing private attribute
@@ -295,32 +300,6 @@ class MCServer(BaseMCServer):
             players=Players(
                 online=status.players.online,
                 max=status.players.max,
-            ),
-            latency=status.latency,
-        )
-
-    @classmethod
-    async def handle_bedrock(cls, host: str) -> "MCServer":
-        """Handle bedrock server and transform it to :py:class:`.MCServer` object.
-
-        Args:
-            host: Host where server is, like ``127.0.0.1:25565``.
-
-        Returns:
-            Initialised :py:class:`.MCServer` object.
-        """
-        log.debug("MCServer.handle_bedrock", host=host)
-        address = await Address.resolve(host, java=False)
-        # we access this private attribute, because it's expected behaviour to use
-        # `mcstatus`' object exactly here. it must not be used anywhere else.
-        status = await address._server.async_status()  # skipcq: PYL-W0212 # accessing private attribute
-        return cls(
-            address=address,
-            motd=status.motd,
-            version=status.version.version,
-            players=Players(
-                online=status.players_online,
-                max=status.players_max,
             ),
             latency=status.latency,
         )

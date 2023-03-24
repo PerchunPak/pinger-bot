@@ -9,6 +9,7 @@ import alembic.command
 import alembic.config
 import faker
 import omegaconf
+import optional_faker  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
 import pytest
 import sqlalchemy
 import structlog
@@ -18,6 +19,9 @@ from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 from pinger_bot import config, models
 from tests import (
     custom_fakes,  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
+)
+from tests import (
+    mcstatus_mocks,  # and this too # skipcq: PY-W2000 # nopycln: import
 )
 from tests import factories
 
