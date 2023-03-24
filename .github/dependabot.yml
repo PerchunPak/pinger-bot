@@ -45,6 +45,16 @@ updates:
     # GitHub Hooks group
     - dependency-name: "requests"
     - dependency-name: "GitPython"
+    # Types
+    - dependency-name: "types-cachetools"
+    - dependency-name: "types-docutils"
+    - dependency-name: "types-mock"
+    - dependency-name: "types-python-dateutil"
+    - dependency-name: "types-pytz"
+    - dependency-name: "types-pyyaml"
+    - dependency-name: "types-requests"
+    - dependency-name: "types-setuptools"
+    - dependency-name: "types-urllib3"
 
 - package-ecosystem: github-actions
   directory: "/"

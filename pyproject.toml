@@ -54,7 +54,6 @@ black = "~23"
 isort = "~5.12"
 pycln = "~2.1"
 doc8 = "~1.1"
-mypy = "~1.1"
 flake8 = "~6"
 flake8-docstrings = "~1"
 flake8-ensure-ascii = "~1.0"
@@ -64,9 +63,6 @@ cruft = "~2.12"
 lice = "~0.6"  # for generating template
 
 pre-commit = "~3.1"
-
-# stubs
-SQLAlchemy = {version = "*", extras = ["mypy"]}
 
 
 [tool.poetry.group.tests.dependencies]
@@ -81,6 +77,21 @@ Faker = "~18.3"
 optional-faker = "^1.0.0.post2"
 factory-boy = "~3.2"
 freezegun = "~1.2"
+
+
+[tool.poetry.group.typing.dependencies]
+mypy = "~1.1"
+
+types-cachetools = "*"
+types-docutils = "*"
+types-mock = "*"
+types-python-dateutil = "*"
+types-pytz = "*"
+types-pyyaml = "*"
+types-requests = "*"
+types-setuptools = "*"
+types-urllib3 = "*"
+SQLAlchemy = {version = "*", extras = ["mypy"]}
 
 
 [tool.poetry.group.docs.dependencies]
