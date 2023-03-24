@@ -5,7 +5,7 @@ style:
 	black .
 	isort .
 	pycln .
-	mypy --install-types --non-interactive .
+	mypy .
 	flake8 .
 	cruft check
 	doc8 -q docs

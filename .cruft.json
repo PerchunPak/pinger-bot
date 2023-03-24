@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/PerchunPak/python-template",
-  "commit": "0cbe9c8e9d9b34d234c90c7de023870f4145c208",
+  "commit": "2c1f4b34a7e6d1ad7046f7974ce125c6be1b93e0",
   "context": {
     "cookiecutter": {
       "project_name": "pinger-bot",

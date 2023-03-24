@@ -13,10 +13,12 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11']
         db: ["sqlite", "mysql", "postgresql"]
+
     services:
       postgres:
         image: postgres
@@ -45,23 +47,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install poetry
-      run: |
-        curl -sSL "https://install.python-poetry.org" | python
-
-        # Adding `poetry` to `$PATH`:
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - name: Setup poetry
+      id: poetry_setup
+      uses: ItsDrike/setup-poetry@v1
       with:
         python-version: ${{ matrix.python-version }}
-        cache: 'poetry'
-
-    - name: Install dependencies
-      run: |
-        poetry env use "${{ matrix.python-version }}"
-        poetry install -E ${{ matrix.db }} --without docs --with github_hooks
+        install-args: -E ${{ matrix.db }} --without docs --with github_hooks --sync
 
     - name: Compile translations
       run: |
@@ -94,21 +85,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install poetry
-      run: |
-        curl -sSL "https://install.python-poetry.org" | python
-        # Adding `poetry` to `$PATH`:
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Setup poetry
+      id: poetry_setup
+      uses: ItsDrike/setup-poetry@v1
       with:
-        python-version: '3.11'
-        cache: 'poetry'
-
-    - name: Install dependencies
-      run: |
-        poetry env use "3.11"
-        poetry install --only main,make,github_hooks
+        python-version: ${{ matrix.python-version }}
+        install-args: --only main,make,typing,github_hooks --sync
 
     - name: Apply codestyle
       run: |
