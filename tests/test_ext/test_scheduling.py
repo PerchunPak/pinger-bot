@@ -82,6 +82,7 @@ class TestHandleServer:
         server: mc_api.MCServer = mocker.patch.object(
             mc_api.MCServer, "status", return_value=factories.MCServerFactory()
         ).return_value
+        mocked_ping_model = mocker.patch("pinger_bot.models.Ping")
 
         session = mocker.stub()
         session.add = mocker.stub()
@@ -94,8 +95,9 @@ class TestHandleServer:
             session,
         )
 
-        session.add.assert_called_once_with(
-            models.Ping(host=server.address.host, port=server.address.port, players=server.players.online)
+        session.add.assert_called_once_with(mocked_ping_model.return_value)
+        mocked_ping_model.assert_called_once_with(
+            host=server.address.host, port=server.address.port, players=server.players.online
         )
         session.execute.assert_not_called()
 
