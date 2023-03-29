@@ -55,12 +55,15 @@ async def about(ctx: slash.SlashContext) -> None:
     )
     embed.add_field(
         name=_("Library"),
-        value="[hikari](https://github.com/hikari-py/hikari) + [lightbulb](https://github.com/tandemdude/hikari-lightbulb)",
+        value=(
+            "[hikari](https://github.com/hikari-py/hikari) + "
+            "[lightbulb](https://github.com/tandemdude/hikari-lightbulb)"
+        ),
         inline=True,
     )
     embed.add_field(
         name=_("License"),
-        value="[AGPL 3.0]" "(https://github.com/PerchunPak/pinger-bot/blob/master/LICENSE)",
+        value="[AGPL 3.0](https://github.com/PerchunPak/pinger-bot/blob/master/LICENSE)",
         inline=True,
     )
     embed.add_field(name=_("Source code"), value="https://github.com/PerchunPak/pinger-bot", inline=False)
