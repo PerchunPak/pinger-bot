@@ -89,7 +89,7 @@ jobs:
       id: poetry_setup
       uses: ItsDrike/setup-poetry@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.11
         install-args: --only main --only make --only github_hooks --only typing --sync
 
     - name: Apply codestyle
