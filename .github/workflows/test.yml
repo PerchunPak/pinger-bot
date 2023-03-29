@@ -90,11 +90,11 @@ jobs:
       uses: ItsDrike/setup-poetry@v1
       with:
         python-version: ${{ matrix.python-version }}
-        install-args: --only main,make,typing,github_hooks --sync
+        install-args: --only main --only make --only github_hooks --only typing --sync
 
     - name: Apply codestyle
       run: |
-        poetry run make style
+        poetry run make format
 
     - name: Commit changes
       run: |

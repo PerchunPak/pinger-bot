@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/PerchunPak/python-template",
-  "commit": "2c1f4b34a7e6d1ad7046f7974ce125c6be1b93e0",
+  "commit": "db4300a26c1a1c43d3af990bcdb65a734ba0ff97",
   "context": {
     "cookiecutter": {
       "project_name": "pinger-bot",
@@ -13,8 +13,7 @@
       "_copy_without_render": [
         ".venv",
         "docs/_build",
-        "docs/_autoapi_templates/python",
-        ".github/workflows"
+        "docs/_autoapi_templates/python"
       ],
       "_template": "https://github.com/PerchunPak/python-template"
     }

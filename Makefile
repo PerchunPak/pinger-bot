@@ -1,14 +1,20 @@
 SHELL:=/usr/bin/env bash
 
-.PHONY: style
-style:
+.PHONY: format
+format:
 	black .
 	isort .
 	pycln .
+
+.PHONY: lint
+lint:
 	mypy .
 	flake8 .
 	cruft check
 	doc8 -q docs
+
+.PHONY: style
+style: format lint
 
 .PHONY: unit
 unit:

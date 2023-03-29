@@ -97,7 +97,7 @@ SQLAlchemy = {version = "*", extras = ["mypy"]}
 [tool.poetry.group.docs.dependencies]
 sphinx = "~6.1"
 sphinx-autodoc-typehints = "~1.22"
-sphinx-autoapi = "~2.0"
+sphinx-autoapi = "~2.1"
 sphinx-intl = "~2.1"
 furo = "*"
 m2r2 = "~0.3"
