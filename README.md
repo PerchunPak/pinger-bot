@@ -30,9 +30,11 @@ to invite the bot to your server.
 
 ## Screenshots
 
-![/ping](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/ping.png)
-![/alias](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/alias.png)
-![/statistic](https://raw.githubusercontent.com/PerchunPak/pinger-bot/master/docs/_static/screenshots/statistic.png)
+![/ping](https://github.com/PerchunPak/pinger-bot/blob/master/docs/_static/ping.png?raw=true)
+
+![/alias](https://github.com/PerchunPak/pinger-bot/blob/master/docs/_static/alias.png?raw=true)
+
+![/statistic](https://github.com/PerchunPak/pinger-bot/blob/master/docs/_static/statistic.png?raw=true)
 
 ## Installing
 
