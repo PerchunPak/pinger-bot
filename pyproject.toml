@@ -23,7 +23,7 @@ APScheduler = "~3.10"
 
 mcstatus = "11.0.0a1"
 SQLAlchemy = {version = "~1.4", extras = ["asyncio"]}
-alembic = "~1.10"
+alembic = "~1.11"
 dnspython = "~2.3"
 omegaconf = "~2.3"
 matplotlib = "~3.7"
