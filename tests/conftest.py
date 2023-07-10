@@ -17,12 +17,16 @@ from _pytest import tmpdir
 from sqlalchemy.ext import asyncio as sqlalchemy_asyncio
 
 from pinger_bot import config, models
-from tests import (
-    custom_fakes,  # we need to import it somewhere # skipcq: PY-W2000 # nopycln: import
+
+# isort: off
+from tests import (  # skipcq: PY-W2000
+    custom_fakes,  # we need to import it somewhere # nopycln: import
 )
-from tests import (
-    mcstatus_mocks,  # and this too # skipcq: PY-W2000 # nopycln: import
+from tests import (  # skipcq: PY-W2000
+    mcstatus_mocks,  # and this too # nopycln: import
 )
+
+# isort: on
 from tests import factories
 
 

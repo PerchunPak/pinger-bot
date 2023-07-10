@@ -55,7 +55,9 @@ class Ping(Base):
     """Host of the server, for which ping was made. This is a foreign key constraint."""
     port: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     """Port of the server, for which ping was made. This is a foreign key constraint."""
-    time: datetime.datetime = sqlalchemy.Column(sqlalchemy.DateTime, server_default=sql.func.now(), nullable=False)
+    time: datetime.datetime = sqlalchemy.Column(  # skipcq: PYL-E1102
+        sqlalchemy.DateTime, server_default=sql.func.now(), nullable=False
+    )
     """Time of the ping. Default to current time."""
     players: int = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     """Players online in moment of the ping."""

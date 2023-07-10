@@ -218,8 +218,7 @@ class TestMCServerAndFailedMCServer:
         def do_side_effect(*_, **kwargs: bool) -> str:
             if iteration in ((1, 3) if kwargs["java"] else (2, 3)):
                 raise NotImplementedError
-            else:
-                return typing.cast(str, java if kwargs["java"] else bedrock)
+            return typing.cast(str, java if kwargs["java"] else bedrock)
 
         mocked_handler = mocker.patch("pinger_bot.mc_api.MCServer.handle_response", side_effect=do_side_effect)
         mocked_failed = mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed", return_value=failed)
@@ -258,9 +257,9 @@ class TestMCServerAndFailedMCServer:
         async def do_side_effect(*_, java: bool) -> str:
             if (mock_java and java) or (not mock_java and not java):
                 raise NotImplementedError
-            else:
-                await asyncio.sleep(0.1)
-                return typing.cast(str, done)
+
+            await asyncio.sleep(0.1)
+            return typing.cast(str, done)
 
         mocker.patch("pinger_bot.mc_api.MCServer.handle_response", side_effect=do_side_effect)
         mocker.patch("pinger_bot.mc_api.FailedMCServer.handle_failed")
