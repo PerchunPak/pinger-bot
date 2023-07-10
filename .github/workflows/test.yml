@@ -117,6 +117,55 @@ jobs:
           ${{ github.head_ref || github.ref_name }} \
           "Update poetry.lock :chart_with_upwards_trend:"
 
+    - name: Bump template
+      run: |
+        set -o pipefail
+
+        function print_conflicts_list() {
+          find . -regex '^.*\.rej$';
+        }
+        function update_count_of_conflicts() {
+          CONFLICTS_COUNT=$(find . -regex '^.*\.rej$' -printf '.' | wc -c)
+        }
+
+        echo "::group::Bump template (first try)"
+        cruft update -y
+        echo "::endgroup::"
+
+        echo "::group::List of conflicts"
+        print_conflicts_list
+        echo "::endgroup::"
+
+        update_count_of_conflicts
+        if [[ $CONFLICTS_COUNT -gt 0 ]]
+        then
+          echo "::group::Try to resolve conflicts"
+          rm -f poetry.lock.rej poetry.lock
+          git checkout master -- poetry.lock
+          poetry lock --no-update
+          echo "::endgroup::"
+        
+          echo "::group::List of conflicts"
+          print_conflicts_list
+          echo "::endgroup::"
+
+          update_count_of_conflicts
+          if [[ $CONFLICTS_COUNT -gt 0 ]]
+          then
+            exit 1
+          fi
+        else
+          echo "No conflicts found"
+        fi
+
+    - name: Commit changes
+      run: |
+        poetry run python .github/commit_and_push.py \
+          --token ${{ secrets.GITHUB_TOKEN }} \
+          PerchunPak/pinger-bot \
+          ${{ github.head_ref || github.ref_name }} \
+          "Bump template :rocket:"
+
   docker:
     runs-on: ubuntu-latest
     needs: 'test'

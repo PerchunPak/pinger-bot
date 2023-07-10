@@ -10,7 +10,6 @@ format:
 lint:
 	mypy .
 	flake8 .
-	cruft check
 	doc8 -q docs
 
 .PHONY: style
