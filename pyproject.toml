@@ -28,7 +28,7 @@ dnspython = "~2.3"
 omegaconf = "~2.3"
 matplotlib = "~3.7"
 aiohttp = "~3.8"
-honeybadger = "~0.15"
+honeybadger = "~0.16"
 
 # caching utils
 cachetools = "~5.3"

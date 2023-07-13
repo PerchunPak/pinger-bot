@@ -1371,12 +1371,12 @@ crontrigger = ["croniter (>=1.3.14,<1.4.0)", "types-croniter (>=1.3.2,<1.4.0)"]
 
 [[package]]
 name = "honeybadger"
-version = "0.15.2"
+version = "0.16.0"
 description = "Send Python and Django errors to Honeybadger"
 optional = false
 python-versions = "*"
 files = [
-    {file = "honeybadger-0.15.2-py3-none-any.whl", hash = "sha256:7b2c1a3aae06d38bc0a4549307526e0ad1c93ed8f388f3bf28d556ba4aaf517f"},
+    {file = "honeybadger-0.16.0-py3-none-any.whl", hash = "sha256:c73663b87b3ba1bf258b0d7111353a4ece19bd13d57cf2d2191f3474c2b704ae"},
 ]
 
 [package.dependencies]
@@ -2997,7 +2997,7 @@ files = [
 ]
 
 [package.dependencies]
-greenlet = {version = "!=0.4.17", optional = true, markers = "python_version >= \"3\" and (platform_machine == \"win32\" or platform_machine == \"WIN32\" or platform_machine == \"AMD64\" or platform_machine == \"amd64\" or platform_machine == \"x86_64\" or platform_machine == \"ppc64le\" or platform_machine == \"aarch64\")"}
+greenlet = {version = "!=0.4.17", optional = true, markers = "python_version >= \"3\" and (platform_machine == \"win32\" or platform_machine == \"WIN32\" or platform_machine == \"AMD64\" or platform_machine == \"amd64\" or platform_machine == \"x86_64\" or platform_machine == \"ppc64le\" or platform_machine == \"aarch64\" or extra == \"asyncio\")"}
 mypy = {version = ">=0.910", optional = true, markers = "python_version >= \"3\" and extra == \"mypy\""}
 sqlalchemy2-stubs = {version = "*", optional = true, markers = "extra == \"mypy\""}
 
@@ -3552,4 +3552,4 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "bf2c0898cf8927357148042bfe7d973dd286503fb1a7b835920274b1bcf9d95c"
+content-hash = "ac951f8d08a0a044cd9a9248c015d1b27a8e36052e13cdd96fa9bb22293705f7"
