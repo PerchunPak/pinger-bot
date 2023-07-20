@@ -75,7 +75,7 @@ pytest-randomly = "~3.12"
 
 Faker = "~18.11"
 optional-faker = "^1.0.0.post2"
-factory-boy = "~3.2"
+factory-boy = "~3.3"
 freezegun = "~1.2"
 
 
