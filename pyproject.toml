@@ -52,7 +52,7 @@ asyncpg   = { version = "*", optional = true }
 [tool.poetry.group.make.dependencies]
 black = "~23"
 isort = "~5.12"
-pycln = "~2.1"
+pycln = "~2.2"
 doc8 = "~1.1"
 flake8 = "~6"
 flake8-docstrings = "~1"
@@ -73,7 +73,7 @@ pytest-asyncio = "~0.21"
 pytest-testmon = "~2.0"
 pytest-randomly = "~3.13"
 
-Faker = "~19.1"
+Faker = "~19.3"
 optional-faker = "~2.0"
 factory-boy = "~3.3"
 freezegun = "~1.2"
@@ -95,8 +95,8 @@ SQLAlchemy = {version = "*", extras = ["mypy"]}
 
 
 [tool.poetry.group.docs.dependencies]
-sphinx = "~7.0"
-sphinx-autodoc-typehints = "~1.23"
+sphinx = "~7.1"
+sphinx-autodoc-typehints = "~1.24"
 sphinx-autoapi = "~2.1"
 sphinx-intl = "~2.1"
 furo = "*"
