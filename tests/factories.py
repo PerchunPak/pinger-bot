@@ -254,7 +254,7 @@ class MCStatusJavaPlayersFactory(MCPlayersFactory):  # noqa: D101
         ``mypy`` thinks that it's unreachable, because of type ignores.
         """
         if self.sample is None:
-            self.sample = faker.optional(
+            self.sample = faker.optional_or(
                 lambda: list(MCStatusJavaPlayerFactory.create_batch(faker.pyint(max_value=10)))
             )
 
@@ -294,5 +294,5 @@ class MCStatusBedrockResponseFactory(MCStatusBaseResponseFactory):  # noqa: D101
 
     players: MCStatusBedrockPlayersFactory = factory.SubFactory(MCStatusBedrockPlayersFactory)
     version: MCStatusBedrockVersionFactory = factory.SubFactory(MCStatusBedrockVersionFactory)
-    map_name: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional(faker.word))
-    gamemode: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional(faker.word))
+    map_name: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional_or(faker.word))
+    gamemode: typing.Optional[str] = factory.fuzzy.FuzzyAttribute(lambda: faker.optional_or(faker.word))
