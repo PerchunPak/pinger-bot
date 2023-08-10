@@ -254,9 +254,7 @@ class MCStatusJavaPlayersFactory(MCPlayersFactory):  # noqa: D101
         ``mypy`` thinks that it's unreachable, because of type ignores.
         """
         if self.sample is None:
-            self.sample = faker.none_or(
-                lambda: list(MCStatusJavaPlayerFactory.create_batch(faker.pyint(max_value=10)))
-            )
+            self.sample = faker.none_or(lambda: list(MCStatusJavaPlayerFactory.create_batch(faker.pyint(max_value=10))))
 
 
 class MCStatusJavaVersionFactory(MCStatusBaseVersionFactory):  # noqa: D101
