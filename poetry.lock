@@ -1357,12 +1357,12 @@ crontrigger = ["croniter (>=1.3.14,<1.4.0)", "types-croniter (>=1.3.2,<1.4.0)"]
 
 [[package]]
 name = "honeybadger"
-version = "0.16.0"
+version = "0.17.0"
 description = "Send Python and Django errors to Honeybadger"
 optional = false
 python-versions = "*"
 files = [
-    {file = "honeybadger-0.16.0-py3-none-any.whl", hash = "sha256:c73663b87b3ba1bf258b0d7111353a4ece19bd13d57cf2d2191f3474c2b704ae"},
+    {file = "honeybadger-0.17.0-py3-none-any.whl", hash = "sha256:ab7a65a2bc12988c993b1d181eea5c1840b2986089da24f3737e4da9fd8dc7fc"},
 ]
 
 [package.dependencies]
@@ -3591,4 +3591,4 @@ sqlite = ["aiosqlite"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<3.12"
-content-hash = "436325745f5454942f67efe5acd841f995eed9b3c7c0d9f60377c7bd19a7a40a"
+content-hash = "a7040b5471563c85e3e62fceb42b0af7c1bc6b28ca6661edda031ea9745add9b"
