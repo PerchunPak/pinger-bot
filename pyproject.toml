@@ -34,7 +34,7 @@ honeybadger = "~0.17"
 cachetools = "~5.3"
 asyncache = "~0.3"
 
-Babel = "~2.12"
+Babel = "~2.13"
 
 structlog = "22.1.0"
 ### For colors in structlog ###
