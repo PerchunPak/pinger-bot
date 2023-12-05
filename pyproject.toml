@@ -69,7 +69,7 @@ pre-commit = "~3.3"
 pytest = "~7.4"
 pytest-cov = "~4.1"
 pytest-mock = "~3.11"
-pytest-asyncio = "~0.21"
+pytest-asyncio = "~0.23"
 pytest-testmon = "~2.0"
 pytest-randomly = "~3.13"
 
