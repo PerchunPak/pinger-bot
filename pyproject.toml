@@ -76,7 +76,7 @@ pytest-randomly = "~3.13"
 Faker = "~19.3"
 optional-faker = "~2.0"
 factory-boy = "~3.3"
-freezegun = "~1.2"
+freezegun = "~1.4"
 
 
 [tool.poetry.group.typing.dependencies]
