@@ -57,7 +57,7 @@ msgstr "Бот зупиняється. Бувайте!"
 
 #: pinger_bot/ext/scheduling.py:20
 msgid "Collecting info for statistic plot."
-msgstr "Збираю інформація для будівлі графіка статистики."
+msgstr "Збираю інформаціЮ для ствоерння графіка статистики."
 
 #: pinger_bot/ext/scheduling.py:27
 msgid "Collecting info ended!"
@@ -81,7 +81,7 @@ msgstr "Будь ласка почекайте..."
 
 #: pinger_bot/ext/commands/__init__.py:23
 msgid "I'm working on it, please wait. I will ping you when it's done."
-msgstr "Я працюю над цим, будь ласка почекайте. Я згадаю вас коли закінчу."
+msgstr "Я працюю над цим, будь ласка зачекайте. Я повідомлю вам коли закінчу."
 
 #: pinger_bot/ext/commands/add.py:30 pinger_bot/ext/commands/add.py:48
 msgid "Cannot add server {}"
@@ -110,7 +110,7 @@ msgstr "Можливо ви вказали не вірну IP адресу."
 #: pinger_bot/ext/commands/other.py:117 pinger_bot/ext/commands/ping.py:56
 #: pinger_bot/ext/commands/statistic.py:108
 msgid "The IP address of the server."
-msgstr "Айпі адреса сервера."
+msgstr "IP адреса сервера."
 
 #: pinger_bot/ext/commands/add.py:56
 msgid "Add server to database."
@@ -123,7 +123,7 @@ msgstr "Не вдалося пінганути {}"
 
 #: pinger_bot/ext/commands/add.py:80 pinger_bot/ext/commands/add.py:89
 msgid "Added server {}"
-msgstr "Додан сервер {}"
+msgstr "Додано сервер {}"
 
 #: pinger_bot/ext/commands/add.py:82
 msgid "Server {} already added"
@@ -131,7 +131,7 @@ msgstr "Сервер {} вже було додано."
 
 #: pinger_bot/ext/commands/add.py:90
 msgid "Name of the server in database: {}"
-msgstr "Им'я сервера в базі даних: {}"
+msgstr "Ім'я сервера у базі даних: {}"
 
 #: pinger_bot/ext/commands/add.py:97
 msgid "Server successfully added."
@@ -140,7 +140,7 @@ msgstr "Сервер успішно додано."
 #: pinger_bot/ext/commands/add.py:97
 msgid "See `/` preview for more info about commands to use."
 msgstr ""
-"Дивіться `/` прев'ю для більшої інформації про команди, та їх "
+"Дивіться `/` прев'ю для детальнішої інформації про команди, та їх "
 "використання."
 
 #: pinger_bot/ext/commands/add.py:102
@@ -223,7 +223,7 @@ msgstr "Користувач не власник."
 
 #: pinger_bot/ext/commands/alias.py:144
 msgid "Added alias {} to server {}"
-msgstr "Додан аліас {} до сервера {}"
+msgstr "Додано аліас {} до сервера {}"
 
 #: pinger_bot/ext/commands/alias.py:145
 msgid "Now you can use {} instead of {}"
@@ -259,7 +259,7 @@ msgstr "Посилання для редагування"
 
 #: pinger_bot/ext/commands/motd.py:69 pinger_bot/ext/commands/ping.py:91
 msgid "Ping successful for {}"
-msgstr "Пінг вдався для {}"
+msgstr "Пінг успішний для {}"
 
 #: pinger_bot/ext/commands/other.py:34
 msgid "Some basic information about me."
@@ -288,7 +288,7 @@ msgstr "Джерельний код"
 #: pinger_bot/ext/commands/other.py:71
 msgid "Note: You can propose any changes to creator DM (Perchun_Pak#3530)"
 msgstr ""
-"Примітка: Ви можете пропонувати любі зміни розробнику в ПП "
+"Примітка: Ви можете пропонувати будь які зміни розробнику в ПП "
 "(Perchun_Pak#3530)"
 
 #: pinger_bot/ext/commands/other.py:76
